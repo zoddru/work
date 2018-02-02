@@ -39,4 +39,4 @@ start.bat
 
 node_modules/
 .vscode
-config.json
+config.js
