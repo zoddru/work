@@ -1,7 +1,7 @@
 export default class PayPoint {
-    constructor ({ index = -1, name = '', money = 0, staff = 0, increase = { value: 1 } } = {}) {
+    constructor ({ name = '', money = 0, staff = 0, increase = 1 } = {}) {
         
-        const props = { index, name, money, staff, increase };
+        const props = { name, money, staff, increase };
 
         Object.assign(this, props);        
         Object.freeze(this);
@@ -12,7 +12,7 @@ export default class PayPoint {
     }
 
     get nextMoney() {
-        return this.money * this.increase.value;
+        return this.money * this.increase;
     }
 
     get nextTotal() {

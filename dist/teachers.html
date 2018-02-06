@@ -20,17 +20,64 @@
 </head>
 
 <body>
-    <header v-cloak>
+    <header>
         <h1>Teacher's pay modelling</h1>
     </header>
-    <main v-cloak>
-        
+    <main>
+        <section id="payModel" v-cloak>
+            <div>
+                {{number}}
+                <input type="number" v-model="number" />
+            </div>
+            <div>
+                {{numberPlus1}}
+                <input type="number" v-model="numberPlus1" />
+            </div>
+            <div>
+                <input type="number" v-model="increase" />
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th colspan="2">Pay point</th>
+                        <th>2016</th>
+                        <th>2016 FTEs</th>
+                        <th>2016 total</th>
+                        <th>2017</th>
+                        <th>2017 total</th>
+                    </tr>
+                </thead>
+                <!-- <tbody v-for="payPoint in payPoints">
+                    <tr>
+                        <td>-</td>
+                        <td>{{payPoint.name}}</td>
+                        <td>{{payPoint.money}}</td>
+                        <td>{{payPoint.staff}}</td>
+                        <td>{{payPoint.total}}</td>
+                        <td>{{payPoint.nextMoney}}</td>
+                        <td>{{payPoint.nextTotal}}</td>
+                    </tr>
+                </tbody> -->
+                <tfoot>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                </tfoot>
+            </table>
+
+
+        </section>
     </main>
     <footer>
 
     </footer>
 
-    <script src="/js/teachers.js"></script>
+    <script src="/js/teachers.min.js"></script>
 </body>
 
 </html>

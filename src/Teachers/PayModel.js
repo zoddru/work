@@ -4,14 +4,17 @@ const sumTotals = (total, pp) => total + pp.total;
 const sumNextTotals = (total, pp) => total + pp.nextTotal;
 
 export default class PayModel {
-    constructor({ initialValues = [] } = {}) {
+    constructor(initialValues = [], increase = 1) {
 
-        const increase = { value: 1 };
+        this.message = 'pay model object';
+
         this.increase = increase;
+
         this.payPoints = initialValues
             .map(pp => Object.assign({}, pp, { increase }))
             .map(pp => new PayPoint(pp));
 
+        Object.freeze(this.payPoints);
         Object.freeze(this);
     }
 

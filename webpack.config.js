@@ -4,7 +4,7 @@ var webpack = require('webpack');
 module.exports = {
     context: __dirname,
     devtool: debug ? 'inline-sourcemap' : false,
-    entry: './js/scripts.js',
+    entry: './src/Teachers/app.js',
     module: {
         loaders: [
             {
@@ -19,8 +19,8 @@ module.exports = {
         ]
     },
     output: {        
-        filename: 'scripts.min.js',
-        path: __dirname + '/docs/js/',
+        filename: 'teachers.min.js',
+        path: __dirname + '/dist/js/',
         publicPath: '/js/'
     },
     plugins: debug ? [] : [
