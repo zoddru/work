@@ -99,6 +99,18 @@ const app = express()
             });
     })
 
+    .get('/wait/:time', (req, res) => {
+        const time = parseInt(req.params.time);
+        const start = Date.now();  
+
+        setTimeout(() => {
+            const end = Date.now();
+            const diff = end - start;
+            res.setHeader('Content-Type', 'application/json');
+            res.send(JSON.stringify({ time, start, end, diff }));
+        }, time);
+    })
+
     .get(/data\/(.+)/, (req, res) => {
         const path = req.params[0];
         res.setHeader('Content-Type', 'application/json');
