@@ -10,6 +10,14 @@ const payPoints = [
     { name: 'M6b', money: 33160, staff: 1 }
 ];
 
+Vue.filter('pounds', function (value) {
+    if (typeof value !== 'number')
+        return value;
+    if (window.Intl === undefined)
+        return '£' + parseInt(value);
+    return '£' + Intl.NumberFormat().format(parseInt(value));
+});
+
 const model = new VuePayModel('#payModel', payPoints);
 
 const app = new Vue(model);

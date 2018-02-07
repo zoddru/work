@@ -17,6 +17,7 @@
     <![endif]-->
 
     <link rel="Stylesheet" type="text/css" href="/css/index.css" />
+    <link rel="Stylesheet" type="text/css" href="/css/techers.css" />
 </head>
 
 <body>
@@ -25,8 +26,15 @@
     </header>
     <main>
         <section id="payModel" v-cloak>
-            <div>
-                <input type="number" step="0.01" min="1" max="2" v-model.number="increase" />
+            <div class="variable">
+                <label for="variable-area">Area</label>
+                <select id="variable-area">
+                    <option>England &amp; Wales</option>
+                </select>
+            </div>
+            <div class="variable">
+                <label for="variable-increase">Percentage increase</label>
+                <input id="variable-increase" type="number" step="0.01" min="1" max="2" v-model.number="increase" /> %
             </div>
             <table>
                 <thead>
@@ -42,26 +50,25 @@
                 <tbody v-for="(payPoint, index) in payPoints">
                     <tr>
                         <td>
-                            <span v-if="index === 0">first</span>
-                            <span v-if="index === payPoints.length - 1">last</span>
+                            <span v-if="index === 0">minimum</span>
+                            <span v-if="index === payPoints.length - 1">maximum</span>
                         </td>
                         <td>{{payPoint.name}}</td>
-                        <td>{{payPoint.money}}</td>
-                        <td><input type="number" step="1" min="0" max="100" v-bind:value="payPoint.staff" v-on:change="changeStaff(payPoint, $event.target.value)" /></td>
-                        <td>{{payPoint.total}}</td>
-                        <td>{{payPoint.nextMoney}}</td>
-                        <td>{{payPoint.nextTotal}}</td>
+                        <td class="number">{{payPoint.money | pounds}}</td>
+                        <td class="number"><input type="number" step="1" min="0" max="100" v-bind:value="payPoint.staff" v-on:change="changeStaff(payPoint, $event.target.value)" /></td>
+                        <td class="number">{{payPoint.total | pounds}}</td>
+                        <td class="number">{{payPoint.nextMoney | pounds}}</td>
+                        <td class="number">{{payPoint.nextTotal | pounds}}</td>
                     </tr>
                 </tbody>
                 <tfoot>
                     <tr>
+                        <th colspan="2">Totals</th>
                         <td></td>
                         <td></td>
+                        <td class="number">{{total | pounds}}</td>
                         <td></td>
-                        <td></td>
-                        <td>{{total}}</td>
-                        <td></td>
-                        <td>{{nextTotal}}</td>
+                        <td class="number">{{nextTotal | pounds}}</td>
                     </tr>
                 </tfoot>
             </table>

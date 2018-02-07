@@ -1,1 +1,0 @@
-powershell -NoExit -Command "Set-Location C:\Projects\zoddru\work"

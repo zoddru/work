@@ -1,0 +1,70 @@
+body {
+    color: white;
+    background-color: #333;
+}
+
+input, select {
+    border: none;
+    color: #333;
+    background-color: white;
+    font-size: inherit;
+}
+
+input[type=number] {
+    width: 6rem;
+    text-align: right;
+}
+
+input:focus,
+select:focus {
+    border: none;
+    outline: none;
+    box-shadow: 0 0 10px white;
+}
+
+body > header,
+body > main {
+    padding: 2rem;
+    font-size: 2rem;
+}
+
+div.variable {
+    padding-bottom: 3rem;
+}
+
+div.variable label {
+    display: inline-block;
+    width: 22rem;
+}
+
+table {
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 0.5rem 1.4rem;
+    border-right: solid 0.2rem white;
+}
+
+th {
+    padding: 1.4rem;
+}
+
+td.number {
+    text-align: right;
+}
+
+th:first-child,
+td:first-child {
+    padding-left: 0;
+}
+
+td:first-child {    
+    border-right: none;
+}
+
+th:last-child,
+td:last-child {
+    padding-right: 0;
+    border-right: none;
+}
