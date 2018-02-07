@@ -18,4 +18,9 @@ export default class PayPoint {
     get nextTotal() {
         return this.nextMoney * this.staff;
     }
+
+    change(newValues) {
+        const props = Object.assign({}, this, newValues);
+        return new PayPoint(props);
+    }
 }

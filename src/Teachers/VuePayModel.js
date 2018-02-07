@@ -3,31 +3,50 @@ import PayModel from './PayModel';
 export default class VuePayModel {
     constructor(el, payPoints) {
 
-        let message = 'message';
-        let increase = 1;
-        let payModel = new PayModel(payPoints, increase);
-
         this.el = el;
-        this.data = {
-            number: 0
-        }
+
+        const payModel = PayModel.create(payPoints, 1);
+        this.data = { payModel };
+
+        const model = this;
         this.computed = {
-            numberPlus1: {
-                get: function () {
-                    return this.number + 1;
+            increase: {
+                get: function() {
+                    return this.payModel.increase;
                 },
-                set: function (value) {
-                    this.number = parseInt(value) - 1;
+                set: function(value) {
+                    this.payModel = this.payModel.change({ increase: parseFloat(value) });
                 }
             },
-            increase: {
-                get: function () {
-                    return increase;
-                },
-                set: function (value) {
-                    increase = parseInt(value);
-                    payModel = new PayModel(payPoints, increase);
+
+            payPoints: {
+                get: function() {
+                    return this.payModel.payPoints;
                 }
+            },
+
+            total: {
+                get: function() {
+                    return this.payModel.total;
+                }
+            },
+
+            nextTotal: {
+                get: function() {
+                    return this.payModel.nextTotal;
+                }
+            },
+
+            difference: {
+                get: function() {
+                    return this.payModel.difference;
+                }
+            }
+        }
+
+        this.methods = {
+            changeStaff: function (payPoint, staff) {
+                this.payModel = this.payModel.changeStaff(payPoint, parseInt(staff));
             }
         }
     }

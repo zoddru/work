@@ -1,1 +1,1 @@
-powershell -NoExit -Command "Set-Location D:\Projects\zoddru\work"
+powershell -NoExit -Command "Set-Location C:\Projects\zoddru\work"

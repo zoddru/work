@@ -75,3 +75,28 @@ test('calculates nextTotal when increase changed', t => {
     pp = new PayPoint({ money: 1500, staff: 3, increase: 2 });
     t.is(pp.nextTotal, 9000);
 });
+
+test('changeIncrease', t => {
+    let pp = new PayPoint({ money: 1500, staff: 3, increase: 1 });
+    pp = pp.change({ increase: 2 });
+    t.is(pp.money, 1500);
+    t.is(pp.staff, 3);
+    t.is(pp.increase, 2);
+});
+
+test('changeStaff', t => {
+    let pp = new PayPoint({ money: 1500, staff: 3, increase: 1 });
+    pp = pp.change({ staff: 4 })
+    t.is(pp.money, 1500);
+    t.is(pp.staff, 4);;
+    t.is(pp.increase, 1);
+});
+
+test('change nothing', t => {
+    let pp = new PayPoint({ money: 1500, staff: 3, increase: 1 });
+    pp = pp.change({ newValue: 'newValue' })
+    t.is(pp.money, 1500);
+    t.is(pp.staff, 3);;
+    t.is(pp.increase, 1);
+    t.is(pp.newValue, undefined);
+});
