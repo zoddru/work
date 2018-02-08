@@ -18,11 +18,11 @@ export default class PayModelTable extends React.Component {
             <thead>
                 <tr>
                     <th colSpan="2">Pay point</th>
-                    <th>2016</th>
-                    <th>2016 FTEs</th>
-                    <th>2016 total</th>
-                    <th>2017</th>
-                    <th>2017 total</th>
+                    <th>{payModel.year}</th>
+                    <th>{payModel.year} FTEs</th>
+                    <th>{payModel.year} total</th>
+                    <th>{payModel.nextYear}</th>
+                    <th>{payModel.nextYear} total</th>
                 </tr>
             </thead>
             <tbody>

@@ -4,9 +4,11 @@ import PayModel from './PayModel';
 import PayModelComponent from './Components/PayModelComponent';
 const data = require('./data.json');
 
-const payPoints = data;
+const year = "2016";
+const area = "England & Wales";
+const payPoints = data[year][area];
 
-const payModel = PayModel.create(payPoints, 1);
+const payModel = PayModel.create({ year: parseInt(year), area, payPoints, percentageIncrease: 1 });
 
 const app = document.getElementById('app');
 
