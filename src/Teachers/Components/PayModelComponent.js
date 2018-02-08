@@ -6,15 +6,13 @@ export default class PayModelComponent extends React.Component {
         super(props);
         
         this.state = { payModel: props.payModel };
-
-        this.changeIncrease = this.changeIncrease.bind(this);
     }
 
-    changeIncrease(event) {
-        const increase = parseFloat(event.target.value);
-        if (this.state.payModel.increase === increase)
+    changePercentageIncrease(event) {
+        const percentageIncrease = parseFloat(event.target.value);
+        if (this.state.payModel.percentageIncrease === percentageIncrease)
             return; // no change
-        const payModel = this.state.payModel.change({ increase });
+        const payModel = this.state.payModel.change({ percentageIncrease });
         this.setState({ payModel });
     }
 
@@ -33,17 +31,18 @@ export default class PayModelComponent extends React.Component {
                 <label for="variable-area">Area</label>
                 <select id="variable-area">
                     <option>England &amp; Wales</option>
+                    <option>England &amp; Wales</option>
+                    <option>England &amp; Wales</option>
                 </select>
             </div>
             <div class="variable">
                 <label for="variable-increase">Percentage increase</label>
-                <select id="variable-area" value={this.state.payModel.increase.toString()} onChange={this.changeIncrease}>
-                    <option value="1">1</option>
+                {/* <select id="variable-area" value={this.state.payModel.percentageIncrease.toFixed(1)} onChange={this.changePercentageIncrease.bind(this)}>
+                    <option value="1.0">1</option>
                     <option value="1.5">1.5</option>
-                    <option value="2">2</option>
-                </select>
-                {/* <input id="variable-increase" type="number" step="0.5" min="1" max="2" value={this.state.payModel.increase.toString()} onChange={this.changeIncrease} /> */}
-                %
+                    <option value="2.0">2</option>
+                </select> % */}
+                <input id="variable-increase" type="number" step="0.5" min="1" max="2" value={this.state.payModel.percentageIncrease.toString()} onChange={this.changePercentageIncrease.bind(this)} /> %
             </div>
             <PayModelTable payModel={payModel} changeStaff={this.changeStaff.bind(this)} />
         </div>;

@@ -4,23 +4,21 @@ const sumTotals = (total, pp) => total + pp.total;
 const sumNextTotals = (total, pp) => total + pp.nextTotal;
 
 export default class PayModel {
-    constructor(payPoints = [], increase = 1) {
-
-        this.message = 'pay model object';
+    constructor(payPoints = [], percentageIncrease = 0) {
 
         this.payPoints = payPoints;
-        this.increase = increase;
+        this.percentageIncrease = percentageIncrease;
 
         Object.freeze(this.payPoints);
         Object.freeze(this);
     }
 
-    static create(payPoints, increase) {
+    static create(payPoints, percentageIncrease) {
         payPoints = payPoints
-            .map(pp => Object.assign({}, pp, { increase }))
+            .map(pp => Object.assign({}, pp, { percentageIncrease }))
             .map(pp => new PayPoint(pp));
 
-        return new PayModel(payPoints, increase);
+        return new PayModel(payPoints, percentageIncrease);
     }
 
     get total() {
@@ -37,12 +35,12 @@ export default class PayModel {
 
     change(newValues) {
         const props = Object.assign({}, this, newValues);
-        return PayModel.create(props.payPoints, props.increase);
+        return PayModel.create(props.payPoints, props.percentageIncrease);
     }
 
     changeStaff(payPoint, staff) {
         const newValues = { staff };
         const payPoints = this.payPoints.map(pp => pp !== payPoint ? pp : pp.change(newValues));
-        return PayModel.create(payPoints, this.increase);
+        return PayModel.create(payPoints, this.percentageIncrease);
     }
 }
