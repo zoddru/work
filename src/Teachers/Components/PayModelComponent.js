@@ -37,7 +37,13 @@ export default class PayModelComponent extends React.Component {
             </div>
             <div class="variable">
                 <label for="variable-increase">Percentage increase</label>
-                <input id="variable-increase" type="number" step="0.5" min="1" max="2" value={this.state.payModel.increase.toString()} onChange={this.changeIncrease} /> %
+                <select id="variable-area" value={this.state.payModel.increase.toString()} onChange={this.changeIncrease}>
+                    <option value="1">1</option>
+                    <option value="1.5">1.5</option>
+                    <option value="2">2</option>
+                </select>
+                {/* <input id="variable-increase" type="number" step="0.5" min="1" max="2" value={this.state.payModel.increase.toString()} onChange={this.changeIncrease} /> */}
+                %
             </div>
             <PayModelTable payModel={payModel} changeStaff={this.changeStaff.bind(this)} />
         </div>;
