@@ -30,12 +30,21 @@ export default class PayModelTable extends React.Component {
             </tbody>
             <tfoot>
                 <tr>
-                    <th colSpan="2">Totals</th>
+                    <th colSpan="2">Total</th>
                     <td></td>
                     <td></td>
                     <td class="number"><Pounds value={payModel.total} /></td>
                     <td></td>
                     <td class="number"><Pounds value={payModel.nextTotal} /></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <th>Difference</th>
+                    <td class="number"><Pounds value={payModel.difference} /></td>
                 </tr>
             </tfoot>
         </table>;
