@@ -1,13 +1,13 @@
 {
     "2016": {
         "England & Wales": [
-            { "name": "M1", "money": 22467 },
-            { "name": "M2", "money": 72729 },
-            { "name": "M3", "money": 183344 },
-            { "name": "M4", "money": 28207 },
-            { "name": "M5", "money": 30430 },
-            { "name": "M6a", "money": 32835 },
-            { "name": "M6b", "money": 33160 }
+            { "name": "M1", "money": 22467, "staff": 50 },
+            { "name": "M2", "money": 72729, "staff": 1 },
+            { "name": "M3", "money": 183344, "staff": 1 },
+            { "name": "M4", "money": 28207, "staff": 1 },
+            { "name": "M5", "money": 30430, "staff": 1 },
+            { "name": "M6a", "money": 32835, "staff": 1 },
+            { "name": "M6b", "money": 33160, "staff": 1 }
         ],
         "Inner London": [
             { "name": "M1", "money": 28098 },

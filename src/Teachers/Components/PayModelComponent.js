@@ -1,11 +1,37 @@
 import React from 'react';
 import PayModelTable from './PayModelTable';
+import PayModel from '../PayModel';
 
 export default class PayModelComponent extends React.Component {
     constructor(props) {
         super(props);
-        
-        this.state = { payModel: props.payModel };
+
+        const data = props.data;
+        const years = Object.keys(data);
+        const year = parseInt(years[0]);
+        const yearsData = data[year.toString()];
+        const areas = Object.keys(yearsData);
+        const area = areas[0];
+        const percentageIncrease = 1;
+        const payPoints = data[year][area];
+        const payModel = PayModel.create({ year, area, payPoints, percentageIncrease })
+
+        Object.assign(this, { data, years, areas });
+        this.state = { payModel };
+    }
+
+    changeArea(event) {
+        let payModel = this.state.payModel;
+        const area = event.target.value;
+        if (payModel.area === area)
+            return; // no change
+
+        const { year, percentageIncrease } = this.state.payModel;
+        const payPoints = this.data[year][area];
+
+        payModel = PayModel.create({ year, area, payPoints, percentageIncrease });
+
+        this.setState({ area, payModel });
     }
 
     changePercentageIncrease(event) {
@@ -25,14 +51,15 @@ export default class PayModelComponent extends React.Component {
 
     render() {
         const payModel = this.state.payModel;
+        const areas = this.areas.map(area => {
+            return <option key={area}>{area}</option>;
+        });
 
         return <div>
             <div class="variable">
                 <label for="variable-area">Area</label>
-                <select id="variable-area">
-                    <option>England &amp; Wales</option>
-                    <option>England &amp; Wales</option>
-                    <option>England &amp; Wales</option>
+                <select id="variable-area" value={this.state.area} onChange={this.changeArea.bind(this)}>
+                    {areas}
                 </select>
             </div>
             <div class="variable">
