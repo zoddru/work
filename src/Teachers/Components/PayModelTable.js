@@ -1,5 +1,6 @@
 import React from 'react';
 import PayPointRow from './PayPointRow';
+import { Pounds } from './FormatComponents';
 
 export default class PayModelTable extends React.Component {
     constructor (props) {
@@ -16,12 +17,12 @@ export default class PayModelTable extends React.Component {
         return <table>
             <thead>
                 <tr>
-                    <th colSpan="2">Pay point {payModel.increase}</th>
-                    <th>2016</th>
-                    <th>2016 FTEs</th>
-                    <th>2016 total</th>
-                    <th>2017</th>
-                    <th>2017 total</th>
+                    <th colSpan="2">Pay point</th>
+                    <th>{payModel.year}</th>
+                    <th>{payModel.year} FTEs</th>
+                    <th>{payModel.year} total</th>
+                    <th>{payModel.nextYear}</th>
+                    <th>{payModel.nextYear} total</th>
                 </tr>
             </thead>
             <tbody>
@@ -32,9 +33,9 @@ export default class PayModelTable extends React.Component {
                     <th colSpan="2">Totals</th>
                     <td></td>
                     <td></td>
-                    <td class="number">{payModel.total}</td>
+                    <td class="number"><Pounds value={payModel.total} /></td>
                     <td></td>
-                    <td class="number">{payModel.nextTotal}</td>
+                    <td class="number"><Pounds value={payModel.nextTotal} /></td>
                 </tr>
             </tfoot>
         </table>;

@@ -1,7 +1,9 @@
 export default class PayPoint {
-    constructor ({ name = '', money = 0, staff = 0, increase = 1 } = {}) {
+    constructor ({ name = '', money = 0, staff = 0, percentageIncrease = 0 } = {}) {
         
-        const props = { name, money, staff, increase };
+        staff = (isNaN(staff)) ? 0 : staff;
+
+        const props = { name, money, staff, percentageIncrease };
 
         Object.assign(this, props);        
         Object.freeze(this);
@@ -15,8 +17,12 @@ export default class PayPoint {
         return this.money * this.staff;
     }
 
+    get multiplier() {
+        return (1 + this.percentageIncrease / 100);
+    }
+
     get nextMoney() {
-        return this.money * this.increase;
+        return this.money * this.multiplier;
     }
 
     get nextTotal() {
