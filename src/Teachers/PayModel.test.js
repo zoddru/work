@@ -79,16 +79,3 @@ test('change staff count', t => {
     t.is(pm.payPoints[1].staff, 13);
     t.is(pm.payPoints[2].staff, 1);
 });
-
-test('create getMutable', t => {
-    let pm = PayModel.create([{ money: 2000, staff: 3 }, { money: 3000, staff: 2 }, { money: 4000, staff: 1 }], 1.5);
-    
-    t.is(pm.increase, 1.5);
-
-    let mpm = pm.createMultable();
-
-    t.is(mpm.increase, 1.5);
-    mpm.increase = 10;
-
-    t.is(mpm.increase, 10);
-});

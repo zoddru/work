@@ -45,32 +45,4 @@ export default class PayModel {
         const payPoints = this.payPoints.map(pp => pp !== payPoint ? pp : pp.change(newValues));
         return PayModel.create(payPoints, this.increase);
     }
-
-    createMultable() {
-        const payModel = this;
-        const proto = Object.getPrototypeOf(payModel);
-        const props = Object.getOwnPropertyNames(payModel)
-            .concat(Object.getOwnPropertyNames(proto))
-            .filter(n => n !== 'constructor' && n !== 'increase');
-        const proxy = { _original: payModel };
-
-        props.forEach((name) => {
-            Object.defineProperty(proxy, name, {
-                get: function () {
-                    return payModel[name];
-                }
-            });
-        });
-
-        Object.defineProperty(proxy, 'increase', {
-            get: function () {
-                return this._original.increase;
-            },
-            set: function (value) {
-                this._original = payModel.change({ increase: value });
-            }
-        });
-
-        return proxy;
-    }
 }

@@ -35,7 +35,6 @@
 .Trashes
 ehthumbs.db
 Thumbs.db
-start.bat
 
 node_modules/
 .vscode

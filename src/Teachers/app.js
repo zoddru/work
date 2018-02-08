@@ -1,4 +1,7 @@
-import VuePayModel from './VuePayModel';
+import React from 'react';
+import ReactDom from 'react-dom';
+import PayModel from './PayModel';
+import PayModelComponent from './Components/PayModelComponent';
 
 const payPoints = [
     { name: 'M1', money: 22467, staff: 1 },
@@ -10,14 +13,8 @@ const payPoints = [
     { name: 'M6b', money: 33160, staff: 1 }
 ];
 
-Vue.filter('pounds', function (value) {
-    if (typeof value !== 'number')
-        return value;
-    if (window.Intl === undefined)
-        return '£' + parseInt(value);
-    return '£' + Intl.NumberFormat().format(parseInt(value));
-});
+const payModel = PayModel.create(payPoints, 1);
 
-const model = new VuePayModel('#payModel', payPoints);
+const app = document.getElementById('app');
 
-const app = new Vue(model);
+ReactDom.render(<PayModelComponent payModel={payModel}/>, app);

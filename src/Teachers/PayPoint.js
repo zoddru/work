@@ -7,6 +7,10 @@ export default class PayPoint {
         Object.freeze(this);
     }
 
+    get id() {
+        return `${this.name}`;
+    }
+
     get total() {
         return this.money * this.staff;
     }
