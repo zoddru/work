@@ -1,6 +1,8 @@
 export default class PayPoint {
     constructor ({ name = '', money = 0, staff = 0, increase = 1 } = {}) {
         
+        staff = (isNaN(staff)) ? 0 : staff;
+
         const props = { name, money, staff, increase };
 
         Object.assign(this, props);        
