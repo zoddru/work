@@ -6,68 +6,30 @@ export default class PayModelComponent extends React.Component {
     constructor(props) {
         super(props);
 
-        const data = props.data;
-        const years = Object.keys(data);
-        const year = parseInt(years[0]);
-        const yearsData = data[year.toString()];
-        const areas = Object.keys(yearsData);
-        const area = areas[0];
-        const percentageIncrease = 1;
-        const payPoints = data[year][area];
-        const payModel = PayModel.create({ year, area, payPoints, percentageIncrease });
+        const { data, years, areas } = props;
 
         Object.assign(this, { data, years, areas });
-        
-        this.cache = {};
-        this.cachePayModel(payModel);
+
+        const payModel = data.first();
 
         this.state = { payModel };
-    }
-
-    cachePayModel(payModel) {
-        let { year, area, percentageIncrease } = payModel;
-        const cache = this.cache;
-        year = year.toString();
-        if (!cache[year]) {
-            cache[year] = {};
-        }
-        cache[year][area] = payModel;
-    }
-
-    getCachedPayModel(year, area) {
-        const cache = this.cache;
-        year = year.toString();
-        return (cache[year] && cache[year][area]) ? cache[year][area] : null;
     }
 
     changeArea(event) {
         const area = event.target.value;
         const { year, percentageIncrease } = this.state.payModel;
 
-        let payModel = this.getCachedPayModel(year, area);
-
-        if (!payModel) {
-            const payPoints = this.data[year][area];
-            payModel = PayModel.create({ year, area, payPoints, percentageIncrease });
-        }
+        let payModel = this.data.get(year, area, percentageIncrease);
         
-        if (payModel.percentageIncrease === percentageIncrease) {
-            this.cachePayModel(payModel);
-            this.setState({ payModel });
-            return ;
-        }
-
-        payModel = payModel.change({ percentageIncrease });
-        this.cachePayModel(payModel);
         this.setState({ payModel });
     }
 
     changePercentageIncrease(event) {
         const percentageIncrease = parseFloat(event.target.value);
-        if (this.state.payModel.percentageIncrease === percentageIncrease)
-            return; // no change
-        const payModel = this.state.payModel.change({ percentageIncrease });
-        this.cachePayModel(payModel);
+        const { year, area } = this.state.payModel;
+
+        let payModel = this.data.get(year, area, percentageIncrease);
+        
         this.setState({ payModel });
     }
 
@@ -75,7 +37,7 @@ export default class PayModelComponent extends React.Component {
         if (payPoint.staff === staff)
             return;
         const payModel = this.state.payModel.changeStaff(payPoint, staff);
-        this.cachePayModel(payModel);
+        this.data.store(payModel);
         this.setState({ payModel });
     }
 
