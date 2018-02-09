@@ -1,6 +1,6 @@
 import test from 'ava';
 import PayPoint from './PayPoint';
-import th from '../testHelper'
+import th from '../testHelper';
 
 test('create defaults', t => {
     const pp = new PayPoint();
