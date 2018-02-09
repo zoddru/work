@@ -20,7 +20,7 @@ module.exports = {
     },
     output: {        
         filename: 'teachers.min.js',
-        path: __dirname + '/dist/js/',
+        path: __dirname + '/docs/js/',
         publicPath: '/js/'
     },
     plugins: debug ? [] : [

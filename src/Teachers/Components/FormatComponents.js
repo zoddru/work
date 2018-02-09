@@ -2,13 +2,24 @@ import React from 'react';
 
 export class Pounds extends React.Component {
     render() {
-        const value = this.props.value;
+        let value = this.props.value;
         if (typeof value !== 'number')
             return value;
-        if (window.Intl === undefined)
-            return '£' + parseInt(value);
+
+        value = parseInt(value);
+
         if (isNaN(value))
             return '£-';
+            
+        if (value < 0) {
+            value = Math.abs(value);
+            if (window.Intl === undefined)
+                return '-£' + parseInt(value);
+            return '-£' + Intl.NumberFormat().format(parseInt(value));
+        }
+
+        if (window.Intl === undefined)
+            return '£' + parseInt(value);        
         return '£' + Intl.NumberFormat().format(parseInt(value));
     }
 }

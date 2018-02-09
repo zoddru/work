@@ -26,7 +26,7 @@ const app = express()
 
     .get('/', (req, res) => {
         res.sendFile('index.html', {
-            root: __dirname + '\\dist'
+            root: __dirname + '\\docs'
         });
     })
 
@@ -125,6 +125,6 @@ const app = express()
             });
     })
 
-    .use(express.static('dist'))
+    .use(express.static('docs'))
 
     .listen(port, () => console.log('listening on port ' + port));
