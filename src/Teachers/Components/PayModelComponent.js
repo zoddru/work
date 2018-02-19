@@ -6,11 +6,11 @@ export default class PayModelComponent extends React.Component {
     constructor(props) {
         super(props);
 
-        const { data, years, areas } = props;
+        const { data, years, areas, percentageIncrease } = props;
 
         Object.assign(this, { data, years, areas });
 
-        const payModel = data.first();
+        const payModel = data.first(percentageIncrease);
 
         this.state = { payModel };
     }
@@ -18,8 +18,8 @@ export default class PayModelComponent extends React.Component {
     changeArea(event) {
         const area = event.target.value;
         const { year, percentageIncrease } = this.state.payModel;
-
-        let payModel = this.data.get(year, area, percentageIncrease);
+        
+        const payModel = this.data.get(year, area, percentageIncrease);
         
         this.setState({ payModel });
     }
@@ -28,7 +28,7 @@ export default class PayModelComponent extends React.Component {
         const percentageIncrease = parseFloat(event.target.value);
         const { year, area } = this.state.payModel;
 
-        let payModel = this.data.get(year, area, percentageIncrease);
+        const payModel = this.data.get(year, area, percentageIncrease);
         
         this.setState({ payModel });
     }
@@ -48,14 +48,14 @@ export default class PayModelComponent extends React.Component {
         });
 
         return <div>
-            <div class="variable">
-                <label for="variable-area">Area</label>
-                <select id="variable-area" value={this.state.area} onChange={this.changeArea.bind(this)}>
+            <div className="variable">
+                <label htmlFor="variable-area">Area</label>
+                <select id="variable-area" value={payModel.area} onChange={this.changeArea.bind(this)}>
                     {areas}
                 </select>
             </div>
-            <div class="variable">
-                <label for="variable-increase">Percentage increase</label>
+            <div className="variable">
+                <label htmlFor="variable-increase">Percentage increase</label>
                 {/* <select id="variable-area" value={this.state.payModel.percentageIncrease.toFixed(1)} onChange={this.changePercentageIncrease.bind(this)}>
                     <option value="1.0">1</option>
                     <option value="1.5">1.5</option>

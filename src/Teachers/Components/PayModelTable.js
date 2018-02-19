@@ -33,9 +33,9 @@ export default class PayModelTable extends React.Component {
                     <th colSpan="2">Total</th>
                     <td></td>
                     <td></td>
-                    <td class="number"><Pounds value={payModel.total} /></td>
+                    <td className="number total"><Pounds value={payModel.total} /></td>
                     <td></td>
-                    <td class="number"><Pounds value={payModel.nextTotal} /></td>
+                    <td className="number nextTotal"><Pounds value={payModel.nextTotal} /></td>
                 </tr>
                 <tr>
                     <td></td>
@@ -44,7 +44,7 @@ export default class PayModelTable extends React.Component {
                     <td></td>
                     <td></td>
                     <th>Difference</th>
-                    <td class="number"><Pounds value={payModel.difference} /></td>
+                    <td className="number difference"><Pounds value={payModel.difference} /></td>
                 </tr>
             </tfoot>
         </table>;

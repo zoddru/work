@@ -1,5 +1,7 @@
 import React from 'react';
 
+const Intl = typeof window !== 'undefined' ? window.Intl : typeof global !== 'undefined' ? global.Intl : undefined;
+
 export class Pounds extends React.Component {
     render() {
         let value = this.props.value;
@@ -13,12 +15,12 @@ export class Pounds extends React.Component {
             
         if (value < 0) {
             value = Math.abs(value);
-            if (window.Intl === undefined)
+            if (Intl === undefined)
                 return '-£' + parseInt(value);
             return '-£' + Intl.NumberFormat().format(parseInt(value));
         }
 
-        if (window.Intl === undefined)
+        if (Intl === undefined)
             return '£' + parseInt(value);        
         return '£' + Intl.NumberFormat().format(parseInt(value));
     }

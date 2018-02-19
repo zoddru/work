@@ -1,6 +1,6 @@
 import test from 'ava';
 import PayModel from './PayModel';
-import th from '../testHelper'
+import th from '../TestHelpers/testHelper'
 
 test('create', t => {
     const pm = new PayModel();

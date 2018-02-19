@@ -1,7 +1,7 @@
 import test from 'ava';
 import PayModel from './PayModel';
 import PayModelStore from './PayModelStore';
-import th from '../testHelper'
+import th from '../TestHelpers/testHelper'
 
 const sampleData = {
     "2016": {
@@ -100,4 +100,17 @@ test('get first', t => {
     t.is(payModel.area, 'East');
     t.is(payModel.payPoints.length, 2);
     t.is(payModel.percentageIncrease, 0);
+});
+
+test('get first with percentage increase', t => {
+    const pms = new PayModelStore(sampleData);
+
+    const payModel = pms.first(12);
+
+    t.truthy(payModel);
+
+    t.is(payModel.year, 2016);
+    t.is(payModel.area, 'East');
+    t.is(payModel.payPoints.length, 2);
+    t.is(payModel.percentageIncrease, 12);
 });

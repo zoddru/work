@@ -13,4 +13,4 @@ const areas = Object.keys(data[yearKeys[0]]); // assume just the first one
 const store = new PayModelStore(data);
 const app = document.getElementById('app');
 
-ReactDom.render(<PayModelComponent data={store} years={years} areas={areas} />, app);
+ReactDom.render(<PayModelComponent data={store} years={years} areas={areas} percentageIncrease={1} />, app);

@@ -51,7 +51,7 @@ export default class PayModelStore {
         cache[yearKey][area] = payModel;
     }
 
-    first() {
+    first(percentageIncrease = 0) {
         const data = this._data;
         const years = Object.keys(data);
         if (!years.length)
@@ -63,6 +63,6 @@ export default class PayModelStore {
         const areas = Object.keys(yearData);
         if (!areas.length)
             return null;
-        return this.get(parseInt(year), areas[0]);
+        return this.get(parseInt(year), areas[0], percentageIncrease);
     }
 }
