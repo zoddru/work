@@ -61,5 +61,9 @@
       "babel-polyfill",
       "./src/TestHelpers/test-browser-env.js"
     ]
+  },
+  "engines": {
+    "node": "9.4.0",
+    "npm": "5.6.0"
   }
 }
