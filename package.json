@@ -1,9 +1,10 @@
 {
-  "name": "playOauth",
+  "name": "work",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
+    "start": "node index",
     "test": "ava \"**/*.test.js\"",
     "test2": "ava \"**/*.2.test.js\""
   },
