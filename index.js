@@ -1,4 +1,4 @@
-const config = require('./config');
+const config = require('./config.heroku');
 const http = require('http');
 const urlParser = require('url');
 const OAuth = require('oauth');
