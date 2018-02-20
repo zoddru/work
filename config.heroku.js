@@ -21,7 +21,7 @@ const config = {
 Object.defineProperties(config.server, {
     rootUrl: {
         get: () => {
-            return `${config.server.protocol}://${config.server.host}:${config.server.port}/`
+            return `${config.server.protocol}://${config.server.host}/`
         }
     }
 });
