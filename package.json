@@ -50,9 +50,6 @@
     "webpack": "^3.10.0"
   },
   "babel": {
-    "plugins": [
-      "syntax-dynamic-import"
-    ],
     "presets": [
       "es2015",
       "stage-3",
