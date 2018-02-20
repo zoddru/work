@@ -10,8 +10,8 @@ const config = {
         signInUrl: signInUrl,
         signOutUrl: signInUrl + 'signout.html',
         url: signInUrl + 'oauth.handler',
-        consumerKey: 'fake',
-        consumerSecret: 'fake'
+        consumerKey: process.env.consumerKey || '',
+        consumerSecret: process.env.consumerSecret || ''
     },
     webservices: {
         root: 'http://webservices.esd.org.uk/'
