@@ -4,6 +4,7 @@ const urlParser = require('url');
 const OAuth = require('oauth');
 const WebServices = require('./src/WebServices');
 const util = require('util');
+const teachersCsvDownload = require('./src/Teachers/CsvDownload');
 
 const express = require('express');
 const session = require('express-session');
@@ -118,6 +119,10 @@ const app = express()
                 req.session.oAuth = { token, secret };
                 res.redirect(returnUrl);
             });
+    })
+
+    .get('/teachers/csv', (req, res) => {
+
     })
 
     .get('/wait/:time', (req, res) => {
