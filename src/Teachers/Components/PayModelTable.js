@@ -14,7 +14,7 @@ export default class PayModelTable extends React.Component {
         const rows = payModel.payPoints
             .map(pp => <PayPointRow key={pp.id} payPoint={pp} payModel={payModel} changeStaff={changeStaff} />);
 
-        return <table>
+        return <table className="bright">
             <thead>
                 <tr>
                     <th colSpan="2">Pay point</th>
