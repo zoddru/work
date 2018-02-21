@@ -10,7 +10,7 @@ export default class PayPoint {
     }
 
     get id() {
-        return `${this.name}`;
+        return this.name;
     }
 
     get total() {

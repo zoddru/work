@@ -25,7 +25,7 @@ export default class PayPointRow extends React.Component {
             </td>
             <td>{payPoint.name}</td>
             <td className="number"><Pounds value={payPoint.money} /></td>
-            <td className="number"><input type="number" step="1" min="0" value={payPoint.staff.toString()} onChange={this.changeStaff.bind(this)} /></td>
+            <td className="number"><input type="number" name={`${payPoint.name}.staff`} step="1" min="0" value={payPoint.staff.toString()} onChange={this.changeStaff.bind(this)} /></td>
             <td className="number"><Pounds value={payPoint.total} /></td>
             <td className="number"><Pounds value={payPoint.nextMoney} /></td>
             <td className="number"><Pounds value={payPoint.nextTotal} /></td>

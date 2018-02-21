@@ -1,4 +1,5 @@
 import PayPoint from './PayPoint';
+import CsvWriter from '../CsvWriter';
 
 const sumTotals = (total, pp) => total + pp.total;
 const sumNextTotals = (total, pp) => total + pp.nextTotal;
@@ -49,5 +50,36 @@ export default class PayModel {
         const payPoints = this.payPoints.map(pp => pp !== payPoint ? pp : pp.change(newValues));
         const props = Object.assign({}, this, { payPoints });
         return PayModel.create(props);
+    }
+
+    getTable() {
+        const headers = [
+            'Pay point',
+            this.year,
+            `${this.year} FTEs`,
+            `${this.year} total`,
+            this.nextYear,
+            `${this.nextYear} total`
+        ];
+
+        const table = [headers];
+
+        this.payPoints.forEach(pp => {
+            const row = [];
+            row.push(pp.name);
+            row.push(pp.money.toFixed(2));
+            row.push(pp.staff);
+            row.push(pp.total.toFixed(2));
+            row.push(pp.nextMoney.toFixed(2));
+            row.push(pp.nextTotal.toFixed(2));
+            table.push(row);
+        });
+
+        return table;
+    }
+
+    getCsv() {
+        const table = this.getTable();
+        return new CsvWriter().write(table);
     }
 }

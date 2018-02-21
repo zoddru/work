@@ -37,13 +37,19 @@ body > main {
     font-size: 1.6rem;
 }
 
+input[type="button"],
+input[type="submit"],
 a.button {
     background-color: #92278F;
     color: #FFF;
     padding: 0.5rem 1rem;
     transition: background-color 0.15s;
+    height: inherit;
+    cursor: pointer;
 }
 
+input[type="button"]:hover,
+input[type="submit"]:hover,
 a.button:hover {
     background-color: #6a1c68;
     text-decoration: none;

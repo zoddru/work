@@ -1,6 +1,8 @@
 import React from 'react';
 import PayModelTable from './PayModelTable';
 import PayModel from '../PayModel';
+import axios from 'axios';
+import FileDownload from 'react-file-download';
 
 export default class PayModelComponent extends React.Component {
     constructor(props) {
@@ -18,9 +20,9 @@ export default class PayModelComponent extends React.Component {
     changeArea(event) {
         const area = event.target.value;
         const { year, percentageIncrease } = this.state.payModel;
-        
+
         const payModel = this.data.get(year, area, percentageIncrease);
-        
+
         this.setState({ payModel });
     }
 
@@ -29,7 +31,7 @@ export default class PayModelComponent extends React.Component {
         const { year, area } = this.state.payModel;
 
         const payModel = this.data.get(year, area, percentageIncrease);
-        
+
         this.setState({ payModel });
     }
 
@@ -41,16 +43,37 @@ export default class PayModelComponent extends React.Component {
         this.setState({ payModel });
     }
 
+    downloadCsv(e) {
+        // const csv = this.payModel.getCsv();
+        // const encodedCsvData = encodeURI(`data:text/csv;charset=utf-8,${csv}`);
+        // window.open(encodedCsvData);
+
+        const table = this.state.payModel.getTable();
+
+        axios.post('/csv', table)
+            .then(function (res) {
+                FileDownload(res.data, 'teachers-pay.csv');
+            })
+            .catch(function (err) {
+                console.log(err);
+            });
+
+        e.preventDefault();
+    }
+
     render() {
         const payModel = this.state.payModel;
         const areas = this.areas.map(area => {
             return <option key={area}>{area}</option>;
         });
 
-        return <div>
+        const csv = payModel.getCsv();
+        const encodedCsvData = encodeURI(`data:text/csv;charset=utf-8,${csv}`);
+
+        return <form>
             <div className="variable">
                 <label htmlFor="variable-area">Area</label>
-                <select id="variable-area" value={payModel.area} onChange={this.changeArea.bind(this)}>
+                <select id="variable-area" name="area" value={payModel.area} onChange={this.changeArea.bind(this)}>
                     {areas}
                 </select>
             </div>
@@ -61,9 +84,12 @@ export default class PayModelComponent extends React.Component {
                     <option value="1.5">1.5</option>
                     <option value="2.0">2</option>
                 </select> % */}
-                <input id="variable-increase" type="number" step="0.5" min="1" max="2" value={this.state.payModel.percentageIncrease.toString()} onChange={this.changePercentageIncrease.bind(this)} /> %
+                <input type="number" id="variable-increase" name="percentageIncrease" step="0.5" min="1" max="2" value={this.state.payModel.percentageIncrease.toString()} onChange={this.changePercentageIncrease.bind(this)} /> %
             </div>
             <PayModelTable payModel={payModel} changeStaff={this.changeStaff.bind(this)} />
-        </div>;
+            <div>
+                <a download="teachers.csv" className="button" href={encodedCsvData} onClick={this.downloadCsv.bind(this)}>Download as a CSV</a>
+            </div>
+        </form>;
     }
 }

@@ -4,16 +4,19 @@ const urlParser = require('url');
 const OAuth = require('oauth');
 const WebServices = require('./WebServices');
 const util = require('util');
-const teachersCsvDownload = require('./Teachers/CsvDownload');
 
 const express = require('express');
 const session = require('express-session');
+const bodyParser = require('body-parser');
 
 const port = config.server.port;
 
+import CsvWriter from './CsvWriter';
+
+
 function getOAuthManager(returnUrl) {
     let callback = config.server.rootUrl + 'callback';
-    
+
     if (returnUrl) {
         callback += `?returnUrl=${returnUrl}`;
     }
@@ -40,6 +43,7 @@ function getFullUrl(req) {
 const app = express()
 
     .use(session({ secret: 'keyboard cat', cookie: { maxAge: 60000 } }))
+    .use(bodyParser.json())
 
     .get('/', (req, res) => {
         res.sendFile('index.html', {
@@ -121,8 +125,17 @@ const app = express()
             });
     })
 
-    .get('/teachers/csv', (req, res) => {
+    .post('/csv', (req, res) => {
+        const table = req.body;
 
+        const csv = new CsvWriter().write(table);
+
+        res.statusCode = 200;
+        res.setHeader('Content-Type', 'text/csv');
+
+        res.write(csv);
+
+        res.end();
     })
 
     .get('/wait/:time', (req, res) => {
