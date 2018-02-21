@@ -1,10 +1,10 @@
-const config = require('./config.broker');
+const config = require('../config.broker');
 const http = require('http');
 const urlParser = require('url');
 const OAuth = require('oauth');
-const WebServices = require('./src/WebServices');
+const WebServices = require('./WebServices');
 const util = require('util');
-const teachersCsvDownload = require('./src/Teachers/CsvDownload');
+const teachersCsvDownload = require('./Teachers/CsvDownload');
 
 const express = require('express');
 const session = require('express-session');
