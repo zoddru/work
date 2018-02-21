@@ -1,5 +1,5 @@
 const config = require('../config.broker');
-const http = require('http');
+import http from 'http';
 const urlParser = require('url');
 const OAuth = require('oauth');
 const WebServices = require('./WebServices');
