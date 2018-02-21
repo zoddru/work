@@ -1,2 +1,2 @@
-build: babel src -d dist,
-serve: node dist/server.js
+build: npm build
+serve: npm serve
