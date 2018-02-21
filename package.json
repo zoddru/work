@@ -6,8 +6,8 @@
   "scripts": {
     "_comment": "https://github.com/babel/example-node-server",
     "start": "nodemon src/server.js --exec babel-node",
-    "build": "babel src -d dist",
-    "serve": "node dist/server.js",
+    "build": "babel src -d app",
+    "serve": "node app/server.js",
     "test": "ava \"**/*.test.js\""
   },
   "author": "",
