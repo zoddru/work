@@ -8,17 +8,42 @@ export default class SurveyComponent extends React.Component {
 
         const survey = new Survey(props.data);
 
-        this.state = { survey };
+        this.state = { survey, answers: [] };
+    }
+
+    answered(question, answer) {
+        const { survey, answers } = this.state;
+
+        const index = survey.questions.indexOf(question);
+
+        if (index < 0)
+            return;
+
+        answers[index] = answer;
+
+        this.setState({ answers });
     }
 
     render() {
-        const survey = this.state.survey;
+        const { survey, answers } = this.state;
 
         const questions = survey.questions
-            .map(q => <QuestionComponent key={q.id} question={q} />);
+            .map(q => <QuestionComponent key={q.id} question={q} onAnswered={this.answered.bind(this)} />);
 
-        return <section class="survey">
-            {questions}
-        </section>;
+        const nodes = survey.questions
+            .map((q, i) => {
+                const a = answers[i];
+                const className = !!a ? 'node answered' : 'node';
+                return <div className={className} key={q.id}><a href={`#question.${q.id}`} className="number">{q.number}</a></div>;
+            });
+
+        return <div>
+            <nav className="progress">
+                {nodes}
+            </nav>
+            <section class="survey">
+                {questions}
+            </section>
+        </div>;
     }
 }

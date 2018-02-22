@@ -1,16 +1,88 @@
+body > header, .survey {
+    margin-left: 10rem;
+}
+
+nav.progress {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: 10rem;
+    padding: 4rem 0;
+    text-align: center;
+
+    display: flex;
+    flex-direction: column;
+}
+
+nav.progress .node {
+    display: block;
+    position: relative;
+    min-height: 3rem;
+    margin-left: 4.25rem;
+    width: 4.25rem;
+    
+    border-left: solid 0.5rem #E2E3E7;
+
+    flex-grow: 1;
+
+    transition: 0.15s background-color, color;
+}
+
+nav.progress .number {
+    background-color: #E2E3E7;
+    position: absolute;
+    top: -1.5rem;
+    left: -1.75rem;
+    width: 3rem;
+    height: 3rem;
+    line-height: 3rem;
+    text-align: center;
+    vertical-align: bottom;
+
+    color: #464B51;
+    font-weight: bold;
+    border-radius: 50%;
+
+    transition: 0.15s background-color, color;
+}
+
+nav.progress .number:hover {
+    text-decoration: none;
+    background-color: #d4d6db;
+}
+
+nav.progress .node.answered {    
+    border-left-color: #92278F;
+}
+
+nav.progress .node.answered .number {
+    background-color: #92278F;
+    color: white;
+}
+
+nav.progress .node.answered .number:hover {
+    background-color: #6a1c68;
+}
+
+nav.progress .node:last-child {
+    border-left-color: transparent;
+}
+
 .survey {
     max-width: 100rem;
-    margin-left: 1.25rem;
 }
 
 .question {
     position: relative;
     border-left: 1rem solid #92278F;
+    border-left: none;
     padding-bottom: 18rem;
     text-align: justify;
 }
 
 .question > .number {
+    display: none;
     background-color: #92278F;
     position: absolute;
     top: -2rem;
@@ -26,12 +98,12 @@
 }
 
 .question > header {
-    margin: 0 0 2rem 4rem;
+    padding-top: 4rem;
+    margin-bottom: 2rem;
 }
 
 .question > main {
     position: relative;
-    margin: 0 0 2rem 4rem;
     min-height: 10rem;
     border-bottom: solid 1px #E2E3E7;
 }
@@ -116,4 +188,9 @@ a.expand {
     left: auto;
     top: 0;
     right: 0;
+}
+
+.question:first-child .prev,
+.question:last-child .next {
+    visibility: hidden;
 }

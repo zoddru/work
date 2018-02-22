@@ -17,6 +17,7 @@ export default class QuestionComponent extends React.Component {
     selectAnswer(e) {
         const answer = e.target.value;
         this.setState({ answer });
+        this.props.onAnswered(this.question, answer);
     }
 
     toggleHelp(e) {
@@ -26,9 +27,12 @@ export default class QuestionComponent extends React.Component {
 
     render() {
         const question = this.question;
+        const questionName = `question.${question.id}`;
+        const prevQuestionName = `question.${question.id - 1}`;
+        const nextQuestionName = `question.${question.id + 1}`;
 
         const answers = this.question.answers.map((a, i) => {
-            const name = `${question.id}.answer`;
+            const name = `${questionName}.answer`;
             const id = `${name}.${i}`;
             const isSelected = this.state.answer === a;
             const className = isSelected ? 'answer selected' : 'answer';
@@ -44,7 +48,7 @@ export default class QuestionComponent extends React.Component {
 
         const showingHelp = this.state.showingHelp;
         
-        return <section className="question">
+        return <section className="question" id={questionName}>
             <span className="number">{question.number}</span>
             <header>
                 <h2>Question {question.number}</h2>
@@ -69,8 +73,8 @@ export default class QuestionComponent extends React.Component {
                     <textarea id={`${question.id}.feedback`} placeholder="tell us any thoughts on this question?" />
                 </div>
                 <div className="navigation">
-                    <a href="#" className="prev button">Previous</a>
-                    <a href="#" className="next button">Next</a>
+                    <a href={`#${prevQuestionName}`} className="prev button">Previous</a>
+                    <a href={`#${nextQuestionName}`} className="next button">Next</a>
                 </div>
             </main>
         </section>;
