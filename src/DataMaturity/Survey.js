@@ -8,7 +8,7 @@ export default class Survey {
         const answers = [ 'strongly disagree', 'disagree', 'neutral', 'agree', 'strongly agree' ];
 
         data.forEach(q => {
-            questions.push(new Question({ number, text: q.question, answers }));
+            questions.push(new Question({ number, text: q.question || '', help: q.help || '', answers }));
             number += 1;
         })
 

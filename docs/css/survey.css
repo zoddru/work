@@ -6,7 +6,7 @@
 .question {
     position: relative;
     border-left: 1rem solid #92278F;
-    padding-bottom: 4rem;
+    padding-bottom: 18rem;
     text-align: justify;
 }
 
@@ -25,32 +25,95 @@
     border-radius: 50%;
 }
 
-.question > .content {
+.question > header {
+    margin: 0 0 2rem 4rem;
+}
+
+.question > main {
     position: relative;
     margin: 0 0 2rem 4rem;
     min-height: 10rem;
     border-bottom: solid 1px #E2E3E7;
 }
 
-.question .text {
-    padding: 0;
-    padding-bottom: 2rem;
+.question .text, .question .help, .question .answers, .question .feedback, .question .navigation {
+    margin-bottom: 4rem;
 }
 
-.answers {
+a.expand {
+    font-weight: bold;
+}
+
+.help-text {
+    max-height: 0;
+    transition: max-height 0.15s ease-out;
+    overflow: hidden;
+}
+
+.help-text.expanded {
+    max-height: 50rem;
+    transition: max-height 0.25s ease-in;
+}
+
+.question .answers, .question .answer, .question .answer label {
+    height: 4rem;
+}
+
+.question .answers {
     display: flex;
-    padding-bottom: 6rem;
 }
 
-.question .prev,
+.question .answer {
+    flex-grow: 1;
+    position: relative;
+    display: block;
+}
+
+.question .answer label {
+    cursor: pointer;
+    position: absolute;
+    display: block;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    line-height: 4rem;
+    text-align: center;
+    background-color: #E2E3E7;
+    color: #464B51;
+    transition: 0.15s background-color, color;
+}
+
+.question .answer label:hover {
+    background-color: #d4d6db;
+}
+
+.question .answer.selected label {
+    color: white;
+    background-color: #92278F;
+}
+
+/*.question .answer.selected label:hover {
+    background-color: #6a1c68;
+}*/
+
+.question .feedback textarea {
+    display: block;
+    width: 100%;
+    height: 6rem;
+}
+
+.question .navigation {
+    position: relative;
+}
+
+.question .prev {
+    display: inline-block;
+}
+
 .question .next {
     position: absolute;
-    bottom: 1rem;
-    left: 0;
-    right: auto;
-}
-
-.question .next {
     left: auto;
+    top: 0;
     right: 0;
 }
