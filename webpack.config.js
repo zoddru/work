@@ -6,6 +6,7 @@ module.exports = {
     devtool: debug ? 'inline-sourcemap' : false,
     entry: {
         teachers: './src/Teachers/app.js',
+        dataMaturity: './src/DataMaturity/app.js',
         authentication: './src/Authentication/app.js'
     },
     module: {

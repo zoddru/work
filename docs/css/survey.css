@@ -1,0 +1,56 @@
+.survey {
+    max-width: 100rem;
+    margin-left: 1.25rem;
+}
+
+.question {
+    position: relative;
+    border-left: 1rem solid #92278F;
+    padding-bottom: 4rem;
+    text-align: justify;
+}
+
+.question > .number {
+    background-color: #92278F;
+    position: absolute;
+    top: -2rem;
+    left: -2.5rem;
+    width: 4rem;
+    height: 4rem;
+    line-height: 4rem;
+    text-align: center;
+
+    color: white;
+    font-weight: bold;
+    border-radius: 50%;
+}
+
+.question > .content {
+    position: relative;
+    margin: 0 0 2rem 4rem;
+    min-height: 10rem;
+    border-bottom: solid 1px #E2E3E7;
+}
+
+.question .text {
+    padding: 0;
+    padding-bottom: 2rem;
+}
+
+.answers {
+    display: flex;
+    padding-bottom: 6rem;
+}
+
+.question .prev,
+.question .next {
+    position: absolute;
+    bottom: 1rem;
+    left: 0;
+    right: auto;
+}
+
+.question .next {
+    left: auto;
+    right: 0;
+}
