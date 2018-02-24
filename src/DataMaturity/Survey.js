@@ -1,20 +1,18 @@
-import Question from './Question';
+import Section from './Section';
 
 export default class Survey {
     constructor(data) {
 
-        const questions = [];
-        let number = 1;
-        const answers = [ 'strongly disagree', 'disagree', 'neutral', 'agree', 'strongly agree' ];
+        const { identifier, title, sections } = data;
 
-        data.forEach(q => {
-            questions.push(new Question({ number, text: q.question || '', help: q.help || '', answers }));
-            number += 1;
-        })
+        this.identifier = identifier;
+        this.title = title;
+        this.sections = Object.freeze(Section.createArray(this, sections));
 
-        this.questions = questions;
-
-        Object.freeze(questions);
         Object.freeze(this);
+    }
+
+    get key() {
+        return `survey${this.identifier}`;
     }
 }
