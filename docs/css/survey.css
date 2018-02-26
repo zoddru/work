@@ -1,61 +1,75 @@
-body > header, .survey {
+body > header,
+.survey {
     margin-left: 10rem;
 }
 
 nav.progress {
     position: fixed;
-    top: 0;
-    bottom: 0;
+    top: 4rem;
+    bottom: 4em;
     left: 0;
     width: 10rem;
     text-align: center;
-}
-
-nav.progress > ul {
-    position: absolute;
-    top: 4rem;
-    bottom: 4rem;
-    left: 0;
-    right: 0;
-    
-    list-style: none;
-    margin: 0;
-    padding: 0;
-
     display: flex;
     flex-direction: column;
 }
 
-nav.progress > ul > li.node {
+nav.progress a:hover {
+    text-decoration: none;
+}
+
+nav.progress .node {
     display: block;
     position: relative;
-    min-height: 3rem;
-    margin-left: 4.25rem;
-    width: 4.25rem;
+    margin-left: 4.75rem;
+    width: 0;
     
-    border-left: solid 0.5rem #E2E3E7;
+    border-left: solid 0.25rem #E2E3E7;
+    border-right: solid 0.25rem #E2E3E7;
+    border-radius: 0.5rem;
 
     flex-grow: 1;
 
     transition: 0.15s background-color, color;
 }
 
-nav.progress .number {
-    background-color: #E2E3E7;
+nav.progress .node:last-child {
+    flex-grow: 0;
+    border: none;
+}
+
+nav.progress .number,
+nav.progress .text {
     position: absolute;
+    background-color: #E2E3E7;
     top: -1.5rem;
-    left: -1.75rem;
+    left: -1.5rem;
     width: 3rem;
     height: 3rem;
-    line-height: 3rem;
+    line-height: 2;
+    font-size: 1.6rem;
     text-align: center;
-    vertical-align: bottom;
 
     color: #464B51;
     font-weight: bold;
     border-radius: 50%;
 
     transition: 0.15s background-color, color;
+    user-select: none;
+}
+
+nav.progress .sub-node .number {
+    width: 2rem;
+    height: 2rem;
+    font-size: 1rem;
+    top: -1rem;
+    left: -1rem;
+}
+
+nav.progress .text {
+    border-radius: 0;
+    width: 6rem;
+    left: -3rem;
 }
 
 nav.progress .number:hover {
@@ -63,8 +77,21 @@ nav.progress .number:hover {
     background-color: #d4d6db;
 }
 
+nav.progress .node.started {
+    border-color: #BA4FB7;
+}
+
+nav.progress .node.started .number {
+    background-color: #BA4FB7;
+    color: white;
+}
+
+nav.progress .node.started .number:hover {
+    background-color: #924490;
+}
+
 nav.progress .node.answered {    
-    border-left-color: #92278F;
+    border-color: #92278F;
 }
 
 nav.progress .node.answered .number {
@@ -76,15 +103,15 @@ nav.progress .node.answered .number:hover {
     background-color: #6a1c68;
 }
 
-nav.progress .node:last-child {
-    border-left-color: transparent;
-}
-
 .survey {
     max-width: 100rem;
 }
 
 .section > header {
+    padding-top: 4rem;
+}
+
+.section.end main {
     padding-top: 4rem;
 }
 
@@ -94,22 +121,9 @@ nav.progress .node:last-child {
     border-left: none;
     padding-bottom: 18rem;
     text-align: justify;
-}
 
-.question > .number {
-    display: none;
-    background-color: #92278F;
-    position: absolute;
-    top: -2rem;
-    left: -2.5rem;
-    width: 4rem;
-    height: 4rem;
-    line-height: 4rem;
-    text-align: center;
-
-    color: white;
-    font-weight: bold;
-    border-radius: 50%;
+    min-height: 60rem;
+    min-height: 100vh; /* should be dynamic 100% of  */
 }
 
 .question > header {
@@ -132,13 +146,13 @@ a.expand {
 }
 
 .help-text {
-    max-height: 0;
+    height: 0;
     transition: max-height 0.15s ease-out;
     overflow: hidden;
 }
 
 .help-text.expanded {
-    max-height: 50rem;
+    height: auto;
     transition: max-height 0.25s ease-in;
 }
 

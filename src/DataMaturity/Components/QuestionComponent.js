@@ -49,7 +49,6 @@ export default class QuestionComponent extends React.Component {
         const showingHelp = this.state.showingHelp;
 
         return <section className="question" id={question.key}>
-            <span className="number">{question.identifier}</span>
             <header>
                 <h3>Question {question.identifier}</h3>
             </header>

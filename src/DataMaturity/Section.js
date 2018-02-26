@@ -20,6 +20,14 @@ export default class Section {
         });
     }
 
+    hasBeenStarted(responses) {
+        return !!this.questions.find(q => !!responses.get(q));
+    }
+
+    hasBeenAnswered(responses) {
+        return this.questions.every(q => !!responses.get(q));
+    }
+
     firstQuestion() {
         if (!this.questions.length)
             return null;

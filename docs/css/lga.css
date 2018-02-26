@@ -46,6 +46,7 @@ a.button {
     transition: background-color 0.15s;
     height: inherit;
     cursor: pointer;
+    user-select: none;
 }
 
 input[type="button"]:hover,
