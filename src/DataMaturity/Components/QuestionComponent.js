@@ -15,7 +15,10 @@ export default class QuestionComponent extends React.Component {
     }
 
     selectAnswer(e) {
-        const answerValue = parseInt(e.target.value);
+        let answerValue = parseInt(e.target.value);
+        if (isNaN(answerValue)) {
+            answerValue = e.target.value;
+        }
         const answer = this.question.findAnswerByValue(answerValue);
         this.setState({ answer });
         this.props.onAnswered(this.question, answer);
@@ -33,15 +36,18 @@ export default class QuestionComponent extends React.Component {
         const prevQuestion = question.prev;
         const nextQuestion = question.next;
 
-        const answers = question.answers.map((a, i) => {
+        const createAnswer = (a, i) => {
             const isSelected = answer === a;
             const className = isSelected ? 'answer selected' : 'answer';
-
+            
             return <div key={a.key} className={className}>
-                <input id={a.key} name={a.key} checked={isSelected} type="radio" value={a.value} onChange={this.selectAnswer.bind(this)} />
+                <input id={a.key} name={`${question.key}.answer`} checked={isSelected} type="radio" value={a.value} onChange={this.selectAnswer.bind(this)} />
                 <label for={a.key}>{a.text}</label>
             </div>;
-        });
+        };
+
+        const nonAnswers = question.nonAnswers.map(createAnswer);
+        const answers = question.answers.map(createAnswer);
 
         const questionText = parseText(question.text);
         const helpText = parseText(question.help);
@@ -61,14 +67,13 @@ export default class QuestionComponent extends React.Component {
                     <div className={showingHelp ? 'help-text expanded' : 'help-text collapsed'}>
                         <br />
                         {helpText}
+                        <div className="answers">
+                            {nonAnswers}
+                        </div>
                     </div>
                 </div>
                 <div className="answers">
                     {answers}
-                </div>
-                <div className="feedback">
-                    <label for={`${question.key}.feedback`}>Feedback</label>
-                    <textarea id={`${question.key}.feedback`} placeholder="tell us any thoughts on this question?" />
                 </div>
                 <div className="navigation">
                     {prevQuestion && <a href={`#${prevQuestion.key}`} className="prev button">Previous</a>}

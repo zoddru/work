@@ -17,6 +17,11 @@ export default class Question {
         this.help = help;
         this.answers = Object.freeze(Answer.createArray(this, answers));
 
+        this.nonAnswers = Object.freeze(Answer.createArray(this, [
+            { value: 'NOT_KNOWN', text: 'Don\'t know' },
+            { value: 'NOT_UNDERSTOOD', text: 'Don\'t understand' }
+        ]));
+
         Object.freeze(this);
     }
 
@@ -35,7 +40,7 @@ export default class Question {
     }
 
     findAnswerByValue(value) {
-        return this.answers.find(a => a.value === value);
+        return this.answers.find(a => a.value === value) || this.nonAnswers.find(a => a.value === value);
     }
 
     get prev() {

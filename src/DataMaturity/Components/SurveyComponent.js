@@ -79,6 +79,10 @@ export default class SurveyComponent extends React.Component {
                         <p>
                             Some preview of the results, or some mechanism to find them.
                         </p>
+                        <div className="feedback">
+                            <label for={`feedback`}>Feedback</label>
+                            <textarea id={`.feedback`} placeholder="tell us any thoughts on this survey?" />
+                        </div>
                     </main>
                 </section>
             </section>
