@@ -8,8 +8,13 @@ const defaultAnswers = Object.freeze([
     { value: 2, text: 'strongly agree' }
 ]);
 
+const defaultNonAnswers = Object.freeze([
+    { value: 'NOT_KNOWN', text: 'don\'t know' },
+    { value: 'NOT_UNDERSTOOD', text: 'don\'t understand' }
+]);
+
 export default class Question {
-    constructor({ section = {}, identifier = 0, text = '', help = '', answers = defaultAnswers }) {
+    constructor({ section = {}, identifier = 0, text = '', help = '', answers = defaultAnswers, nonAnswers = defaultNonAnswers }) {
 
         this.section = section;
         this.identifier = identifier;
@@ -17,10 +22,7 @@ export default class Question {
         this.help = help;
         this.answers = Object.freeze(Answer.createArray(this, answers));
 
-        this.nonAnswers = Object.freeze(Answer.createArray(this, [
-            { value: 'NOT_KNOWN', text: 'Don\'t know' },
-            { value: 'NOT_UNDERSTOOD', text: 'Don\'t understand' }
-        ]));
+        this.nonAnswers = Object.freeze(Answer.createArray(this, nonAnswers));
 
         Object.freeze(this);
     }

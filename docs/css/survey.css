@@ -169,7 +169,7 @@ a.expand {
 }
 
 .question .answer {
-    flex-grow: 1;
+    flex-grow: 0.2;
     position: relative;
     display: block;
 }
@@ -223,6 +223,8 @@ a.expand {
 
 .end .feedback {
     margin-top: 4rem;
+    min-height: 60rem;
+    min-height: 100vh; /* should be dynamic 100% of  */
 }
 
 .feedback textarea {
