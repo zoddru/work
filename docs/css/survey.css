@@ -73,6 +73,10 @@ nav.progress .node:last-child {
     max-width: 100rem;
 }
 
+.section > header {
+    padding-top: 4rem;
+}
+
 .question {
     position: relative;
     border-left: 1rem solid #92278F;
@@ -177,20 +181,19 @@ a.expand {
 
 .question .navigation {
     position: relative;
+    height: 2.8rem;
 }
 
-.question .prev {
-    display: inline-block;
+.question .prev,
+.question .next {
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: auto;
 }
 
 .question .next {
-    position: absolute;
     left: auto;
-    top: 0;
     right: 0;
-}
-
-.question:first-child .prev,
-.question:last-child .next {
-    visibility: hidden;
 }

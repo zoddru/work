@@ -1,3 +1,5 @@
+import Answer from './Answer';
+
 const defaultAnswers = Object.freeze([
     { value: -2, text: 'strongly disagree' }, 
     { value: -1, text: 'disagree' }, 
@@ -13,7 +15,7 @@ export default class Question {
         this.identifier = identifier;
         this.text = text;
         this.help = help;
-        this.answers = Object.freeze(answers.slice());
+        this.answers = Object.freeze(Answer.createArray(this, answers));
 
         Object.freeze(this);
     }
@@ -30,6 +32,48 @@ export default class Question {
             const answers = Array.isArray(d.answers) ? d.answers : defaultAnswers;
             return new Question({ section, identifier, text, help, answers });
         });
+    }
+
+    findAnswerByValue(value) {
+        return this.answers.find(a => a.value === value);
+    }
+
+    get prev() {
+        const questions = this.section.questions;
+        const index = questions.indexOf(this);
+
+        if (index < 0)
+            return null;
+        
+        if (index > 0)
+            return questions[index - 1];
+
+        // index === 0
+        const prevSection = this.section.prev;
+
+        if (!prevSection)
+            return null;
+
+        return prevSection.lastQuestion();
+    }
+
+    get next() {
+        const questions = this.section.questions;
+        const index = questions.indexOf(this);
+
+        if (index < 0)
+            return null;
+            
+        if (index < questions.length - 1)
+            return questions[index + 1];
+
+        // index === 0
+        const nextSection = this.section.next;
+
+        if (!nextSection)
+            return null;
+
+        return nextSection.firstQuestion();
     }
 
     get key() {

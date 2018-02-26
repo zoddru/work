@@ -11,6 +11,18 @@ export default class Survey {
 
         Object.freeze(this);
     }
+    
+    firstSection() {
+        if (!!this.sections.length)
+            return null;
+        return this.sections[0];
+    }
+
+    lastSection() {
+        if (!!this.sections.length)
+            return null;
+        return this.sections[this.sections.length - 1];
+    }
 
     get key() {
         return `survey${this.identifier}`;

@@ -1,40 +1,30 @@
 import React from 'react';
-import QuestionComponent from './QuestionComponent';
+import SectionComponent from './SectionComponent';
 import Survey from '../Survey';
 
 export default class SurveyComponent extends React.Component {
     constructor(props) {
         super(props);
 
-        const survey = new Survey(props.data);
-
-        this.state = { survey, answers: [] };
+        this.survey = new Survey(props.data);
+        this.responses = new Map();
     }
 
-    answered(question, answer) {
-        const { survey, answers } = this.state;
-
-        const index = survey.questions.indexOf(question);
-
-        if (index < 0)
-            return;
-
-        answers[index] = answer;
-
-        this.setState({ answers });
+    onAnswered(question, answer) {
+        this.responses.set(question, answer);
     }
 
     render() {
-        const { survey, answers } = this.state;
+        const { survey, responses } = this;
 
-        const questions = survey.questions
-            .map(q => <QuestionComponent key={q.id} question={q} onAnswered={this.answered.bind(this)} />);
+        const sections = survey.sections
+            .map(section => <SectionComponent key={section.key} section={section} onAnswered={this.onAnswered.bind(this)} />);
 
-        const nodes = survey.questions
-            .map((q, i) => {
-                const a = answers[i];
+        const nodes = survey.sections
+            .map((section, i) => {
+                const a = false; //answers[i];
                 const className = !!a ? 'node answered' : 'node';
-                return <div className={className} key={q.id}><a href={`#question.${q.id}`} className="number">{q.number}</a></div>;
+                return <div className={className} key={section.key}><a href={`#${section.key}`} className="number">{section.identifier}</a></div>;
             });
 
         return <div>
@@ -42,7 +32,7 @@ export default class SurveyComponent extends React.Component {
                 {nodes}
             </nav>
             <section class="survey">
-                {questions}
+                {sections}
             </section>
         </div>;
     }

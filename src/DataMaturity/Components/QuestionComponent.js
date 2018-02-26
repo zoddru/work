@@ -15,7 +15,8 @@ export default class QuestionComponent extends React.Component {
     }
 
     selectAnswer(e) {
-        const answer = e.target.value;
+        const answerValue = parseInt(e.target.value);
+        const answer = this.question.findAnswerByValue(answerValue);
         this.setState({ answer });
         this.props.onAnswered(this.question, answer);
     }
@@ -27,19 +28,18 @@ export default class QuestionComponent extends React.Component {
 
     render() {
         const question = this.question;
-        const questionName = `question.${question.id}`;
-        const prevQuestionName = `question.${question.id - 1}`;
-        const nextQuestionName = `question.${question.id + 1}`;
+        const answer = this.state.answer;
 
-        const answers = this.question.answers.map((a, i) => {
-            const name = `${questionName}.answer`;
-            const id = `${name}.${i}`;
-            const isSelected = this.state.answer === a;
+        const prevQuestion = question.prev;
+        const nextQuestion = question.next;
+
+        const answers = question.answers.map((a, i) => {
+            const isSelected = answer === a;
             const className = isSelected ? 'answer selected' : 'answer';
 
-            return <div key={id} className={className}>
-                <input id={id} name={name} checked={isSelected} type="radio" value={a} onChange={this.selectAnswer.bind(this)} />
-                <label for={id}>{a}</label>
+            return <div key={a.key} className={className}>
+                <input id={a.key} name={a.key} checked={isSelected} type="radio" value={a.value} onChange={this.selectAnswer.bind(this)} />
+                <label for={a.key}>{a.text}</label>
             </div>;
         });
 
@@ -47,14 +47,13 @@ export default class QuestionComponent extends React.Component {
         const helpText = parseText(question.help);
 
         const showingHelp = this.state.showingHelp;
-        
-        return <section className="question" id={questionName}>
-            <span className="number">{question.number}</span>
-            <header>
-                <h2>Question {question.number}</h2>
-            </header>
-            <main>
 
+        return <section className="question" id={question.key}>
+            <span className="number">{question.identifier}</span>
+            <header>
+                <h3>Question {question.identifier}</h3>
+            </header>
+            {<main>
                 <div className="text">
                     {questionText}
                 </div>
@@ -69,14 +68,14 @@ export default class QuestionComponent extends React.Component {
                     {answers}
                 </div>
                 <div className="feedback">
-                    <label for={`${question.id}.feedback`}>Feedback</label>
-                    <textarea id={`${question.id}.feedback`} placeholder="tell us any thoughts on this question?" />
+                    <label for={`${question.key}.feedback`}>Feedback</label>
+                    <textarea id={`${question.key}.feedback`} placeholder="tell us any thoughts on this question?" />
                 </div>
                 <div className="navigation">
-                    <a href={`#${prevQuestionName}`} className="prev button">Previous</a>
-                    <a href={`#${nextQuestionName}`} className="next button">Next</a>
+                    {prevQuestion && <a href={`#${prevQuestion.key}`} className="prev button">Previous</a>}
+                    {nextQuestion && <a href={`#${nextQuestion.key}`} className="next button">Next</a>}
                 </div>
-            </main>
+            </main>}
         </section>;
     }
 }
