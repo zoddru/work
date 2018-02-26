@@ -24,12 +24,21 @@ export default class SurveyComponent extends React.Component {
             .map((section, i) => {
                 const a = false; //answers[i];
                 const className = !!a ? 'node answered' : 'node';
-                return <div className={className} key={section.key}><a href={`#${section.key}`} className="number">{section.identifier}</a></div>;
+                return <li className={className} key={section.key}>
+                    <a href={`#${section.key}`} className="number">{section.identifier}</a>
+                    {/* <ul>
+                        <li class="node">
+                            <a href="#" className="number">1</a>
+                        </li>
+                    </ul> */}
+                </li>;
             });
 
         return <div>
             <nav className="progress">
-                {nodes}
+                <ul>
+                    {nodes}
+                </ul>
             </nav>
             <section class="survey">
                 {sections}

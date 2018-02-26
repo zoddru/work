@@ -8,14 +8,25 @@ nav.progress {
     bottom: 0;
     left: 0;
     width: 10rem;
-    padding: 4rem 0;
     text-align: center;
+}
+
+nav.progress > ul {
+    position: absolute;
+    top: 4rem;
+    bottom: 4rem;
+    left: 0;
+    right: 0;
+    
+    list-style: none;
+    margin: 0;
+    padding: 0;
 
     display: flex;
     flex-direction: column;
 }
 
-nav.progress .node {
+nav.progress > ul > li.node {
     display: block;
     position: relative;
     min-height: 3rem;
