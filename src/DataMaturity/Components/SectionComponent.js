@@ -18,7 +18,7 @@ export default class SectionComponent extends React.Component {
         const questions = section.questions
             .map(question => <QuestionComponent key={question.key} question={question} onAnswered={this.onAnswered} />);
 
-        return <section class="section" id={section.key}>
+        return <section className="section" id={section.key}>
             <header>
                 <h2>{section.title}</h2>
             </header>

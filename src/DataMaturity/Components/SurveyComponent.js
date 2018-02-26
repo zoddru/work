@@ -20,11 +20,34 @@ export default class SurveyComponent extends React.Component {
         });
     }
 
-    gotoSection(section) {
+    expandSection(section) {
         this.setState({ section });
     }
 
-    gotoQuestion(question) {
+    expandQuestion(question) {
+    }
+
+    handleScroll(event) {
+        const sectionEls = Array.from(window.document.querySelectorAll('.section'));
+        const topSectionEl = sectionEls.find(s => s.getBoundingClientRect().y >= 0);
+        
+        if (!topSectionEl)
+            return;
+
+        const sectionKey = topSectionEl.id;
+        const section = this.survey.sections.find(s => s.key === sectionKey);
+
+        this.expandSection(section);
+    }
+
+    componentDidMount() {
+        window.addEventListener('scroll', this.handleScroll.bind(this));
+        window.addEventListener('resize', this.handleScroll.bind(this));
+    }
+
+    componentWillUnmount() {
+        window.removeEventListener('scroll', this.handleScroll.bind(this));
+        window.removeEventListener('resize', this.handleScroll.bind(this));
     }
 
     render() {
@@ -44,7 +67,7 @@ export default class SurveyComponent extends React.Component {
                     : "node";
 
             nodes.push(<div className={sectionClassName} key={section.key}>
-                <a href={`#${section.key}`} className="number" onClick={() => this.gotoSection(section)}>{section.identifier}</a>
+                <a href={`#${section.key}`} className="number" onClick={() => this.expandSection(section)}>{section.identifier}</a>
             </div>);
 
             if (section !== state.section)
@@ -53,25 +76,25 @@ export default class SurveyComponent extends React.Component {
             section.questions.forEach((question, j) => {
                 const questionClassName = !!responses.get(question) ? "node sub-node answered" : "node sub-node";
                 nodes.push(<div className={questionClassName} key={question.key}>
-                    <a href={`#${question.key}`} className="number" onClick={() => this.gotoQuestion(question)}>{question.identifier}</a>
+                    <a href={`#${question.key}`} className="number" onClick={() => this.expandQuestion(question)}>{question.identifier}</a>
                 </div>);
             });
         });
 
         return <div>
             <nav className="progress">
-                <div class="node">
+                <div className="node">
                     <a href="#start" className="text">Start</a>
                 </div>
                 {nodes}
-                <div class="node">
+                <div className="node">
                     <a href="#end" className="text">Finish</a>
                 </div>
             </nav>
-            <section class="survey">
+            <section className="survey">
                 {sections}
 
-                <section class="section end" id="end">
+                <section className="section end" id="end">
                     <header>
                         <h2>Finished</h2>
                     </header>
