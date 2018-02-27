@@ -14,14 +14,14 @@ const defaultNonAnswers = Object.freeze([
 ]);
 
 export default class Question {
-    constructor({ section = {}, identifier = 0, text = '', help = '', answers = defaultAnswers, nonAnswers = defaultNonAnswers }) {
+    constructor({ section = {}, identifier = 0, text = '', help = '', category = '', answers = defaultAnswers, nonAnswers = defaultNonAnswers }) {
 
         this.section = section;
         this.identifier = identifier;
         this.text = text;
         this.help = help;
+        this.category = category;
         this.answers = Object.freeze(Answer.createArray(this, answers));
-
         this.nonAnswers = Object.freeze(Answer.createArray(this, nonAnswers));
 
         Object.freeze(this);
@@ -36,8 +36,9 @@ export default class Question {
             const identifier = d.identifier || `${i + 1}`;
             const text = d.text || '';
             const help = d.help || '';
+            const category = d.category || '';
             const answers = Array.isArray(d.answers) ? d.answers : defaultAnswers;
-            return new Question({ section, identifier, text, help, answers });
+            return new Question({ section, identifier, text, help, category, answers });
         });
     }
 
@@ -85,5 +86,10 @@ export default class Question {
 
     get key() {
         return `${this.section.key}.question${this.identifier}`;
+    }
+
+    get insertSql() {
+        const { section, identifier, text, help, category } = this;
+        return `insert into Question (section, identifier, [text], help, category) values ('${section.identifier}', '${identifier}', '${text}', '${help}', '${category}');`;
     }
 }

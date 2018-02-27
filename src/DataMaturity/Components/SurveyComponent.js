@@ -1,14 +1,11 @@
 import React from 'react';
 import SectionComponent from './SectionComponent';
-import Survey from '../Survey';
-
-
 
 export default class SurveyComponent extends React.Component {
     constructor(props) {
         super(props);
 
-        this.survey = new Survey(props.data);
+        this.survey = props.survey;
 
         this.state = {
             responses: new Map(),
