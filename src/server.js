@@ -138,7 +138,7 @@ const app = express()
         res.end();
     })
 
-    .get('/wait/:time', (req, res) => {
+    .get('/wait/:time*', (req, res) => {
         const time = parseInt(req.params.time);
         const start = Date.now();
 
@@ -148,6 +148,16 @@ const app = express()
             res.setHeader('Content-Type', 'application/json');
             res.send(JSON.stringify({ time, start, end, diff }));
         }, time);
+    })
+
+    .get(/dataMaturity\/api\/(.+)/, (req, res) => {
+        const path = req.params[0];
+        const uri = `http://api.dataMaturity.esd.org.uk/${path}`;
+        const qs = req.query;
+        //res.setHeader('Content-Type', 'application/json');
+        //res.send(JSON.stringify({ fullPath }));
+
+        req.pipe(request({ qs, uri })).pipe(res);
     })
 
     .get(/data\/(.+)/, (req, res) => {
