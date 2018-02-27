@@ -58,7 +58,7 @@ export default class QuestionComponent extends React.Component {
             <header>
                 <h3>Question {question.identifier}</h3>
             </header>
-            {<main>
+            <main>
                 <div className="text">
                     {questionText}
                 </div>
@@ -74,14 +74,16 @@ export default class QuestionComponent extends React.Component {
                 </div>
                 <div className="answers">
                     {answers}
-                </div>
+                </div>                
+            </main>
+            <footer>
                 <div className="navigation">
-                    {prevQuestion && <a href={`#${prevQuestion.key}`} className="prev button">Previous</a>}
-                    {!!nextQuestion 
-                        ? <a href={`#${nextQuestion.key}`} className="next button">Next</a> 
-                        : <a href="#end" className="next button">Next</a>}
-                </div>
-            </main>}
+                        {prevQuestion && <a href={`#${prevQuestion.key}`} className="prev button">Previous</a>}
+                        {!!nextQuestion 
+                            ? <a href={`#${nextQuestion.key}`} className="next button">Next</a> 
+                            : <a href="#end" className="next button">Next</a>}
+                    </div>
+            </footer>
         </section>;
     }
 }
