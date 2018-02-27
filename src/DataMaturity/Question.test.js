@@ -15,7 +15,8 @@ test('create', t => {
     t.is(q.key, `${section.key}.question10`);
 
     Question.defaultAnswers.forEach((a, i) => {
-        t.is(q.answers[i], a);
+        t.is(q.answers[i].value, a.value);
+        t.is(q.answers[i].text, a.text);
     });
 });
 
