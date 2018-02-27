@@ -2,6 +2,8 @@ import React from 'react';
 import SectionComponent from './SectionComponent';
 import Survey from '../Survey';
 
+
+
 export default class SurveyComponent extends React.Component {
     constructor(props) {
         super(props);
@@ -27,15 +29,21 @@ export default class SurveyComponent extends React.Component {
     expandQuestion(question) {
     }
 
-    handleScroll(event) {
-        const sectionEls = Array.from(window.document.querySelectorAll('.section'));
-        const topSectionEl = sectionEls.find(s => s.getBoundingClientRect().y >= 0);
-        
+    findTopSection() {
+        const sectionEls = Array.from(window.document.querySelectorAll('.section')).reverse();
+        const height = window.innerHeight;
+        const topSectionEl = sectionEls.find(s => s.getBoundingClientRect().y < window.innerHeight);
+       
         if (!topSectionEl)
-            return;
+            return null;
 
         const sectionKey = topSectionEl.id;
-        const section = this.survey.sections.find(s => s.key === sectionKey);
+
+        return this.survey.sections.find(s => s.key === sectionKey);
+    }
+
+    handleScroll() {
+        const section = this.findTopSection();
 
         this.expandSection(section);
     }
@@ -61,21 +69,18 @@ export default class SurveyComponent extends React.Component {
 
         survey.sections.forEach((section, i) => {
             const sectionClassName = section.hasBeenAnswered(responses)
-                ? "node answered"
-                : section.hasBeenStarted(responses)
-                    ? "node started"
-                    : "node";
+                ? 'answered' 
+                : section.hasBeenStarted(responses) ? 'started' : '';
 
-            nodes.push(<div className={sectionClassName} key={section.key}>
-                <a href={`#${section.key}`} className="number" onClick={() => this.expandSection(section)}>{section.identifier}</a>
+            nodes.push(<div className={`node ${sectionClassName}`} key={section.key}>
+                <a href={`#${section.key}`} className="number">{section.identifier}</a>
             </div>);
 
-            if (section !== state.section)
-                return;
+            const stateClassName = (section !== state.section) ? 'collapsed' : ''
 
             section.questions.forEach((question, j) => {
-                const questionClassName = !!responses.get(question) ? "node sub-node answered" : "node sub-node";
-                nodes.push(<div className={questionClassName} key={question.key}>
+                const questionClassName = !!responses.get(question) ? 'answered' : '';
+                nodes.push(<div className={`node sub-node ${stateClassName} ${questionClassName}`} key={question.key}>
                     <a href={`#${question.key}`} className="number" onClick={() => this.expandQuestion(question)}>{question.identifier}</a>
                 </div>);
             });

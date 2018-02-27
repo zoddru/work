@@ -1,3 +1,7 @@
+html {
+    scroll-behavior: smooth;
+}
+
 body > header,
 .survey {
     margin-left: 10rem;
@@ -30,10 +34,14 @@ nav.progress .node {
 
     flex-grow: 1;
 
-    transition: 0.15s background-color, color;
+    transition: 150ms border-color ease-out, 150ms flex-grow ease-in-out;
 }
 
-nav.progress .node:last-child {
+nav.progress .node.collapsed {
+    flex-grow: 0;
+}
+
+nav.progress .node:first-child {
     flex-grow: 0;
     border: none;
 }
@@ -42,7 +50,7 @@ nav.progress .number,
 nav.progress .text {
     position: absolute;
     background-color: #E2E3E7;
-    top: -1.5rem;
+    bottom: -1.5rem;
     left: -1.5rem;
     width: 3rem;
     height: 3rem;
@@ -54,16 +62,20 @@ nav.progress .text {
     font-weight: bold;
     border-radius: 50%;
 
-    transition: 0.15s background-color, color;
+    transition: background-color 150ms ease-out, color 150ms ease-out;
     user-select: none;
+
+    z-index: 9;
 }
 
 nav.progress .sub-node .number {
     width: 2rem;
     height: 2rem;
     font-size: 1rem;
-    top: -1rem;
+    bottom: -1rem;
     left: -1rem;
+
+    z-index: 4;
 }
 
 nav.progress .text {
