@@ -233,10 +233,13 @@ a.expand {
     right: 0;
 }
 
+.section.end {    
+    min-height: 100vh; /* should be dynamic 100% of  */
+}
+
 .end .feedback {
     margin-top: 4rem;
     min-height: 60rem;
-    min-height: 100vh; /* should be dynamic 100% of  */
 }
 
 .feedback textarea {
