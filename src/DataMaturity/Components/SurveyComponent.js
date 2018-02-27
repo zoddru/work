@@ -33,7 +33,7 @@ export default class SurveyComponent extends React.Component {
         const sectionEls = Array.from(window.document.querySelectorAll('.section')).reverse();
         const height = window.innerHeight;
         const topSectionEl = sectionEls.find(s => s.getBoundingClientRect().y < window.innerHeight);
-       
+
         if (!topSectionEl)
             return null;
 
@@ -61,6 +61,8 @@ export default class SurveyComponent extends React.Component {
     render() {
         const { survey, state } = this;
         const { responses } = state;
+        const firstSection = survey.firstSection();
+        const firstQuestion = !!firstSection ? firstSection.firstQuestion() : null;
 
         const sections = survey.sections
             .map(section => <SectionComponent key={section.key} section={section} onAnswered={this.onAnswered.bind(this)} />);
@@ -69,7 +71,7 @@ export default class SurveyComponent extends React.Component {
 
         survey.sections.forEach((section, i) => {
             const sectionClassName = section.hasBeenAnswered(responses)
-                ? 'answered' 
+                ? 'answered'
                 : section.hasBeenStarted(responses) ? 'started' : '';
 
             nodes.push(<div className={`node ${sectionClassName}`} key={section.key}>
@@ -81,7 +83,7 @@ export default class SurveyComponent extends React.Component {
             section.questions.forEach((question, j) => {
                 const questionClassName = !!responses.get(question) ? 'answered' : '';
                 nodes.push(<div className={`node sub-node ${stateClassName} ${questionClassName}`} key={question.key}>
-                    <a href={`#${question.key}`} className="number" onClick={() => this.expandQuestion(question)}>{question.identifier}</a>
+                    <a href={`#${question.key}`} className="number">{question.identifier}</a>
                 </div>);
             });
         });
@@ -97,6 +99,22 @@ export default class SurveyComponent extends React.Component {
                 </div>
             </nav>
             <section className="survey">
+                <section className="section start question" id="start">
+                    <header>
+                        <h2>Data Maturity</h2>
+                    </header>
+                    <main>
+                        <p>
+                            Collect some details about the user here, or they can skip that and enter it later
+                        </p>
+                    </main>
+                    <footer>
+                        <div className="navigation">
+                            {firstQuestion && <a href={`#${firstQuestion.key}`} className="next button">Start</a>}
+                        </div>
+                    </footer>
+                </section>
+
                 {sections}
 
                 <section className="section end" id="end">

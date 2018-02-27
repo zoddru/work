@@ -2,7 +2,10 @@ html {
     scroll-behavior: smooth;
 }
 
-body > header,
+body > header {
+    padding: 0;
+}
+
 .survey {
     margin-left: 10rem;
 }
@@ -123,8 +126,20 @@ nav.progress .node.answered .number:hover {
     padding-top: 4rem;
 }
 
+.section.start main,
 .section.end main {
     padding-top: 4rem;
+}
+
+.start-button {
+    height: 6rem;
+    padding: 2rem;
+    text-align: center;
+}
+
+.start-button .button {
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .question {
@@ -241,6 +256,7 @@ a.expand {
     right: 0;
 }
 
+.section.start,
 .section.end {    
     min-height: 100vh; /* should be dynamic 100% of  */
 }

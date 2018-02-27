@@ -13,13 +13,13 @@ export default class Survey {
     }
     
     firstSection() {
-        if (!!this.sections.length)
+        if (!this.sections.length)
             return null;
         return this.sections[0];
     }
 
     lastSection() {
-        if (!!this.sections.length)
+        if (!this.sections.length)
             return null;
         return this.sections[this.sections.length - 1];
     }
