@@ -4,45 +4,227 @@
     "sections": [
         {
             "identifier": "A",
-            "title": "Section A",
+            "title": "Data Management",
             "questions": [
-                { "text": "Question A.1", "help": "Help A.1" },
-                { "text": "Question A.2", "help": "Help A.2" },
-                { "text": "Question A.3", "help": "Help A.3" }
+                {
+                    "category": "Collection",
+                    "text": "Unique identifiers are employed to facilitate linking of commonly used data (e.g UPRN for property data).",
+                    "help": "Unique identifiers are employed to facilitate linking of commonly used data (e.g UPRN for property data)."
+                },
+                {
+                    "category": "Collection",
+                    "text": "The organisation has clear standards in place to inform how commonly used data is recorded (e.g. address or names).",
+                    "help": "The organisation has clear standards in place to inform how commonly used data is recorded (e.g. address or names)."
+                },
+                {
+                    "category": "Quality",
+                    "text": "Is the quality of data regularly problematic in terms of frequent and/or repeatable operations?",
+                    "help": "Is the quality of data regularly problematic in terms of frequent and/or repeatable operations?"
+                },
+                {
+                    "category": "Organisation",
+                    "text": "Does your organisation have repeatable/documented processes to undertake the most frequent data operations?",
+                    "help": "Does your organisation have repeatable/documented processes to undertake the most frequent data operations?"
+                },
+                {
+                    "category": "Organisation",
+                    "text": "What does the function of data architecture do in your organisation (if it exists)?",
+                    "help": "What does the function of data architecture do in your organisation (if it exists)?"
+                },
+                {
+                    "category": "Organisation",
+                    "text": "How easy is to access and explore organisational data?",
+                    "help": "How easy is to access and explore organisational data?"
+                },
+                {
+                    "category": "Organisation",
+                    "text": "Do you have access to all of your data collected in externally contracted services?",
+                    "help": "Do you have access to all of your data collected in externally contracted services?"
+                },
+                {
+                    "category": "Collection",
+                    "text": "What is the most commonly used method of data collection and entry?",
+                    "help": "What is the most commonly used method of data collection and entry?"
+                },
+                {
+                    "category": "Collection",
+                    "text": "To what extent is data collection automated?",
+                    "help": "To what extent is data collection automated?"
+                },
+                {
+                    "category": "Collection",
+                    "text": "The purpose of data collection is clearly articulated and understood in the majority of cases by the majority of staff",
+                    "help": "The purpose of data collection is clearly articulated and understood in the majority of cases by the majority of staff"
+                },
+                {
+                    "category": "Collection",
+                    "text": "The organisation collects data for which there is no clear rationale.",
+                    "help": "The organisation collects data for which there is no clear rationale."
+                },
+                {
+                    "category": "Quality",
+                    "text": "Do you measure data quality, if so, do you set your metrics and who monitors them?",
+                    "help": "Do you measure data quality, if so, do you set your metrics and who monitors them?"
+                },
+                {
+                    "category": "Quality",
+                    "text": "Is there executive or senior-level ownership over the data management process?",
+                    "help": "Is there executive or senior-level ownership over the data management process?"
+                }
             ]
         },
         {
             "identifier": "B",
-            "title": "Section B",
+            "title": "Data use",
             "questions": [
-                { "text": "Question B.1", "help": "Help B.1" },
-                { "text": "Question B.2", "help": "Help B.2" }
+                {
+                    "category": "Decision Making",
+                    "text": "How does data support evidence-based decision making?",
+                    "help": "How does data support evidence-based decision making?"
+                },
+                {
+                    "category": "Decision Making",
+                    "text": "Data is used to inform decision-making across all levels of the organisation - from operational decisions on the front line to strategic decisions in the executive office. ",
+                    "help": "Data is used to inform decision-making across all levels of the organisation - from operational decisions on the front line to strategic decisions in the executive office. "
+                },
+                {
+                    "category": "Performance and evaluation",
+                    "text": "How is data used to evaluate services and performance? ",
+                    "help": "How is data used to evaluate services and performance? "
+                },
+                {
+                    "category": "Optimisation ",
+                    "text": "How is data used to optimise processes and improve services?",
+                    "help": "How is data used to optimise processes and improve services?"
+                },
+                {
+                    "category": "Decision Making",
+                    "text": "How is data presented in the organisation? ",
+                    "help": "How is data presented in the organisation? "
+                },
+                {
+                    "category": "Decision Making",
+                    "text": "Data and analysis are communicated in accessible formats that are easily understood by non-experts",
+                    "help": "Data and analysis are communicated in accessible formats that are easily understood by non-experts"
+                },
+                {
+                    "category": "Decision Making",
+                    "text": "Data analysis is most frequently requested after a decision has been made, as evidence to support the decision.  ",
+                    "help": "Data analysis is most frequently requested after a decision has been made, as evidence to support the decision.  "
+                }
             ]
         },
         {
             "identifier": "C",
-            "title": "Section C",
+            "title": "Data Governance",
             "questions": [
-                { "text": "Question C.1", "help": "Help C.1" },
-                { "text": "Question C.2", "help": "Help C.2" }
+                {
+                    "category": "Data Governance",
+                    "text": "How is data shared across the organisation, for the purpose of analysis?",
+                    "help": "How is data shared across the organisation, for the purpose of analysis?"
+                },
+                {
+                    "category": "Data Governance",
+                    "text": "How is data sharing perceived by the organisation?",
+                    "help": "How is data sharing perceived by the organisation?"
+                },
+                {
+                    "category": "Data Governance",
+                    "text": "Is there an executive-level member in the organisation who is responsible for data governance and who is positive in driving data sharing?",
+                    "help": "Is there an executive-level member in the organisation who is responsible for data governance and who is positive in driving data sharing?"
+                },
+                {
+                    "category": "Data Governance",
+                    "text": "Changes to information governance legislation are understood and planned for in advance.",
+                    "help": "Changes to information governance legislation are understood and planned for in advance."
+                },
+                {
+                    "category": "Data Governance",
+                    "text": "How complete is your Information Asset Register (IAR), and how often is it reviewed and updated?",
+                    "help": "How complete is your Information Asset Register (IAR), and how often is it reviewed and updated?"
+                },
+                {
+                    "category": "Data Governance",
+                    "text": "Has a permanent owner for the Information Asset Register been appointed?",
+                    "help": "Has a permanent owner for the Information Asset Register been appointed?"
+                }
             ]
         },
         {
             "identifier": "D",
-            "title": "Section D",
+            "title": "Data Skills and Capability",
             "questions": [
-                { "text": "Question D.1", "help": "Help D.1" },
-                { "text": "Question D.2", "help": "Help D.2" }
+                {
+                    "category": "Data Skills and Capability",
+                    "text": "Does the organisation rely on outsourcing data-related competencies?",
+                    "help": "Does the organisation rely on outsourcing data-related competencies?"
+                },
+                {
+                    "category": "Data Skills and Capability",
+                    "text": "Does the organisation provide or offer access to any data-related training? Is training mandated or  purely voluntary?",
+                    "help": "Does the organisation provide or offer access to any data-related training? Is training mandated or  purely voluntary?"
+                },
+                {
+                    "category": "Data Skills and Capability",
+                    "text": "The number of data analysts (or similar role) is sufficient to meet the analytic demands of the organisation.",
+                    "help": "The number of data analysts (or similar role) is sufficient to meet the analytic demands of the organisation."
+                },
+                {
+                    "category": "Data Skills and Capability",
+                    "text": "The organisation has invested in tools and systems that have helped to augment the analytic capacity of the organisation.",
+                    "help": "The organisation has invested in tools and systems that have helped to augment the analytic capacity of the organisation."
+                },
+                {
+                    "category": "Data Skills and Capability",
+                    "text": "How closely do data analysts (and similar roles) work with delivery, strategy and other teams?",
+                    "help": "How closely do data analysts (and similar roles) work with delivery, strategy and other teams?"
+                },
+                {
+                    "category": "Data Skills and Capability",
+                    "text": "What is the organisations approach/capability around data analytics?",
+                    "help": "What is the organisations approach/capability around data analytics?"
+                }
             ]
         },
         {
             "identifier": "E",
-            "title": "Section E",
+            "title": "Data Awareness and Culture",
             "questions": [
-                { "text": "Question E.1", "help": "Help E.1" },
-                { "text": "Question E.2", "help": "Help E.2" },
-                { "text": "Question E.3", "help": "Help E.3" },
-                { "text": "Question E.4", "help": "Help E.4" }
+                {
+                    "category": "Data Awareness and Culture",
+                    "text": "Political leaders have made statements that clearly demonstrate a high level of buy-in and understanding of using data more intelligently.",
+                    "help": "Political leaders have made statements that clearly demonstrate a high level of buy-in and understanding of using data more intelligently."
+                },
+                {
+                    "category": "Data Awareness and Culture",
+                    "text": "Clear and explicit policies and/or strategies are in place to support greater and more intelligent use of data.",
+                    "help": "Clear and explicit policies and/or strategies are in place to support greater and more intelligent use of data."
+                },
+                {
+                    "category": "Data Awareness and Culture",
+                    "text": "How would you describe the level of organisational awareness of the value of data?",
+                    "help": "How would you describe the level of organisational awareness of the value of data?"
+                },
+                {
+                    "category": "Data Awareness and Culture",
+                    "text": "There are procurement policies in place that are tailored specifcially to data and analytics projects.",
+                    "help": "There are procurement policies in place that are tailored specifcially to data and analytics projects."
+                },
+                {
+                    "category": "Data Awareness and Culture",
+                    "text": "There is opportunity and time for data analysts (and similar roles) to engage in analytic work beyond their immediate job requirements.",
+                    "help": "There is opportunity and time for data analysts (and similar roles) to engage in analytic work beyond their immediate job requirements."
+                },
+                {
+                    "category": "Data Awareness and Culture",
+                    "text": "The organisation has strong data strategy in place, which has been well communicated.",
+                    "help": "The organisation has strong data strategy in place, which has been well communicated."
+                },
+                {
+                    "category": "Data Awareness and Culture",
+                    "text": "Our data strategy is embedded in wider policy documents.",
+                    "help": "Our data strategy is embedded in wider policy documents."
+                }
             ]
         }
     ],
