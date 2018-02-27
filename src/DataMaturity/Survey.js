@@ -1,27 +1,27 @@
-import Section from './Section';
+import Category from './Category';
 
 export default class Survey {
     constructor(data) {
 
-        const { identifier, title, sections } = data;
+        const { identifier, title, categories } = data;
 
         this.identifier = identifier;
         this.title = title;
-        this.sections = Object.freeze(Section.createArray(this, sections));
+        this.categories = Object.freeze(Category.createArray(this, categories));
 
         Object.freeze(this);
     }
     
-    firstSection() {
-        if (!this.sections.length)
+    firstCategory() {
+        if (!this.categories.length)
             return null;
-        return this.sections[0];
+        return this.categories[0];
     }
 
-    lastSection() {
-        if (!this.sections.length)
+    lastCategory() {
+        if (!this.categories.length)
             return null;
-        return this.sections[this.sections.length - 1];
+        return this.categories[this.categories.length - 1];
     }
 
     get key() {

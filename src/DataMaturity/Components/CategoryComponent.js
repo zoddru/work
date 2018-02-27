@@ -1,26 +1,26 @@
 import React from 'react';
 import QuestionComponent from './QuestionComponent';
-import Section from '../Section';
+import Category from '../Category';
 
-export default class SectionComponent extends React.Component {
+export default class CategoryComponent extends React.Component {
     constructor(props) {
         super(props);
 
-        const { section, onAnswered } = props;
+        const { category, onAnswered } = props;
 
-        this.section = section;
+        this.category = category;
         this.onAnswered = onAnswered;
     }
 
     render() {
-        const { section } = this;
+        const { category } = this;
 
-        const questions = section.questions
+        const questions = category.questions
             .map(question => <QuestionComponent key={question.key} question={question} onAnswered={this.onAnswered} />);
 
-        return <section className="section" id={section.key}>
+        return <section className="category" id={category.key}>
             <header>
-                <h2>{section.title}</h2>
+                <h2>{category.title}</h2>
             </header>
             {questions}
         </section>;

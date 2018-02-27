@@ -4,10 +4,10 @@ import Survey from './Survey';
 const data = {
     identifier: 'DM',
     title: 'Data Maturity',
-    sections: [
+    categories: [
         {
             identifier: 'A',
-            title: 'Section A',
+            title: 'Category A',
             questions: [
                 { text: 'Question A.1', help: 'Help A.1' },
                 { text: 'Question A.2', help: 'Help A.2' },
@@ -16,7 +16,7 @@ const data = {
         },
         {
             identifier: 'B',
-            title: 'Section B',
+            title: 'Category B',
             questions: [
                 { text: 'Question B.1', help: 'Help B.1' },
                 { text: 'Question B.2', help: 'Help B.2' }
@@ -31,12 +31,12 @@ test('create', t => {
     t.is(survey.key, 'surveyDM');
     t.is(survey.identifier, 'DM');
     t.is(survey.title, 'Data Maturity');
-    t.is(survey.sections.length, 2);
-    t.is(survey.sections[0].key, `${survey.key}.sectionA`);
-    t.is(survey.sections[1].identifier, 'B');
-    t.is(survey.sections[1].title, 'Section B');
-    t.is(survey.sections[0].questions.length, 3);
-    t.is(survey.sections[1].questions[1].key, `${survey.key}.sectionB.question2`);
-    t.is(survey.sections[1].questions[1].text, 'Question B.2');
-    t.is(survey.sections[0].questions[2].help, 'Help A.3');
+    t.is(survey.categories.length, 2);
+    t.is(survey.categories[0].key, `${survey.key}.categoryA`);
+    t.is(survey.categories[1].identifier, 'B');
+    t.is(survey.categories[1].title, 'Category B');
+    t.is(survey.categories[0].questions.length, 3);
+    t.is(survey.categories[1].questions[1].key, `${survey.key}.categoryB.question2`);
+    t.is(survey.categories[1].questions[1].text, 'Question B.2');
+    t.is(survey.categories[0].questions[2].help, 'Help A.3');
 });

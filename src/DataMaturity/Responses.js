@@ -9,15 +9,10 @@ export default class Responses {
     }
 
     static createArray(survey, data) {
-        return data.map((d, i) => {
-            const identifier = d.identifier || `${i + 1}`;
-            const title = d.title || '';
-            const questionData = Array.isArray(d.questions) ? d.questions : [];
-            return new Section({ survey, identifier, title, questionData });
-        });
+        // todo
     }
 
     get key() {
-        return `${this.survey.key}.section${this.identifier}`;
+        return `${this.survey.key}.category${this.identifier}`;
     }
 }

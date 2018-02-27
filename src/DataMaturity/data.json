@@ -1,7 +1,7 @@
 {
     "identifier": "DM",
     "title": "Data Maturity",
-    "sections": [
+    "categories": [
         {
             "identifier": "A",
             "title": "Data Management",

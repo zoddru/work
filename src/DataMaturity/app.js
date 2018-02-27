@@ -13,11 +13,3 @@ const app = document.getElementById('app');
 ReactDom.render(<SurveyComponent survey={survey} />, app);
 
 const sql = [];
-
-survey.sections.forEach(s => {
-    s.questions.forEach(q => {
-        sql.push(q.insertSql);
-    });
-});
-
-console.log(sql.join('\n'));

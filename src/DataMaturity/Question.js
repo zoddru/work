@@ -14,13 +14,13 @@ const defaultNonAnswers = Object.freeze([
 ]);
 
 export default class Question {
-    constructor({ section = {}, identifier = 0, text = '', help = '', category = '', answers = defaultAnswers, nonAnswers = defaultNonAnswers }) {
+    constructor({ category = {}, identifier = 0, text = '', help = '', subCategory = '', answers = defaultAnswers, nonAnswers = defaultNonAnswers }) {
 
-        this.section = section;
+        this.category = category;
         this.identifier = identifier;
         this.text = text;
         this.help = help;
-        this.category = category;
+        this.subCategory = subCategory;
         this.answers = Object.freeze(Answer.createArray(this, answers));
         this.nonAnswers = Object.freeze(Answer.createArray(this, nonAnswers));
 
@@ -31,14 +31,14 @@ export default class Question {
         return defaultAnswers;
     }
 
-    static createArray(section, data) {
+    static createArray(category, data) {
         return data.map((d, i) => {
             const identifier = d.identifier || `${i + 1}`;
             const text = d.text || '';
             const help = d.help || '';
-            const category = d.category || '';
+            const subCategory = d.subCategory || '';
             const answers = Array.isArray(d.answers) ? d.answers : defaultAnswers;
-            return new Question({ section, identifier, text, help, category, answers });
+            return new Question({ category, identifier, text, help, subCategory, answers });
         });
     }
 
@@ -47,7 +47,7 @@ export default class Question {
     }
 
     get prev() {
-        const questions = this.section.questions;
+        const questions = this.category.questions;
         const index = questions.indexOf(this);
 
         if (index < 0)
@@ -57,16 +57,16 @@ export default class Question {
             return questions[index - 1];
 
         // index === 0
-        const prevSection = this.section.prev;
+        const prevCategory = this.category.prev;
 
-        if (!prevSection)
+        if (!prevCategory)
             return null;
 
-        return prevSection.lastQuestion();
+        return prevCategory.lastQuestion();
     }
 
     get next() {
-        const questions = this.section.questions;
+        const questions = this.category.questions;
         const index = questions.indexOf(this);
 
         if (index < 0)
@@ -76,20 +76,20 @@ export default class Question {
             return questions[index + 1];
 
         // index === 0
-        const nextSection = this.section.next;
+        const nextCategory = this.category.next;
 
-        if (!nextSection)
+        if (!nextCategory)
             return null;
 
-        return nextSection.firstQuestion();
+        return nextCategory.firstQuestion();
     }
 
     get key() {
-        return `${this.section.key}.question${this.identifier}`;
+        return `${this.category.key}.question${this.identifier}`;
     }
 
     get insertSql() {
-        const { section, identifier, text, help, category } = this;
-        return `insert into Question (section, identifier, [text], help, category) values ('${section.identifier}', '${identifier}', '${text}', '${help}', '${category}');`;
+        const { category, identifier, text, help, subCategory } = this;
+        return `insert into Question (category, identifier, [text], help, subCategory) values ('${category.identifier}', '${identifier}', '${text}', '${help}', '${subCategory}');`;
     }
 }

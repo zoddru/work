@@ -1,5 +1,5 @@
 import test from 'ava';
-import Section from './Section';
+import Category from './Category';
 
 const survey = Object.freeze({ key: 'surveyA' });
 const questionData = [
@@ -9,13 +9,13 @@ const questionData = [
 ];
 
 test('create', t => {
-    const s = new Section({ survey, identifier: 'A', title: 'Section A', questionData });
+    const s = new Category({ survey, identifier: 'A', title: 'Category A', questionData });
 
     t.truthy(s);
     t.is(s.survey, survey);
     t.is(s.identifier, 'A');
-    t.is(s.title, 'Section A');
-    t.is(s.key, `${survey.key}.sectionA`);
+    t.is(s.title, 'Category A');
+    t.is(s.key, `${survey.key}.categoryA`);
 
     t.is(s.questions.length, 3);
 
@@ -25,7 +25,7 @@ test('create', t => {
 const data = [
     {
         identifier: 'A',
-        title: 'Section A',
+        title: 'Category A',
         questions: [
             { text: 'Question A1?', help: 'Help A1' },
             { text: 'Question A2?', help: 'Help A2' },
@@ -34,7 +34,7 @@ const data = [
     },
     {
         identifier: 'B',
-        title: 'Section B',
+        title: 'Category B',
         questions: [
             { text: 'Question B1?', help: 'Help B1' },
             { text: 'Question B2?', help: 'Help B2' }
@@ -43,13 +43,13 @@ const data = [
 ];
 
 test('create array', t => {
-    const sections = Section.createArray(survey, data);
+    const categories = Category.createArray(survey, data);
 
-    t.truthy(sections);
-    t.is(sections.length, data.length);
-    t.is(sections[0].identifier, 'A');
-    t.is(sections[1].title, 'Section B');
-    t.is(sections[0].questions.length, 3);
-    t.is(sections[1].questions[1].text, 'Question B2?');
-    t.is(sections[0].questions[2].help, 'Help A3');
+    t.truthy(categories);
+    t.is(categories.length, data.length);
+    t.is(categories[0].identifier, 'A');
+    t.is(categories[1].title, 'Category B');
+    t.is(categories[0].questions.length, 3);
+    t.is(categories[1].questions[1].text, 'Question B2?');
+    t.is(categories[0].questions[2].help, 'Help A3');
 });

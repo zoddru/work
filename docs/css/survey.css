@@ -122,12 +122,12 @@ nav.progress .node.answered .number:hover {
     max-width: 100rem;
 }
 
-.section > header {
+.category > header {
     padding-top: 4rem;
 }
 
-.section.start main,
-.section.end main {
+.category.start main,
+.category.end main {
     padding-top: 4rem;
 }
 
@@ -256,8 +256,8 @@ a.expand {
     right: 0;
 }
 
-.section.start,
-.section.end {    
+.category.start,
+.category.end {    
     min-height: 100vh; /* should be dynamic 100% of  */
 }
 

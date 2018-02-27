@@ -1,5 +1,5 @@
 import React from 'react';
-import SectionComponent from './SectionComponent';
+import CategoryComponent from './CategoryComponent';
 
 export default class SurveyComponent extends React.Component {
     constructor(props) {
@@ -9,7 +9,7 @@ export default class SurveyComponent extends React.Component {
 
         this.state = {
             responses: new Map(),
-            section: this.survey.firstSection()
+            category: this.survey.firstCategory()
         };
     }
 
@@ -19,30 +19,29 @@ export default class SurveyComponent extends React.Component {
         });
     }
 
-    expandSection(section) {
-        this.setState({ section });
+    expandCategory(category) {
+        this.setState({ category });
     }
 
     expandQuestion(question) {
     }
 
-    findTopSection() {
-        const sectionEls = Array.from(window.document.querySelectorAll('.section')).reverse();
+    findTopCategory() {
+        const categoryEls = Array.from(window.document.querySelectorAll('.category')).reverse();
         const height = window.innerHeight;
-        const topSectionEl = sectionEls.find(s => s.getBoundingClientRect().y < window.innerHeight);
+        const topCategoryEl = categoryEls.find(s => s.getBoundingClientRect().y < window.innerHeight);
 
-        if (!topSectionEl)
+        if (!topCategoryEl)
             return null;
 
-        const sectionKey = topSectionEl.id;
+        const categoryKey = topCategoryEl.id;
 
-        return this.survey.sections.find(s => s.key === sectionKey);
+        return this.survey.categories.find(s => s.key === categoryKey);
     }
 
     handleScroll() {
-        const section = this.findTopSection();
-
-        this.expandSection(section);
+        const category = this.findTopCategory();
+        this.expandCategory(category);
     }
 
     componentDidMount() {
@@ -58,26 +57,26 @@ export default class SurveyComponent extends React.Component {
     render() {
         const { survey, state } = this;
         const { responses } = state;
-        const firstSection = survey.firstSection();
-        const firstQuestion = !!firstSection ? firstSection.firstQuestion() : null;
+        const firstCategory = survey.firstCategory();
+        const firstQuestion = !!firstCategory ? firstCategory.firstQuestion() : null;
 
-        const sections = survey.sections
-            .map(section => <SectionComponent key={section.key} section={section} onAnswered={this.onAnswered.bind(this)} />);
+        const categories = survey.categories
+            .map(category => <CategoryComponent key={category.key} category={category} onAnswered={this.onAnswered.bind(this)} />);
 
         const nodes = [];
 
-        survey.sections.forEach((section, i) => {
-            const sectionClassName = section.hasBeenAnswered(responses)
+        survey.categories.forEach((category, i) => {
+            const categoryClassName = category.hasBeenAnswered(responses)
                 ? 'answered'
-                : section.hasBeenStarted(responses) ? 'started' : '';
+                : category.hasBeenStarted(responses) ? 'started' : '';
 
-            nodes.push(<div className={`node ${sectionClassName}`} key={section.key}>
-                <a href={`#${section.key}`} className="number">{section.identifier}</a>
+            nodes.push(<div className={`node ${categoryClassName}`} key={category.key}>
+                <a href={`#${category.key}`} className="number">{category.identifier}</a>
             </div>);
 
-            const stateClassName = (section !== state.section) ? 'collapsed' : ''
+            const stateClassName = (category !== state.category) ? 'collapsed' : ''
 
-            section.questions.forEach((question, j) => {
+            category.questions.forEach((question, j) => {
                 const questionClassName = !!responses.get(question) ? 'answered' : '';
                 nodes.push(<div className={`node sub-node ${stateClassName} ${questionClassName}`} key={question.key}>
                     <a href={`#${question.key}`} className="number">{question.identifier}</a>
@@ -96,7 +95,7 @@ export default class SurveyComponent extends React.Component {
                 </div>
             </nav>
             <section className="survey">
-                <section className="section start question" id="start">
+                <section className="category start question" id="start">
                     <header>
                         <h2>Data Maturity</h2>
                     </header>
@@ -112,9 +111,9 @@ export default class SurveyComponent extends React.Component {
                     </footer>
                 </section>
 
-                {sections}
+                {categories}
 
-                <section className="section end" id="end">
+                <section className="category end" id="end">
                     <header>
                         <h2>Finished</h2>
                     </header>

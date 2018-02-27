@@ -1,6 +1,6 @@
 import Question from './Question';
 
-export default class Section {
+export default class Category {
     constructor({ survey = {}, identifier = '', title = '', questionData = [] }) {
 
         this.survey = survey;
@@ -16,7 +16,7 @@ export default class Section {
             const identifier = d.identifier || `${i + 1}`;
             const title = d.title || '';
             const questionData = Array.isArray(d.questions) ? d.questions : [];
-            return new Section({ survey, identifier, title, questionData });
+            return new Category({ survey, identifier, title, questionData });
         });
     }
 
@@ -41,34 +41,34 @@ export default class Section {
     }
 
     get prev() {
-        const sections = this.survey.sections;
-        const index = sections.indexOf(this);
+        const categories = this.survey.categories;
+        const index = categories.indexOf(this);
         
         if (index < 0)
             return null;
         
         if (index > 0)
-            return sections[index - 1];
+            return categories[index - 1];
 
         // index === 0
         return null;
     }
 
     get next() {
-        const sections = this.survey.sections;
-        const index = sections.indexOf(this);
+        const categories = this.survey.categories;
+        const index = categories.indexOf(this);
         
         if (index < 0)
             return null;
         
-        if (index < sections.length - 1)
-            return sections[index + 1];
+        if (index < categories.length - 1)
+            return categories[index + 1];
 
-        // index === sections.length - 1
+        // index === categories.length - 1
         return null;
     }
 
     get key() {
-        return `${this.survey.key}.section${this.identifier}`;
+        return `${this.survey.key}.category${this.identifier}`;
     }
 }
