@@ -7,7 +7,7 @@ import Survey from './Survey';
 import SurveyComponent from './Components/SurveyComponent';
 import axios from 'axios';
 
-axios.get('/api/survey')
+axios.get('/dmApi/survey')
     .then(function (response) {
         if (response.status === 200) {
             init(response.data);

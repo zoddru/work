@@ -1,9 +1,18 @@
-html {
-    /*scroll-behavior: smooth;*/
-}
+/* html {
+    scroll-behavior: smooth;
+} */
 
 body > header {
-    padding: 0;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    padding: 1rem;
+    border-bottom: solid 1px #E2E3E7;
+}
+
+body > main {
+    padding-top: 0;
 }
 
 .survey {
@@ -12,7 +21,7 @@ body > header {
 
 nav.progress {
     position: fixed;
-    top: 4rem;
+    top: 6rem;
     bottom: 4em;
     left: 0;
     width: 10rem;

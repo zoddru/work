@@ -1,3 +1,8 @@
+* {
+    margin: 0;
+    box-sizing: border-box;
+}
+
 body {
     color: rgb(70, 75, 81);
     font-family: Arial,Helvetica,sans-serif;

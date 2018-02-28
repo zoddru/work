@@ -78,7 +78,9 @@ export default class QuestionComponent extends React.Component {
             </main>
             <footer>
                 <div className="navigation">
-                        {prevQuestion && <a href={`#${prevQuestion.key}`} className="prev button">Previous</a>}
+                        {!!prevQuestion
+                            ? <a href={`#${prevQuestion.key}`} className="prev button">Previous</a>
+                            : <a href="#start" className="prev button">Prev</a>}
                         {!!nextQuestion 
                             ? <a href={`#${nextQuestion.key}`} className="next button">Next</a> 
                             : <a href="#end" className="next button">Next</a>}

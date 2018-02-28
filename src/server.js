@@ -14,9 +14,33 @@ const port = config.server.port;
 
 import CsvWriter from './CsvWriter';
 
-const apiHost = config.dataMaturity && config.dataMaturity.apiHost || 'api.dataMaturity.esd.org.uk';
-const apiProxy = proxy(apiHost, {
-    proxyReqPathResolver: req => url.parse(req.originalUrl).path.replace(/^\/api/, '')
+const webservicesHost = config.webservices && config.webservices.host || 'webservices.esd.org.uk';
+const webservicesProxy = proxy(webservicesHost, {
+    proxyReqPathResolver: req => {
+        const path = url.parse(req.originalUrl).path.replace(/^\/webservices/, '');
+
+        const oAuthManager = new OAuth.OAuth(
+            config.oAuth.url,
+            config.oAuth.url,
+            config.oAuth.consumerKey,
+            config.oAuth.consumerSecret,
+            '1.0',
+            config.server.rootUrl + 'callback',
+            'HMAC-SHA1'
+        );
+
+        const { token, secret } = req.session.oAuth || {};
+
+        const signedUrl = oAuthManager.signUrl(`http://${webservicesHost}${path}`, token, secret);
+        const signedPath = url.parse(signedUrl).path.replace(/^\/webservices/, '');
+
+        return signedPath;
+    }
+});
+
+const dmApiHost = config.dataMaturity && config.dataMaturity.apiHost || 'api.dataMaturity.esd.org.uk';
+const dmApiProxy = proxy(dmApiHost, {
+    proxyReqPathResolver: req => url.parse(req.originalUrl).path.replace(/^\/dmApi/, '')
 });
 
 function getOAuthManager(returnUrl) {
@@ -48,7 +72,8 @@ function getFullUrl(req) {
 const app = express()
 
     .use(session({ secret: 'keyboard cat', cookie: { maxAge: 60000 } }))
-    .use('/api/*', apiProxy)
+    .use('/dmApi/*', dmApiProxy)
+    .use('/webservices/*', webservicesProxy)
     .use(bodyParser.json())
     
     .get('/', (req, res) => {
@@ -155,16 +180,6 @@ const app = express()
             res.send(JSON.stringify({ time, start, end, diff }));
         }, time);
     })
-
-    // .get(/dataMaturity\/api\/(.+)/, (req, res) => {
-    //     const path = req.params[0];
-    //     const uri = `http://api.dataMaturity.esd.org.uk/${path}`;
-    //     const qs = req.query;
-    //     //res.setHeader('Content-Type', 'application/json');
-    //     //res.send(JSON.stringify({ fullPath }));
-
-    //     req.pipe(request({ qs, uri })).pipe(res);
-    // })
 
     .get(/data\/(.+)/, (req, res) => {
         const path = req.params[0];
