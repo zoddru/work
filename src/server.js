@@ -15,16 +15,10 @@ const port = config.server.port;
 
 import CsvWriter from './CsvWriter';
 
-const apiProxy = proxy('api.dataMaturity.esd.org.uk', {
-    proxyReqPathResolver: req => url.parse(req.originalUrl).path.replace(/\/api/, '')
-    //reqBodyEncoding: null,
-    // proxyReqBodyDecorator: function (bodyContent, srcReq) {
-    //     console.log(bodyContent);
-    //     console.log(bodyContent.text);
-    //     return bodyContent.text;
-    //   }
+const apiHost = config.dataMaturity && config.dataMaturity.apiHost || 'api.dataMaturity.esd.org.uk';
+const apiProxy = proxy(apiHost, {
+    proxyReqPathResolver: req => url.parse(req.originalUrl).path.replace(/^\/api/, '')
 });
-
 
 function getOAuthManager(returnUrl) {
     let callback = config.server.rootUrl + 'callback';

@@ -7,18 +7,26 @@ import Survey from './Survey';
 import SurveyComponent from './Components/SurveyComponent';
 import axios from 'axios';
 
-axios.get('http://api.datamaturity.esd.org.uk/survey')
+axios.get('/api/survey')
     .then(function (response) {
-        console.log(response);
+        if (response.status === 200) {
+            init(response.data);
+        }
+        else {
+            initError(response);
+        }
     })
     .catch(function (error) {
-        console.log(error);
+        initError(error);
     });
-    
-const data = require('./data.json');
-const survey = new Survey(data);
-const app = document.getElementById('app');
 
-ReactDom.render(<SurveyComponent survey={survey} />, app);
+function init(data) {    
+    const survey = new Survey(data);
+    const app = document.getElementById('app');
 
-const sql = [];
+    ReactDom.render(<SurveyComponent survey={survey} />, app);
+}
+
+function initError(error) {
+    console.log(error);
+}
