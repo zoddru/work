@@ -5,13 +5,25 @@ const OAuth = require('oauth');
 const WebServices = require('./WebServices');
 const util = require('util');
 
+const url = require('url');
 const express = require('express');
 const session = require('express-session');
+const proxy = require('express-http-proxy');
 const bodyParser = require('body-parser');
 
 const port = config.server.port;
 
 import CsvWriter from './CsvWriter';
+
+const apiProxy = proxy('api.dataMaturity.esd.org.uk', {
+    proxyReqPathResolver: req => url.parse(req.originalUrl).path.replace(/\/api/, '')
+    //reqBodyEncoding: null,
+    // proxyReqBodyDecorator: function (bodyContent, srcReq) {
+    //     console.log(bodyContent);
+    //     console.log(bodyContent.text);
+    //     return bodyContent.text;
+    //   }
+});
 
 
 function getOAuthManager(returnUrl) {
@@ -43,8 +55,9 @@ function getFullUrl(req) {
 const app = express()
 
     .use(session({ secret: 'keyboard cat', cookie: { maxAge: 60000 } }))
+    .use('/api/*', apiProxy)
     .use(bodyParser.json())
-
+    
     .get('/', (req, res) => {
         res.sendFile('index.html', {
             root: __dirname + '\\docs'
@@ -150,15 +163,15 @@ const app = express()
         }, time);
     })
 
-    .get(/dataMaturity\/api\/(.+)/, (req, res) => {
-        const path = req.params[0];
-        const uri = `http://api.dataMaturity.esd.org.uk/${path}`;
-        const qs = req.query;
-        //res.setHeader('Content-Type', 'application/json');
-        //res.send(JSON.stringify({ fullPath }));
+    // .get(/dataMaturity\/api\/(.+)/, (req, res) => {
+    //     const path = req.params[0];
+    //     const uri = `http://api.dataMaturity.esd.org.uk/${path}`;
+    //     const qs = req.query;
+    //     //res.setHeader('Content-Type', 'application/json');
+    //     //res.send(JSON.stringify({ fullPath }));
 
-        req.pipe(request({ qs, uri })).pipe(res);
-    })
+    //     req.pipe(request({ qs, uri })).pipe(res);
+    // })
 
     .get(/data\/(.+)/, (req, res) => {
         const path = req.params[0];

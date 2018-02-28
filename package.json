@@ -32,6 +32,7 @@
     "es6-map": "^0.1.5",
     "es6-promise": "^4.2.4",
     "express": "^4.16.2",
+    "express-http-proxy": "^1.1.0",
     "express-session": "^1.15.6",
     "lodash": "^4.17.4",
     "oauth": "^0.9.15",
