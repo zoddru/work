@@ -7,13 +7,11 @@ import ReactDom from 'react-dom';
 import SignInDetails from './Components/SignInDetails';
 
 function init(status) {
-
     const app = document.getElementById('app');
-
     ReactDom.render(<SignInDetails status={status} />, app);
 }
 
-axios.get('/status.json')
+axios.get('/authentication/status')
     .then(function (response) {
         init(response.data);
     })

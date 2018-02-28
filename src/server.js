@@ -82,7 +82,7 @@ const app = express()
         });
     })
 
-    .get('/status.json', (req, res) => {
+    .get('/authentication/status', (req, res) => {
         const oAuth = req.session.oAuth;
         res.setHeader('Content-Type', 'application/json');
 

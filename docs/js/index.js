@@ -5,7 +5,7 @@ function init(status) {
     });
 }
 
-axios.get('/status.json')
+axios.get('/status')
     .then(function (response) {
         console.log(response.data);
         init(response.data);

@@ -5,28 +5,60 @@ import React from 'react';
 import ReactDom from 'react-dom';
 import Survey from './Survey';
 import SurveyComponent from './Components/SurveyComponent';
+import SignInDetails from './Components/SignInDetails';
 import axios from 'axios';
 
-axios.get('/dmApi/survey')
-    .then(function (response) {
-        if (response.status === 200) {
-            init(response.data);
-        }
-        else {
-            initError(response);
-        }
-    })
-    .catch(function (error) {
-        initError(error);
-    });
+class SurveyApp {
+    constructor() {
+        this.authenticationStatus = null;
+        this.survey = null;
 
-function init(data) {    
-    const survey = new Survey(data);
-    const app = document.getElementById('app');
+        this.getAuthenticationStatus();
+        this.getSurveyData();
+    }
 
-    ReactDom.render(<SurveyComponent survey={survey} />, app);
+    getAuthenticationStatus() {
+        const self = this;
+
+        axios.get('/authentication/status')
+            .then(function (response) {
+                self.authenticationStatus = response.data;
+                self.initSignIn();
+                self.initSurvey();
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+    }
+
+    getSurveyData() {
+        const self = this;
+
+        axios.get('/dmApi/survey')
+            .then(function (response) {
+                self.survey = new Survey(response.data);
+                self.initSurvey();
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+    }
+
+    initSignIn() {
+        const { authenticationStatus } = this;
+        const app = document.getElementById('signInApp');
+        ReactDom.render(<SignInDetails status={authenticationStatus} />, app);
+    }
+
+    initSurvey() {
+        const { survey, authenticationStatus } = this;
+
+        if (!survey || !authenticationStatus)
+            return; // not yet ready
+
+        const app = document.getElementById('app');
+        ReactDom.render(<SurveyComponent survey={survey} authenticationStatus={authenticationStatus} />, app);
+    }
 }
 
-function initError(error) {
-    console.log(error);
-}
+new SurveyApp();

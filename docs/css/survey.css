@@ -3,12 +3,19 @@
 } */
 
 body > header {
+    z-index: 20;
     position: fixed;
     top: 0;
     left: 0;
     right: 0;
     padding: 1rem;
     border-bottom: solid 1px #E2E3E7;
+    background-color: white;
+
+    font-size: 1rem;
+    line-height: 1rem;
+    text-align: right;
+    height: 3rem;
 }
 
 body > main {

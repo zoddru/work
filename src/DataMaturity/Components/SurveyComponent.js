@@ -9,7 +9,7 @@ export default class SurveyComponent extends React.Component {
 
         this.state = {
             responses: new Map(),
-            category: this.survey.firstCategory()
+            category: null
         };
     }
 
@@ -29,7 +29,7 @@ export default class SurveyComponent extends React.Component {
     findTopCategory() {
         const categoryEls = Array.from(window.document.querySelectorAll('.category')).reverse();
         const height = window.innerHeight;
-        const topCategoryEl = categoryEls.find(s => s.getBoundingClientRect().y < window.innerHeight);
+        const topCategoryEl = categoryEls.find(s => s.getBoundingClientRect().top < window.innerHeight);
 
         if (!topCategoryEl)
             return null;
@@ -42,16 +42,6 @@ export default class SurveyComponent extends React.Component {
     handleScroll() {
         const category = this.findTopCategory();
         this.expandCategory(category);
-    }
-
-    componentDidMount() {
-        window.addEventListener('scroll', this.handleScroll.bind(this));
-        window.addEventListener('resize', this.handleScroll.bind(this));
-    }
-
-    componentWillUnmount() {
-        window.removeEventListener('scroll', this.handleScroll.bind(this));
-        window.removeEventListener('resize', this.handleScroll.bind(this));
     }
 
     render() {
@@ -129,5 +119,16 @@ export default class SurveyComponent extends React.Component {
                 </section>
             </section>
         </div>;
+    }
+
+    componentDidMount() {
+        window.addEventListener('scroll', this.handleScroll.bind(this));
+        window.addEventListener('resize', this.handleScroll.bind(this));
+        this.handleScroll();
+    }
+
+    componentWillUnmount() {
+        window.removeEventListener('scroll', this.handleScroll.bind(this));
+        window.removeEventListener('resize', this.handleScroll.bind(this));
     }
 }
