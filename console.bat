@@ -1,1 +1,1 @@
-powershell -NoExit -Command "Set-Location %cd%"
+start /min cmd
