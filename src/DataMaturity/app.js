@@ -37,7 +37,7 @@ class SurveyApp {
     getRespondentOptions(identifier) {
         const self = this;
 
-        axios.get(`/dmApi/respondentOptions/${identifier}`)
+        axios.get(`/dmApi/responses/${identifier}`)
             .then(function (response) {
                 const respondentOptions = response.data;
                 self.respondent = new Respondent(respondentOptions.respondent || { identifier });
