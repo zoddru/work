@@ -1,4 +1,5 @@
 import React from 'react';
+import RespondentOptionsComponent from './RespondentOptionsComponent';
 import CategoryComponent from './CategoryComponent';
 
 export default class SurveyComponent extends React.Component {
@@ -74,6 +75,8 @@ export default class SurveyComponent extends React.Component {
             });
         });
 
+        const { authenticationStatus, respondent, respondentOptions } = this.props;
+
         return <div>
             <nav className="progress">
                 <div className="node">
@@ -90,9 +93,7 @@ export default class SurveyComponent extends React.Component {
                         <h2>Data Maturity</h2>
                     </header>
                     <main>
-                        <p>
-                            Collect some details about the user here, or they can skip that and enter it later
-                        </p>
+                        <RespondentOptionsComponent authenticationStatus={authenticationStatus} respondent={respondent} respondentOptions={respondentOptions} />
                     </main>
                     <footer>
                         <div className="navigation">
