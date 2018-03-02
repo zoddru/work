@@ -24,6 +24,25 @@ body > main {
 
 .survey {
     margin-left: 10rem;
+    max-width: 100rem;
+}
+
+.survey form {
+    width: 100%;
+}
+
+.survey form .form-item {
+    width: 100%;
+    height: 4rem;
+    display: flex;
+}
+
+.survey form .form-item label {
+    min-width: 12rem;
+}
+
+.survey form .form-item .value {
+    flex-grow: 1;
 }
 
 nav.progress {
@@ -132,10 +151,6 @@ nav.progress .node.answered .number {
 
 nav.progress .node.answered .number:hover {
     background-color: #6a1c68;
-}
-
-.survey {
-    max-width: 100rem;
 }
 
 .category > header {

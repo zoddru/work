@@ -13,7 +13,7 @@ function WhenSignedIn(props) {
     const organisation = user.organisation;
 
     return <div>
-        You are signed in as <strong>{user.label}</strong>. <a className="button" href={"/signout?returnUrl=" + encodedUrl}>sign out</a>
+        You are signed in as <strong>{user.label}</strong>. <a className="button" href={`/signout?returnUrl=${encodedUrl}`}>sign out</a>
         <table className="normal">
             <tbody>
                 <tr>
@@ -34,7 +34,7 @@ function WhenSignedOut(props) {
     const { status } = props;
     const encodedUrl = encodeURIComponent(getCurrentUrl());
 
-    return <div>You are not signed in. <a className="button" href={"/signin?returnUrl=" + encodedUrl}>sign in</a></div>;
+    return <div>You are not signed in. <a className="button" href={`/signin?returnUrl=${encodedUrl}`}>sign in</a></div>;
 }
 
 function SignInStatus(props) {

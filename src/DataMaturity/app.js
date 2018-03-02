@@ -45,9 +45,8 @@ class SurveyApp {
 
                 self.respondent = new Respondent(!!result.length ? result[0].respondent : { identifier, email, council: organisation && organisation.identifier });
                 self.responses = !!result.length ? result[0].responses || [] : [];
-                self.initSurvey();
-
                 self.saveResponses();
+                self.initSurvey();
             })
             .catch(function (error) {
                 console.log(error);
@@ -115,8 +114,11 @@ class SurveyApp {
     initSurvey() {
         const { authenticationStatus, respondent, responses, respondentOptions, survey } = this;
 
+        console.log({ authenticationStatus, respondent, responses, respondentOptions, survey });
         if (!authenticationStatus || !respondent || !responses || !respondentOptions || !survey)
             return; // not yet ready
+
+        console.log('ready');
 
         const app = document.getElementById('app');
         ReactDom.render(<SurveyComponent 
