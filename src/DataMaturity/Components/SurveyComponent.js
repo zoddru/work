@@ -1,23 +1,29 @@
 import React from 'react';
 import RespondentOptionsComponent from './RespondentOptionsComponent';
 import CategoryComponent from './CategoryComponent';
+import Response from '../Response';
 
 export default class SurveyComponent extends React.Component {
     constructor(props) {
         super(props);
 
+        this.respondent = props.respondent;
         this.survey = props.survey;
 
         this.state = {
-            responses: new Map(),
+            responses: props.responses, // responses is a question to answer map
             category: null
         };
     }
 
     onAnswered(question, answer) {
+        const responses = this.state.responses.set(question, answer);
+
         this.setState({
-            responses: this.state.responses.set(question, answer)
+            responses
         });
+        
+        this.props.onAnswersChanged(Response.createFromMap(this.respondent, responses));
     }
 
     expandCategory(category) {
@@ -46,13 +52,13 @@ export default class SurveyComponent extends React.Component {
     }
 
     render() {
-        const { survey, state } = this;
+        const { respondent, survey, state } = this;
         const { responses } = state;
         const firstCategory = survey.firstCategory();
         const firstQuestion = !!firstCategory ? firstCategory.firstQuestion() : null;
 
         const categories = survey.categories
-            .map(category => <CategoryComponent key={category.key} category={category} onAnswered={this.onAnswered.bind(this)} />);
+            .map(category => <CategoryComponent key={category.key} category={category} responses={responses} onAnswered={this.onAnswered.bind(this)} />);
 
         const nodes = [];
 
@@ -75,7 +81,7 @@ export default class SurveyComponent extends React.Component {
             });
         });
 
-        const { authenticationStatus, respondent, respondentOptions } = this.props;
+        const { authenticationStatus, respondentOptions, onRespondentChanged } = this.props;
 
         return <div>
             <nav className="progress">
@@ -93,7 +99,7 @@ export default class SurveyComponent extends React.Component {
                         <h2>Data Maturity</h2>
                     </header>
                     <main>
-                        <RespondentOptionsComponent authenticationStatus={authenticationStatus} respondent={respondent} respondentOptions={respondentOptions} />
+                        <RespondentOptionsComponent authenticationStatus={authenticationStatus} respondent={respondent} respondentOptions={respondentOptions} onRespondentChanged={onRespondentChanged} />
                     </main>
                     <footer>
                         <div className="navigation">

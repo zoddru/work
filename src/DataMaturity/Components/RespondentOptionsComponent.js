@@ -22,6 +22,7 @@ export default class RespondentOptionsComponent extends React.Component {
     chageRespondent(props) {
         const respondent = this.state.respondent.change(props);
         this.setState({ respondent });
+        this.props.onRespondentChanged(respondent);
     }
 
     changeDepartment(item) {

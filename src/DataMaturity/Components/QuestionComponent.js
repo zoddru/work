@@ -8,10 +8,12 @@ function parseText(text) {
 export default class QuestionComponent extends React.Component {
     constructor(props) {
         super(props);
+        
+        const { question, responses } = props;
+        const answer = responses.get(question) || null;
 
-        this.question = props.question;
-
-        this.state = { answer: null, showingHelp: false };
+        this.question = question;
+        this.state = { answer: answer, showingHelp: false };
     }
 
     selectAnswer(e) {

@@ -14,9 +14,10 @@ export default class CategoryComponent extends React.Component {
 
     render() {
         const { category } = this;
+        const { responses } = this.props;
 
         const questions = category.questions
-            .map(question => <QuestionComponent key={question.key} question={question} onAnswered={this.onAnswered} />);
+            .map(question => <QuestionComponent key={question.key} question={question} responses={responses} onAnswered={this.onAnswered} />);
 
         return <section className="category" id={category.key}>
             <header>
