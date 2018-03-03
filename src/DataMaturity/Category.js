@@ -20,21 +20,21 @@ export default class Category {
         });
     }
 
-    hasBeenStarted(responses) {
-        return !!this.questions.find(q => !!responses.get(q));
+    hasBeenStarted(answers) {
+        return !!this.questions.find(q => !!answers.get(q));
     }
 
-    hasBeenAnswered(responses) {
-        return this.questions.every(q => !!responses.get(q));
+    hasBeenAnswered(answers) {
+        return this.questions.every(q => !!answers.get(q));
     }
 
-    firstQuestion() {
+    get firstQuestion() {
         if (!this.questions.length)
             return null;
         return this.questions[0];
     }
 
-    lastQuestion() {
+    get lastQuestion() {
         if (!this.questions.length)
             return null;
         return this.questions[this.questions.length - 1];

@@ -10,19 +10,14 @@ function toSelectOptions(items) {
 export default class RespondentOptionsComponent extends React.Component {
     constructor(props) {
         super(props);
-
-        const { authenticationStatus, respondent, respondentOptions } = props;
-        const { departments, roles } = respondentOptions;
-
-        Object.assign(this, { authenticationStatus, departments, roles });
-
-        this.state = { respondent };
     }
 
     chageRespondent(props) {
-        const respondent = this.state.respondent.change(props);
-        this.setState({ respondent });
-        this.props.onRespondentChanged(respondent);
+        this.setState(prevState => {
+            const respondent = prevState.respondent.change(props);
+            return { respondent };
+        });
+        //this.props.onRespondentChanged(respondent);
     }
 
     changeDepartment(item) {
@@ -34,9 +29,9 @@ export default class RespondentOptionsComponent extends React.Component {
     }
 
     render() {
-        const { authenticationStatus, departments, roles } = this;
+        const { authenticationStatus, respondent, options } = this.props;
+        const { departments, roles } = options;
         const { isSignedIn, user } = authenticationStatus;
-        const { respondent } = this.state;
 
         if (!isSignedIn) {
             return <SignInDetails status={authenticationStatus} />

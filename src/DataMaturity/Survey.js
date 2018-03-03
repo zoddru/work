@@ -12,13 +12,20 @@ export default class Survey {
         Object.freeze(this);
     }
 
-    firstCategory() {
+    get firstCategory() {
         if (!this.categories.length)
             return null;
         return this.categories[0];
     }
 
-    lastCategory() {
+    get firstQuestion() {
+        const firstCategory = this.firstCategory;
+        if (!firstCategory)
+            return null;
+        return firstCategory.firstQuestion;
+    }
+
+    get lastCategory() {
         if (!this.categories.length)
             return null;
         return this.categories[this.categories.length - 1];

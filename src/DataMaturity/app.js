@@ -72,129 +72,128 @@ Promise.all([getOptions(), getSurvey(), getAuthThenSavedData()])
         const answers = survey.createQAMap(responses || []);
         const surveyWithResponses = new SurveyWithResponses({ survey, respondent, answers });
         
-        // TODO TODO TODO TODO
-        //renderSurvey(authenticationStatus, options, surveyWithResponses);
+        renderSurvey(authenticationStatus, options, surveyWithResponses);
     });
 
 
 
 /// TODO TODO TODO TODO replace all this:
 
-class SurveyApp {
-    constructor() {
-        this.authenticationStatus = null;
-        this.respondentOptions = null;
-        this.respondent = null;
-        this.responses = [];
-        this.survey = null;
+// class SurveyApp {
+//     constructor() {
+//         this.authenticationStatus = null;
+//         this.respondentOptions = null;
+//         this.respondent = null;
+//         this.responses = [];
+//         this.survey = null;
 
-        this.getAuthenticationStatus();
-        this.getRespondentOptions();
-        this.getSurveyData();
-    }
+//         this.getAuthenticationStatus();
+//         this.getRespondentOptions();
+//         this.getSurveyData();
+//     }
 
-    getAuthenticationStatus() {
-        const self = this;
+//     getAuthenticationStatus() {
+//         const self = this;
 
-        axios.get('/authentication/status')
-            .then(function (response) {
-                self.authenticationStatus = response.data;
-                //self.initSignIn();
-                self.getResponses(self.authenticationStatus.isSignedIn ? self.authenticationStatus.user : {});
-            })
-            .catch(function (error) {
-                console.log(error);
-            });
-    }
+//         axios.get('/authentication/status')
+//             .then(function (response) {
+//                 self.authenticationStatus = response.data;
+//                 //self.initSignIn();
+//                 self.getResponses(self.authenticationStatus.isSignedIn ? self.authenticationStatus.user : {});
+//             })
+//             .catch(function (error) {
+//                 console.log(error);
+//             });
+//     }
 
-    getResponses({ identifier, email, organisation }) {
-        const self = this;
+//     getResponses({ identifier, email, organisation }) {
+//         const self = this;
 
-        axios.get(`/dmApi/responses/${identifier}`)
-            .then(function (response) {
-                const result = response.data;
+//         axios.get(`/dmApi/responses/${identifier}`)
+//             .then(function (response) {
+//                 const result = response.data;
 
-                self.respondent = new Respondent(!!result.length ? result[0].respondent : { identifier, email, council: organisation && organisation.identifier });
-                self.responses = !!result.length ? result[0].responses || [] : [];
-                self.saveResponses();
-                self.initSurvey();
-            })
-            .catch(function (error) {
-                console.log(error);
-            });
-    }
+//                 self.respondent = new Respondent(!!result.length ? result[0].respondent : { identifier, email, council: organisation && organisation.identifier });
+//                 self.responses = !!result.length ? result[0].responses || [] : [];
+//                 self.saveResponses();
+//                 self.initSurvey();
+//             })
+//             .catch(function (error) {
+//                 console.log(error);
+//             });
+//     }
 
-    getRespondentOptions() {
-        const self = this;
+//     getRespondentOptions() {
+//         const self = this;
 
-        axios.get(`/dmApi/respondentOptions`)
-            .then(function (response) {
-                const respondentOptions = response.data;
-                self.respondentOptions = respondentOptions;
-                self.initSurvey();
-            })
-            .catch(function (error) {
-                console.log(error);
-            });
-    }
+//         axios.get(`/dmApi/respondentOptions`)
+//             .then(function (response) {
+//                 const respondentOptions = response.data;
+//                 self.respondentOptions = respondentOptions;
+//                 self.initSurvey();
+//             })
+//             .catch(function (error) {
+//                 console.log(error);
+//             });
+//     }
 
-    getSurveyData() {
-        const self = this;
+//     getSurveyData() {
+//         const self = this;
 
-        axios.get('/dmApi/survey')
-            .then(function (response) {
-                self.survey = new Survey(response.data);
-                self.initSurvey();
-            })
-            .catch(function (error) {
-                console.log(error);
-            });
-    }
+//         axios.get('/dmApi/survey')
+//             .then(function (response) {
+//                 self.survey = new Survey(response.data);
+//                 self.initSurvey();
+//             })
+//             .catch(function (error) {
+//                 console.log(error);
+//             });
+//     }
 
-    saveResponses() {
-        const { respondent, responses } = this;
+//     saveResponses() {
+//         const { respondent, responses } = this;
 
-        axios.post('/dmApi/responses', {
-            respondent,
-            responses
-        })
-            .then(function (response) {
-                //console.log(response.data);
-            })
-            .catch(function (error) {
-                //console.log(error);
-            });
-    }
+//         axios.post('/dmApi/responses', {
+//             respondent,
+//             responses
+//         })
+//             .then(function (response) {
+//                 //console.log(response.data);
+//             })
+//             .catch(function (error) {
+//                 //console.log(error);
+//             });
+//     }
 
-    updateRespondent(respondent) {
-        this.respondent = respondent;
-        this.saveResponses();
-    }
+//     updateRespondent(respondent) {
+//         this.respondent = respondent;
+//         this.saveResponses();
+//     }
 
-    updateAnswers(responses) {
-        this.responses = responses;
-        this.saveResponses();
-    }
+//     updateAnswers(responses) {
+//         this.responses = responses;
+//         this.saveResponses();
+//     }
 
     
 
-    initSurvey() {
-        const { authenticationStatus, respondent, responses, respondentOptions, survey } = this;
+//     initSurvey() {
+//         const { authenticationStatus, respondent, responses, respondentOptions, survey } = this;
 
-        if (!authenticationStatus || !respondent || !responses || !respondentOptions || !survey)
-            return; // not yet ready
+//         if (!authenticationStatus || !respondent || !responses || !respondentOptions || !survey)
+//             return; // not yet ready
 
-        const app = document.getElementById('app');
-        ReactDom.render(<SurveyComponent
-            survey={survey}
-            respondent={respondent}
-            respondentOptions={respondentOptions}
-            responses={survey.createQAMap(responses)}
-            authenticationStatus={authenticationStatus}
-            onRespondentChanged={this.updateRespondent.bind(this)}
-            onAnswersChanged={this.updateAnswers.bind(this)}
-        />, app);
-    }
-}
+//         const app = document.getElementById('app');
+//         ReactDom.render(<SurveyComponent
+//             survey={survey}
+//             respondent={respondent}
+//             respondentOptions={respondentOptions}
+//             responses={survey.createQAMap(responses)}
+//             authenticationStatus={authenticationStatus}
+//             onRespondentChanged={this.updateRespondent.bind(this)}
+//             onAnswersChanged={this.updateAnswers.bind(this)}
+//         />, app);
+//     }
+// }
 
-new SurveyApp();
+// new SurveyApp();
