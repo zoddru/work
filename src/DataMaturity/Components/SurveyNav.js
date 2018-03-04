@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default class SurveyNavNodes extends React.Component {
+export default class SurveyNav extends React.Component {
     constructor(props) {
         super(props);
         this.state = { expandedCategory: null };
@@ -19,8 +19,9 @@ export default class SurveyNavNodes extends React.Component {
             return null;
 
         const categoryKey = topCategoryEl.id;
+        const survey = this.props.surveyState.survey;
 
-        return this.props.surveyWithResponses.survey.categories.find(s => s.key === categoryKey);
+        return survey.categories.find(s => s.key === categoryKey);
     }
 
     handleScroll() {
@@ -29,8 +30,8 @@ export default class SurveyNavNodes extends React.Component {
     }
 
     render() {
-        const surveyWithResponses = this.props.surveyWithResponses;
-        const { survey, answers } = surveyWithResponses;
+        const surveyState = this.props.surveyState;
+        const { survey, answers } = surveyState;
         const expandedCategory = this.state.expandedCategory;
 
         const nodes = [];

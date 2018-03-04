@@ -62,7 +62,7 @@ export default class Question {
         if (!prevCategory)
             return null;
 
-        return prevCategory.lastQuestion();
+        return prevCategory.lastQuestion;
     }
 
     get next() {
@@ -81,7 +81,7 @@ export default class Question {
         if (!nextCategory)
             return null;
 
-        return nextCategory.firstQuestion();
+        return nextCategory.firstQuestion;
     }
 
     get key() {

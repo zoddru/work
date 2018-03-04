@@ -1,10 +1,7 @@
-import Question from './Question';
-
 export default class Response {
     // these are all identifiers for the database
 
     constructor({ respondent, survey = 'DM', category, question, value, notKnown, notUnderstood, created = new Date(), lastUpdated = new Date() }) {
-
         Object.assign(this, { respondent, survey, category, question, value, notKnown, notUnderstood, created, lastUpdated });
         Object.freeze(this);
     }

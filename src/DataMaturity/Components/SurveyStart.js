@@ -1,31 +1,31 @@
 import React from 'react';
-import RespondentOptionsComponent from './RespondentOptionsComponent';
+import RespondentDetails from './RespondentDetails';
 
-export default class SurveyNavNodes extends React.Component {
+export default class SurveyStart extends React.Component {
     constructor(props) {
         super(props);
     }
 
     render() {
-        const { authenticationStatus, surveyWithResponses, options } = this.props;
-        const { survey, respondent } = surveyWithResponses;
+        const { surveyState } = this.props;
+        const { authStatus, options, survey, respondent } = surveyState;
 
         const firstQuestion = survey.firstQuestion;
 
-        return <section className="category start" id="start">
-            <header>
-                <h2>Data Maturity</h2>
-            </header>
+        return <section className="category start" id="start">            
             <section class="question">
+                <header>
+                    <h2>Data Maturity</h2>
+                </header>
                 <main>
-                    <RespondentOptionsComponent authenticationStatus={authenticationStatus} respondent={respondent} options={options} />
+                    <RespondentDetails authStatus={authStatus} respondent={respondent} options={options} onRespondentChanged={this.props.onRespondentChanged} />
                 </main>
+                <footer>
+                    <div className="navigation">
+                        {firstQuestion && <a href={`#${firstQuestion.key}`} className="next button">Start</a>}
+                    </div>
+                </footer>
             </section>
-            <footer>
-                <div className="navigation">
-                    {firstQuestion && <a href={`#${firstQuestion.key}`} className="next button">Start</a>}
-                </div>
-            </footer>
         </section>;
     }
 }

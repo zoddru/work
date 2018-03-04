@@ -1,11 +1,11 @@
 import Question from './Question';
 
 export default class Category {
-    constructor({ survey = {}, identifier = '', title = '', questionData = [] }) {
+    constructor({ survey = {}, identifier = '', label = '', questionData = [] }) {
 
         this.survey = survey;
         this.identifier = identifier;
-        this.title = title;
+        this.label = label;
         this.questions = Object.freeze(Question.createArray(this, questionData));
 
         Object.freeze(this);
@@ -14,9 +14,9 @@ export default class Category {
     static createArray(survey, data) {
         return data.map((d, i) => {
             const identifier = d.identifier || `${i + 1}`;
-            const title = d.title || '';
+            const label = d.label || '';
             const questionData = Array.isArray(d.questions) ? d.questions : [];
-            return new Category({ survey, identifier, title, questionData });
+            return new Category({ survey, identifier, label, questionData });
         });
     }
 

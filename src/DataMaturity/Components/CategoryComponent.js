@@ -5,23 +5,17 @@ import Category from '../Category';
 export default class CategoryComponent extends React.Component {
     constructor(props) {
         super(props);
-
-        const { category, onAnswered } = props;
-
-        this.category = category;
-        this.onAnswered = onAnswered;
     }
 
     render() {
-        const { category } = this;
-        const { responses } = this.props;
+        const { surveyState, category } = this.props;
 
         const questions = category.questions
-            .map(question => <QuestionComponent key={question.key} question={question} responses={responses} onAnswered={this.onAnswered} />);
+            .map(question => <QuestionComponent key={question.key} surveyState={surveyState} question={question} onAnswerChanged={this.props.onAnswerChanged} />);
 
         return <section className="category" id={category.key}>
             <header>
-                <h2>{category.title}</h2>
+                <h2>{category.label}</h2>
             </header>
             {questions}
         </section>;

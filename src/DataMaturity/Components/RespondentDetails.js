@@ -7,17 +7,13 @@ function toSelectOptions(items) {
     return items.map(item => { return { value: item.identifier, label: item.label } }).sort(item => item.label);
 }
 
-export default class RespondentOptionsComponent extends React.Component {
+export default class RespondentDetails extends React.Component {
     constructor(props) {
         super(props);
     }
 
-    chageRespondent(props) {
-        this.setState(prevState => {
-            const respondent = prevState.respondent.change(props);
-            return { respondent };
-        });
-        //this.props.onRespondentChanged(respondent);
+    chageRespondent(respondentProps) {
+        this.props.onRespondentChanged(respondentProps);
     }
 
     changeDepartment(item) {
@@ -29,12 +25,12 @@ export default class RespondentOptionsComponent extends React.Component {
     }
 
     render() {
-        const { authenticationStatus, respondent, options } = this.props;
+        const { authStatus, respondent, options } = this.props;
         const { departments, roles } = options;
-        const { isSignedIn, user } = authenticationStatus;
+        const { isSignedIn, user } = authStatus;
 
         if (!isSignedIn) {
-            return <SignInDetails status={authenticationStatus} />
+            return <SignInDetails status={authStatus} />
         }
 
         return <form>            

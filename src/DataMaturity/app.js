@@ -8,7 +8,7 @@ import SignInDetails from './Components/SignInDetails';
 import axios from 'axios';
 import Survey from './Survey';
 import Respondent from './Respondent';
-import SurveyWithResponses from './SurveyWithResponses';
+import SurveyState from './SurveyState';
 
 function getOptions() {
     return axios.get(`/dmApi/respondentOptions`)
@@ -27,52 +27,63 @@ function getSurvey() {
 function getAuthThenSavedData() {
     return axios.get('/authentication/status')
         .then(statusRes => {
-            const authenticationStatus = statusRes.data;
+            const authStatus = statusRes.data;
 
-            renderSignIn(authenticationStatus);
+            renderSignIn(authStatus);
 
-            if (!authenticationStatus.isSignedIn)
-                return { authenticationStatus };
-            return getSavedData(authenticationStatus);
+            if (!authStatus.isSignedIn)
+                return { authStatus };
+            return getSavedData(authStatus);
         });
 }
 
-function getSavedData(authenticationStatus) {
-    const { identifier, email, organisation } = authenticationStatus.user;
+function getSavedData(authStatus) {
+    const { identifier, email, organisation } = authStatus.user;
     return axios.get(`/dmApi/responses/${identifier}`)
         .then(function (response) {
             const results = response.data;
             if (!results || !results.length)
-                return { authenticationStatus };
+                return { authStatus };
             const result = results[0];
             const respondentProps = result.respondent || { identifier, email, council: organisation && organisation.identifier };
             const respondent = new Respondent(respondentProps);
             const responses = !!results.length ? results[0].responses || [] : [];
-            return { authenticationStatus, respondentProps, respondent, responses };
+            return { authStatus, respondentProps, respondent, responses };
         });
 }
 
-function renderSignIn(authenticationStatus,) {
+function renderSignIn(authStatus, ) {
     const app = document.getElementById('signInApp');
-    ReactDom.render(<SignInDetails status={authenticationStatus} />, app);
+    ReactDom.render(<SignInDetails status={authStatus} />, app);
 }
 
-function renderSurvey(authenticationStatus, options, surveyWithResponses) {
+function renderSurvey(surveyState) {
     const app = document.getElementById('app');
-    ReactDom.render(<SurveyComponent
-        authenticationStatus={authenticationStatus}
-        options={options}
-        surveyWithResponses={surveyWithResponses}
-    />, app);
+    ReactDom.render(<SurveyComponent surveyState={surveyState} saveSurveyState={saveSurveyState} />, app);
+}
+
+function saveSurveyState(surveyState) {
+    const { respondent, responses } = surveyState;
+
+    axios.post('/dmApi/responses', {
+        respondent,
+        responses
+    })
+        .then(function (response) {
+            //console.log(response.data);
+        })
+        .catch(function (error) {
+            //console.log(error);
+        });
 }
 
 Promise.all([getOptions(), getSurvey(), getAuthThenSavedData()])
     .then(function ([options, survey, authData]) {
-        const { authenticationStatus, respondent, responses } = authData;
+        const { authStatus, respondent, responses } = authData;
         const answers = survey.createQAMap(responses || []);
-        const surveyWithResponses = new SurveyWithResponses({ survey, respondent, answers });
-        
-        renderSurvey(authenticationStatus, options, surveyWithResponses);
+        const surveyState = new SurveyState({ authStatus, options, survey, respondent, answers });
+
+        renderSurvey(surveyState);
     });
 
 
@@ -81,25 +92,25 @@ Promise.all([getOptions(), getSurvey(), getAuthThenSavedData()])
 
 // class SurveyApp {
 //     constructor() {
-//         this.authenticationStatus = null;
+//         this.authStatus = null;
 //         this.respondentOptions = null;
 //         this.respondent = null;
 //         this.responses = [];
 //         this.survey = null;
 
-//         this.getAuthenticationStatus();
+//         this.getauthStatus();
 //         this.getRespondentOptions();
 //         this.getSurveyData();
 //     }
 
-//     getAuthenticationStatus() {
+//     getauthStatus() {
 //         const self = this;
 
 //         axios.get('/authentication/status')
 //             .then(function (response) {
-//                 self.authenticationStatus = response.data;
+//                 self.authStatus = response.data;
 //                 //self.initSignIn();
-//                 self.getResponses(self.authenticationStatus.isSignedIn ? self.authenticationStatus.user : {});
+//                 self.getResponses(self.authStatus.isSignedIn ? self.authStatus.user : {});
 //             })
 //             .catch(function (error) {
 //                 console.log(error);
@@ -175,12 +186,12 @@ Promise.all([getOptions(), getSurvey(), getAuthThenSavedData()])
 //         this.saveResponses();
 //     }
 
-    
+
 
 //     initSurvey() {
-//         const { authenticationStatus, respondent, responses, respondentOptions, survey } = this;
+//         const { authStatus, respondent, responses, respondentOptions, survey } = this;
 
-//         if (!authenticationStatus || !respondent || !responses || !respondentOptions || !survey)
+//         if (!authStatus || !respondent || !responses || !respondentOptions || !survey)
 //             return; // not yet ready
 
 //         const app = document.getElementById('app');
@@ -189,7 +200,7 @@ Promise.all([getOptions(), getSurvey(), getAuthThenSavedData()])
 //             respondent={respondent}
 //             respondentOptions={respondentOptions}
 //             responses={survey.createQAMap(responses)}
-//             authenticationStatus={authenticationStatus}
+//             authStatus={authStatus}
 //             onRespondentChanged={this.updateRespondent.bind(this)}
 //             onAnswersChanged={this.updateAnswers.bind(this)}
 //         />, app);

@@ -8,12 +8,8 @@ function parseText(text) {
 export default class QuestionComponent extends React.Component {
     constructor(props) {
         super(props);
-        
-        const { question, responses } = props;
-        const answer = responses.get(question) || null;
 
-        this.question = question;
-        this.state = { answer: answer, showingHelp: false };
+        this.state = { showingHelp: false };
     }
 
     selectAnswer(e) {
@@ -21,29 +17,25 @@ export default class QuestionComponent extends React.Component {
         if (isNaN(answerValue)) {
             answerValue = e.target.value;
         }
-        const answer = this.question.findAnswerByValue(answerValue);
-        this.setState({ answer });
-        this.props.onAnswered(this.question, answer);
+        const answer = this.props.question.findAnswerByValue(answerValue);
+        this.props.onAnswerChanged(this.props.question, answer);
     }
 
     toggleHelp(e) {
-        this.setState({ showingHelp: !this.state.showingHelp });
+        this.setState(prevState => { showingHelp: !prevState.showingHelp });
         e.preventDefault();
     }
 
     render() {
-        const question = this.question;
-        const answer = this.state.answer;
-
-        const prevQuestion = question.prev;
-        const nextQuestion = question.next;
+        const { question, surveyState } = this.props;
+        const answer = surveyState.answers.get(question);
 
         const createAnswer = (a, i) => {
-            const isSelected = answer === a;
-            const className = isSelected ? 'answer selected' : 'answer';
+            const isAnswer = a === answer;
+            const className = isAnswer ? 'answer selected' : 'answer';
             
             return <div key={a.key} className={className}>
-                <input id={a.key} name={`${question.key}.answer`} checked={isSelected} type="radio" value={a.value} onChange={this.selectAnswer.bind(this)} />
+                <input id={a.key} name={`${question.key}.answer`} checked={isAnswer} type="radio" value={a.value} onChange={this.selectAnswer.bind(this)} />
                 <label for={a.key}>{a.text}</label>
             </div>;
         };
@@ -55,6 +47,9 @@ export default class QuestionComponent extends React.Component {
         const helpText = parseText(question.help);
 
         const showingHelp = this.state.showingHelp;
+
+        const prevQuestion = question.prev;
+        const nextQuestion = question.next;
 
         return <section className="question" id={question.key}>
             <header>

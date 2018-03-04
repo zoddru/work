@@ -1,6 +1,5 @@
 import React from 'react';
 import SurveyNav from './SurveyNav';
-import RespondentOptionsComponent from './RespondentOptionsComponent';
 import SurveyStart from './SurveyStart';
 import CategoryComponent from './CategoryComponent';
 import Response from '../Response';
@@ -10,21 +9,37 @@ export default class SurveyComponent extends React.Component {
         super(props);
 
         this.state = {
-            surveyWithResponses: props.surveyWithResponses
+            surveyState: props.surveyState
         };
     }
 
-    onAnswered(question, answer) {
+    respondentChanged(respondentProps) {
+        const self = this;
         this.setState(prevState => {
-            const surveyWithResponses = prevState.surveyWithResponses.changeAnswer(question, answer);
-            return { surveyWithResponses };
+            const surveyState = prevState.surveyState.changeRespondent(respondentProps);
+            self.props.saveSurveyState(surveyState);
+            return { surveyState };
+        });
+    }
+
+    onAnswerChanged(question, answer) {
+        const self = this;
+        this.setState(prevState => {
+            const surveyState = prevState.surveyState.changeAnswer(question, answer);
+            self.props.saveSurveyState(surveyState);
+
+            console.log(surveyState);
+
+            return { surveyState };
         });
     }
 
     render() {
-        const { authenticationStatus, options } = this.props;        
-        const { surveyWithResponses } = this.state;
-        const { respondent, survey } = surveyWithResponses;
+        const { surveyState } = this.state;
+        const { survey } = surveyState;
+
+        const categories = survey.categories
+            .map(category => <CategoryComponent key={category.key} surveyState={surveyState} category={category} onAnswerChanged={this.onAnswerChanged.bind(this)} />);
 
         // const { respondent, survey, state } = this;
         // const { responses } = state;
@@ -33,18 +48,20 @@ export default class SurveyComponent extends React.Component {
 
 
 
-        // const { authenticationStatus, respondentOptions, onRespondentChanged } = this.props;
+        // const { authStatus, respondentOptions, onRespondentChanged } = this.props;
+
 
 
         return <div>
-            <SurveyNav surveyWithResponses={surveyWithResponses} />
+            <SurveyNav surveyState={surveyState} />
             <section className="survey">
-                <SurveyStart authenticationStatus={authenticationStatus} surveyWithResponses={surveyWithResponses} options={options} />
+                <SurveyStart surveyState={surveyState} onRespondentChanged={this.respondentChanged.bind(this)} />
+                {categories}
             </section>
+
             {/* <section className="survey">
                 
 
-                {categories}
 
                 <section className="category end" id="end">
                     <header>
