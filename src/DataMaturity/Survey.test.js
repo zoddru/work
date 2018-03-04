@@ -7,7 +7,7 @@ const data = {
     categories: [
         {
             identifier: 'A',
-            title: 'Category A',
+            label: 'Category A',
             questions: [
                 { text: 'Question A.1', help: 'Help A.1' },
                 { text: 'Question A.2', help: 'Help A.2' },
@@ -16,7 +16,7 @@ const data = {
         },
         {
             identifier: 'B',
-            title: 'Category B',
+            label: 'Category B',
             questions: [
                 { text: 'Question B.1', help: 'Help B.1' },
                 { text: 'Question B.2', help: 'Help B.2' }
@@ -34,7 +34,7 @@ test('create', t => {
     t.is(survey.categories.length, 2);
     t.is(survey.categories[0].key, `${survey.key}.categoryA`);
     t.is(survey.categories[1].identifier, 'B');
-    t.is(survey.categories[1].title, 'Category B');
+    t.is(survey.categories[1].label, 'Category B');
     t.is(survey.categories[0].questions.length, 3);
     t.is(survey.categories[1].questions[1].key, `${survey.key}.categoryB.question2`);
     t.is(survey.categories[1].questions[1].text, 'Question B.2');

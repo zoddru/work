@@ -3,7 +3,7 @@ import React from 'react';
 function getCurrentUrl() {
     if (typeof window === 'undefined' || !window.location)
         return '';
-    return window.location.href;
+    return window.location.href.split("#")[0];;
 }
 
 function WhenSignedIn(props) {

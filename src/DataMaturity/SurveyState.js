@@ -4,9 +4,9 @@ export default class SurveyState {
     constructor({
         authStatus = { isSignedIn: false },
         options = { departments: [], roles: [] },
-        survey = null,
-        respondent = null,
-        answers = null
+        survey = { categories: [] },
+        respondent = {},
+        answers = new Map()
     } = {}) {
 
         this.authStatus = authStatus;
