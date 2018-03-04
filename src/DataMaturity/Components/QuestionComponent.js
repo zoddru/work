@@ -22,13 +22,14 @@ export default class QuestionComponent extends React.Component {
     }
 
     toggleHelp(e) {
-        this.setState(prevState => { showingHelp: !prevState.showingHelp });
+        this.setState(prevState => { return { showingHelp: !prevState.showingHelp } });
         e.preventDefault();
     }
 
     render() {
         const { question, surveyState } = this.props;
         const answer = surveyState.answers.get(question);
+        const showingHelp = this.state.showingHelp;
 
         const createAnswer = (a, i) => {
             const isAnswer = a === answer;
@@ -46,8 +47,6 @@ export default class QuestionComponent extends React.Component {
         const questionText = parseText(question.text);
         const helpText = parseText(question.help);
 
-        const showingHelp = this.state.showingHelp;
-
         const prevQuestion = question.prev;
         const nextQuestion = question.next;
 
@@ -59,19 +58,21 @@ export default class QuestionComponent extends React.Component {
                 <div className="text">
                     {questionText}
                 </div>
-                <div className="help">
+                {question.hasHelp && <div className="help">
                     <a className="expand" href="#" onClick={this.toggleHelp.bind(this)}>More information</a>
                     <div className={showingHelp ? 'help-text expanded' : 'help-text collapsed'}>
                         <br />
                         {helpText}
-                        <div className="answers">
-                            {nonAnswers}
-                        </div>
                     </div>
-                </div>
+                </div>}
                 <div className="answers">
                     {answers}
-                </div>                
+                </div>
+                <div className="help">
+                    <div className="answers">
+                        {nonAnswers}
+                    </div>  
+                </div>          
             </main>
             <footer>
                 <div className="navigation">

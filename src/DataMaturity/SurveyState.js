@@ -1,3 +1,4 @@
+import Respondent from './Respondent';
 import Response from './Response';
 
 export default class SurveyState {
@@ -5,7 +6,7 @@ export default class SurveyState {
         authStatus = { isSignedIn: false },
         options = { departments: [], roles: [] },
         survey = { categories: [] },
-        respondent = {},
+        respondent = new Respondent(),
         answers = new Map()
     } = {}) {
 

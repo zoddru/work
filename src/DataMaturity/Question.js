@@ -46,6 +46,10 @@ export default class Question {
         return this.answers.find(a => a.value === value) || this.nonAnswers.find(a => a.value === value);
     }
 
+    get hasHelp() {
+        return !!this.help;
+    }
+
     get prev() {
         const questions = this.category.questions;
         const index = questions.indexOf(this);

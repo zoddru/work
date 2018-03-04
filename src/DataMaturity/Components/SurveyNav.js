@@ -31,15 +31,15 @@ export default class SurveyNav extends React.Component {
 
     render() {
         const surveyState = this.props.surveyState;
-        const { survey, answers } = surveyState;
+        const { respondent, survey, answers } = surveyState;
         const expandedCategory = this.state.expandedCategory;
+
+        const startClass = respondent.hasBeenAnswered ? 'answered' : respondent.hasBeenStarted ? 'started' : '';
 
         const nodes = [];
 
         survey.categories.forEach(category => {
-            const categoryClassName = category.hasBeenAnswered(answers)
-                ? 'answered'
-                : category.hasBeenStarted(answers) ? 'started' : '';
+            const categoryClassName = category.hasBeenAnswered(answers) ? 'answered' : category.hasBeenStarted(answers) ? 'started' : '';
 
             nodes.push(<div className={`node ${categoryClassName}`} key={category.key}>
                 <a href={`#${category.key}`} className="number">{category.identifier}</a>
@@ -56,7 +56,7 @@ export default class SurveyNav extends React.Component {
         });
 
         return <nav className="progress">
-            <div className="node">
+            <div className={`node ${startClass}`}>
                 <a href="#start" className="text">Start</a>
             </div>
             {nodes}
