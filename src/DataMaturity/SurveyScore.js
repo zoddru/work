@@ -41,6 +41,14 @@ export default class SurveyScore {
         Object.freeze();
     }
 
+    get identifier() {
+        return 'overall';
+    }
+
+    get label() {
+        return 'Overall';
+    }
+
     get key() {
         return `${this.survey.key}.score`;
     }

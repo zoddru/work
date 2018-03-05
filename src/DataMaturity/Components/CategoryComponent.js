@@ -1,6 +1,5 @@
 import React from 'react';
 import QuestionComponent from './QuestionComponent';
-import Category from '../Category';
 
 export default class CategoryComponent extends React.Component {
     constructor(props) {

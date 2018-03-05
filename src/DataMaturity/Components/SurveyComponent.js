@@ -28,8 +28,6 @@ export default class SurveyComponent extends React.Component {
             const surveyState = prevState.surveyState.changeAnswer(question, answer);
             self.props.saveSurveyState(surveyState);
 
-            console.log(surveyState);
-
             return { surveyState };
         });
     }

@@ -26,7 +26,6 @@ class WebServices {
 
     get(path) {
         const url = this.signUrl(path);
-        console.log(url);
         return axios({
             method: 'get',
             url: url

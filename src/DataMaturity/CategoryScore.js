@@ -50,15 +50,12 @@ export default class CategoryScore {
         Object.freeze();
     }
 
-    get displayMean () {
-        const mean = this.mean;
-        if (typeof(mean) === 'number')
-            return (offset + mean).toFixed(1);
-        return '---';
+    get identifier() {
+        return this.category.identifier;
     }
 
-    get isValid() {
-        return this.numberOfValid >= minNumberOfValid;
+    get label() {
+        return this.category.label;
     }
 
     get key() {

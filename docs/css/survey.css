@@ -173,6 +173,10 @@ nav.progress .node.answered a:hover {
     margin-right: auto;
 }
 
+.category {    
+    min-height: 100vh; /* should be dynamic 100% of  */
+}
+
 .question {
     position: relative;
     border-left: 1rem solid #92278F;
@@ -287,11 +291,6 @@ a.expand {
     right: 0;
 }
 
-.category.start,
-.category.end {    
-    min-height: 100vh; /* should be dynamic 100% of  */
-}
-
 .end .feedback {
     margin-top: 4rem;
     min-height: 60rem;
@@ -320,4 +319,15 @@ table.summary th {
 
 table.summary td.number {
     text-align: right;
+}
+
+.category.score p {
+    padding: 1rem 0;
+}
+
+.category.score p.warning {
+    border: dashed 1px #464B51;
+    background-color: #E2E3E7;
+    margin: 1rem 0;
+    padding: 1rem;
 }

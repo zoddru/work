@@ -30,7 +30,7 @@ export default class SurveyNav extends React.Component {
     }
 
     render() {
-        const surveyState = this.props.surveyState;
+        const { surveyState } = this.props;
         const { respondent, survey, answers } = surveyState;
         const expandedCategory = this.state.expandedCategory;
 
@@ -57,7 +57,7 @@ export default class SurveyNav extends React.Component {
 
         return <nav className="progress">
             <div className={`node ${startClass}`}>
-                <a href="#start" className="text">Start</a>
+                <a href="#" className="text">Start</a>
             </div>
             {nodes}
             <div className="node">

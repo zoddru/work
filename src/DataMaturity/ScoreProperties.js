@@ -1,3 +1,4 @@
+
 const bands = Object.freeze([
     { label: 'Nascent', upperThreshold: 1.8 },
     { label: 'Basic', upperThreshold: 2.6 },
@@ -20,7 +21,7 @@ const getFunctions = {
         const mean = this.mean;
         return (bands.find(b => mean < b.upperThreshold) || { label: unknownValueLabel }).label;
     },
-    displayMean () {
+    meanDisplayName () {
         return this.hasMean
             ? (this.mean).toFixed(1)
             : unknownValueLabel;

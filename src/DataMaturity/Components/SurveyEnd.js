@@ -8,10 +8,9 @@ export default class SurveyEnd extends React.Component {
 
     render() {
         const { surveyState } = this.props;
-        const { survey, answers } = surveyState;
+        const { survey, score } = surveyState;
 
         const lastQuestion = survey.lastQuestion;
-        const score = survey.score(answers);
         
         return <section className="category end" id="end">
             <header>

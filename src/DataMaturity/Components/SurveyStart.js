@@ -12,7 +12,7 @@ export default class SurveyStart extends React.Component {
 
         const firstQuestion = survey.firstQuestion;
 
-        return <section className="category start" id="start">            
+        return <section className="category start">            
             <section class="question">
                 <header>
                     <h2>Data Maturity</h2>

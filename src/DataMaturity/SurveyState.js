@@ -31,6 +31,10 @@ export default class SurveyState {
         return Response.createFromMap(this.respondent, this.answers);
     }
 
+    get score() {
+        return this.survey.score(this.answers);
+    }
+
     change(newValues) {
         const props = Object.assign({}, this, newValues);
         return new SurveyState(props);
