@@ -1,5 +1,4 @@
-const offset = 3;
-const minNumberOfValidScores = 3;
+import ScoreProperties from './ScoreProperties';
 
 function calculateScore(categories, answers) {
     return categories.reduce((acc, c) => {
@@ -11,7 +10,7 @@ function calculateScore(categories, answers) {
             return acc;
         }
 
-        acc.numberOfValidScores += 1;
+        acc.numberOfValid += 1;
         acc.sum += categoryScore.mean;
         
         return acc;
@@ -19,7 +18,7 @@ function calculateScore(categories, answers) {
     }, {
         categoryScores: [],
         sum: 0, 
-        numberOfValidScores: 0
+        numberOfValid: 0
     });
 }
 
@@ -33,22 +32,13 @@ export default class SurveyScore {
 
         Object.assign(this, score);
         this.survey = survey;
-        this.mean = score.numberOfValidScores === 0
+        this.mean = score.numberOfValid === 0
             ? null
-            : score.sum / score.numberOfValidScores;
+            : score.sum / score.numberOfValid;
+
+        ScoreProperties.defineProperties(this);
 
         Object.freeze();
-    }
-
-    get displayMean () {
-        const mean = this.mean;
-        if (typeof(mean) === 'number')
-            return (offset + mean).toFixed(1);
-        return '---';
-    }
-
-    get isValid() {
-        return this.numberOfValidScores >= minNumberOfValidScores;
     }
 
     get key() {

@@ -57,6 +57,8 @@ export default class Survey {
 
         responses.forEach((response) => {
             const answer = survey.findAnswer(response);
+            if (!answer)
+                return;
             map.set(answer.question, answer);
         });
 

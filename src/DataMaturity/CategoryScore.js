@@ -1,5 +1,4 @@
-const offset = 3;
-const minNumberOfValidAnswers = 3;
+import ScoreProperties from './ScoreProperties';
 
 function calculateScore(questions, answers) {
     return questions.reduce((acc, q) => {
@@ -20,14 +19,14 @@ function calculateScore(questions, answers) {
             return acc;
         }
 
-        acc.numberOfValidAnswers += 1;
+        acc.numberOfValid += 1;
         acc.sum += answer.value;
         
         return acc;
 
     }, { 
         sum: 0, 
-        numberOfValidAnswers: 0, 
+        numberOfValid: 0, 
         numberNotKnown: 0, 
         numberNotUnderstood: 0
     });
@@ -42,9 +41,11 @@ export default class CategoryScore {
         const score = calculateScore(category.questions, answers);
         Object.assign(this, score);
         this.category = category;
-        this.mean = score.numberOfValidAnswers === 0
+        this.mean = score.numberOfValid === 0
             ? null
-            : score.sum / score.numberOfValidAnswers;
+            : score.sum / score.numberOfValid;
+
+        ScoreProperties.defineProperties(this);
 
         Object.freeze();
     }
@@ -57,7 +58,7 @@ export default class CategoryScore {
     }
 
     get isValid() {
-        return this.numberOfValidAnswers >= minNumberOfValidAnswers;
+        return this.numberOfValid >= minNumberOfValid;
     }
 
     get key() {

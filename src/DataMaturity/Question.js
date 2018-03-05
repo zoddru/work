@@ -1,11 +1,11 @@
 import Answer from './Answer';
 
 const defaultAnswers = Object.freeze([
-    { value: -2, text: 'strongly disagree' }, 
-    { value: -1, text: 'disagree' }, 
-    { value: 0, text: 'neutral' },
-    { value: 1, text: 'agree' },
-    { value: 2, text: 'strongly agree' }
+    { value: 1, text: 'strongly disagree' }, 
+    { value: 2, text: 'disagree' }, 
+    { value: 3, text: 'neutral' },
+    { value: 4, text: 'agree' },
+    { value: 5, text: 'strongly agree' }
 ]);
 
 const defaultNonAnswers = Object.freeze([

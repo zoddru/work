@@ -48,13 +48,6 @@ export default class SurveyComponent extends React.Component {
                 {categories}
                 <SurveyEnd surveyState={surveyState} />
             </section>
-
-            {/* <section className="survey">
-                
-
-
-                
-            </section> */}
         </div>;
     }
 }
