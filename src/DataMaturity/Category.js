@@ -1,4 +1,5 @@
 import Question from './Question';
+import CategoryScore from './CategoryScore';
 
 export default class Category {
     constructor({ survey = {}, identifier = '', label = '', questionData = [] }) {
@@ -26,6 +27,10 @@ export default class Category {
 
     hasBeenAnswered(answers) {
         return this.questions.every(q => !!answers.get(q));
+    }
+
+    score(answers) {
+        return new CategoryScore({ category: this, answers });
     }
 
     get firstQuestion() {

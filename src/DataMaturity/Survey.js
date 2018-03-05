@@ -1,4 +1,5 @@
 import Category from './Category';
+import SurveyScore from './SurveyScore';
 
 export default class Survey {
     constructor(data) {
@@ -29,6 +30,10 @@ export default class Survey {
         if (!this.categories.length)
             return null;
         return this.categories[this.categories.length - 1];
+    }
+
+    score(answers) {
+        return new SurveyScore({ survey: this, answers });
     }
 
     findAnswer(response) {

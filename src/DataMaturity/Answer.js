@@ -16,6 +16,14 @@ export default class Answer {
         });
     }
 
+    get notKnown() {
+        return this.value === 'NOT_KNOWN';
+    }
+
+    get notUnderstood() {
+        return this.value === 'NOT_UNDERSTOOD';
+    }
+
     get identifier() {
         return this.value;
     }

@@ -2,7 +2,7 @@ import React from 'react';
 import SurveyNav from './SurveyNav';
 import SurveyStart from './SurveyStart';
 import CategoryComponent from './CategoryComponent';
-import Response from '../Response';
+import SurveyEnd from './SurveyEnd';
 
 export default class SurveyComponent extends React.Component {
     constructor(props) {
@@ -41,42 +41,19 @@ export default class SurveyComponent extends React.Component {
         const categories = survey.categories
             .map(category => <CategoryComponent key={category.key} surveyState={surveyState} category={category} onAnswerChanged={this.onAnswerChanged.bind(this)} />);
 
-        // const { respondent, survey, state } = this;
-        // const { responses } = state;
-        // const firstCategory = survey.firstCategory();
-        // const firstQuestion = !!firstCategory ? firstCategory.firstQuestion() : null;
-
-
-
-        // const { authStatus, respondentOptions, onRespondentChanged } = this.props;
-
-
-
         return <div>
             <SurveyNav surveyState={surveyState} />
             <section className="survey">
                 <SurveyStart surveyState={surveyState} onRespondentChanged={this.respondentChanged.bind(this)} />
                 {categories}
+                <SurveyEnd surveyState={surveyState} />
             </section>
 
             {/* <section className="survey">
                 
 
 
-                <section className="category end" id="end">
-                    <header>
-                        <h2>Finished</h2>
-                    </header>
-                    <main>
-                        <p>
-                            Some preview of the results, or some mechanism to find them.
-                        </p>
-                        <div className="feedback">
-                            <label for={`feedback`}>Feedback</label>
-                            <textarea id={`.feedback`} placeholder="tell us any thoughts on this survey?" />
-                        </div>
-                    </main>
-                </section>
+                
             </section> */}
         </div>;
     }
