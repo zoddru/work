@@ -17,7 +17,7 @@ function getResultText(score) {
             You haven't filled in enough of the survey to get an accurate score.
         </p>}
         <p>
-            Your answers indicate that you perceive your council to be at level <strong>{score.rankLabel}</strong> (with a score of <strong></strong> ({score.meanDisplayName})
+            Your answers indicate that you perceive your council to be at level <strong>{score.rankLabel}</strong> (with a score of <strong></strong> ({score.meanDisplayName}))
         </p>
         <p>
             Organisations at this level of data maturity typically have these characteristics:
