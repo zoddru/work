@@ -9,7 +9,7 @@ import Respondent from './Respondent';
 import SurveyState from './SurveyState';
 import SignInDetails from './Components/SignInDetails';
 import SurveyComponent from './Components/SurveyComponent';
-import ResultComponent from './Components/ResultComponent';
+import ResultsMain from './Components/Results/Main';
 
 function getOptions() {
     return axios.get(`/dmApi/respondentOptions`)
@@ -80,7 +80,7 @@ function renderSurvey(surveyState) {
 
 function renderResult(surveyState) {
     const app = document.getElementById('app');
-    ReactDom.render(<ResultComponent surveyState={surveyState} />, app);
+    ReactDom.render(<ResultsMain surveyState={surveyState} />, app);
 }
 
 Promise.all([getOptions(), getSurvey(), getAuthThenSavedData()])

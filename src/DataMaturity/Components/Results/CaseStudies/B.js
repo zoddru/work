@@ -1,0 +1,6 @@
+import React from 'react';
+export default <div class="caseStudy">
+    <p>
+        The <strong>Camden Residents Index</strong> (CRI) brings together client data from 16 business systems in the council to create a complete picture of each resident. In total the CRI extracts 123 fields of primarily demographic information. By integrating much of the data Camden holds about each resident, they have reduced administration time, provided a more seamless service, spotted opportunities for efficiencies and detected fraud. The CRI is also used for automating business processes. Once information would have been manually extracted from one system, cleaned and prepared to go into another. This can now be done automatically. This has been a major enabler of organisational restructuring, identifying where officer time can be diverted to more valuable activities and where headcount reductions can be made. Camden has been able to make cashable savings through reducing duplication. This includes cancelling reporting tools and management systems. In the planning team, applications have been put into a dashboard and then into the open data portal with an API which enables ‘Google style’ searching on this data and a new email alert system. This has contributed to savings of £200,000.
+    </p>
+</div>;

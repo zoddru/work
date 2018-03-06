@@ -325,9 +325,27 @@ table.summary td.number {
     padding: 1rem 0;
 }
 
-.category.score p.warning {
+.category.score .warning,
+.category.score .caseStudy {
     border: dashed 1px #464B51;
-    background-color: #E2E3E7;
+    background-color: #EFEFEF;
     margin: 1rem 0;
-    padding: 1rem;
+    padding: 1.5rem 1rem;
+    position: relative;
+}
+
+.category.score .warning::before,
+.category.score .caseStudy::before {
+    color: #aaaaaa;
+    position: absolute;
+    content: 'Warning';
+    font-weight: bold;
+    right: 0;
+    top: 0;
+    padding: 0.6rem;
+    font-size: 1.2rem;
+}
+
+.category.score .caseStudy::before {
+    content: 'Case study';
 }
