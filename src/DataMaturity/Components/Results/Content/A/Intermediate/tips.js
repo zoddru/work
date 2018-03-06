@@ -1,0 +1,2 @@
+import React from 'react';
+            export default <div className="tips"><ul><li>Consider an organisational strategy for how you want to use data, the type of data you want and how you’ll manage this data</li><li>Increase the amount of meta-data available to check for data quality, and use this proactively to inspect quality</li><li>Ensure that every department is using the same common data standards</li></ul></div>;

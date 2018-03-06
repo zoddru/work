@@ -1,0 +1,2 @@
+import React from 'react';
+            export default <div className="characteristics"><p>Data collection goes beyond operational use and mandatory reporting requirements but there is little strategic purpose behind collection or use.  There are some efforts to adopt similar data standards and control data quality, but linking data between teams or departments is difficult. There is limited or no ability to use meta-data to audit data quality, and there are few methods employed to improve data quality during collection.</p></div>;

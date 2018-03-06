@@ -1,0 +1,2 @@
+import React from 'react';
+            export default <div className="characteristics"><p>There is scope for data to be used to support decision-making and operational processes, but limited take up. Data analysis remains an afterthought in most cases. Typically the use of data is limited to understanding what has happened at a superficial level, rather than considering questions of why service issues might be arising or the implications of future changes to the service.</p></div>;

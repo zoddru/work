@@ -1,0 +1,2 @@
+import React from 'react';
+            export default <div className="tips"><ul><li>Develop a set of common data standards for data which is entered in different ways across the council (name, DOB, address etc)</li><li>Introduce meta-data to monitor data quality</li><li>Move to electronic entry using standard forms and drop-downs wherever possible</li></ul></div>;

@@ -1,0 +1,2 @@
+import React from 'react';
+            export default <div className="tips"><ul><li>Focus on organisational habits, routines and expectations that encourage better data use</li><li>Formally embed the use of data into decision making processes at all levels</li><li>Promote the concept of data as a core organisational asset and fund it appropriately</li></ul></div>;

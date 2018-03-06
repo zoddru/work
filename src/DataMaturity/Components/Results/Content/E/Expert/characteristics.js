@@ -1,0 +1,2 @@
+import React from 'react';
+            export default <div className="characteristics"><p>Data is seen as a key organisational asset. There is strong and clear support from the senior team and politicians that data should be used to inform decisions and processes across the organisation.  All staff see data as a tool which can support them to do their jobs better. It is considered unacceptable for important decisions to be made without consulting data analysis about its implications.</p></div>;

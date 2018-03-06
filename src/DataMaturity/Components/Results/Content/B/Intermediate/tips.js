@@ -1,0 +1,2 @@
+import React from 'react';
+            export default <div className="tips"><ul><li>Consider pairing up skilled data analysts with frontline and operational teams to look for opportunities to use data to support their roles</li><li>Introduce a requirement for all reports to Cabinet and Senior Management Team recommending decisions to have factored in appropriate data analysis and modelling</li><li>Promote positive outcomes from data use, through end users</li></ul></div>;

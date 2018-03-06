@@ -40,7 +40,6 @@
         "tips": {}
     },
     "A": {
-        "label": "Data Management",
         "characteristics": {
             "Nascent": [
                 "Data management policies differ from department to department and are there is no common understanding of data standards, quality needs or an overall data architecture.  There is no formal data management capability and data is collected,  stored, and processed in ad-hoc ways, usually dictated by operational processes. Meta-data is not used to audit the quality of data. The ability to bring together data from different parts of the organisation is limited and significant resources would have to be deployed to make any outputs of such an exercise useable."
@@ -87,7 +86,6 @@
         }
     },
     "B": {
-        "label": "Data use",
         "characteristics": {
             "Nascent": [
                 "There are few if any efforts to use data to inform decisions before they are taken. The value of data in designing, managing services and policies is not understood at any level."
@@ -134,7 +132,6 @@
         }
     },
     "C": {
-        "label": "Data governance",
         "characteristics": {
             "Nascent": [
                 "Data is highly siloed and most staff perceive data protection legislation as a reason not to share data. There is no senior officer responsible for data, and any sharing is ad-hoc and there few if any organisational policies designed to support legal sharing of data. There are few if any resources to help staff make consistent decisions about data sharing.  It is difficult to draw an organisational view of a service, issue or individual using data because of concerns about data sharing."
@@ -181,7 +178,6 @@
         }
     },
     "D": {
-        "label": "Data skills",
         "characteristics": {
             "Nascent": [
                 "Data skills and capacity are limited to IT system managers and basic software use. Most staff lack basic data literacy and skills and there is no organisational support to improve data skills."
@@ -228,7 +224,6 @@
         }
     },
     "E": {
-        "label": "Data culture and awareness",
         "characteristics": {
             "Nascent": [
                 "Data is not viewed as important asset. There is limited recognition that data can support services in a range of ways. Most staff, from senior to junior levels, see data as a purely operational or box-ticking requirement."

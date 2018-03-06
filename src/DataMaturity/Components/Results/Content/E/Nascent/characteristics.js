@@ -1,0 +1,2 @@
+import React from 'react';
+            export default <div className="characteristics"><p>Data is not viewed as important asset. There is limited recognition that data can support services in a range of ways. Most staff, from senior to junior levels, see data as a purely operational or box-ticking requirement.</p></div>;

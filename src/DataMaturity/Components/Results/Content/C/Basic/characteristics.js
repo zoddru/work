@@ -1,0 +1,2 @@
+import React from 'react';
+            export default <div className="characteristics"><p>Information governance concerns prohibit most sharing of data for analysis purposes. Assigned senior level data owners are responsible for specific data sets and accountable for agreeing new uses and access to data is done on an ad hoc basis. There are few if any tools available to enable the sharing of information in a consistent way across the organisation based on use cases. There is limited appreciation of the benefits of legal data sharing.</p></div>;

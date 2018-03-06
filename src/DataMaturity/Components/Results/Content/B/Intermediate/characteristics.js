@@ -1,0 +1,2 @@
+import React from 'react';
+            export default <div className="characteristics"><p>Data analysis is usually requested for decision making, but can be inadequate because analysis is not of high quality, targeted at the decision to be made, or the required data is not available.  Data is sometimes used to understand why events, or levels of performance, have occurred.  Performance management using data is of limited value in terms of making improvements</p></div>;

@@ -1,0 +1,2 @@
+import React from 'react';
+            export default <div className="characteristics"><p>Data sharing does occur but not extensively, and there is only a limited organisation view and guidance about data sharing based on real world use-cases.  The organisation has assigned senior level data owners for specific data sets accountable for agreeing new uses and access to data.</p></div>;

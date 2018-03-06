@@ -1,0 +1,2 @@
+import React from 'react';
+            export default <div className="characteristics"><p>Data skills and capacity are limited to IT system managers and basic software use. Most staff lack basic data literacy and skills and there is no organisational support to improve data skills.</p></div>;

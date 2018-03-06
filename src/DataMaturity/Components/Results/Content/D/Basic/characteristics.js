@@ -1,0 +1,2 @@
+import React from 'react';
+            export default <div className="characteristics"><p>Some staff are able to use basic software for simple analysis. Data literacy is patchy among staff and most do not have access to support or guidance about how they could improve this.</p></div>;

@@ -1,0 +1,2 @@
+import React from 'react';
+            export default <div className="characteristics"><p>Data analysts are highly skilled and can work with multiple software packages. Sophisticated data science can be undertaken routinely across the organisation. All staff have a level of data literacy appropriate to their role.</p></div>;

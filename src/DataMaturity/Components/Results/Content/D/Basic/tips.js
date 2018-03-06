@@ -1,0 +1,2 @@
+import React from 'react';
+            export default <div className="tips"><ul><li>Ensure there is access support for people to improve digital literacy, for instance online learning modules</li><li>Look for opportunities to upskill existing data analysis and data science capacity</li><li>Develop an organisational plan to address gaps in data analysis and data science capacity</li></ul></div>;

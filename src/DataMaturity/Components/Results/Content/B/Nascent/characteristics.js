@@ -1,0 +1,2 @@
+import React from 'react';
+            export default <div className="characteristics"><p>There are few if any efforts to use data to inform decisions before they are taken. The value of data in designing, managing services and policies is not understood at any level.</p></div>;

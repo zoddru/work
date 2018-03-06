@@ -1,0 +1,2 @@
+import React from 'react';
+            export default <div className="tips"><ul><li>Adopt a specific policy for the hiring, development and retention of staff with sophisticated data analytic and science skills</li><li>Support generalist staff to reach higher levels of data literacy</li><li>Provide specific training for politicians to improve their data literacy</li></ul></div>;

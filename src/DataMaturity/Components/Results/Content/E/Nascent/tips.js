@@ -1,0 +1,2 @@
+import React from 'react';
+            export default <div className="tips"><ul><li>Review why any existing data tools may be under-used</li><li>Support the use of data across the organisation from a senior level</li><li>Communicate the value of data across a range of use cases</li></ul></div>;

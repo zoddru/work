@@ -1,0 +1,2 @@
+import React from 'react';
+            export default <div className="characteristics"><p>The value of data is championed at senior levels, and strategies and policies exist to embed it into day-to-day operations across the organisation.  There are some highly data-literate staff and the culture of the organisation expects data to be used in decision making and service delivery.</p></div>;

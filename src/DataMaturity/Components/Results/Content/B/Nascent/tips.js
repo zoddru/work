@@ -1,0 +1,2 @@
+import React from 'react';
+            export default <div className="tips"><ul><li>Start a conversation in the organisation about the use of data in decision making and operations</li><li>Audit decision making across a range of areas to assess how decisions are currently made and where the opportunities could be</li><li>Look for positive examples of data use and raise awareness of them</li></ul></div>;

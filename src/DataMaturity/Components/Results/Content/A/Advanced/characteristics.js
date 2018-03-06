@@ -1,0 +1,2 @@
+import React from 'react';
+            export default <div className="characteristics"><p>Data is used well in operational settings and other data is collected in line with  broader organisational strategies and decision making.  Most data can be shared and integrated, some of it automatically through data warehouses or federated approaches, with common data standards.  Data is generally of useable quality, and steps have been taken to eliminate the chances of poor quality during the collection process.  Meta-data is used to monitor data quality.</p></div>;

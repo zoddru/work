@@ -1,0 +1,2 @@
+import React from 'react';
+            export default <div className="tips"><ul><li>Consider use cases from other local authorities and whether they could be easily adapted to your context</li><li>Develop a selection of small, short projects which could be implemented quickly</li><li>Develop policies and guidance to help staff use data more effectively</li></ul></div>;

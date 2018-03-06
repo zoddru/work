@@ -1,0 +1,2 @@
+import React from 'react';
+            export default <div className="tips"><ul><li>Audit what level of data analysis and data science capacity there is in the organisation</li><li>Review current data analysis methods and whether these meet your requirements</li><li>Consider whether there is more that could be done with the existing capacity you have</li></ul></div>;

@@ -1,0 +1,2 @@
+import React from 'react';
+            export default <div className="characteristics"><p>The value of data is likely to be championed in sections of the organisation but it will not have full senior management backing.  Some staff see data as useful to their day-to-day work and there is an aspiration for more data-informed culture. In some services data is used as part of efforts to improve processes, but data dashboards are not routinely available and few processes have been automated.</p></div>;

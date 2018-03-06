@@ -2,20 +2,7 @@ import React from 'react';
 import Nav from './Nav';
 import Summary from './Summary';
 import Score from './Score';
-
-import CaseStudyA from './CaseStudies/A';
-import CaseStudyB from './CaseStudies/B';
-import CaseStudyC from './CaseStudies/C';
-import CaseStudyD from './CaseStudies/D';
-import CaseStudyE from './CaseStudies/E';
-
-const caseStudies = new Map([
-    ['A', CaseStudyA],
-    ['B', CaseStudyB],
-    ['C', CaseStudyC],
-    ['D', CaseStudyD],
-    ['E', CaseStudyE]
-]);
+import content from './content';
 
 export default class Main extends React.Component {
     constructor(props) {
@@ -30,12 +17,12 @@ export default class Main extends React.Component {
         const { surveyState } = this.state;
         const { score } = surveyState;
 
-        const categoryScores = score.categoryScores.map(cs => <Summary key={cs.key} score={cs} caseStudy={caseStudies.get(cs.identifier)} />);
+        const categoryScores = score.categoryScores.map(cs => <Summary key={cs.key} score={cs} content={content[cs.identifier]} />);
         
         return <div>
             <Nav score={score} />
             <section className="survey result">
-                <Summary score={score} />
+                <Summary score={score} content={content.Overall} />
                 {categoryScores}
             </section>
         </div>;

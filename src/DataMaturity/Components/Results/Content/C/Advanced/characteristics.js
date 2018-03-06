@@ -1,0 +1,2 @@
+import React from 'react';
+            export default <div className="characteristics"><p>There are some formal organisation-wide information sharing measures, such as use-case oriented protocols.  Data can be shared internally and externally to undertake analysis. The benefits of legal data sharing are widely appreciated.</p></div>;

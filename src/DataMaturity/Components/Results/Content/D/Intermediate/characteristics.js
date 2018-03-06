@@ -1,0 +1,2 @@
+import React from 'react';
+            export default <div className="characteristics"><p>Data integration and analysis can be performed by some staff, but is not highly sophisticated. Most staff have a basic level of data literacy. Where it doesn’t exist in-house, the organisation can usually access some level of external data analytics capability.</p></div>;

@@ -1,0 +1,2 @@
+import React from 'react';
+            export default <div className="tips"><ul><li>Consider where you could move from paper records to electronic input the first time you capture data</li><li>Introduce drop-down menus where possible to ensure data is not entered incorrectly</li><li>Audit the different ways in which the same data (name, DOB, address etc) are entered across the organisation</li></ul></div>;

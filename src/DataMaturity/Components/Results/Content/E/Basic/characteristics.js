@@ -1,0 +1,2 @@
+import React from 'react';
+            export default <div className="characteristics"><p>The value of data is poorly understood at strategic level and across staff. Data is seen as having some value in niche areas, but most staff do not routinely try to use data to help them with their work. There few if any formal strategies or efforts to increase the use of data.</p></div>;

@@ -42,7 +42,7 @@ export default class SurveyScore {
     }
 
     get identifier() {
-        return 'overall';
+        return 'Overall';
     }
 
     get label() {

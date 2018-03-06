@@ -1,0 +1,2 @@
+import React from 'react';
+            export default <div className="tips"><ul><li>Actively monitor the sector for developments and push your teams to be at the leading edge</li><li>Innovate with more ambitious uses of data</li><li>Consider whether your information products and tools could be scaleable to other organisations</li></ul></div>;

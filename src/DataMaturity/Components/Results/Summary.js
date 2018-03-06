@@ -7,7 +7,11 @@ export default class Summary extends React.Component {
     }
 
     render() {
-        const { score, caseStudy, chart } = this.props;
+        const { score, content, chart } = this.props;
+
+        const caseStudy = content.caseStudy;
+
+        console.log(caseStudy);
 
         return <section className="category score" id={score.key}>
             <header>
@@ -16,7 +20,7 @@ export default class Summary extends React.Component {
 
             {caseStudy}
 
-            <Score score={score} chart={chart} />            
+            <Score score={score} chart={chart} content={content[score.rankLabel]} />
         </section>;
     }
 }

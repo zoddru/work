@@ -1,0 +1,2 @@
+import React from 'react';
+            export default <div className="characteristics"><p>Many decisions are informed by data on both the frontline and at senior levels, but it is not consistent across the organisation.  Data is sometimes sought to conduct evaluations of services and interventions, but mainly on an ad hoc basis.  Data can be used to usefully performance manage staff and services, and there is scope for it to trigger changes. Data is used to manage services and processes and some are automated where appropriate.</p></div>;

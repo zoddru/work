@@ -1,0 +1,2 @@
+import React from 'react';
+            export default <div className="tips"><ul><li>Stay abreast of developments in the field - new approaches and technologies are appearing all the time</li><li>Use and agile development approach to ensure that iterative improvements are constantly being made</li><li>Do you know what impact your data management has? Monitor and evaluate so that you can make the case for further development</li></ul></div>;
