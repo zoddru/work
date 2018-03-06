@@ -69,6 +69,7 @@ export default class SurveyScore {
             },
             yAxis: {
                 min: 0,
+                max: 5,
                 title: {
                     text: 'Score'
                 }
