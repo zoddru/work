@@ -7,12 +7,13 @@ const util = require('util');
 const url = require('url');
 const express = require('express');
 const session = require('express-session');
+const cookieParser = require('cookie-parser');
 const proxy = require('express-http-proxy');
 const bodyParser = require('body-parser');
+import CsvWriter from './CsvWriter';
+import OAuthAccessor from './OAuthAccessor';
 
 const port = config.server.port;
-
-import CsvWriter from './CsvWriter';
 
 const webservicesHost = config.webservices && config.webservices.host || 'webservices.esd.org.uk';
 const webservicesProxy = proxy(webservicesHost, {
@@ -29,8 +30,7 @@ const webservicesProxy = proxy(webservicesHost, {
             'HMAC-SHA1'
         );
 
-        const { token, secret } = req.session.oAuth || {};
-
+        const { token, secret } = new OAuthAccessor(req, {}).get() || {};
         const signedUrl = oAuthManager.signUrl(`http://${webservicesHost}${path}`, token, secret);
         const signedPath = url.parse(signedUrl).path.replace(/^\/webservices/, '');
 
@@ -70,7 +70,7 @@ function getFullUrl(req) {
 }
 
 const app = express()
-
+    .use(cookieParser())
     .use(session({ secret: 'keyboard cat', cookie: { maxAge: 60000 } }))
     .use('/dmApi/*', dmApiProxy)
     .use('/webservices/*', webservicesProxy)
@@ -83,7 +83,8 @@ const app = express()
     })
 
     .get('/authentication/status', (req, res) => {
-        const oAuth = req.session.oAuth;
+        const oAuthAccessor = new OAuthAccessor(req, res);
+        const oAuth = oAuthAccessor.get();
         res.setHeader('Content-Type', 'application/json');
 
         if (!oAuth || !oAuth.token || !oAuth.secret) {
@@ -95,7 +96,7 @@ const app = express()
             .getCurrentUser()
             .then(result => {
                 if (result.error) {
-                    req.session.oAuth = null; // assume this data is now invalid
+                    oAuthAccessor.set(null); // assume this data is now invalid
                     res.send(JSON.stringify({ isSignedIn: false, error: result.error }));
                 }
                 else {
@@ -118,7 +119,7 @@ const app = express()
                 return;
             }
 
-            req.session.oAuth = { token, secret };
+            new OAuthAccessor(req, res).set({ token, secret });
             const authURL = `${config.oAuth.url}?oauth_token=${token}`;
 
             res.redirect(`${authURL}`);
@@ -131,7 +132,7 @@ const app = express()
         const returnUrl = urlObj.query.returnUrl || rootUrl;
         const encodedUrl = encodeURIComponent(returnUrl);
 
-        req.session.oAuth = null; // assume this data is now invalid
+        new OAuthAccessor(req, res).set(null); // assume this data is now invalid
         res.redirect(`${config.oAuth.signOutUrl}?returnUrl=${encodedUrl}`);
     })
 
@@ -139,8 +140,10 @@ const app = express()
         const rootUrl = getRootUrl(req);
         const urlObj = urlParser.parse(req.url, true);
         const returnUrl = urlObj.query.returnUrl || rootUrl;
+        const oAuthAccessor = new OAuthAccessor(req, res);
+        const oAuthDetails = oAuthAccessor.get(); 
 
-        if (!req.session.oAuth) {
+        if (!oAuthDetails) {
             console.log('no oAuth object found in session');
             res.redirect(rootUrl);
             return;
@@ -148,10 +151,10 @@ const app = express()
 
         getOAuthManager().getOAuthAccessToken(
             urlObj.query.oauth_token,
-            req.session.oAuth.secret,
+            oAuthDetails.secret,
             urlObj.query.oauth_verifier,
             (error, token, secret, results) => {
-                req.session.oAuth = { token, secret };
+                oAuthAccessor.set({ token, secret });
                 res.redirect(returnUrl);
             });
     })
@@ -185,7 +188,8 @@ const app = express()
         const path = req.params[0];
         res.setHeader('Content-Type', 'application/json');
 
-        new WebServices(req.session.oAuth || {})
+        const oAuth = new OAuthAccessor(req, res).get() || {};
+        new WebServices(oAuth)
             .get(path)
             .then(result => {
                 res.send(JSON.stringify(result.data));
