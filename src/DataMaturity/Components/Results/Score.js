@@ -1,5 +1,6 @@
 import React from 'react';
 import Tips from './Tips';
+import Chart from './Chart';
 
 const resultData = require('./resultData.json');
 
@@ -39,14 +40,17 @@ export default class ScoreComponent extends React.Component {
 
         const categoryData = resultData[score.identifier];
         const characteristics = categoryData.characteristics[score.rankLabel];
-        const tips = categoryData.tips[score.rankLabel];       
+        const tips = categoryData.tips[score.rankLabel];
+
+        const columnChartData = score.columnChartData;
 
         return <div>
+
             {!score.isValid && <div className="warning">
                 <p>You haven't filled in enough of the survey to get an accurate score.</p>
             </div>}
 
-            <div>
+            <div class="sub-section">
                 <p>
                     Your answers indicate that you perceive your council to be at level <strong>{score.rankLabel}</strong> (with a score of <strong></strong> ({score.meanDisplayName}))
                 </p>
@@ -54,12 +58,17 @@ export default class ScoreComponent extends React.Component {
                     Organisations at this level of data maturity typically have these characteristics:
                 </p>
                 <Tips tips={characteristics} />
-                
-                {!!tips && <div>
-                    <p><strong>Tips for progression</strong></p>
-                    <Tips tips={tips} />
-                </div>}
             </div>
+
+            {!!tips && <div class="sub-section">
+                <p><strong>Tips for progression</strong></p>
+                <Tips tips={tips} />
+            </div>}
+
+            {!!columnChartData && <div class="sub-section chart">
+                <Chart id={`${score.key}.columnChart`} data={columnChartData} />
+            </div>}
+
         </div>
     };
 }

@@ -52,4 +52,47 @@ export default class SurveyScore {
     get key() {
         return `${this.survey.key}.score`;
     }
+
+    get columnChartData() {
+
+
+        return  {
+            chart: {
+                type: 'column'
+            },
+            title: {
+                text: 'Overall scores broken down'
+            },
+            xAxis: {
+                categories: this.categoryScores.map(cs => cs.label),
+                crosshair: true
+            },
+            yAxis: {
+                min: 0,
+                title: {
+                    text: 'Score'
+                }
+            },
+            tooltip: {
+                headerFormat: '',
+                pointFormat: '<p><label style="color:{series.color};">{series.name}</label>: <strong>{point.y:.1f}</strong></p>',
+                shared: true,
+                useHTML: true
+            },
+            plotOptions: {
+                column: {
+                    stacking: 'normal',
+                    pointPadding: 0.2,
+                    borderWidth: 0
+                }
+            },
+            series: this.categoryScores.map((cs, i) => ({
+                name: cs.label,
+                data: [{ x: i, y: cs.mean }]
+            })),
+            legend: {
+                enabled: false
+            }
+        };
+    }
 }

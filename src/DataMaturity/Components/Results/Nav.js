@@ -16,7 +16,7 @@ export default class Nav extends React.Component {
 
         return <nav className="progress">
             <div className={`node`}>
-                <a href="#" className="text">Score</a>
+                <a href="#" className="text">Overall</a>
             </div>
             {nodes}
         </nav>
