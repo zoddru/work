@@ -1,5 +1,5 @@
 import React from 'react';
-import Results from './Results';
+import Result from './Result';
 
 export default class End extends React.Component {
     constructor(props) {
@@ -17,7 +17,7 @@ export default class End extends React.Component {
                 <h2>Finished</h2>
             </header>
             <main>
-                <Results score={score} />
+                <Result score={score} />
 
                 <div className="feedback">
                     <label for={`feedback`}>Feedback</label>

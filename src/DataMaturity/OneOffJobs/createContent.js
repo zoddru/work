@@ -1,12 +1,10 @@
-import resultData from '../Components/Results/resultData';
+import resultData from '../Components/Result/resultData';
 import React from 'react';
 import { shallow, mount, render, configure } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 import fs from 'fs';
 
 configure({ adapter: new Adapter() });
-
-//const resultData = require('../DataMaturity/Components/Results/resultData');
 
 const categories = Object.keys(resultData);
 
