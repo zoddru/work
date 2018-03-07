@@ -23,8 +23,8 @@ body > main {
 }
 
 .survey {
-    margin-left: 10rem;
-    max-width: 100rem;
+    margin-left: 14rem;
+    max-width: 62rem;
 }
 
 .survey form {
@@ -43,114 +43,6 @@ body > main {
 
 .survey form .form-item .value {
     flex-grow: 1;
-}
-
-nav.progress {
-    position: fixed;
-    top: 6rem;
-    bottom: 4em;
-    left: 0;
-    width: 10rem;
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-}
-
-nav.progress a:hover {
-    text-decoration: none;
-}
-
-nav.progress .node {
-    display: block;
-    position: relative;
-    margin-left: 4.75rem;
-    width: 0;
-    
-    border-left: solid 0.25rem #E2E3E7;
-    border-right: solid 0.25rem #E2E3E7;
-    border-radius: 0.5rem;
-
-    flex-grow: 1;
-
-    transition: 150ms border-color ease-out, 150ms flex-grow ease-in-out;
-}
-
-nav.progress .node.collapsed {
-    flex-grow: 0;
-}
-
-nav.progress .node:first-child {
-    flex-grow: 0;
-    border: none;
-}
-
-nav.progress .number,
-nav.progress .text {
-    position: absolute;
-    background-color: #E2E3E7;
-    bottom: -1.5rem;
-    left: -1.5rem;
-    width: 3rem;
-    height: 3rem;
-    line-height: 2;
-    font-size: 1.6rem;
-    text-align: center;
-
-    color: #464B51;
-    font-weight: bold;
-    border-radius: 50%;
-
-    transition: background-color 150ms ease-out, color 150ms ease-out;
-    user-select: none;
-
-    z-index: 9;
-}
-
-nav.progress .sub-node .number {
-    width: 2rem;
-    height: 2rem;
-    font-size: 1rem;
-    bottom: -1rem;
-    left: -1rem;
-
-    z-index: 4;
-}
-
-nav.progress .text {
-    border-radius: 0;
-    width: 7rem;
-    left: -3.5rem;
-}
-
-nav.progress .number:hover {
-    text-decoration: none;
-    background-color: #d4d6db;
-}
-
-nav.progress .node.started {
-    border-color: #BA4FB7;
-}
-
-nav.progress .node.started a {
-    background-color: #BA4FB7;
-    color: white;
-}
-
-nav.progress .node.started a:hover {
-    background-color: #924490;
-}
-
-nav.progress .node.answered {    
-    border-color: #92278F;
-}
-
-nav.progress .node.answered a {
-    background-color: #92278F;
-    color: white;
-}
-
-nav.progress .node.answered a:hover {
-    background-color: #6a1c68;
 }
 
 .category > header {
@@ -230,7 +122,9 @@ a.expand {
     transition: max-height 0.25s ease-in;
 }
 
-.question .answers, .question .answer, .question .answer label {
+.question .answers,
+.question .answer,
+.question .answer label {
     height: 4rem;
 }
 
@@ -245,6 +139,7 @@ a.expand {
 }
 
 .question .answer label {
+    font-size: 1.3rem;
     cursor: pointer;
     position: absolute;
     display: block;
@@ -352,4 +247,8 @@ table.summary td.number {
 
 .category.score .caseStudy::before {
     content: 'Case study';
+}
+
+@media screen {
+
 }

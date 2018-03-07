@@ -13,35 +13,8 @@ const bodyParser = require('body-parser');
 import CsvWriter from './CsvWriter';
 import OAuthAccessor from './OAuthAccessor';
 
-const port = config.server.port;
-
-const webservicesHost = config.webservices && config.webservices.host || 'webservices.esd.org.uk';
-const webservicesProxy = proxy(webservicesHost, {
-    proxyReqPathResolver: req => {
-        const path = url.parse(req.originalUrl).path.replace(/^\/webservices/, '');
-
-        const oAuthManager = new OAuth.OAuth(
-            config.oAuth.url,
-            config.oAuth.url,
-            config.oAuth.consumerKey,
-            config.oAuth.consumerSecret,
-            '1.0',
-            config.server.rootUrl + 'callback',
-            'HMAC-SHA1'
-        );
-
-        const { token, secret } = new OAuthAccessor(req, {}).get() || {};
-        const signedUrl = oAuthManager.signUrl(`http://${webservicesHost}${path}`, token, secret);
-        const signedPath = url.parse(signedUrl).path.replace(/^\/webservices/, '');
-
-        return signedPath;
-    }
-});
-
-const dmApiHost = config.dataMaturity && config.dataMaturity.apiHost || 'api.dataMaturity.esd.org.uk';
-const dmApiProxy = proxy(dmApiHost, {
-    proxyReqPathResolver: req => url.parse(req.originalUrl).path.replace(/^\/dmApi/, '')
-});
+const dmApiProxy = require('./DmApiProxyFactory').default();
+const webservicesProxy = require('./OAuthWebServicesProxyFactory').default();
 
 function getOAuthManager(returnUrl) {
     let callback = config.server.rootUrl + 'callback';
@@ -68,6 +41,8 @@ function getRootUrl(req) {
 function getFullUrl(req) {
     return getRootUrl(req) + req.originalUrl;
 }
+
+const port = config.server.port;
 
 const app = express()
     .use(cookieParser())
