@@ -39,13 +39,15 @@ export default class SurveyComponent extends React.Component {
         const categories = survey.categories
             .map(category => <Category key={category.key} surveyState={surveyState} category={category} onAnswerChanged={this.onAnswerChanged.bind(this)} />);
 
-        return <div>
+        return <section class="main-content">
             <Nav surveyState={surveyState} />
-            <section className="survey">
-                <Start surveyState={surveyState} onRespondentChanged={this.respondentChanged.bind(this)} />
-                {categories}
-                <End surveyState={surveyState} />
-            </section>
-        </div>;
+            <article>
+                <div class="main-column">
+                    <Start surveyState={surveyState} onRespondentChanged={this.respondentChanged.bind(this)} />
+                    {categories}
+                    <End surveyState={surveyState} />
+                </div>
+            </article>
+        </section>;
     }
 }

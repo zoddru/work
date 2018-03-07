@@ -32,6 +32,13 @@ export default class Survey {
         return this.categories[this.categories.length - 1];
     }
 
+    get lastQuestion() {
+        const lastCategory = this.lastCategory;
+        if (!lastCategory)
+            return null;
+        return lastCategory.lastQuestion;
+    }
+
     score(answers) {
         return new SurveyScore({ survey: this, answers });
     }

@@ -11,24 +11,21 @@ export default class End extends React.Component {
         const { survey, score } = surveyState;
 
         const lastQuestion = survey.lastQuestion;
-        
-        return <section className="category end" id="end">
-            <header>
-                <h2>Finished</h2>
-            </header>
-            <main>
-                <Result score={score} />
 
-                <div className="feedback">
-                    <label for={`feedback`}>Feedback</label>
-                    <textarea id={`.feedback`} placeholder="tell us any thoughts on this survey?" />
-                </div>
-            </main>
-            <footer>
-                <div className="navigation">
-                    {lastQuestion && <a href={`#${lastQuestion.key}`} className="prev button">Previous</a>}
-                </div>
-            </footer>
+        return <section className="category end" id="end">
+            <section class="question">
+                <header>
+                    <h2>Finished</h2>
+                </header>
+                <main>
+                    <Result score={score} />
+                </main>
+                <footer>
+                    <div className="navigation">
+                        {lastQuestion && <a href={`#${lastQuestion.key}`} className="prev button">Previous</a>}
+                    </div>
+                </footer>
+            </section>
         </section>;
     }
 }

@@ -1,0 +1,298 @@
+/* html {
+    scroll-behavior: smooth;
+} */
+
+body > header {
+    z-index: 20;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    padding: 1rem;
+    border-bottom: solid 1px #E2E3E7;
+    background-color: white;
+
+    font-size: 1rem;
+    line-height: 1rem;
+    text-align: right;
+    height: 3rem;
+}
+
+body > main {
+    padding-top: 0;
+}
+
+/* main content */
+
+.main-content > article {
+    /* leave space for the side bar nav */
+    margin-left: 10rem;
+}
+
+.main-content .main-column {
+    max-width: 62rem;
+}
+
+.main-content .side-column {
+    max-width: 62rem;
+}
+
+/* form */
+
+form {
+    width: 100%;
+}
+
+form .form-item {
+    width: 100%;
+    height: 4rem;
+    display: flex;
+}
+
+form .form-item label {
+    min-width: 12rem;
+}
+
+form .form-item .value {
+    flex-grow: 1;
+}
+
+/* table.summary */
+
+table.summary {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+table.summary th,
+table.summary td {
+    padding: 1rem;
+    border: solid 1px #E2E3E7;
+}
+
+table.summary th {
+    text-align: left;
+}
+
+table.summary td.number {
+    text-align: right;
+}
+
+/* .help-text */
+
+a.expand {
+    font-weight: bold;
+}
+
+.help-text {
+    height: 0;
+    transition: max-height 0.15s ease-out;
+    overflow: hidden;
+}
+
+.help-text.expanded {
+    height: auto;
+    transition: max-height 0.25s ease-in;
+}
+
+.help-text p:last-child {
+    margin-bottom: 0;
+}
+
+/* category */
+
+.category {    
+    min-height: 100vh; /* should be dynamic 100% of  */
+}
+
+.category > header {
+    padding-top: 4rem;
+    margin-bottom: 2rem;
+}
+
+.category.start main,
+.category.end main {
+    padding-top: 4rem;
+}
+
+.category p {
+    margin-bottom: 2rem;
+}
+
+/* question */
+
+.question {
+    position: relative;
+    border-left: 1rem solid #92278F;
+    border-left: none;
+    padding-bottom: 18rem;
+    text-align: justify;
+
+    min-height: 60rem;
+    min-height: 100vh; /* should be dynamic 100% of  */
+}
+
+.question > header {
+    padding-top: 4rem;
+    margin-bottom: 2rem;
+}
+
+.question > main {
+    position: relative;
+    min-height: 10rem;
+}
+
+.question > footer {    
+    border-bottom: solid 1px #E2E3E7;
+    margin-bottom: 4rem;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+
+.question .text,
+.question .help,
+.question .answers, 
+.question .navigation {
+    margin-bottom: 4rem;
+}
+
+.question .answers,
+.question .answer,
+.question .answer label {
+    height: 4rem;
+}
+
+.question .answers {
+    display: flex;
+}
+
+.question .answer {
+    flex-grow: 0.2;
+    position: relative;
+    display: block;
+}
+
+.question .answer label {
+    font-size: 1.3rem;
+    cursor: pointer;
+    position: absolute;
+    display: block;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    line-height: 4rem;
+    text-align: center;
+    background-color: #E2E3E7;
+    color: #464B51;
+    transition: 0.15s background-color, color;
+}
+
+.question .answer label:hover {
+    background-color: #d4d6db;
+}
+
+.question .answer.selected label {
+    color: white;
+    background-color: #92278F;
+}
+
+.question .navigation {
+    position: relative;
+    height: 2.8rem;
+}
+
+.question .prev,
+.question .next {
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: auto;
+}
+
+.question .next {
+    left: auto;
+    right: 0;
+}
+
+/* .category .sub-section */
+
+.category .sub-section {
+    margin-bottom: 4rem;
+}
+
+.category .sub-section p:last-child {
+    margin-bottom: 0;
+}
+
+.category .sub-section ul {
+    padding-left: 2rem;
+}
+
+.category .sub-section ul li {
+    padding-bottom: 2rem;
+}
+
+.category .sub-section ul li:last-child {
+    padding-bottom: 0;
+}
+
+.category .sub-section.warning {
+    padding: 2rem;
+    color: #9F6000;
+    background-color: #FEEFB3;
+    border: dashed 0.02rem #9F6000;
+    max-width: 130rem;
+    font-weight: bold;
+}
+
+.category .sub-section.warning header {
+    display: none;
+}
+
+.category .sub-section.score p.level {
+    padding-bottom: 0.6rem;
+    font-size: 1.84rem;
+    text-align: justify;
+    text-justify: inter-word;
+    border-bottom: solid 0.02rem black;
+}
+
+.category .sub-section.caseStudy,
+.category .sub-section.tips,
+.category .sub-section.bestPractice {
+    border: solid 1px black;
+    padding: 2rem;
+}
+
+.category .sub-section.caseStudy > header,
+.category .sub-section.tips > header,
+.category .sub-section.bestPractice > header {
+    margin-bottom: 2rem;
+}
+
+/* .category .sub-section.tips,
+.category .sub-section.bestPractice {
+} */
+
+/* .columns */
+
+@media screen and (min-width: 900px) {
+    .columns {
+        display: flex;
+        flex-direction: row;
+    }
+
+    .columns > .main-column {
+        flex: 6;
+        margin-right: 6rem;
+    }
+
+    .columns > .side-column {
+        flex: 3;
+    }
+}
+
