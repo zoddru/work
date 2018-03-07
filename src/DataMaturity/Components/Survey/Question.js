@@ -5,7 +5,7 @@ function parseText(text) {
     return lines.map((l, i) => <p key={i}>{l}</p>);
 }
 
-export default class QuestionComponent extends React.Component {
+export default class Question extends React.Component {
     constructor(props) {
         super(props);
 

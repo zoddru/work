@@ -1,7 +1,7 @@
 import React from 'react';
 import RespondentDetails from './RespondentDetails';
 
-export default class SurveyStart extends React.Component {
+export default class Start extends React.Component {
     constructor(props) {
         super(props);
     }

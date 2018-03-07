@@ -1,8 +1,8 @@
 import React from 'react';
-import SurveyNav from './SurveyNav';
-import SurveyStart from './SurveyStart';
-import CategoryComponent from './CategoryComponent';
-import SurveyEnd from './SurveyEnd';
+import Nav from './Nav';
+import Start from './Start';
+import Category from './Category';
+import End from './End';
 
 export default class SurveyComponent extends React.Component {
     constructor(props) {
@@ -37,14 +37,14 @@ export default class SurveyComponent extends React.Component {
         const { survey } = surveyState;
 
         const categories = survey.categories
-            .map(category => <CategoryComponent key={category.key} surveyState={surveyState} category={category} onAnswerChanged={this.onAnswerChanged.bind(this)} />);
+            .map(category => <Category key={category.key} surveyState={surveyState} category={category} onAnswerChanged={this.onAnswerChanged.bind(this)} />);
 
         return <div>
-            <SurveyNav surveyState={surveyState} />
+            <Nav surveyState={surveyState} />
             <section className="survey">
-                <SurveyStart surveyState={surveyState} onRespondentChanged={this.respondentChanged.bind(this)} />
+                <Start surveyState={surveyState} onRespondentChanged={this.respondentChanged.bind(this)} />
                 {categories}
-                <SurveyEnd surveyState={surveyState} />
+                <End surveyState={surveyState} />
             </section>
         </div>;
     }

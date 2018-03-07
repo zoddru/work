@@ -1,7 +1,6 @@
 import React from 'react';
 import Select from 'react-select';
-import SignInDetails from './SignInDetails';
-import Respondent from '../Respondent';
+import SignInDetails from '../SignInDetails';
 
 function toSelectOptions(items) {
     return items.map(item => { return { value: item.identifier, label: item.label } }).sort(item => item.label);

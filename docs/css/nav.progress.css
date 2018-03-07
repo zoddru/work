@@ -28,6 +28,10 @@ nav.progress .node {
     transition: 150ms border-color ease-out, 150ms flex-grow ease-in-out;
 }
 
+nav.progress .node.sub-node {
+    display: none;
+}
+
 nav.progress .node.collapsed {
     flex-grow: 0;
 }
@@ -104,4 +108,10 @@ nav.progress .node.answered a {
 
 nav.progress .node.answered a:hover {
     background-color: #6a1c68;
+}
+
+@media screen and (min-height: 660px) {
+    nav.progress .node.sub-node {
+        display: block;
+    }
 }

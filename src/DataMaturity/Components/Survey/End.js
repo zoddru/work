@@ -1,7 +1,7 @@
 import React from 'react';
-import SurveyResults from './SurveyResults';
+import Results from './Results';
 
-export default class SurveyEnd extends React.Component {
+export default class End extends React.Component {
     constructor(props) {
         super(props);
     }
@@ -17,7 +17,7 @@ export default class SurveyEnd extends React.Component {
                 <h2>Finished</h2>
             </header>
             <main>
-                <SurveyResults score={score} />
+                <Results score={score} />
 
                 <div className="feedback">
                     <label for={`feedback`}>Feedback</label>

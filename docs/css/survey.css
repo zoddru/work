@@ -248,7 +248,3 @@ table.summary td.number {
 .category.score .caseStudy::before {
     content: 'Case study';
 }
-
-@media screen {
-
-}

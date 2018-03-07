@@ -8,7 +8,7 @@ import Survey from './Survey';
 import Respondent from './Respondent';
 import SurveyState from './SurveyState';
 import SignInDetails from './Components/SignInDetails';
-import SurveyComponent from './Components/SurveyComponent';
+import SurveyMain from './Components/Survey/Main';
 import ResultsMain from './Components/Results/Main';
 
 function getOptions() {
@@ -74,12 +74,12 @@ function saveSurveyState(surveyState) {
 }
 
 function renderSurvey(surveyState) {
-    const app = document.getElementById('app');
-    ReactDom.render(<SurveyComponent surveyState={surveyState} saveSurveyState={saveSurveyState} />, app);
+    const app = document.getElementById('mainApp');
+    ReactDom.render(<SurveyMain surveyState={surveyState} saveSurveyState={saveSurveyState} />, app);
 }
 
 function renderResult(surveyState) {
-    const app = document.getElementById('app');
+    const app = document.getElementById('mainApp');
     ReactDom.render(<ResultsMain surveyState={surveyState} />, app);
 }
 
