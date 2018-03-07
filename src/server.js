@@ -47,11 +47,8 @@ const app = express()
     .use('/webservices/*', webservicesProxy)
     .use(bodyParser.json())
     
-    .get('/', (req, res) => {
-        res.sendFile('index.html', {
-            root: __dirname + '\\docs'
-        });
-    })
+    .get('/', (req, res) => res.sendFile('index.html', { root: './docs' }))
+    .get('/dataMaturity.result.html', (req, res) => res.sendFile('dataMaturity.html', { root: './docs' }))
 
     .get('/authentication/status', (req, res) => {
         const oAuthAccessor = new OAuthAccessor(req, res);
