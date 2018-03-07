@@ -58,10 +58,11 @@ export default class SurveyScore {
 
         return  {
             chart: {
-                type: 'column'
+                type: 'column',
+                marginBottom: 70
             },
             title: {
-                text: 'Overall scores broken down'
+                text: 'Overall scores broken down by category'
             },
             xAxis: {
                 categories: this.categoryScores.map(cs => cs.label),
