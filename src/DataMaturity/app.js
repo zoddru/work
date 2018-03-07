@@ -89,7 +89,7 @@ Promise.all([getOptions(), getSurvey(), getAuthThenSavedData()])
         const answers = survey.createQAMap(responses || []);
         const surveyState = new SurveyState({ authStatus, options, survey, respondent, answers });
 
-        if (window && window.location && window.location.pathname && window.location.pathname.includes && window.location.pathname.includes('.result.'))
+        if (window && window.location && window.location.pathname && window.location.pathname.includes && window.location.pathname.includes('.result.') || window.location.pathname.includes('.results.'))
            return renderResult(surveyState);
 
         renderSurvey(surveyState);

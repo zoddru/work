@@ -19,12 +19,12 @@ export default class Main extends React.Component {
 
         const categoryScores = score.categoryScores.map(cs => <Summary key={cs.key} score={cs} content={content[cs.identifier]} />);
         
-        return <div>
+        return <section class="results">
             <Nav score={score} />
             <section className="survey result">
                 <Summary score={score} content={content.Overall} />
                 {categoryScores}
             </section>
-        </div>;
+        </section>;
     }
 }
