@@ -5,7 +5,8 @@ const content = {};
 
 categories.forEach(category => {
     content[category] = {
-        caseStudy: require(`./Content/${category}/caseStudy`).default
+        caseStudy: require(`./Content/${category}/caseStudy`).default,
+        bestPractice: require(`./Content/${category}/bestPractice`).default
     };
     levels.forEach(level => {
         content[category][level] = {
