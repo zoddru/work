@@ -1,1 +1,1 @@
-start /min cmd
+start cmd

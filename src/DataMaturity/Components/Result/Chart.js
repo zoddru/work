@@ -1,6 +1,5 @@
 import React from 'react';
-import Highcharts from 'highcharts';
-import HighchartsMore from 'highcharts-more-node';
+import Highcharts from 'highcharts-more-node';
 import theme from './highcharts.theme.js';
 
 Highcharts.setOptions(theme);

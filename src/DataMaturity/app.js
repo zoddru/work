@@ -38,18 +38,25 @@ function getAuthThenSavedData() {
         });
 }
 
+const getNewSaveDataResponse = ({ identifier, email, organisation }) => {
+    return {
+        respondent: { identifier, email, organisation: organisation && organisation.identifier },
+        responses: []
+    };
+};
+
 function getSavedData(authStatus) {
+    if (!authStatus.isSignedIn)
+        return { authStatus };
+
     const { identifier, email, organisation } = authStatus.user;
+
     return axios.get(`/dmApi/responses/${identifier}`)
         .then(function (response) {
-            const results = response.data;
-            if (!results || !results.length)
-                return { authStatus };
-            const result = results[0];
-            const respondentProps = result.respondent || { identifier, email, council: organisation && organisation.identifier };
-            const respondent = new Respondent(respondentProps);
-            const responses = !!results.length ? results[0].responses || [] : [];
-            return { authStatus, respondentProps, respondent, responses };
+            const result = Object.assign(getNewSaveDataResponse(authStatus.user), response.data);
+            const respondent = new Respondent(result.respondent);
+            const responses = result.responses || [];
+            return { authStatus, respondent, responses };
         });
 }
 
@@ -59,6 +66,7 @@ function renderSignIn(authStatus, ) {
 }
 
 function saveSurveyState(surveyState) {
+
     const { respondent, responses } = surveyState;
 
     axios.post('/dmApi/responses', {
@@ -69,7 +77,7 @@ function saveSurveyState(surveyState) {
             //console.log(response.data);
         })
         .catch(function (error) {
-            //console.log(error);
+            console.log(error);
         });
 }
 
@@ -90,7 +98,9 @@ Promise.all([getOptions(), getSurvey(), getAuthThenSavedData()])
         const surveyState = new SurveyState({ authStatus, options, survey, respondent, answers });
 
         if (window && window.location && window.location.pathname && window.location.pathname.includes && window.location.pathname.includes('.result.') || window.location.pathname.includes('.results.'))
-           return renderResult(surveyState);
+            return renderResult(surveyState);
+
+        saveSurveyState(surveyState);
 
         renderSurvey(surveyState);
     });
