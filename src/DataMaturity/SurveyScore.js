@@ -2,24 +2,24 @@ import ScoreProperties from './ScoreProperties';
 
 function calculateScore(categories, answers) {
     return categories.reduce((acc, c) => {
-            
+
         const categoryScore = c.score(answers);
         acc.categoryScores.push(categoryScore);
-        
+
         if (!categoryScore.isValid) {
             return acc;
         }
 
         acc.numberOfValid += 1;
         acc.sum += categoryScore.mean;
-        
+
         return acc;
 
     }, {
-        categoryScores: [],
-        sum: 0, 
-        numberOfValid: 0
-    });
+            categoryScores: [],
+            sum: 0,
+            numberOfValid: 0
+        });
 }
 
 export default class SurveyScore {
@@ -54,9 +54,7 @@ export default class SurveyScore {
     }
 
     get columnChartData() {
-
-
-        return  {
+        return {
             chart: {
                 type: 'column',
                 marginBottom: 70
@@ -92,6 +90,64 @@ export default class SurveyScore {
                 name: cs.label,
                 data: [{ x: i, y: cs.mean }]
             })),
+            legend: {
+                enabled: false
+            }
+        };
+    }
+
+
+    get spiderChartData() {
+        return {
+            chart: {
+                polar: true,
+                type: 'line',
+                marginTop: 0,
+                marginBottom: 0,
+                marginLeft: 60,
+                marginRight: 60,
+                height: null
+            },
+            title: {
+                text: null
+            },
+            xAxis: {
+                categories: this.categoryScores.map(cs => cs.label),
+                tickmarkPlacement: 'on',
+                lineWidth: 0,
+                labels: {
+                    style: {
+                        textOverflow: 'none'
+                    }
+                }
+            },
+            yAxis: {
+                tickInterval: 1,
+                minorTickInterval: null,
+                gridLineInterpolation: 'polygon',
+                lineWidth: 0,
+                min: 0,
+                labels: {
+                    enabled: false
+                }
+            },
+            tooltip: {
+                headerFormat: '',
+                pointFormat: '<p><label style="color:{series.color};">{point.name}</label>: <strong>{point.y:.1f}</strong></p>',
+                shared: true,
+                useHTML: true
+            },
+            plotOptions: {
+                column: {
+                    stacking: 'normal',
+                    pointPadding: 0.2,
+                    borderWidth: 0
+                }
+            },
+            series: [{
+                data: this.categoryScores.map(cs => ({ name: cs.label, y: cs.mean })),
+                pointPlacement: 'on'
+            }],
             legend: {
                 enabled: false
             }

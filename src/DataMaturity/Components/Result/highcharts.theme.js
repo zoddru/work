@@ -8,7 +8,7 @@ const axisStyle = Object.freeze({
 });
 
 export default {
-    colors: ['#8EAA94', '#C7B757', '#B43F6B', '#737D27', '#CF7B25'],
+    colors: ['#B43F6B', '#737D27', '#CF7B25', '#8EAA94', '#C7B757'],
     chart: {
         backgroundColor: null,
         style: {
