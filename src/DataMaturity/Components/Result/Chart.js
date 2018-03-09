@@ -24,11 +24,11 @@ export default class Chart extends React.Component {
     }
 
     componentDidMount() {
-        this.chart = Highcharts.chart(this.props.id, this.props.data);
-        window.addEventListener('resize', this.handleResize.bind(this));
+        // this.chart = Highcharts.chart(this.props.id, this.props.data);
+        // window.addEventListener('resize', this.handleResize.bind(this));
     }
 
     componentWillUnmount() {
-        window.removeEventListener('resize', this.handleResize.bind(this));
+        //window.removeEventListener('resize', this.handleResize.bind(this));
     }
 }

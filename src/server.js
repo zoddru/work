@@ -47,7 +47,9 @@ const app = express()
     .use('/webservices/*', webservicesProxy)
     .use(bodyParser.json())
     
-    .get('/', (req, res) => res.sendFile('index.html', { root: './docs' }))
+    .get('/', (req, res) => res.sendFile('dataMaturity.html', { root: './docs' }))
+    .get('/result', (req, res) => res.sendFile('dataMaturity.html', { root: './docs' }))
+    .get('/organisation', (req, res) => res.sendFile('dataMaturity.html', { root: './docs' }))
     .get('/dataMaturity.result.html', (req, res) => res.sendFile('dataMaturity.html', { root: './docs' }))
     .get('/dataMaturity.results.html', (req, res) => res.sendFile('dataMaturity.html', { root: './docs' }))
 

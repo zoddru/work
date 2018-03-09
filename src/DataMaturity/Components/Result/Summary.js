@@ -36,8 +36,6 @@ export default class Summary extends React.Component {
         const spiderChartData = score.spiderChartData;
         const spiderChart = !!spiderChartData && <Chart id={`${score.key}.spiderChart`} data={spiderChartData} />;
 
-        console.log(JSON.stringify(spiderChartData));
-
         return <section className="category score" id={score.key}>
             <header>
                 <h2>{score.label}</h2>

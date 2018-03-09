@@ -5,7 +5,7 @@ export default class SurveyState {
     constructor({
         authStatus = { isSignedIn: false },
         options = { departments: [], roles: [] },
-        survey = { categories: [] },
+        survey = { categories: [], score: (() => ({ categoryScores: [] })) },
         respondent = new Respondent(),
         answers = new Map()
     } = {}) {

@@ -25,6 +25,8 @@ export default class Nav extends React.Component {
     }
 
     handleScroll() {
+        if (this.unmounted) 
+            return;
         const category = this.findTopCategoryEl();
         this.expandCategory(category);
     }
@@ -73,6 +75,7 @@ export default class Nav extends React.Component {
     }
 
     componentWillUnmount() {
+        this.unmounted = true;
         window.removeEventListener('scroll', this.handleScroll.bind(this));
         window.removeEventListener('resize', this.handleScroll.bind(this));
     }
