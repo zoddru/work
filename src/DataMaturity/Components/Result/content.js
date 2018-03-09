@@ -1,4 +1,4 @@
-const categories = ['Overall', 'A', 'B', 'C', 'D', 'E'];
+const categories = ['Overall', 'Management', 'Use', 'Governance', 'Skills', 'Culture'];
 const levels = ['Nascent', 'Basic', 'Intermediate', 'Advanced', 'Expert'];
 
 const content = {};
