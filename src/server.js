@@ -50,8 +50,8 @@ const app = express()
     .get('/', (req, res) => res.sendFile('dataMaturity.html', { root: './docs' }))
     .get('/result', (req, res) => res.sendFile('dataMaturity.html', { root: './docs' }))
     .get('/organisation', (req, res) => res.sendFile('dataMaturity.html', { root: './docs' }))
-    .get('/dataMaturity.result.html', (req, res) => res.sendFile('dataMaturity.html', { root: './docs' }))
-    .get('/dataMaturity.results.html', (req, res) => res.sendFile('dataMaturity.html', { root: './docs' }))
+    .get('/dataMaturity.html', (req, res) => res.redirect('/'))
+    .get('/dataMaturity.result.html', (req, res) => res.redirect('/result'))
 
     .get('/authentication/status', (req, res) => {
         const oAuthAccessor = new OAuthAccessor(req, res);
