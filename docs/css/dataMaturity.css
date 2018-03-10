@@ -26,7 +26,7 @@ body > main {
 
 .main-content > article {
     /* leave space for the side bar nav */
-    margin-left: 10rem;
+    margin-left: 16rem;
 }
 
 .main-content .main-column {

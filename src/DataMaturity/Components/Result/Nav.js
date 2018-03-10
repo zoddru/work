@@ -11,7 +11,7 @@ export default class Nav extends React.Component {
         const { categoryScores } = score;
 
         const nodes = categoryScores.map(cs => <div className={`node`} key={cs.key}>
-            <a href={`#${cs.key}`} className="number">{cs.category.identifier}</a>
+            <a href={`#${cs.key}`} className="text">{cs.category.identifier}</a>
         </div>);
 
         return <nav className="progress">

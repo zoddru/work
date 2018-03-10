@@ -44,7 +44,7 @@ export default class Nav extends React.Component {
             const categoryClassName = category.hasBeenAnswered(answers) ? 'answered' : category.hasBeenStarted(answers) ? 'started' : '';
 
             nodes.push(<div className={`node ${categoryClassName}`} key={category.key}>
-                <a href={`#${category.key}`} className="number">{category.identifier}</a>
+                <a href={`#${category.key}`} className="text">{category.identifier}</a>
             </div>);
 
             const expandedClassName = (category !== expandedCategory) ? 'collapsed' : ''

@@ -125,8 +125,6 @@ export default class AppRoot extends React.Component {
     render() {
         const { surveyState } = this.state;
 
-        console.log(surveyState);
-
         return <Router key="content">
             <div>
                 <div>
