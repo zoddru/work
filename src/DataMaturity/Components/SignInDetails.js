@@ -46,8 +46,6 @@ export default class SignInDetails extends React.Component {
     render() {
         const { status } = this.state;
 
-        return <div>
-            <SignInStatus status={status} />
-        </div>;
+        return <SignInStatus status={status} />;
     }
 }

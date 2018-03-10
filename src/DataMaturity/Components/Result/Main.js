@@ -9,8 +9,7 @@ export default class Main extends React.Component {
     }
 
     render() {
-        const { surveyState } = this.props;
-        const { score } = surveyState;
+        const { score } = this.props;
 
         const categoryScores = score.categoryScores.map(cs => <Summary key={cs.key} score={cs} content={content[cs.identifier]} />);
         

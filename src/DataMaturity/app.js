@@ -12,14 +12,14 @@ import SurveyMain from './Components/Survey/Main';
 import ResultMain from './Components/Result/Main';
 import AppRoot from './Components/AppRoot';
 
-function renderSignIn(authStatus, ) {
+function renderSignIn(authStatus) {
     const app = document.getElementById('signInApp');
     ReactDom.render(<SignInDetails status={authStatus} />, app);
 }
 
 const start = () => {
     const app = document.getElementById('appRoot');
-    ReactDom.render(<AppRoot />, app);
+    ReactDom.render(<AppRoot onAuthStatusReceived={renderSignIn} />, app);
 };
 
 start();

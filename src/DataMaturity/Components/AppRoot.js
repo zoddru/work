@@ -1,11 +1,12 @@
 import React from 'react';
-import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Switch, Route, NavLink } from 'react-router-dom';
 import axios from 'axios';
 import SurveyState from '../SurveyState';
 import Respondent from '../Respondent';
 import Survey from '../Survey';
 import SurveyMain from './Survey/Main';
 import ResultMain from './Result/Main';
+const Fragment = React.Fragment;
 
 const saveSurveyState = (surveyState) => {
 
@@ -94,7 +95,7 @@ export default class AppRoot extends React.Component {
 
     loadData() {
         const self = this;
-        const onAuthStatusLoaded = (newProps => { self.changeSurveyStatus(newProps) });
+        const onAuthStatusLoaded = (newProps => { this.props.onAuthStatusReceived(newProps.authStatus), self.changeSurveyStatus(newProps); });
 
         Promise.all([loadAuthThenSavedData(onAuthStatusLoaded), getOptions(), getSurvey()])
             .then(([authData, options, survey]) => {
@@ -126,16 +127,18 @@ export default class AppRoot extends React.Component {
         const { surveyState } = this.state;
 
         return <Router key="content">
-            <div>
-                <div>
-                    <Link to={{ pathname: '/', hash: '#' }}>QUESTIONS</Link>
-                    <Link to={{ pathname: '/result', hash: '#' }}>RESULTS</Link>
-                </div>
+            <Fragment>
+                <nav>
+                    <NavLink exact className="button" activeClassName="active" to={{ pathname: '/', hash: '#' }}>Questions</NavLink>
+                    <NavLink exact className="button" activeClassName="active" to={{ pathname: '/result', hash: '#' }}>Results</NavLink>
+                    <NavLink exact className="button" activeClassName="active" to={{ pathname: '/organisation', hash: '#' }}>Organisation results</NavLink>
+                </nav>
                 <Switch>
                     <Route exact path="/" render={() => <SurveyMain surveyState={surveyState} onRespondentChanged={this.respondentChanged.bind(this)} onAnswerChanged={this.answerChanged.bind(this)} />} />
-                    <Route exact path="/result" render={() => <ResultMain surveyState={surveyState} />} />
+                    <Route exact path="/result" render={() => <ResultMain score={surveyState.score} />} />
+                    <Route exact path="/organisation" render={() => <ResultMain score={surveyState.score} />} />
                 </Switch>
-            </div>
+            </Fragment>
         </Router>;
     }
 }

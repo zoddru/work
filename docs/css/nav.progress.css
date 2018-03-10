@@ -1,6 +1,6 @@
 nav.progress {
     position: fixed;
-    top: 6rem;
+    top: 9rem;
     bottom: 4em;
     left: 0;
     width: 16rem;
@@ -78,7 +78,7 @@ nav.progress .text {
     left: -6rem;
 }
 
-nav.progress .number:hover {
+nav.progress .node a:hover {
     text-decoration: none;
     background-color: #d4d6db;
 }
