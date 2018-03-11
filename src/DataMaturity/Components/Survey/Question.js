@@ -48,7 +48,9 @@ export default class Question extends React.Component {
         const helpText = parseText(question.help);
 
         const prevQuestion = question.prev;
+        const prevQuestionKey = !!prevQuestion ? prevQuestion.key: '';
         const nextQuestion = question.next;
+        const nextQuestionKey = !!nextQuestion ? nextQuestion.key: 'end';
 
         return <section className="question" id={question.key}>
             <header>
@@ -76,13 +78,9 @@ export default class Question extends React.Component {
             </main>
             <footer>
                 <div className="navigation">
-                        {!!prevQuestion
-                            ? <a href={`#${prevQuestion.key}`} className="prev button">Previous</a>
-                            : <a href="#" className="prev button">Prev</a>}
-                        {!!nextQuestion 
-                            ? <a href={`#${nextQuestion.key}`} className="next button">Next</a> 
-                            : <a href="#end" className="next button">Next</a>}
-                    </div>
+                    {<a href={`#${prevQuestionKey}`} className="prev button" onClick={e => this.props.onPrev(`#${prevQuestionKey}`, e)}>Previous</a>}
+                    {<a href={`#${nextQuestionKey}`} className="next button" onClick={e => this.props.onNext(`#${nextQuestionKey}`, e)}>Next</a>}
+                </div>
             </footer>
         </section>;
     }

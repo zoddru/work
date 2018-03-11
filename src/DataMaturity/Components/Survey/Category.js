@@ -10,7 +10,12 @@ export default class Category extends React.Component {
         const { surveyState, category } = this.props;
 
         const questions = category.questions
-            .map(question => <Question key={question.key} surveyState={surveyState} question={question} onAnswerChanged={this.props.onAnswerChanged} />);
+            .map(question => <Question key={question.key} 
+                                        surveyState={surveyState} 
+                                        question={question} 
+                                        onAnswerChanged={this.props.onAnswerChanged}
+                                        onPrev={this.props.onPrev}
+                                        onNext={this.props.onNext} />);
 
         return <section className="category" id={category.key}>
             <header>

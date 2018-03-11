@@ -11,6 +11,7 @@ export default class End extends React.Component {
         const { survey, score } = surveyState;
 
         const lastQuestion = survey.lastQuestion;
+        const lastQuestionKey = !!lastQuestion ? lastQuestion.key : '';
 
         return <section className="category end" id="end">
             <section class="question">
@@ -22,7 +23,9 @@ export default class End extends React.Component {
                 </main>
                 <footer>
                     <div className="navigation">
-                        {lastQuestion && <a href={`#${lastQuestion.key}`} className="prev button">Previous</a>}
+                        <a href={`#${lastQuestionKey}`}
+                            className="prev button"
+                            onClick={e => this.props.onPrev(`#${lastQuestionKey}`, e)}>Previous</a>
                     </div>
                 </footer>
             </section>

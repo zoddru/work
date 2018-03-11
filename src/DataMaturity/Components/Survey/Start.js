@@ -11,6 +11,7 @@ export default class Start extends React.Component {
         const { authStatus, options, survey, respondent } = surveyState;
 
         const firstQuestion = survey.firstQuestion;
+        const firstQuestionKey = !!firstQuestion ? firstQuestion.key : 'end';
 
         return <section className="category start">            
             <section class="question">
@@ -22,7 +23,9 @@ export default class Start extends React.Component {
                 </main>
                 <footer>
                     <div className="navigation">
-                        {firstQuestion && <a href={`#${firstQuestion.key}`} className="next button">Start</a>}
+                        <a href={`#${firstQuestionKey}`} 
+                            className="next button"
+                            onClick={e => this.props.onNext(`#${firstQuestionKey}`, e)}>Start</a>
                     </div>
                 </footer>
             </section>
