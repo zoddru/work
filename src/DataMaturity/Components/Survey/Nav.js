@@ -9,7 +9,7 @@ export default class Nav extends React.Component {
     findTopCategory() {
         const categoryEls = Array.from(window.document.querySelectorAll('.category')).reverse();
         const height = window.innerHeight;
-        const topCategoryEl = categoryEls.find(s => s.getBoundingClientRect().top < window.innerHeight);
+        const topCategoryEl = categoryEls.find(el => el.getBoundingClientRect().top < window.innerHeight);
 
         if (!topCategoryEl)
             return { start: true };
@@ -29,6 +29,11 @@ export default class Nav extends React.Component {
     findTopQuestion(category) {
         if (!category || !category.questions)
             return null;
+        const categoryEl = window.document.querySelector(`.category[id='${category.key}']`);
+        if (!categoryEl)
+            return null;
+        if (categoryEl.getBoundingClientRect().top >= 0)
+            return null; // category el still visible (assume it is expanded and on screen, since it was passed in)
 
         const questionEls = Array.from(window.document.querySelectorAll('.question')).reverse();
         const height = window.innerHeight;
