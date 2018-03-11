@@ -99,6 +99,9 @@ export default class AppRoot extends React.Component {
 
         Promise.all([loadAuthThenSavedData(onAuthStatusLoaded), getOptions(), getSurvey()])
             .then(([authData, options, survey]) => {
+
+                console.log('all loaded');
+
                 const { authStatus, respondent, responses } = authData;
                 const answers = survey.createQAMap(responses || []);
                 self.changeSurveyStatus({ respondent, options, survey, answers });

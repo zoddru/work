@@ -9,7 +9,7 @@ import CsvWriter from './CsvWriter';
 import OAuthAccessor from './OAuthAccessor';
 import WebServices from './WebServices';
 
-const dmApiProxy = require('./DmApiProxyFactory').default();
+const dmApiProxy = require(config.useLocal ? './LocalDmApiProxyFactory' : './DmApiProxyFactory').default();
 const webservicesProxy = require('./OAuthWebServicesProxyFactory').default();
 
 function getOAuthManager(returnUrl) {
@@ -54,6 +54,12 @@ const app = express()
     .get('/dataMaturity.result.html', (req, res) => res.redirect('/result'))
 
     .get('/authentication/status', (req, res) => {
+        
+        if (config.useLocal) {
+            res.send(JSON.stringify({ isSignedIn: false, usingLocal: true }));
+            return;
+        }
+
         const oAuthAccessor = new OAuthAccessor(req, res);
         const oAuth = oAuthAccessor.get();
         res.setHeader('Content-Type', 'application/json');
