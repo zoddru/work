@@ -22,7 +22,8 @@ export default class SurveyComponent extends React.Component {
 
         el.scrollIntoView({
             behavior: 'smooth',
-            block: 'start'
+            block: 'start',
+            inline: 'end'
         });
 
         el.setAttribute('id', `disabled_${targetId}`);
