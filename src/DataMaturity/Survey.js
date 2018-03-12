@@ -1,5 +1,5 @@
 import Category from './Category';
-import SurveyScore from './SurveyScore';
+import SurveyScore from './Scores/SurveyScore';
 
 export default class Survey {
     constructor(data) {

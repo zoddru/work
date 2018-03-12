@@ -1,5 +1,5 @@
 import Question from './Question';
-import CategoryScore from './CategoryScore';
+import CategoryScore from './Scores/CategoryScore';
 
 export default class Category {
     constructor({ survey = {}, identifier = '', label = '', questionData = [] }) {
