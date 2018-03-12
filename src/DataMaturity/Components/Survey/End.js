@@ -21,6 +21,7 @@ export default class End extends React.Component {
                 </header>
                 <main>
                     <Link className="button result" to={{ pathname: '/result', hash: '#' }}>Take me to my results</Link>
+                    <Link className="button link organisation" to={{ pathname: '/organisation', hash: '#' }}>or take me to the results of my organisation</Link>
                     <Result score={score} />
                 </main>
                 <footer>

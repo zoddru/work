@@ -321,13 +321,21 @@ a.expand {
 
 /* .category.end */
 
-.category.end .button.result {
-    padding: 2rem;
-    margin-bottom: 4rem;
+.category.end .button.result,
+.category.end .button.organisation {
     display: block;
     text-align: center;
+}
+
+.category.end .button.result {
+    padding: 2rem;
+    margin-bottom: 2rem;
     font-weight: bold;
     font-size: large;
+}
+
+.category.end .button.organisation {
+    margin-bottom: 4rem;
 }
 
 /* .columns */

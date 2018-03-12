@@ -61,6 +61,17 @@ a.button:hover {
     text-decoration: none;
 }
 
+a.button.link {
+    background-color: transparent;    
+    color: #92278F;
+    transition: color 0.15s;
+}
+
+a.button.link:hover {
+    color: #6a1c68;
+    text-decoration: underline;
+}
+
 table.normal {
     margin: 1rem 0;
     border-collapse: collapse;
