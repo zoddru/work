@@ -1,5 +1,6 @@
 import React from 'react';
 import Result from './Result';
+import { Link } from 'react-router-dom';
 
 export default class End extends React.Component {
     constructor(props) {
@@ -19,6 +20,7 @@ export default class End extends React.Component {
                     <h2>Finished</h2>
                 </header>
                 <main>
+                    <Link className="button result" to={{ pathname: '/result', hash: '#' }}>Take me to my results</Link>
                     <Result score={score} />
                 </main>
                 <footer>

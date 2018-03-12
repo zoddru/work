@@ -93,6 +93,7 @@ form .form-item .value {
 
 table.summary {
     width: 100%;
+    font-size: smaller;
     border-collapse: collapse;
 }
 
@@ -317,6 +318,17 @@ a.expand {
 /* .category .sub-section.tips,
 .category .sub-section.bestPractice {
 } */
+
+/* .category.end */
+
+.category.end .button.result {
+    padding: 2rem;
+    margin-bottom: 4rem;
+    display: block;
+    text-align: center;
+    font-weight: bold;
+    font-size: large;
+}
 
 /* .columns */
 
