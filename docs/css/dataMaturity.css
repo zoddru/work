@@ -193,23 +193,31 @@ a.expand {
 .question .answers,
 .question .answer,
 .question .answer label {
-    height: 4rem;
+    min-height: 4rem;
+    min-width: 12.4rem;
 }
 
 .question .answers {
     display: flex;
+    flex-wrap: wrap;
 }
 
 .question .answer {
     flex-grow: 0.2;
+    flex-basis: 0;
     position: relative;
     display: block;
+}
+
+.question .answer input {
+    position: absolute;
+    z-index: -1;
 }
 
 .question .answer label {
     font-size: 1.3rem;
     cursor: pointer;
-    position: absolute;
+    overflow: hidden;
     display: block;
     top: 0;
     bottom: 0;
