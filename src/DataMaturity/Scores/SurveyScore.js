@@ -1,4 +1,5 @@
 import ScoreProperties from './ScoreProperties';
+import Respondent from '../Respondent';
 
 function calculateScore(categories, answers) {
     return categories.reduce((acc, c) => {
@@ -19,12 +20,14 @@ function calculateScore(categories, answers) {
             categoryScores: [],
             sum: 0,
             numberOfValid: 0
-        });
+        }
+    );
 }
 
 export default class SurveyScore {
     constructor({
         survey = { categories: [] },
+        respondent = {},
         answers = new Map()
     } = {}) {
 
@@ -32,6 +35,7 @@ export default class SurveyScore {
 
         Object.assign(this, score);
         this.survey = survey;
+        this.respondent = respondent;
         this.mean = score.numberOfValid === 0
             ? null
             : score.sum / score.numberOfValid;
@@ -152,5 +156,14 @@ export default class SurveyScore {
                 enabled: false
             }
         };
+    }
+
+    static createArray(survey, results) {
+        return results.map(result => {
+            const respondent = new Respondent(result.respondent);
+            const responses = result.responses || [];
+            const answers = survey.createQAMap(responses);
+            return new SurveyScore({ survey, respondent, answers });
+        });
     }
 }

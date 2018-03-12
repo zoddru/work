@@ -7,6 +7,7 @@ import Survey from '../Survey';
 import ScrollToTop from './ScrollToTop';
 import SurveyMain from './Survey/Main';
 import ResultMain from './Result/Main';
+import SuperTable from './Result/SuperTable';
 const Fragment = React.Fragment;
 
 const saveSurveyState = (surveyState) => {
@@ -142,6 +143,8 @@ export default class AppRoot extends React.Component {
                         <Route exact path="/" render={() => <SurveyMain surveyState={surveyState} onRespondentChanged={this.respondentChanged.bind(this)} onAnswerChanged={this.answerChanged.bind(this)} />} />
                         <Route exact path="/result" render={() => <ResultMain score={surveyState.score} />} />
                         <Route exact path="/organisation" render={() => <ResultMain score={surveyState.score} />} />
+                        
+                        <Route exact path="/superTable" render={() => <SuperTable surveyState={surveyState} />} />
                     </Switch>
                 </Fragment>
             </ScrollToTop>

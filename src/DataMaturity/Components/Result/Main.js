@@ -1,6 +1,7 @@
 import React from 'react';
 import Nav from './Nav';
 import Summary from './Summary';
+import Chart from './Chart';
 import content from './content';
 
 export default class Main extends React.Component {

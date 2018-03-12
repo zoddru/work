@@ -1,10 +1,7 @@
 import React from 'react';
 import Select from 'react-select';
 import SignInDetails from '../SignInDetails';
-
-function toSelectOptions(items) {
-    return items.map(item => { return { value: item.identifier, label: item.label } }).sort(item => item.label);
-}
+import common from '../../common.js';
 
 export default class RespondentDetails extends React.Component {
     constructor(props) {
@@ -50,7 +47,7 @@ export default class RespondentDetails extends React.Component {
                         clearable={false}
                         value={respondent.department}
                         onChange={this.changeDepartment.bind(this)}
-                        options={toSelectOptions(departments)}
+                        options={common.toSelectOptions(departments)}
                     />
                 </div>
             </div>
@@ -58,11 +55,11 @@ export default class RespondentDetails extends React.Component {
                 <label>Role</label>
                 <div className="value">
                     <Select
-                        name="respondent-department"
+                        name="respondent-role"
                         clearable={false}
                         value={respondent.role}
                         onChange={this.changeRole.bind(this)}
-                        options={toSelectOptions(roles)}
+                        options={common.toSelectOptions(roles)}
                     />
                 </div>
             </div>
