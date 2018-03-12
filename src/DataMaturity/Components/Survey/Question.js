@@ -78,8 +78,8 @@ export default class Question extends React.Component {
             </main>
             <footer>
                 <div className="navigation">
-                    {<a href={`#${prevQuestionKey}`} className="prev button" onClick={e => this.props.onPrev(`#${prevQuestionKey}`, e)}>Previous</a>}
-                    {<a href={`#${nextQuestionKey}`} className="next button" onClick={e => this.props.onNext(`#${nextQuestionKey}`, e)}>Next</a>}
+                    {<a href={`#${prevQuestionKey}`} className="prev button" onClick={e => this.props.onPrev(`${prevQuestionKey}`, e)}>Previous</a>}
+                    {<a href={`#${nextQuestionKey}`} className="next button" onClick={e => this.props.onNext(`${nextQuestionKey}`, e)}>Next</a>}
                 </div>
             </footer>
         </section>;

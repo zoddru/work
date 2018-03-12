@@ -9,14 +9,35 @@ export default class SurveyComponent extends React.Component {
         super(props);
     }
 
-    onPrev(target, e) {
-        console.log(target);
-        //e.preventDefault();
+    scrollTo(targetId, e) {
+        if (!window)
+            return;
+
+        const el = targetId === ''
+            ? window.document.body
+            : window.document.querySelector(`[id='${targetId}']`);
+
+        if (!el || !el.scrollIntoView)
+            return;
+
+        el.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+        });
+
+        el.setAttribute('id', `disabled_${targetId}`);
+        window.location.hash = targetId || 'start';
+        el.setAttribute('id', targetId);
+
+        e.preventDefault();
     }
 
-    onNext(target, e) {
-        console.log(target);
-        //e.preventDefault();
+    onPrev(targetId, e) {
+        this.scrollTo(targetId, e);
+    }
+
+    onNext(targetId, e) {
+        this.scrollTo(targetId, e);
     }
 
     render() {

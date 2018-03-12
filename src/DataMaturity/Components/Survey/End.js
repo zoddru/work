@@ -25,7 +25,7 @@ export default class End extends React.Component {
                     <div className="navigation">
                         <a href={`#${lastQuestionKey}`}
                             className="prev button"
-                            onClick={e => this.props.onPrev(`#${lastQuestionKey}`, e)}>Previous</a>
+                            onClick={e => this.props.onPrev(`${lastQuestionKey}`, e)}>Previous</a>
                     </div>
                 </footer>
             </section>

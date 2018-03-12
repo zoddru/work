@@ -25,7 +25,7 @@ export default class Start extends React.Component {
                     <div className="navigation">
                         <a href={`#${firstQuestionKey}`} 
                             className="next button"
-                            onClick={e => this.props.onNext(`#${firstQuestionKey}`, e)}>Start</a>
+                            onClick={e => this.props.onNext(`${firstQuestionKey}`, e)}>Start</a>
                     </div>
                 </footer>
             </section>
