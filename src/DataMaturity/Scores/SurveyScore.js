@@ -54,7 +54,7 @@ export default class SurveyScore {
     }
 
     get key() {
-        return `${this.survey.key}.score`;
+        return `${this.survey.key}-score`;
     }
 
     get columnChartData() {

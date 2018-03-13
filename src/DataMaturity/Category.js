@@ -76,6 +76,6 @@ export default class Category {
     }
 
     get key() {
-        return `${this.survey.key}.category${this.identifier}`;
+        return `${this.survey.key}-category${this.identifier}`;
     }
 }

@@ -12,7 +12,7 @@ test('create', t => {
     t.is(q.text, 'a question?');
     t.is(q.help, 'some help');
     t.is(q.answers.length, Question.defaultAnswers.length);
-    t.is(q.key, `${category.key}.question10`);
+    t.is(q.key, `${category.key}-question10`);
 
     Question.defaultAnswers.forEach((a, i) => {
         t.is(q.answers[i].value, a.value);
@@ -34,5 +34,5 @@ test('create array', t => {
     t.is(questions[1].identifier, '2');
     t.is(questions[2].text, 'Question 3?');
     t.is(questions[0].help, 'Help 1');
-    t.is(questions[1].key, `${category.key}.question2`);
+    t.is(questions[1].key, `${category.key}-question2`);
 });

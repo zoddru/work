@@ -29,6 +29,6 @@ export default class Answer {
     }
 
     get key() {
-        return `${this.question.key}.answer${this.identifier}`;
+        return `${this.question.key}-answer${this.identifier}`;
     }
 }

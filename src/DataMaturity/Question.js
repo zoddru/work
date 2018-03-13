@@ -89,7 +89,7 @@ export default class Question {
     }
 
     get key() {
-        return `${this.category.key}.question${this.identifier}`;
+        return `${this.category.key}-question${this.identifier}`;
     }
 
     get insertSql() {

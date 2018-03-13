@@ -1,0 +1,77 @@
+{
+    "respondent": {
+        "identifier": "TESTUSER1",
+        "email": "test@porism.com",
+        "organisation": "porism",
+        "department": "1",
+        "role": "BackOffice"
+    },
+    "responses": [
+        {
+            "respondent": "TESTUSER1",
+            "category": "A",
+            "question": 1,
+            "value": 5,
+            "notKnown": false,
+            "notUnderstood": false
+        },
+        {
+            "respondent": "TESTUSER1",
+            "category": "A",
+            "question": 2,
+            "value": 4,
+            "notKnown": false,
+            "notUnderstood": false
+        },
+        {
+            "respondent": "TESTUSER1",
+            "category": "A",
+            "question": 3,
+            "value": null,
+            "notKnown": true,
+            "notUnderstood": false
+        },
+        {
+            "respondent": "TESTUSER1",
+            "category": "A",
+            "question": 4,
+            "value": null,
+            "notKnown": false,
+            "notUnderstood": true
+        },
+        {
+            "respondent": "TESTUSER1",
+            "category": "A",
+            "question": 5,
+            "value": 2,
+            "notKnown": false,
+            "notUnderstood": false
+        },
+        {
+            "respondent": "TESTUSER1",
+            "category": "A",
+            "question": 6,
+            "value": 1,
+            "notKnown": false,
+            "notUnderstood": false
+        },
+        {
+            "respondent": "TESTUSER1",
+            "category": "B",
+            "question": 1,
+            "value": 5,
+            "notKnown": false,
+            "notUnderstood": false
+        },
+        {
+            "respondent": "TESTUSER1",
+            "category": "B",
+            "question": 2,
+            "value": 4,
+            "notKnown": false,
+            "notUnderstood": false
+        }
+    ],
+    "validationError": "",
+    "isValid": true
+}

@@ -59,6 +59,6 @@ export default class CategoryScore {
     }
 
     get key() {
-        return `${this.category.key}.score`;
+        return `${this.category.key}-score`;
     }
 }

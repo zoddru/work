@@ -15,11 +15,11 @@ test('create', t => {
     t.is(s.survey, survey);
     t.is(s.identifier, 'A');
     t.is(s.label, 'Category A');
-    t.is(s.key, `${survey.key}.categoryA`);
+    t.is(s.key, `${survey.key}-categoryA`);
 
     t.is(s.questions.length, 3);
 
-    t.is(s.questions[1].key, `${s.key}.question2`);
+    t.is(s.questions[1].key, `${s.key}-question2`);
 });
 
 const data = [

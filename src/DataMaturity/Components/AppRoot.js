@@ -81,7 +81,8 @@ export default class AppRoot extends React.Component {
         super(props);
 
         this.state = {
-            surveyState: new SurveyState()
+            surveyState: new SurveyState(),
+            loaded: false
         };
 
         this.loadData();
@@ -102,11 +103,14 @@ export default class AppRoot extends React.Component {
         Promise.all([loadAuthThenSavedData(onAuthStatusLoaded), getOptions(), getSurvey()])
             .then(([authData, options, survey]) => {
 
-                console.log('all loaded');
-
                 const { authStatus, respondent, responses } = authData;
                 const answers = survey.createQAMap(responses || []);
-                self.changeSurveyStatus({ respondent, options, survey, answers });
+
+                this.setState(prevState => {
+                    console.log('all loaded');
+                    const surveyState = prevState.surveyState.change({ respondent, options, survey, answers });
+                    return { surveyState, loaded: true };
+                });
             });
     }
 
@@ -129,7 +133,10 @@ export default class AppRoot extends React.Component {
     }
 
     render() {
-        const { surveyState } = this.state;
+        const { loaded, surveyState } = this.state;
+
+        if (!loaded)
+            return 'Loading...'
 
         return <Router key="content">
             <ScrollToTop>

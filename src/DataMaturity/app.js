@@ -12,6 +12,10 @@ import SurveyMain from './Components/Survey/Main';
 import ResultMain from './Components/Result/Main';
 import AppRoot from './Components/AppRoot';
 
+if ('scrollRestoration' in history) { // turn off scrolling to top bottom in chrome
+    history.scrollRestoration = 'manual';
+}
+
 function renderSignIn(authStatus) {
     const app = document.getElementById('signInApp');
     ReactDom.render(<SignInDetails status={authStatus} />, app);
