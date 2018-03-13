@@ -11,7 +11,10 @@ const data = {
             questions: [
                 { identifier: 1, text: 'Question A.1', help: 'Help A.1' },
                 { identifier: 2, text: 'Question A.2', help: 'Help A.2' },
-                { identifier: 3, text: 'Question A.3', help: 'Help A.3' }
+                { identifier: 3, text: 'Question A.3', help: 'Help A.3' },
+                { identifier: 4, text: 'Question A.4', help: 'Help A.4' },
+                { identifier: 5, text: 'Question A.5', help: 'Help A.5' },
+                { identifier: 6, text: 'Question A.6', help: 'Help A.6' }
             ]
         },
         {
@@ -35,7 +38,7 @@ test('create', t => {
     t.is(survey.categories[0].key, `${survey.key}.categoryA`);
     t.is(survey.categories[1].identifier, 'B');
     t.is(survey.categories[1].label, 'Category B');
-    t.is(survey.categories[0].questions.length, 3);
+    t.is(survey.categories[0].questions.length, 6);
     t.is(survey.categories[1].questions[1].key, `${survey.key}.categoryB.question2`);
     t.is(survey.categories[1].questions[1].text, 'Question B.2');
     t.is(survey.categories[0].questions[2].help, 'Help A.3');
@@ -65,6 +68,23 @@ test('firstQuestion', t => {
 test('lastQuestion', t => {
     const survey = new Survey(data);
     t.truthy(survey.lastQuestion);
-    t.is(survey.lastQuestion, survey.categories[survey.categories.length - 1].questions[survey.categories[survey.categories.length - 1].questions.length- 1]);
+    t.is(survey.lastQuestion, survey.categories[survey.categories.length - 1].questions[survey.categories[survey.categories.length - 1].questions.length - 1]);
     t.is(survey.lastQuestion.key, `surveyDM.categoryB.question2`);
+});
+
+
+
+test('createQAMap', t => {
+    const survey = new Survey(data);
+    const firstCategory = survey.firstCategory;
+    const responses = [5, 'NOT_KNOWN', 'NOT_UNDERSTOOD', 2, 1, 2].map((v, i) => ({ category: 'A', question: (i + 1), value: v }));
+
+    const map = survey.createQAMap(responses);
+
+    t.truthy(map);
+    t.is(map.size, 6);
+    t.is(map.get(firstCategory.firstQuestion).value, 5);
+    t.is(map.get(firstCategory.lastQuestion).value, 2);
+    t.true(map.get(firstCategory.questions[1]).notKnown);
+    t.true(map.get(firstCategory.questions[2]).notUnderstood);
 });
