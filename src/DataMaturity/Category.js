@@ -2,11 +2,12 @@ import Question from './Question';
 import CategoryScore from './Scores/CategoryScore';
 
 export default class Category {
-    constructor({ survey = {}, identifier = '', label = '', questionData = [] }) {
+    constructor({ survey = {}, identifier = '', label = '', sort = 0, questionData = [] }) {
 
         this.survey = survey;
         this.identifier = identifier;
         this.label = label;
+        this.sort = sort;
         this.questions = Object.freeze(Question.createArray(this, questionData));
 
         Object.freeze(this);
@@ -16,8 +17,9 @@ export default class Category {
         return data.map((d, i) => {
             const identifier = d.identifier || `${i + 1}`;
             const label = d.label || '';
+            const sort = d.sort || 0;
             const questionData = Array.isArray(d.questions) ? d.questions : [];
-            return new Category({ survey, identifier, label, questionData });
+            return new Category({ survey, identifier, label, sort, questionData });
         });
     }
 

@@ -15,9 +15,8 @@ export default class Table extends React.Component {
                 </tr>
             </thead>
             <tbody>
-                {table.rows.map(row => <tr>
-                    <th>{row.heading}</th>
-                    {row.values.map((value, i) => <td key={i}>{value}</td>)}
+                {table.rows.map((row, i) => <tr key={i}>
+                    {row.map((value, j) => <td key={j}>{value}</td>)}
                 </tr>)}
             </tbody>
         </table>;

@@ -2,7 +2,7 @@ import ScoreProperties from './ScoreProperties';
 import Respondent from '../Respondent';
 
 function calculateScore(categories, answers) {
-    return categories.reduce((acc, c) => {
+    return categories.concat().sort((a, b) => a.sort - b.sort).reduce((acc, c) => {
 
         const categoryScore = c.score(answers);
         acc.categoryScores.push(categoryScore);

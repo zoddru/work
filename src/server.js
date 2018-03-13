@@ -55,7 +55,7 @@ const app = express()
     .get('/dataMaturity.result.html', (req, res) => res.redirect('/result'))
 
     .get('/authentication/status', (req, res) => {
-        
+
         if (config.useLocal) {
             res.send(JSON.stringify({ isSignedIn: false, usingLocal: true }));
             return;
