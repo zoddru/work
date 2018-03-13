@@ -9,7 +9,7 @@ test('create', t => {
     t.is(survey.key, 'surveyDM');
     t.is(survey.identifier, 'DM');
     t.is(survey.title, 'Data Maturity');
-    t.is(survey.categories.length, 2);
+    t.is(survey.categories.length, 3);
     t.is(survey.categories[0].key, `${survey.key}-categoryA`);
     t.is(survey.categories[1].identifier, 'B');
     t.is(survey.categories[1].label, 'Category B');
@@ -30,7 +30,7 @@ test('lastCategory', t => {
     const survey = new Survey(surveyData);
     t.truthy(survey.lastCategory);
     t.is(survey.lastCategory, survey.categories[survey.categories.length - 1]);
-    t.is(survey.lastCategory.identifier, 'B');
+    t.is(survey.lastCategory.identifier, 'C');
 });
 
 test('firstQuestion', t => {
@@ -44,7 +44,7 @@ test('lastQuestion', t => {
     const survey = new Survey(surveyData);
     t.truthy(survey.lastQuestion);
     t.is(survey.lastQuestion, survey.categories[survey.categories.length - 1].questions[survey.categories[survey.categories.length - 1].questions.length - 1]);
-    t.is(survey.lastQuestion.key, `surveyDM-categoryB-question5`);
+    t.is(survey.lastQuestion.key, `surveyDM-categoryC-question5`);
 });
 
 test('createQAMap', t => {

@@ -68,6 +68,37 @@
                 "help": "Help B.5"
              }
           ]
+       },
+       {
+          "identifier": "C",
+          "label": "Category C",
+          "questions": [
+             {
+                "identifier": 1,
+                "text": "Question C.1",
+                "help": "Help C.1"
+             },
+             {
+                "identifier": 2,
+                "text": "Question C.2",
+                "help": "Help C.2"
+             },
+             {
+                "identifier": 3,
+                "text": "Question C.2",
+                "help": "Help C.2"
+             },
+             {
+                "identifier": 4,
+                "text": "Question C.3",
+                "help": "Help C.4"
+             },
+             {
+                "identifier": 5,
+                "text": "Question C.3",
+                "help": "Help C.5"
+             }
+          ]
        }
     ]
  }

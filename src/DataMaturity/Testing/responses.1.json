@@ -55,6 +55,8 @@
             "notKnown": false,
             "notUnderstood": false
         },
+
+
         {
             "respondent": "TESTUSER1",
             "category": "B",
@@ -70,8 +72,40 @@
             "value": 4,
             "notKnown": false,
             "notUnderstood": false
+        },
+
+
+        {
+            "respondent": "TESTUSER1",
+            "category": "C",
+            "question": 1,
+            "value": 4,
+            "notKnown": false,
+            "notUnderstood": false
+        },
+        {
+            "respondent": "TESTUSER1",
+            "category": "C",
+            "question": 2,
+            "value": 4,
+            "notKnown": false,
+            "notUnderstood": false
+        },
+        {
+            "respondent": "TESTUSER1",
+            "category": "C",
+            "question": 3,
+            "value": 4,
+            "notKnown": false,
+            "notUnderstood": false
+        },
+        {
+            "respondent": "TESTUSER1",
+            "category": "C",
+            "question": 4,
+            "value": 4,
+            "notKnown": false,
+            "notUnderstood": false
         }
-    ],
-    "validationError": "",
-    "isValid": true
+    ]
 }

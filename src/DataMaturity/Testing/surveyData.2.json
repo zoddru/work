@@ -1,0 +1,130 @@
+{
+    "identifier": "DM",
+    "title": "Data Maturity",
+    "categories": [
+       {
+          "identifier": "A",
+          "label": "Category A",
+          "questions": [
+             {
+                "identifier": 1,
+                "text": "Question A.1",
+                "help": "Help A.1"
+             },
+             {
+                "identifier": 2,
+                "text": "Question A.2",
+                "help": "Help A.2"
+             },
+             {
+                "identifier": 3,
+                "text": "Question A.3",
+                "help": "Help A.3"
+             },
+             {
+                "identifier": 4,
+                "text": "Question A.4",
+                "help": "Help A.4"
+             },
+             {
+                "identifier": 5,
+                "text": "Question A.5",
+                "help": "Help A.5"
+             }
+          ]
+       },
+       {
+          "identifier": "B",
+          "label": "Category B",
+          "questions": [
+             {
+                "identifier": 1,
+                "text": "Question B.1",
+                "help": "Help B.1"
+             },
+             {
+                "identifier": 2,
+                "text": "Question B.2",
+                "help": "Help B.2"
+             },
+             {
+                "identifier": 3,
+                "text": "Question B.2",
+                "help": "Help B.2"
+             },
+             {
+                "identifier": 4,
+                "text": "Question B.3",
+                "help": "Help B.4"
+             },
+             {
+                "identifier": 5,
+                "text": "Question B.3",
+                "help": "Help B.5"
+             }
+          ]
+       },
+       {
+          "identifier": "C",
+          "label": "Category C",
+          "questions": [
+             {
+                "identifier": 1,
+                "text": "Question C.1",
+                "help": "Help C.1"
+             },
+             {
+                "identifier": 2,
+                "text": "Question C.2",
+                "help": "Help C.2"
+             },
+             {
+                "identifier": 3,
+                "text": "Question C.2",
+                "help": "Help C.2"
+             },
+             {
+                "identifier": 4,
+                "text": "Question C.3",
+                "help": "Help C.4"
+             },
+             {
+                "identifier": 5,
+                "text": "Question C.3",
+                "help": "Help C.5"
+             }
+          ]
+       },
+       {
+          "identifier": "D",
+          "label": "Category D",
+          "questions": [
+             {
+                "identifier": 1,
+                "text": "Question D.1",
+                "help": "Help D.1"
+             },
+             {
+                "identifier": 2,
+                "text": "Question D.2",
+                "help": "Help D.2"
+             },
+             {
+                "identifier": 3,
+                "text": "Question D.2",
+                "help": "Help D.2"
+             },
+             {
+                "identifier": 4,
+                "text": "Question D.3",
+                "help": "Help D.4"
+             },
+             {
+                "identifier": 5,
+                "text": "Question D.3",
+                "help": "Help D.5"
+             }
+          ]
+       }
+    ]
+ }
