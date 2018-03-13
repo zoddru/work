@@ -1,2 +1,0 @@
-import React from 'react';
-            export default <div className="tips"><ul><li>Continually review opportunities for the use of data</li><li>Systematically evaluate the use of data in the organisation</li><li>Move beyond considering data analysis as a distinct activity</li></ul></div>

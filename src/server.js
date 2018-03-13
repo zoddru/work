@@ -78,7 +78,6 @@ const app = express()
                     res.send(JSON.stringify({ isSignedIn: false, error: result.error || result.data.errors }));
                 }
                 else {
-                    console.log(result.data);
                     res.send(JSON.stringify({ isSignedIn: true, user: result.data.user }));
                 }
             })

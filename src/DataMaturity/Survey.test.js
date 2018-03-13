@@ -72,8 +72,6 @@ test('lastQuestion', t => {
     t.is(survey.lastQuestion.key, `surveyDM.categoryB.question2`);
 });
 
-
-
 test('createQAMap', t => {
     const survey = new Survey(data);
     const firstCategory = survey.firstCategory;

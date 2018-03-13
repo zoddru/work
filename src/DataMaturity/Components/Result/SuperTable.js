@@ -6,7 +6,6 @@ import common from '../../common';
 import Table from '../../SimpleTable';
 import TableComponent from '../SimpleTable';
 import axios from 'axios';
-import _ from 'lodash';
 
 const getOrganisation = (surveyState) => {
     return surveyState
