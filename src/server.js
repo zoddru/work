@@ -73,11 +73,12 @@ const app = express()
         new WebServices(oAuth)
             .getCurrentUser()
             .then(result => {
-                if (result.error) {
+                if (result.error || result.data && result.data.errors && result.data.errors.length) {
                     oAuthAccessor.set(null); // assume this data is now invalid
-                    res.send(JSON.stringify({ isSignedIn: false, error: result.error }));
+                    res.send(JSON.stringify({ isSignedIn: false, error: result.error || result.data.errors }));
                 }
                 else {
+                    console.log(result.data);
                     res.send(JSON.stringify({ isSignedIn: true, user: result.data.user }));
                 }
             })

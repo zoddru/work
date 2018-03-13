@@ -32,13 +32,19 @@ nav.progress .node.sub-node {
     display: none;
 }
 
+@media screen and (min-height: 560px) {
+    nav.progress .node.sub-node {
+        display: block;
+    }
+}
+
 nav.progress .node.collapsed {
     flex-grow: 0;
 }
 
 nav.progress .node:first-child {
     flex-grow: 0;
-    border: none;
+    border-color: transparent;
 }
 
 nav.progress .number,
@@ -64,12 +70,26 @@ nav.progress .text {
 }
 
 nav.progress .sub-node .number {
-    width: 3rem;
-    height: 3rem;
-    
-    bottom: -1.5rem;
-    left: -1.5rem;
+    width: 2rem;
+    height: 2rem;
+    bottom: -1rem;
+    left: -1rem;
     z-index: 4;
+    font-size: 1rem;
+    line-height: 2rem;
+}
+
+@media screen and (min-height: 660px) {
+    nav.progress .sub-node .number {
+        width: 3rem;
+        height: 3rem;
+        
+        bottom: -1.5rem;
+        left: -1.5rem;
+        
+        font-size: inherit;
+        line-height: 3rem;
+    }
 }
 
 nav.progress .text {
@@ -107,12 +127,6 @@ nav.progress .node.answered a {
 
 nav.progress .node.answered a:hover {
     background-color: #6a1c68;
-}
-
-@media screen and (min-height: 660px) {
-    nav.progress .node.sub-node {
-        display: block;
-    }
 }
 
 nav.progress .node.selected::before {
