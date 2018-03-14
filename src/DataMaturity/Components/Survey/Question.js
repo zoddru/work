@@ -54,7 +54,7 @@ export default class Question extends React.Component {
 
         return <section className="question" id={question.key}>
             <header>
-                <h2>{question.category.label} - {question.identifier}</h2>
+                <h3>{question.category.label} - {question.identifier}</h3>
             </header>
             <main>
                 <div className="text">

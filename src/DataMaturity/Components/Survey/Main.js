@@ -3,6 +3,7 @@ import Nav from './Nav';
 import Start from './Start';
 import Category from './Category';
 import End from './End';
+import Loading from '../Loading';
 
 export default class SurveyComponent extends React.Component {
     constructor(props) {
@@ -43,6 +44,10 @@ export default class SurveyComponent extends React.Component {
 
     render() {
         const { surveyState } = this.props;
+
+        if (surveyState.loading)
+            return <Loading />;
+
         const { survey } = surveyState;
 
         const categories = survey.categories

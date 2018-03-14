@@ -7,9 +7,11 @@ export default class SurveyState {
         options = { departments: [], roles: [] },
         survey = { categories: [], score: (() => ({ categoryScores: [] })) },
         respondent = new Respondent(),
-        answers = new Map()
+        answers = new Map(),
+        loading = true,
     } = {}) {
 
+        this.loading = loading;
         this.authStatus = authStatus;
         this.options = options;
         this.survey = survey; // assume Survey
@@ -21,10 +23,6 @@ export default class SurveyState {
 
     get hasSurvey() {
         return !!this.survey;
-    }
-
-    get hasRespondent() {
-        return !!this.respondent;
     }
 
     get responses() {

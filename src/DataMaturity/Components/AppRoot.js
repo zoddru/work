@@ -5,9 +5,9 @@ import SurveyState from '../SurveyState';
 import Respondent from '../Respondent';
 import Survey from '../Survey';
 import ScrollToTop from './ScrollToTop';
+import Introduction from './Introduction';
 import SurveyMain from './Survey/Main';
 import ResultMain from './Result/Main';
-import Loading from './Loading';
 import SuperTable from './Result/SuperTable';
 const Fragment = React.Fragment;
 
@@ -82,8 +82,7 @@ export default class AppRoot extends React.Component {
         super(props);
 
         this.state = {
-            surveyState: new SurveyState(),
-            loaded: false
+            surveyState: new SurveyState()
         };
 
         this.loadData();
@@ -107,11 +106,9 @@ export default class AppRoot extends React.Component {
                 const { authStatus, respondent, responses } = authData;
                 const answers = survey.createQAMap(responses || []);
 
-                this.setState(prevState => {
-                    console.log('all loaded');
-                    const surveyState = prevState.surveyState.change({ respondent, options, survey, answers });
-                    return { surveyState, loaded: true };
-                });
+                console.log('all loaded');
+
+                onAuthStatusLoaded({ respondent, options, survey, answers, loading: false });
             });
     }
 
@@ -134,25 +131,23 @@ export default class AppRoot extends React.Component {
     }
 
     render() {
-        const { loaded, surveyState } = this.state;
-
-        if (!loaded)
-            return <Loading />
-
-        const surveyScore = surveyState.score;
+        const { surveyState } = this.state;
+        const { score, loading } = surveyState;
 
         return <Router key="content">
             <ScrollToTop>
                 <Fragment>
                     <nav>
-                        <NavLink exact className="button" activeClassName="active" to={{ pathname: '/', hash: '#' }}>Questions</NavLink>
-                        <NavLink exact className="button" activeClassName="active" to={{ pathname: '/result', hash: '#' }}>Results</NavLink>
-                        <NavLink exact className="button" activeClassName="active" to={{ pathname: '/organisation', hash: '#' }}>Organisation results</NavLink>
+                        <NavLink exact className="button" activeClassName="active" to={{ pathname: '/', hash: '#' }}>Introduction</NavLink>
+                        <NavLink exact className="button" activeClassName="active" to={{ pathname: '/questions', hash: '#' }}>Questions</NavLink>
+                        <NavLink exact className="button" activeClassName="active" to={{ pathname: '/result', hash: '#' }}>Your results</NavLink>
+                        <NavLink exact className="button" activeClassName="active" to={{ pathname: '/organisation', hash: '#' }}>Your organisation's results</NavLink>
                     </nav>
                     <Switch>
-                        <Route exact path="/" render={() => <SurveyMain surveyState={surveyState} onRespondentChanged={this.respondentChanged.bind(this)} onAnswerChanged={this.answerChanged.bind(this)} />} />
-                        <Route exact path="/result" render={() => <ResultMain score={surveyScore} />} />
-                        <Route exact path="/organisation" render={() => <ResultMain score={surveyScore} />} />
+                        <Route exact path="/" render={() => <Introduction />}/>
+                        <Route exact path="/questions" render={() => <SurveyMain surveyState={surveyState} onRespondentChanged={this.respondentChanged.bind(this)} onAnswerChanged={this.answerChanged.bind(this)} />} />
+                        <Route exact path="/result" render={() => <ResultMain loading={loading} score={score} />} />
+                        <Route exact path="/organisation" render={() => <ResultMain loading={loading} score={score} />} />
                         
                         <Route exact path="/superTable" render={() => <SuperTable surveyState={surveyState} />} />
                     </Switch>
