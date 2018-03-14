@@ -1,0 +1,239 @@
+{
+    "identifier": "DM",
+    "label": "Data Maturity",
+    "categories": [
+        {
+            "questions": [
+                {
+                    "identifier": 1,
+                    "text": "Unique identifiers are employed to facilitate linking of commonly used data (e.g UPRN for property data or a unique client identifier).",
+                    "help": "",
+                    "subCategory": "Collection"
+                },
+                {
+                    "identifier": 2,
+                    "text": "The organisation follows clear standards (its own or external) to inform how commonly used data, such as addresses or names, is recorded.",
+                    "help": "",
+                    "subCategory": "Collection"
+                },
+                {
+                    "identifier": 3,
+                    "text": "We have quality metrics in place for the majority of our data and ensure that quality is rigorously maintained.",
+                    "help": "",
+                    "subCategory": "Quality"
+                },
+                {
+                    "identifier": 4,
+                    "text": "We have a well-understood data architecture function, which supports data projects across the organisation. ",
+                    "help": "The data architecture function in an organisation defines how, why and which data is collected, as well as how it stored, integrated and used. ",
+                    "subCategory": "Organisation"
+                },
+                {
+                    "identifier": 5,
+                    "text": "It is easy to access and explore organisational data.",
+                    "help": "",
+                    "subCategory": "Organisation"
+                },
+                {
+                    "identifier": 6,
+                    "text": "We have access to all of our data collected by externally contracted services.",
+                    "help": "",
+                    "subCategory": "Organisation"
+                },
+                {
+                    "identifier": 7,
+                    "text": "The majority of data is captured electronically and data collection is automated in all appropriate cases.",
+                    "help": "",
+                    "subCategory": "Collection"
+                },
+                {
+                    "identifier": 8,
+                    "text": "The purpose of data collection is clearly articulated and understood in the majority of cases, and is understood by the majority of staff",
+                    "help": "",
+                    "subCategory": "Collection"
+                },
+                {
+                    "identifier": 9,
+                    "text": "Is there executive or senior-level ownership over the data collection and management process?",
+                    "help": "",
+                    "subCategory": "Quality"
+                },
+                {
+                    "identifier": 10,
+                    "text": "There is meta-data available which enables the inspection of data quality at departmental and organisational level?",
+                    "help": "",
+                    "subCategory": "Quality"
+                }
+            ],
+            "sort": 1,
+            "identifier": "Management",
+            "label": "Data Management"
+        },
+        {
+            "questions": [
+                {
+                    "identifier": 1,
+                    "text": "Data is trusted, accurate, timely and available for supporing operational and strategic decisions. ",
+                    "help": "",
+                    "subCategory": "Decision Making"
+                },
+                {
+                    "identifier": 2,
+                    "text": "Data is used to support service delivery in real time, is used to understand the granular detail of perfromance issues and to understand effectiveness of services and individual interventions. ",
+                    "help": "",
+                    "subCategory": "Performance and evaluation"
+                },
+                {
+                    "identifier": 3,
+                    "text": "Data is used in real time where possible, often with APIs. Processes which require little or no human judgement have been automated and optimised using data, such as detecting fraud and error. ",
+                    "help": "",
+                    "subCategory": "Optimisation "
+                },
+                {
+                    "identifier": 4,
+                    "text": "Analytical outputs to inform decisions are communicated in accessible formats that are easily understood by most staff, not only those in IT or analytic roles. ",
+                    "help": "",
+                    "subCategory": "Decision Making"
+                },
+                {
+                    "identifier": 5,
+                    "text": "Data analysis is most frequently requested after a decision has been made, as evidence to support the decision.  ",
+                    "help": "",
+                    "subCategory": "Decision Making"
+                }
+            ],
+            "sort": 2,
+            "identifier": "Use",
+            "label": "Data Use"
+        },
+        {
+            "questions": [
+                {
+                    "identifier": 1,
+                    "text": "Information sharing agreements based on specific use-cases have been embedded in IT systems to enable responsible data sharing for analysis. ",
+                    "help": "",
+                    "subCategory": "DATA GOVERNANCE"
+                },
+                {
+                    "identifier": 2,
+                    "text": "Potential risks and benefits of data sharing are equally weighed, and data is shared safely and with confidence for a range of purposes. ",
+                    "help": "",
+                    "subCategory": "DATA GOVERNANCE"
+                },
+                {
+                    "identifier": 3,
+                    "text": "Is there an executive-level member in the organisation who is responsible for data governance and who is positive in promoting legal data sharing?",
+                    "help": "",
+                    "subCategory": "DATA GOVERNANCE"
+                },
+                {
+                    "identifier": 4,
+                    "text": "Changes to information governance legislation are understood and planned for in advance. ",
+                    "help": "",
+                    "subCategory": "DATA GOVERNANCE"
+                },
+                {
+                    "identifier": 5,
+                    "text": "All of our data has been identified and assessed for the risk/value it presents on our organisation's Information Asset Register. ",
+                    "help": "An Information Asset Register is a record of all the data your organisation collects and stores, and includes an explanation of the value and risk associated with each. For more information, visit: http://www.nationalarchives.gov.uk/documents/information-management/info-asset-register-factsheet.pdf",
+                    "subCategory": "DATA GOVERNANCE"
+                }
+            ],
+            "sort": 3,
+            "identifier": "Governance",
+            "label": "Data Governance"
+        },
+        {
+            "questions": [
+                {
+                    "identifier": 1,
+                    "text": "We have access to most of the data skills we need in-house or are easily able to outsource the support we require. ",
+                    "help": "",
+                    "subCategory": "DATA SKILLS & CAPABILITY"
+                },
+                {
+                    "identifier": 2,
+                    "text": "The organisation offers data skills training for a range of different applications and toolsets.",
+                    "help": "",
+                    "subCategory": "DATA SKILLS & CAPABILITY"
+                },
+                {
+                    "identifier": 3,
+                    "text": "The number of data analysts (or similar role) is sufficient to meet the analytic demands of the organisation. ",
+                    "help": "",
+                    "subCategory": "DATA SKILLS & CAPABILITY"
+                },
+                {
+                    "identifier": 4,
+                    "text": "The organisation has invested in tools and systems that have helped to augment the analytic capacity of the organisation.",
+                    "help": "",
+                    "subCategory": "DATA SKILLS & CAPABILITY"
+                },
+                {
+                    "identifier": 5,
+                    "text": "Data analysts (or similar roles) are often embedded in other teams (e.g. delivery or strategy) and/or secondments are regularly arranged to encourage closer working relationships. ",
+                    "help": "",
+                    "subCategory": "DATA SKILLS & CAPABILITY"
+                },
+                {
+                    "identifier": 6,
+                    "text": "We have made an investment in predictive analytics capability and supporting technology.",
+                    "help": "",
+                    "subCategory": "DATA SKILLS & CAPABILITY"
+                }
+            ],
+            "sort": 4,
+            "identifier": "Skills",
+            "label": "Data Skills and Capability"
+        },
+        {
+            "questions": [
+                {
+                    "identifier": 1,
+                    "text": "Political leaders have made statements that clearly demonstrate a high level of buy-in and understanding of using data more intelligently.",
+                    "help": "",
+                    "subCategory": "DATA AWARENESS & CULTURE"
+                },
+                {
+                    "identifier": 2,
+                    "text": "Clear and explicit policies and/or strategies are in place to support greater and more intelligent use of data.",
+                    "help": "",
+                    "subCategory": "DATA AWARENESS & CULTURE"
+                },
+                {
+                    "identifier": 3,
+                    "text": "Most staff are highly data literate and see data as an asset that can support them in performing their jobs better. ",
+                    "help": "",
+                    "subCategory": "DATA AWARENESS & CULTURE"
+                },
+                {
+                    "identifier": 4,
+                    "text": "There are procurement policies in place that are tailored specifcially to data and analytics projects.",
+                    "help": "",
+                    "subCategory": "DATA AWARENESS & CULTURE"
+                },
+                {
+                    "identifier": 5,
+                    "text": "There is opportunity and time for data analysts (and similar roles) to engage in analytic work beyond their immediate job requirements.",
+                    "help": "",
+                    "subCategory": "DATA AWARENESS & CULTURE"
+                },
+                {
+                    "identifier": 6,
+                    "text": "The organisation has strong data strategy in place, which has been well communicated and embedded within wider policy documents. ",
+                    "help": "",
+                    "subCategory": "DATA AWARENESS & CULTURE"
+                },
+                {
+                    "identifier": 7,
+                    "text": "It would be considered unacceptable for key operational or strategic decisions to be taken without reference to data analysis about its implications",
+                    "help": "",
+                    "subCategory": "DATA AWARENESS & CULTURE"
+                }
+            ],
+            "sort": 5,
+            "identifier": "Culture",
+            "label": "Data Awareness and Culture"
+        }
+    ]
+}

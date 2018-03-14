@@ -61,4 +61,20 @@ export default class CategoryScore {
     get key() {
         return `${this.category.key}-score`;
     }
+
+    
+
+    static sumValid(categoryScores) {
+        return categoryScores.reduce((acc, categoryScore) => {
+            acc.categoryScores.push(categoryScore);
+
+            if (!categoryScore.isValid)
+                return acc;
+
+            acc.numberOfValid += 1;
+            acc.sum += categoryScore.mean;
+    
+            return acc;
+        }, { categoryScores: [], numberOfValid: 0, sum: 0 });
+    }
 }

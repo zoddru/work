@@ -138,6 +138,10 @@ export default class AppRoot extends React.Component {
         if (!loaded)
             return 'Loading...'
 
+        const surveyScore = surveyState.score;
+
+        console.log(surveyScore);
+
         return <Router key="content">
             <ScrollToTop>
                 <Fragment>
@@ -148,8 +152,8 @@ export default class AppRoot extends React.Component {
                     </nav>
                     <Switch>
                         <Route exact path="/" render={() => <SurveyMain surveyState={surveyState} onRespondentChanged={this.respondentChanged.bind(this)} onAnswerChanged={this.answerChanged.bind(this)} />} />
-                        <Route exact path="/result" render={() => <ResultMain score={surveyState.score} />} />
-                        <Route exact path="/organisation" render={() => <ResultMain score={surveyState.score} />} />
+                        <Route exact path="/result" render={() => <ResultMain score={surveyScore} />} />
+                        <Route exact path="/organisation" render={() => <ResultMain score={surveyScore} />} />
                         
                         <Route exact path="/superTable" render={() => <SuperTable surveyState={surveyState} />} />
                     </Switch>

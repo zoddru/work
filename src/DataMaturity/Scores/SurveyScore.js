@@ -1,27 +1,10 @@
 import ScoreProperties from './ScoreProperties';
+import CategoryScore from './CategoryScore';
 import Respondent from '../Respondent';
 
 function calculateScore(categories, answers) {
-    return categories.concat().sort((a, b) => a.sort - b.sort).reduce((acc, c) => {
-
-        const categoryScore = c.score(answers);
-        acc.categoryScores.push(categoryScore);
-
-        if (!categoryScore.isValid) {
-            return acc;
-        }
-
-        acc.numberOfValid += 1;
-        acc.sum += categoryScore.mean;
-
-        return acc;
-
-    }, {
-            categoryScores: [],
-            sum: 0,
-            numberOfValid: 0
-        }
-    );
+    const categoryScores = categories.concat().sort((a, b) => a.sort - b.sort).map(c => c.score(answers));
+    return CategoryScore.sumValid(categoryScores);
 }
 
 export default class SurveyScore {

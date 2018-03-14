@@ -12,13 +12,17 @@ export default class Result extends React.Component {
 
         const categoryEls = [];
         const meanEls = [];
+        const realMeanEls = [];
+        const numberOfValidEls = [];
         const statusEls = [];
         const ranksEls = [];
 
         scores.forEach(s => {
             categoryEls.push(<th key={s.category.key}>{s.category.label}</th>);
             meanEls.push(<td key={s.key} className={typeof (s.mean) === 'number' ? 'number' : ''}>{s.meanDisplayName}</td>);
+            realMeanEls.push(<td key={s.key} className={typeof (s.mean) === 'number' ? 'number' : ''}>{typeof (s.mean) ? s.mean : '---'}</td>);
             statusEls.push(<td key={s.key}>{s.isValid ? 'valid' : 'invalid'}</td>);
+            numberOfValidEls.push(<td key={s.key} className="number">{s.numberOfValid}</td>);
             ranksEls.push(<td key={s.key}>{s.rankLabel}</td>);
         });
 
@@ -35,8 +39,16 @@ export default class Result extends React.Component {
                     <th className={typeof (score.mean) === 'number' ? 'number' : ''}>{score.meanDisplayName}</th>
                 </tr>
                 <tr>
+                    {realMeanEls}
+                    <th className={typeof (score.mean) === 'number' ? 'number' : ''}>{score.mean}</th>
+                </tr>
+                <tr>
                     {statusEls}
                     <th>{score.isValid ? 'valid' : 'invalid'}</th>
+                </tr>
+                <tr>
+                    {numberOfValidEls}
+                    <th className={typeof (score.mean) === 'number' ? 'number' : ''}>{score.numberOfValid}</th>
                 </tr>
                 <tr>
                     {ranksEls}

@@ -29,7 +29,7 @@ const getFunctions = {
     isValid() {
         return this.numberOfValid >= minNumberOfValid;
     }
-}
+};
 
 const props = {};
 
