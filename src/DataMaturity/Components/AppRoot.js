@@ -7,6 +7,7 @@ import Survey from '../Survey';
 import ScrollToTop from './ScrollToTop';
 import SurveyMain from './Survey/Main';
 import ResultMain from './Result/Main';
+import Loading from './Loading';
 import SuperTable from './Result/SuperTable';
 const Fragment = React.Fragment;
 
@@ -136,11 +137,9 @@ export default class AppRoot extends React.Component {
         const { loaded, surveyState } = this.state;
 
         if (!loaded)
-            return 'Loading...'
+            return <Loading />
 
         const surveyScore = surveyState.score;
-
-        console.log(surveyScore);
 
         return <Router key="content">
             <ScrollToTop>
