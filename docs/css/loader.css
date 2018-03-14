@@ -1,3 +1,5 @@
+/* https://projects.lukehaas.me/css-loaders/ */
+
 .loader, .loader:before, .loader:after {
   background: #92278F;
   -webkit-animation: load1 1s infinite ease-in-out;
