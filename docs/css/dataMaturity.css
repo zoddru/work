@@ -318,20 +318,18 @@ a.expand {
 
 .category .sub-section.caseStudy,
 .category .sub-section.tips,
-.category .sub-section.bestPractice {
+.category .sub-section.bestPractice,
+.category .sub-section.signPosting {
     border: solid 1px black;
     padding: 2rem;
 }
 
 .category .sub-section.caseStudy > header,
 .category .sub-section.tips > header,
-.category .sub-section.bestPractice > header {
+.category .sub-section.bestPractice > header,
+.category .sub-section.signPosting > header {
     margin-bottom: 2rem;
 }
-
-/* .category .sub-section.tips,
-.category .sub-section.bestPractice {
-} */
 
 /* .category.end */
 
