@@ -18,11 +18,11 @@ class CookieOAuthAccessor {
     constructor(req, res) {
 
         this.get = function() {
-            return req.cookies.oAuth;
+            return req.cookies.CHANCHANX;
         };
 
         this.set = function(value) {
-            res.cookie('oAuth', value);
+            res.cookie('CHANCHANX', value);
         };
 
         Object.freeze(this);
@@ -30,4 +30,4 @@ class CookieOAuthAccessor {
 }
 
 
-export default CookieOAuthAccessor; //SessionOAuthAccessor;
+export default CookieOAuthAccessor;

@@ -69,9 +69,10 @@ body > main > nav > a:first-child {
     max-width: 62rem;
 }
 
-/* loading */
-.main-content .loading {
-    margin-top: 4rem;
+/* loading not-signed-in */
+.main-content .loading,
+.main-content .not-signed-in {
+    margin-top: 7rem;
 }
 
 /* form */

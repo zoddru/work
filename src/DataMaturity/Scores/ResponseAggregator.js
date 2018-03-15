@@ -73,22 +73,21 @@ export default class ResponseAggregator {
         Object.freeze(this);
     }
 
-    byCategory({ identifier, label, filter }) {
+    byCategory({ key, filter }) {
         const byCategory = aggregateByCategory.call(this, filter);
         const categoryScores = Object.values(byCategory).map(s => new AggregatedScore(s));
 
         const { sum, numberOfValid } = CategoryScore.sumValid(categoryScores);
 
         return new AggregatedScore({
-            identifier,
-            label,
+            key,
             categoryScores,
             numberOfValid,
             sum
         });
     }
 
-    multipleByCategory(...filters) { // { identifier, label, filter }
+    multipleByCategory(filters) { // { key: { identifier, label }, filter }
         const self = this;
         return filters.map(f => self.byCategory(f));
     }

@@ -8,16 +8,19 @@ export default class Table extends React.Component {
     render() {
         const { table, className } = this.props;
 
+        const headings = table.headings.map((h, i) => <th key={i}>{typeof (h) === 'object' ? h.label : h}</th>);
+        const rows = table.rows.map((row, i) => <tr key={i}>
+            {row.map((v, j) => <td key={j}>{typeof (v) === 'object' ? v.label : v}</td>)}
+        </tr>);
+
         return <table className={className}>
             <thead>
                 <tr>
-                    {table.headings.map((th, i) => <th key={i}>{th}</th>)}
+                    {headings}
                 </tr>
             </thead>
             <tbody>
-                {table.rows.map((row, i) => <tr key={i}>
-                    {row.map((value, j) => <td key={j}>{value}</td>)}
-                </tr>)}
+                {rows}
             </tbody>
         </table>;
     }

@@ -8,6 +8,29 @@ import ResponseAggregator from './ResponseAggregator';
     const responses = require('../Testing/responses.3.json');
     const scoreAggregator = new ResponseAggregator({ survey, responses });
 
+    test('score has label and identifier', t => {
+        const score = scoreAggregator.byCategory({
+            key: 'the key',
+            filter: r => r.respondent.identifier === '1a33f4bb-8a7a-4447-9808-9f1199ff2dc4'
+        });
+
+        t.is(score.key, 'the key');
+    });
+
+    test('get multiple returns a result', t => {
+        const scores = scoreAggregator.multipleByCategory([
+            {
+                key: 'the key',
+                filter: r => r.respondent.identifier === '1a33f4bb-8a7a-4447-9808-9f1199ff2dc4'
+            }
+        ]);
+
+        t.is(scores.length, 1);
+        
+        const score = scores[0];
+        t.is(score.key, 'the key');
+    });
+
     test('single respondent', t => {
         const score = scoreAggregator.byCategory({
             identifier: 'just 1a33f4bb-8a7a-4447-9808-9f1199ff2dc4',

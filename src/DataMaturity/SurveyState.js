@@ -33,6 +33,27 @@ export default class SurveyState {
         return this.survey.score(this.answers);
     }
 
+    get isSignedIn() {
+        if (!this.authStatus)
+            return false;
+        return this.authStatus.isSignedIn;
+    }
+
+    get user() {
+        return this.authStatus && this.authStatus.user || null;
+    }
+
+    get organisation() {
+        return this.user && this.user.organisation || null;
+    }
+
+    get organisationLabel() {
+        const organisation = this.organisation;
+        if (!organisation)
+            return null;
+        return organisation.shortLabel || organisation.label || false;
+    }
+
     change(newValues) {
         const props = Object.assign({}, this, newValues);
         return new SurveyState(props);

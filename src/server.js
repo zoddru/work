@@ -42,7 +42,7 @@ const port = config.server.port;
 
 const app = express()
     .use(cookieParser())
-    .use(session({ secret: 'keyboard cat', cookie: { maxAge: 60000 } }))
+    .use(session({ secret: 'saint seiya vs gatchaman', cookie: { maxAge: 6000000 } }))
     .use('/dmApi/*', dmApiProxy)
     .use('/webservices/*', webservicesProxy)
     .use(bodyParser.json())
@@ -51,7 +51,8 @@ const app = express()
     .get('/result', (req, res) => res.sendFile('dataMaturity.html', { root: './docs' }))
     .get('/questions', (req, res) => res.sendFile('dataMaturity.html', { root: './docs' }))
     .get('/organisation', (req, res) => res.sendFile('dataMaturity.html', { root: './docs' }))
-    .get('/superTable', (req, res) => res.sendFile('dataMaturity.html', { root: './docs' }))
+    .get('/table', (req, res) => res.sendFile('dataMaturity.html', { root: './docs' }))
+    .get('/superTable', (req, res) => res.redirect('/table'))
     .get('/dataMaturity.html', (req, res) => res.redirect('/'))
     .get('/dataMaturity.result.html', (req, res) => res.redirect('/result'))
 
