@@ -16,6 +16,7 @@ export default class Summary extends React.Component {
         
         const bestPractice = content.bestPractice;
         const caseStudy = content.caseStudy;
+        const signPosting = content.signPosting;
 
         const tips = !!rankContent && rankContent.tips;
         
@@ -54,6 +55,7 @@ export default class Summary extends React.Component {
                     {spiderChart}
                     <GenericSection heading="Tips for progression" className="tips" content={tips} />
                     <GenericSection heading="Best practice" className="bestPractice" content={bestPractice} />
+                    <GenericSection heading="Additional resources" className="signPosting" content={signPosting} />
                 </div>
             </div>
 

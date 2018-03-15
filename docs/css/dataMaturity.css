@@ -94,6 +94,15 @@ form .form-item .value {
     flex-grow: 1;
 }
 
+form .form-item .Select {
+    top: -1rem;
+}
+
+form .form-item .Select input {
+    outline: none;
+    border: none;
+}
+
 /* table.summary */
 
 table.summary {
