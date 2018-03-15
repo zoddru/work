@@ -134,6 +134,9 @@ export default class AppRoot extends React.Component {
         const { surveyState } = this.state;
         const { score, loading } = surveyState;
 
+        const organisation = surveyState.authStatus && surveyState.authStatus.user && surveyState.authStatus.user.organisation;
+        const organisationLabel = organisation && (organisation.shortLabel || organisation.label) || false;
+
         return <Router key="content">
             <ScrollToTop>
                 <Fragment>
@@ -141,7 +144,7 @@ export default class AppRoot extends React.Component {
                         <NavLink exact className="button" activeClassName="active" to={{ pathname: '/', hash: '#' }}>Introduction</NavLink>
                         <NavLink exact className="button" activeClassName="active" to={{ pathname: '/questions', hash: '#' }}>Questions</NavLink>
                         <NavLink exact className="button" activeClassName="active" to={{ pathname: '/result', hash: '#' }}>Your results</NavLink>
-                        <NavLink exact className="button" activeClassName="active" to={{ pathname: '/organisation', hash: '#' }}>Your organisation's results</NavLink>
+                        <NavLink exact className="button" activeClassName="active" to={{ pathname: '/organisation', hash: '#' }}>{!!organisationLabel ? organisationLabel : 'Your organisation'}'s results</NavLink>
                     </nav>
                     <Switch>
                         <Route exact path="/" render={() => <Introduction />}/>

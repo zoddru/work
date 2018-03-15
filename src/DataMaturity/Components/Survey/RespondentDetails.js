@@ -40,7 +40,7 @@ export default class RespondentDetails extends React.Component {
                 <div className="value">{user.organisation.label}</div>
             </div>
             <div className="form-item">
-                <label>Department</label>
+                <label>Function</label>
                 <div className="value">
                     <Select
                         name="respondent-department"

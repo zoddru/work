@@ -134,7 +134,7 @@ export default class SuperTable extends React.Component {
                             <div className="value">{user.organisation.label}</div>
                         </div>
                         <div className="form-item">
-                            <label>Department</label>
+                            <label>Function</label>
                             <div className="value">
                                 <Select
                                     name="departments"
