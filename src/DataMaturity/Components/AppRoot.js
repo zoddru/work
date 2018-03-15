@@ -29,10 +29,10 @@ const saveSurveyState = (surveyState) => {
 
 const loadAuthThenSavedData = (onLoaded) => {
     return axios
-        .get('/authentication/status')
+        .get(`/authentication/status?noCache=${(new Date()).getTime()}`)
         .then(statusRes => {
             const authStatus = statusRes.data;
-
+            
             onLoaded({ authStatus });
 
             if (!authStatus.isSignedIn)

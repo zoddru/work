@@ -3,21 +3,21 @@ import { withRouter } from 'react-router';
 
 class ScrollToTop extends React.Component {
 
-    componentDidMount() {
-        const hash = this.props.location.hash;
-        if (!hash || hash === '#')
-            return; // we turned off auto scroll so it should render at the top
+    // componentDidMount() {
+    //     const hash = this.props.location.hash;
+    //     if (!hash || hash === '#')
+    //         return; // we turned off auto scroll so it should render at the top
 
-        const el = window.document.querySelector(hash);
-        if (!el || !el.scrollIntoView)
-            return;
+    //     const el = window.document.querySelector(hash);
+    //     if (!el || !el.scrollIntoView)
+    //         return;
 
-        el.scrollIntoView({
-            behavior: 'instant',
-            block: 'start',
-            inline: 'end'
-        });
-    }
+    //     el.scrollIntoView({
+    //         behavior: 'instant',
+    //         block: 'start',
+    //         inline: 'end'
+    //     });
+    // }
 
     componentDidUpdate(prevProps) {
         if (this.props.location.pathname !== prevProps.location.pathname) {
