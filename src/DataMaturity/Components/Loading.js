@@ -6,13 +6,13 @@ export default class Loading extends React.Component {
 
         return <section className="main-content">
             <article>
-                <section className="loading">
+                <header>
                     <p>
                         {message}
                     </p>
-                </section>
-                <div className="loader">
-                </div>
+                </header>
+                <main className="loader">
+                </main>
             </article>
         </section>;
     }

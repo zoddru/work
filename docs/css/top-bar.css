@@ -1,0 +1,10 @@
+body > nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4.16rem;
+    background-color: #410440;
+    z-index: 30;
+    color: white;
+}

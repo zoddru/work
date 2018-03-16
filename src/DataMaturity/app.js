@@ -17,7 +17,7 @@ if ('scrollRestoration' in history) { // turn off scrolling to top bottom in chr
 }
 
 function renderSignIn(authStatus) {
-    const app = document.getElementById('signInApp');
+    const app = document.getElementById('mainHeader');
     ReactDom.render(<SignInDetails status={authStatus} />, app);
 }
 
