@@ -19,7 +19,11 @@ const getScoresForOrganisation = (organisation) => {
         return Promise.resolve({ data: cachedResponses });
     }
 
-    return axios.get(`/dmApi/responses?organisation=${organisation.identifier}`).then(r => responsesCache.set(organisation.identifier, r.data || []));
+    return axios.get(`/dmApi/responses?organisation=${organisation.identifier}`)
+        .then(r => {
+            responsesCache.set(organisation.identifier, r.data || []);
+            return r;
+        });
 };
 
 export default class Table extends React.Component {
