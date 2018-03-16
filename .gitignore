@@ -42,3 +42,5 @@ config.js
 
 dist/
 app/
+
+docs/js/*.min.js
