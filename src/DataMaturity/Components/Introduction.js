@@ -7,7 +7,7 @@ export default class Main extends React.Component {
 
     render() {
         return <section className="main-content">
-            <article class="essay">
+            <article>
                 <header>
                     <h2>Data Maturity</h2>
                 </header>

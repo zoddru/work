@@ -9,6 +9,8 @@ import Introduction from './Introduction';
 import SurveyMain from './Survey/Main';
 import ResultMain from './Result/Main';
 import Table from './Result/Table';
+import Loading from './Loading';
+import NotSignedIn from './NotSignedIn';
 const Fragment = React.Fragment;
 
 const saveSurveyState = (surveyState) => {
@@ -138,18 +140,20 @@ export default class AppRoot extends React.Component {
             <ScrollToTop>
                 <Fragment>
                     <nav>
-                        <NavLink exact className="button" activeClassName="active" to={{ pathname: '/', hash: '#' }}>Introduction</NavLink>
-                        <NavLink exact className="button" activeClassName="active" to={{ pathname: '/questions', hash: '#' }}>Questions</NavLink>
+                        <NavLink exact className="button" activeClassName="active" to={{ pathname: '/', hash: '#' }}>Questions</NavLink>
                         <NavLink exact className="button" activeClassName="active" to={{ pathname: '/result', hash: '#' }}>Your results</NavLink>
                         <NavLink exact className="button" activeClassName="active" to={{ pathname: '/organisation', hash: '#' }}>{!!organisationLabel ? organisationLabel : 'Your organisation'}'s results</NavLink>
+                        <NavLink exact className="button" activeClassName="active" to={{ pathname: '/table', hash: '#' }}>Table</NavLink>
                     </nav>
                     <Switch>
-                        <Route exact path="/" render={() => <Introduction />}/>
-                        <Route exact path="/questions" render={() => <SurveyMain surveyState={surveyState} onRespondentChanged={this.respondentChanged.bind(this)} onAnswerChanged={this.answerChanged.bind(this)} />} />
-                        <Route exact path="/result" render={() => <ResultMain loading={loading} score={score} />} />
-                        <Route exact path="/organisation" render={() => <ResultMain loading={loading} score={score} />} />
+                        <Route exact path="/" render={() => <SurveyMain surveyState={surveyState} onRespondentChanged={this.respondentChanged.bind(this)} onAnswerChanged={this.answerChanged.bind(this)} />} />
+                        <Route exact path="/result" render={() => <ResultMain surveyState={surveyState} score={score} />} />
+                        <Route exact path="/organisation" render={() => <ResultMain surveyState={surveyState} score={score} />} />
                         
                         <Route exact path="/table" render={() => <Table surveyState={surveyState} />} />
+                        
+                        <Route exact path="/test-loading" render={() => <Loading />} />
+                        <Route exact path="/test-not-signed-in" render={() => <NotSignedIn status={{ isSignedIn: false }} />} />
                     </Switch>
                 </Fragment>
             </ScrollToTop>

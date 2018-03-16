@@ -10,7 +10,6 @@ body > header {
     right: 0;
     padding: 1rem;
     border-bottom: solid 1px #E2E3E7;
-    background-color: white;
 
     font-size: 1rem;
     line-height: 1rem;
@@ -61,18 +60,25 @@ body > main > nav > a:first-child {
     margin-left: 18rem;
 }
 
+.main-content > article > header,
+.category > header, 
+.question > header {
+    padding-top: 7rem;    
+    padding-bottom: 2rem;
+}
+
+.main-content > article > main,
+.category > main,
+.question > main {
+    padding-top: 2rem;
+}
+
 .main-content .main-column {
     max-width: 62rem;
 }
 
 .main-content .side-column {
     max-width: 62rem;
-}
-
-/* loading not-signed-in */
-.main-content .loading,
-.main-content .not-signed-in {
-    margin-top: 7rem;
 }
 
 /* form */
@@ -153,16 +159,6 @@ a.expand {
     min-height: 100vh; /* should be dynamic 100% of  */
 }
 
-.category > header {
-    padding-top: 7rem;
-    margin-bottom: 2rem;
-}
-
-.category.start main,
-.category.end main {
-    padding-top: 4rem;
-}
-
 .category p {
     margin-bottom: 2rem;
 }
@@ -178,11 +174,6 @@ a.expand {
 
     min-height: 60rem;
     min-height: 100vh; /* should be dynamic 100% of  */
-}
-
-.question > header {
-    padding-top: 7rem;
-    margin-bottom: 2rem;
 }
 
 .question > main {

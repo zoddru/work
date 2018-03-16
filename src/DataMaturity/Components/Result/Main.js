@@ -3,6 +3,7 @@ import Nav from './Nav';
 import Summary from './Summary';
 import Chart from './Chart';
 import Loading from '../Loading';
+import NotSignedIn from '../NotSignedIn';
 import content from './content';
 
 export default class Main extends React.Component {
@@ -11,9 +12,12 @@ export default class Main extends React.Component {
     }
 
     render() {
-        const { score, loading } = this.props;
+        const { score, surveyState } = this.props;
 
-        if (loading)
+        if (!surveyState.isSignedIn)
+            return <NotSignedIn status={surveyState.authStatus} />;
+
+        if (surveyState.loading)
             return <Loading />;
 
         const categoryScores = score.categoryScores.map(cs => <Summary key={cs.key} score={cs} content={content[cs.identifier]} />);

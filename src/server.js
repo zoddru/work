@@ -52,7 +52,9 @@ const app = express()
     .get('/questions', (req, res) => res.sendFile('dataMaturity.html', { root: './docs' }))
     .get('/organisation', (req, res) => res.sendFile('dataMaturity.html', { root: './docs' }))
     .get('/table', (req, res) => res.sendFile('dataMaturity.html', { root: './docs' }))
-    .get('/superTable', (req, res) => res.redirect('/table'))
+
+    .get('/test-*', (req, res) => res.sendFile('dataMaturity.html', { root: './docs' }))
+
     .get('/dataMaturity.html', (req, res) => res.redirect('/'))
     .get('/dataMaturity.result.html', (req, res) => res.redirect('/result'))
 

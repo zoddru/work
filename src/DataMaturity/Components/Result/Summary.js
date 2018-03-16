@@ -44,7 +44,7 @@ export default class Summary extends React.Component {
 
             <GenericSection heading="Warning" className="warning" content={warningContent} />
             
-            <div class="columns">
+            <main class="columns">
                 <div class="main-column">
                     <GenericSection className="score" content={scoreContent} />
                     <GenericSection heading="Case study" className="caseStudy" content={caseStudy} />
@@ -57,7 +57,7 @@ export default class Summary extends React.Component {
                     <GenericSection heading="Best practice" className="bestPractice" content={bestPractice} />
                     <GenericSection heading="Additional resources" className="signPosting" content={signPosting} />
                 </div>
-            </div>
+            </main>
 
         </section>;
     }
