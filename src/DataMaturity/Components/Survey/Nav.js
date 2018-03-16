@@ -12,14 +12,14 @@ export default class Nav extends React.Component {
         const topCategoryEl = categoryEls.find(el => el.getBoundingClientRect().top < window.innerHeight);
 
         if (!topCategoryEl)
-            return { start: true };
+            return { isStart: true };
 
         const categoryKey = topCategoryEl.id;
 
         if (!categoryKey)
-            return { start: true };
+            return { isStart: true };
         if (categoryKey === 'end')
-            return { end: true };
+            return { isEnd: true };
 
         const survey = this.props.surveyState.survey;
 
@@ -32,8 +32,8 @@ export default class Nav extends React.Component {
         const categoryEl = window.document.querySelector(`.category[id='${category.key}']`);
         if (!categoryEl)
             return null;
-        if (categoryEl.getBoundingClientRect().top >= 0)
-            return null; // category el still visible (assume it is expanded and on screen, since it was passed in)
+        //if (categoryEl.getBoundingClientRect().top >= 0) // category now has no content
+        //    return null; // category el still visible (assume it is expanded and on screen, since it was passed in)
 
         const questionEls = Array.from(window.document.querySelectorAll('.question')).reverse();
         const height = window.innerHeight;
@@ -61,8 +61,8 @@ export default class Nav extends React.Component {
         const { respondent, survey, answers } = surveyState;
         const { expandedCategory, currentQuestion } = this.state;
 
-        const startClass = `${respondent.hasBeenAnswered ? 'answered' : respondent.hasBeenStarted ? 'started' : ''} ${expandedCategory && expandedCategory.start && 'selected'}`;
-        const endClass = `${expandedCategory && expandedCategory.end && 'selected'}`;
+        const startClass = `${respondent.hasBeenAnswered ? 'answered' : respondent.hasBeenStarted ? 'started' : ''} ${expandedCategory && expandedCategory.isStart && 'selected'}`;
+        const endClass = `${expandedCategory && expandedCategory.isEnd && 'selected'}`;
 
         const nodes = [];
 

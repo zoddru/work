@@ -15,6 +15,7 @@ body > header {
     line-height: 1rem;
     text-align: right;
     height: 3rem;
+    background-color: white;
 }
 
 body > main {
@@ -60,10 +61,8 @@ body > main > nav > a:first-child {
     margin-left: 18rem;
 }
 
-.main-content > article > header,
-.category > header, 
-.question > header {
-    padding-top: 7rem;    
+.main-content > article header {
+    padding-top: 7rem;   
     padding-bottom: 2rem;
 }
 
@@ -271,6 +270,11 @@ a.expand {
     margin-bottom: 4rem;
 }
 
+.category .sub-section header {
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
 .category .sub-section p:last-child {
     margin-bottom: 0;
 }
@@ -325,6 +329,11 @@ a.expand {
 
 /* .category.end */
 
+.category.end .buttons {    
+    margin-top: 4rem;
+    margin-bottom: 4rem;
+}
+
 .category.end .button.result,
 .category.end .button.organisation {
     display: block;
@@ -336,10 +345,6 @@ a.expand {
     margin-bottom: 2rem;
     font-weight: bold;
     font-size: large;
-}
-
-.category.end .button.organisation {
-    margin-bottom: 4rem;
 }
 
 /* .columns */

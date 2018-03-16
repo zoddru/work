@@ -1,5 +1,6 @@
 import React from 'react';
 import Result from './Result';
+import RespondentDetails from './RespondentDetails';
 import { Link } from 'react-router-dom';
 
 export default class End extends React.Component {
@@ -9,7 +10,7 @@ export default class End extends React.Component {
 
     render() {
         const { surveyState } = this.props;
-        const { survey, score } = surveyState;
+        const { authStatus, options, survey, respondent, score } = surveyState;
 
         const lastQuestion = survey.lastQuestion;
         const lastQuestionKey = !!lastQuestion ? lastQuestion.key : '';
@@ -20,8 +21,13 @@ export default class End extends React.Component {
                     <h2>Finished</h2>
                 </header>
                 <main>
-                    <Link className="button result" to={{ pathname: '/result', hash: '#' }}>Take me to my results</Link>
-                    <Link className="button link organisation" to={{ pathname: '/organisation', hash: '#' }}>or take me to the results of my organisation</Link>
+                    <RespondentDetails authStatus={authStatus} respondent={respondent} options={options} onRespondentChanged={this.props.onRespondentChanged} />
+
+                    <section class="buttons">
+                        <Link className="button result" to={{ pathname: '/result', hash: '#' }}>Take me to my results</Link>
+                        <Link className="button link organisation" to={{ pathname: '/organisation', hash: '#' }}>or take me to the results of my organisation</Link>
+                    </section>
+
                     <Result score={score} />
                 </main>
                 <footer>
