@@ -8,21 +8,30 @@ import SimpleTable from '../SimpleTable';
 import axios from 'axios';
 import common from '../../common';
 
+const responsesCache = new Map();
+
 const getScoresForOrganisation = (organisation) => {
     if (!organisation || !organisation.identifier)
-        return { then: () => { return { data: [] } } };
-    return axios.get(`/dmApi/responses?organisation=${organisation.identifier}`);
+        return Promise.resolve({ data: [] });
+
+    const cachedResponses = responsesCache.get(organisation.identifier);
+    if (cachedResponses) {
+        return Promise.resolve({ data: cachedResponses });
+    }
+
+    return axios.get(`/dmApi/responses?organisation=${organisation.identifier}`).then(r => responsesCache.set(organisation.identifier, r.data || []));
 };
 
 export default class Table extends React.Component {
     constructor(props) {
         super(props);
 
-        this.state = { 
-            loadingResponses: false, 
-            responses: [], 
-            selectedDepartments: [], 
-            selectedRoles: [] 
+        this.state = {
+            loadingResponses: false,
+            responses: [],
+            responsesLoaded: false,
+            selectedDepartments: [],
+            selectedRoles: []
         };
     }
 
@@ -49,37 +58,53 @@ export default class Table extends React.Component {
             label: item.label
         };
     }
-    
-    componentWillReceiveProps(nextProps) {
-        if (nextProps.surveyState.loading)
-            return;
-        if (this.hasOrganisationChanged(nextProps))
+
+    init(props) {
+        if (props.surveyState.loading)
             return;
 
         this.setState(prevState => {
-            const respondent = nextProps.surveyState.respondent;
+            const respondent = props.surveyState.respondent;
             if (!respondent)
                 return { loadingResponses: true };
 
             const newState = { loadingResponses: true };
 
             if (!!respondent.department) {
-                newState.selectedDepartments = [ respondent.department ]; // very weird that the select it wants the identifier, but later can store the object
+                newState.selectedDepartments = [respondent.department]; // very weird that the select it wants the identifier, but later can store the object
             }
 
             if (!!respondent.role) {
-                newState.selectedRoles = [ respondent.role ];
+                newState.selectedRoles = [respondent.role];
             }
 
             return newState;
         });
 
+        this.loadData(props);
+    }
+
+    loadData(props) {
         const self = this;
-        getScoresForOrganisation(nextProps.surveyState.organisation).then(r => {
-            if (!r.data)
-                return;
-            self.setState(prevState => ({ loadingResponses: false, responses: r.data }));
+        return getScoresForOrganisation(props.surveyState.organisation).then(r => {
+            const responses = r.data || [];
+            self.setState(prevState => ({ loadingResponses: false, responsesLoaded: true, responses }));
         });
+    }
+
+    componentWillMount() {
+        const { loadingResponses, responsesLoaded } = this.state;
+
+        if (loadingResponses || responsesLoaded)
+            return; // console.log('alread loading');
+        
+        this.init(this.props);
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if (this.hasOrganisationChanged(nextProps))
+            return;
+        this.init(nextProps);
     }
 
     render() {
@@ -105,48 +130,50 @@ export default class Table extends React.Component {
                     <header>
                         <h2>Table</h2>
                     </header>
-                    <form>
-                        <div className="form-item">
-                            <label>Organisation</label>
-                            <div className="value">{!!organisation ? organisation.label : '---'}</div>
-                        </div>
-                        <div className="form-item">
-                            <label>Function</label>
-                            <div className="value">
-                                <Select
-                                    name="departments"
-                                    clearable={false}
-                                    value={selectedDepartments}
-                                    multi
-                                    onChange={this.changeDepartments.bind(this)}
-                                    options={common.toSelectOptions(departments)}
-                                />
+                    <main>
+                        <form>
+                            <div className="form-item">
+                                <label>Organisation</label>
+                                <div className="value">{!!organisation ? organisation.label : '---'}</div>
                             </div>
-                        </div>
-                        <div className="form-item">
-                            <label>Role</label>
-                            <div className="value">
-                                <Select
-                                    name="roles"
-                                    clearable={false}
-                                    value={selectedRoles}
-                                    multi
-                                    onChange={this.changeRoles.bind(this)}
-                                    options={common.toSelectOptions(roles)}
-                                />
+                            <div className="form-item">
+                                <label>Function</label>
+                                <div className="value">
+                                    <Select
+                                        name="departments"
+                                        clearable={false}
+                                        value={selectedDepartments}
+                                        multi
+                                        onChange={this.changeDepartments.bind(this)}
+                                        options={common.toSelectOptions(departments)}
+                                    />
+                                </div>
                             </div>
-                        </div>
+                            <div className="form-item">
+                                <label>Role</label>
+                                <div className="value">
+                                    <Select
+                                        name="roles"
+                                        clearable={false}
+                                        value={selectedRoles}
+                                        multi
+                                        onChange={this.changeRoles.bind(this)}
+                                        options={common.toSelectOptions(roles)}
+                                    />
+                                </div>
+                            </div>
 
-                        <SimpleTable className="summary" table={table} />
+                            <SimpleTable className="summary" table={table} />
 
-                    </form>
+                        </form>
+                    </main>
                 </section>
             </article>
         </section >;
     }
 
 
-    
+
 
     get aggregatedScores() {
         const { surveyState } = this.props;
@@ -155,13 +182,13 @@ export default class Table extends React.Component {
         const { respondent, survey, options } = surveyState;
         const { responses, selectedDepartments, selectedRoles } = this.state;
 
-        const aggregator = new ResponseAggregator({survey, responses});
+        const aggregator = new ResponseAggregator({ survey, responses });
 
         const filters = [
             {
                 key: { identifier: respondent.identifier, label: 'Your scores' },
                 filter: r => r.respondent.identifier === respondent.identifier
-            }  
+            }
         ];
 
         const { departments, roles } = options;
@@ -187,7 +214,7 @@ export default class Table extends React.Component {
 
     get aggregatedTable() {
         const { surveyState } = this.props;
-        
+
         if (surveyState.loading || !surveyState.isSignedIn)
             return null;
 

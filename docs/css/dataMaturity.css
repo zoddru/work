@@ -70,7 +70,7 @@ body > main > nav > a:first-child {
 .main-content > article > main,
 .category > main,
 .question > main {
-    padding-top: 4rem;
+    padding-top: 2rem;
 }
 
 .main-content .main-column {
@@ -157,11 +157,6 @@ a.expand {
 
 .category {    
     min-height: 100vh; /* should be dynamic 100% of  */
-}
-
-.category.start main,
-.category.end main {
-    padding-top: 4rem;
 }
 
 .category p {
