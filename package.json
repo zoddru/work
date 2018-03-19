@@ -6,7 +6,7 @@
   "scripts": {
     "_comment": "https://github.com/babel/example-node-server",
     "start": "nodemon src/server.js --exec babel-node",
-    "postinstall": "babel src -d dist",
+    "postinstall": "babel src -d dist && webpack",
     "build": "babel src -d dist",
     "serve": "node dist/server.js",
     "test_dataMaturity": "ava \"src/DataMaturity/**/*.test.js\"",
