@@ -39,6 +39,10 @@ export default class Survey {
         return lastCategory.lastQuestion;
     }
 
+    get key() {
+        return `survey${this.identifier}`;
+    }
+
     score(answers) {
         return new SurveyScore({ survey: this, answers });
     }
@@ -72,7 +76,57 @@ export default class Survey {
         return map;
     }
 
-    get key() {
-        return `survey${this.identifier}`;
+    attemptToMergeAnswers(oldAnswers, newAnswers) {
+        const merged = new Map();
+        const conflicts = new Map();
+
+        this.categories.forEach(c => {
+            c.questions.forEach(q => {
+                const oldValue = oldAnswers.get(q);
+                const newValue = newAnswers.get(q);
+
+                if (!oldValue && !newValue)
+                    return;
+                if (!!oldValue && !newValue) {
+                    merged.set(q, oldValue);
+                    return;
+                }
+                if (!oldValue && !!newValue) {
+                    merged.set(q, newValue);
+                    return;
+                }
+                if (oldValue.equals(newValue)) {
+                    merged.set(q, newValue);
+                    return;
+                }
+                else {
+                    merged.set(q, oldValue); // don't change the old value by default
+                    conflicts.set(q, { oldValue, newValue });
+                }
+            });
+        });
+
+        return { merged, conflicts };
+    }
+
+    overwriteAnswers(oldAnswers, newAnswers) {
+        const merged = new Map();
+
+        this.categories.forEach(c => {
+            c.questions.forEach(q => {
+                const newValue = newAnswers.get(q);
+                if (newValue) {
+                    merged.set(q, newValue);
+                    return;
+                }
+                const oldValue = oldAnswers.get(q);
+                if (oldValue) {
+                    merged.set(q, oldValue);
+                    return;
+                }
+            });
+        });
+
+        return merged;
     }
 }

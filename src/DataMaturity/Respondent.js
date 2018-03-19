@@ -9,6 +9,20 @@ export default class Respondent {
         return new Respondent(props);
     }
 
+    findConflicts(newValues) {
+        const conflicts = [];
+        
+        if (this.department && newValues.department && this.department !== newValues.department) {
+            conflicts.push({ property: 'department', oldValue: this.department, newValue: newValues.department });
+        }
+        
+        if (this.role && newValues.role && this.role !== newValues.role) {
+            conflicts.push({ property: 'role', oldValue: this.role, newValue: newValues.role });
+        }
+
+        return conflicts;
+    }
+
     get hasBeenAnswered() {
         return !!this.department && !! this.role;
     }

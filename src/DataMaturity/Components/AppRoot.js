@@ -11,19 +11,24 @@ import ResultMain from './Result/Main';
 import Table from './Result/Table';
 import Loading from './Loading';
 import NotSignedIn from './NotSignedIn';
+import LocalStore from '../LocalStore';
 const Fragment = React.Fragment;
+
+const localStore = new LocalStore('DataMaturity_Responses');
 
 const saveSurveyState = (surveyState) => {
 
     const { respondent, responses } = surveyState;
+    const data = { respondent, responses };
+    
+    if (!respondent || !respondent.identifier) {
+        localStore.store(responses);
+        return;
+    }
 
-    axios.post('/dmApi/responses', {
-        respondent,
-        responses
-    })
-        .then(function (response) {
-            //console.log(response.data);
-        })
+    localStore.clear();
+
+    axios.post('/dmApi/responses', data)
         .catch(function (error) {
             console.log(error);
         });
@@ -90,27 +95,45 @@ export default class AppRoot extends React.Component {
         this.loadData();
     }
 
-    changeSurveyStatus(newProps) {
+    changeSurveyStatus(loadedProps, save) {
         const self = this;
         this.setState(prevState => {
-            const surveyState = prevState.surveyState.change(newProps);
+            const surveyState = prevState.surveyState.change(loadedProps);
+            if (save) {
+                saveSurveyState(surveyState);
+            }
             return { surveyState };
         });
     }
 
     loadData() {
         const self = this;
-        const onAuthStatusLoaded = (newProps => { this.props.onAuthStatusReceived(newProps.authStatus), self.changeSurveyStatus(newProps); });
+        const onAuthStatusLoaded = ((newProps, save) => { this.props.onAuthStatusReceived(newProps.authStatus), self.changeSurveyStatus(newProps, save); });
 
         Promise.all([loadAuthThenSavedData(onAuthStatusLoaded), getOptions(), getSurvey()])
             .then(([authData, options, survey]) => {
 
                 const { authStatus, respondent, responses } = authData;
-                const answers = survey.createQAMap(responses || []);
+                const loadedAnswers = survey.createQAMap(responses || []);
 
+                const enteredResponses = localStore.fetch();
+                const enteredAnswers = survey.createQAMap(enteredResponses || []);
+
+                const mergeAttempt = survey.attemptToMergeAnswers(loadedAnswers, enteredAnswers);
+
+                console.log({ enteredAnswers, mergeAttempt, size: mergeAttempt.conflicts.length });
+
+                let answers = mergeAttempt.merged;
+
+                if (mergeAttempt.conflicts.size) {
+                    if (confirm('CONFLICTS? - overwrite????')) {
+                        answers = survey.overwriteAnswers(answers, mergeAttempt.conflicts);
+                    }
+                }
+                
                 console.log('all loaded');
-
-                onAuthStatusLoaded({ respondent, options, survey, answers, loading: false });
+                
+                onAuthStatusLoaded({ respondent, options, survey, answers, loading: false }, true);
             });
     }
 

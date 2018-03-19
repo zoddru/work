@@ -18,7 +18,7 @@ export default class SurveyState {
         this.respondent = respondent; // assume Respondent
         this.answers = answers; // this is a Map, and so can't be frozen
 
-        Object.freeze();
+        Object.freeze(this);
     }
 
     get hasSurvey() {
@@ -67,5 +67,18 @@ export default class SurveyState {
     changeAnswer(question, answer) {
         const answers = this.answers.set(question, answer);
         return this.change({ answers });
+    }
+
+    findConflicts(newValues) {
+        const conflicts = [];
+        
+        if (this.respondent && newValues.respondent) {
+            const respondentConflicts = this.respondent.findConflicts(newValues.respondent);
+            if (respondentConflicts.length) {
+                conflicts.push({ property: 'respondent', oldValue: this.respondent, newValue: newValues.respondent, conflicts: respondentConflicts });
+            }
+        }
+
+        return conflicts;
     }
 }

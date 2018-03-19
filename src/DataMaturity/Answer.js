@@ -31,4 +31,8 @@ export default class Answer {
     get key() {
         return `${this.question.key}-answer${this.identifier}`;
     }
+
+    equals(answer) {
+        return this.question === answer.question && this.value === answer.value;
+    }
 }
