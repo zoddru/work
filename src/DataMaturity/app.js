@@ -7,7 +7,7 @@ import axios from 'axios';
 import Survey from './Survey';
 import Respondent from './Respondent';
 import SurveyState from './SurveyState';
-import SignInDetails from './Components/SignInDetails';
+import TopBar from './Components/TopBar';
 import SurveyMain from './Components/Survey/Main';
 import ResultMain from './Components/Result/Main';
 import AppRoot from './Components/AppRoot';
@@ -18,7 +18,7 @@ if ('scrollRestoration' in history) { // turn off scrolling to top bottom in chr
 
 function renderSignIn(authStatus) {
     const app = document.getElementById('mainHeader');
-    ReactDom.render(<SignInDetails status={authStatus} />, app);
+    ReactDom.render(<TopBar status={authStatus} />, app);
 }
 
 const start = () => {

@@ -8,14 +8,19 @@ body > header {
     top: 0;
     left: 0;
     right: 0;
-    padding: 1rem;
-    border-bottom: solid 1px #E2E3E7;
+    padding: 0;
 
     font-size: 1rem;
     line-height: 1rem;
     text-align: right;
-    height: 3rem;
-    background-color: white;
+
+    height: 4.16rem;
+    background-color: #410440;
+    color: white;
+    font-size: 1.3rem;
+    font-weight: 700;
+    line-height: 4.16rem;
+    padding: 0 1.5rem;
 }
 
 body > main {
@@ -25,19 +30,55 @@ body > main {
 }
 
 body > main > nav {
-    font-size: 1rem;
+    /*font-size: 1rem;*/
     z-index: 20;
     position: fixed;
-    top: 3rem;
-    left: 0;
+    top: 4.16rem;
+    left: 18rem;
     right: 0;
     padding: 1rem 0;
     border-bottom: solid 1px #E2E3E7;
     background-color: white;
 }
 
-body > main > nav > a {
-    margin-left: 1rem;
+body > main > nav > a.button {
+    position: relative;
+    display: inline-block;
+    height: 3rem;
+    margin-left: 1.5rem;
+    padding-left: 2rem;
+}
+
+body > main > nav > a.button:first-child {
+    margin-left: 0;
+    padding-left: 1rem;
+}
+
+body > main > nav > a::before,
+body > main > nav > a::after {
+    position: absolute;
+    bottom: 0;
+    top: 0;
+    left: 0;
+    height: 0;
+    width: 0;
+    background-color: transparent;
+    border: solid 1.5rem transparent;
+    border-left-color: white;
+    content: '';
+    z-index: 10;
+}
+
+body > main > nav > a:first-child::before,
+body > main > nav > a:last-child::after {
+    display: none;
+}
+
+body > main > nav > a::after {
+    left: auto;
+    right: -3rem;
+    border-left-color: #E2E3E7;
+    transition: 0.15s border-left-color;
 }
 
 body > main > nav > a:not(.active) {    
@@ -49,9 +90,16 @@ body > main > nav > a:not(.active):hover {
     background-color: #d4d6db;
 }
 
-body > main > nav > a:first-child {
-    /* leave space for the side bar nav */
-    margin-left: 18rem;
+body > main > nav > a:not(.active):hover::after {
+    border-left-color: #d4d6db;
+}
+
+body > main > nav > a.active::after {
+    border-left-color: #92278F;
+}
+
+body > main > nav > a.active:hover::after {
+    border-left-color: #6a1c68;
 }
 
 /* main content */
@@ -62,7 +110,7 @@ body > main > nav > a:first-child {
 }
 
 .main-content > article header {
-    padding-top: 7rem;   
+    padding-top: 10rem;   
     padding-bottom: 2rem;
 }
 
