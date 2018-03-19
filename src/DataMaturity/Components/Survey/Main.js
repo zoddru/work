@@ -1,5 +1,6 @@
 import React from 'react';
 import Nav from './Nav';
+import NavHelper from '../NavHelper';
 import Start from './Start';
 import Category from './Category';
 import End from './End';
@@ -43,22 +44,7 @@ export default class SurveyComponent extends React.Component {
     }
 
     componentDidMount() {
-        if (typeof(window) === 'undefined')
-            return;
-
-        const hash = window.location.hash;
-        if (!hash || hash === '#')
-            return; // we turned off auto scroll so it should render at the top
-
-        const el = window.document.querySelector(hash);
-        if (!el || !el.scrollIntoView)
-            return;
-
-        el.scrollIntoView({
-            behavior: 'instant',
-            block: 'start',
-            inline: 'end'
-        });
+        NavHelper.scrollToHash();
     }
 
     render() {

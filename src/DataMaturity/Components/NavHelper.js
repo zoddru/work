@@ -1,5 +1,8 @@
 export default Object.freeze({
     findTopElement: (querySelector, items, startKey) => {
+        if (typeof(window) === 'undefined')
+            return;
+            
         const elements = Array.from(window.document.querySelectorAll(querySelector)).reverse();
         const height = window.innerHeight;
         const topEl = elements.find(el => el.getBoundingClientRect().top < window.innerHeight);
@@ -35,5 +38,24 @@ export default Object.freeze({
         const questionKey = topQuestionEl.id;
 
         return category.questions.find(s => s.key === questionKey);
+    },
+
+    scrollToHash() {
+        if (typeof(window) === 'undefined')
+            return;
+
+        const hash = window.location.hash;
+        if (!hash || hash === '#')
+            return; // we turned off auto scroll so it should render at the top
+
+        const el = window.document.querySelector(hash);
+        if (!el || !el.scrollIntoView)
+            return;
+
+        el.scrollIntoView({
+            behavior: 'instant',
+            block: 'start',
+            inline: 'end'
+        });
     }
 });

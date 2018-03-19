@@ -1,5 +1,6 @@
 import React from 'react';
 import Nav from './Nav';
+import NavHelper from '../NavHelper';
 import Summary from './Summary';
 import Chart from './Chart';
 import Loading from '../Loading';
@@ -9,6 +10,10 @@ import content from './content';
 export default class Main extends React.Component {
     constructor(props) {
         super(props);
+    }
+
+    componentDidMount() {
+        NavHelper.scrollToHash();
     }
 
     render() {
