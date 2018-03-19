@@ -1,4 +1,5 @@
 import React from 'react';
+import NavHelper from '../NavHelper';
 
 export default class Nav extends React.Component {
     constructor(props) {
@@ -6,52 +7,12 @@ export default class Nav extends React.Component {
         this.state = { expandedCategory: null, currentQuestion: null };
     }
 
-    findTopCategory() {
-        const categoryEls = Array.from(window.document.querySelectorAll('.category')).reverse();
-        const height = window.innerHeight;
-        const topCategoryEl = categoryEls.find(el => el.getBoundingClientRect().top < window.innerHeight);
-
-        if (!topCategoryEl)
-            return { isStart: true };
-
-        const categoryKey = topCategoryEl.id;
-
-        if (!categoryKey)
-            return { isStart: true };
-        if (categoryKey === 'end')
-            return { isEnd: true };
-
-        const survey = this.props.surveyState.survey;
-
-        return survey.categories.find(s => s.key === categoryKey) || { end: true };
-    }
-
-    findTopQuestion(category) {
-        if (!category || !category.questions)
-            return null;
-        const categoryEl = window.document.querySelector(`.category[id='${category.key}']`);
-        if (!categoryEl)
-            return null;
-        //if (categoryEl.getBoundingClientRect().top >= 0) // category now has no content
-        //    return null; // category el still visible (assume it is expanded and on screen, since it was passed in)
-
-        const questionEls = Array.from(window.document.querySelectorAll('.question')).reverse();
-        const height = window.innerHeight;
-        const topQuestionEl = questionEls.find(s => s.getBoundingClientRect().top < window.innerHeight);
-
-        if (!topQuestionEl)
-            return null;
-
-        const questionKey = topQuestionEl.id;
-
-        return category.questions.find(s => s.key === questionKey);
-    }
-
     handleScroll() {
-        if (this.unmounted) 
+        if (this.unmounted || !this.props.surveyState.survey) 
             return;
-        const expandedCategory = this.findTopCategory();
-        const currentQuestion = this.findTopQuestion(expandedCategory);
+        const categories = this.props.surveyState.survey.categories;
+        const expandedCategory = NavHelper.findTopElement('.category', categories);
+        const currentQuestion = NavHelper.findTopQuestion(expandedCategory);
         
         this.setState({ expandedCategory, currentQuestion });
     }
