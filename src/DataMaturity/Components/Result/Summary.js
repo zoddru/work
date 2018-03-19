@@ -47,13 +47,13 @@ export default class Summary extends React.Component {
             <main class="columns">
                 <div class="main-column">
                     <GenericSection className="score" content={scoreContent} />
+                    <GenericSection heading="Tips for progression" className="tips" content={tips} />
                     <GenericSection heading="Case study" className="caseStudy" content={caseStudy} />
                     {columnChart}
                 </div>
 
                 <div class="side-column">
                     {spiderChart}
-                    <GenericSection heading="Tips for progression" className="tips" content={tips} />
                     <GenericSection heading="Best practice" className="bestPractice" content={bestPractice} />
                     <GenericSection heading="Additional resources" className="signPosting" content={signPosting} />
                 </div>
