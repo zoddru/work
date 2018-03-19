@@ -42,6 +42,25 @@ export default class SurveyComponent extends React.Component {
         this.scrollTo(targetId, e);
     }
 
+    componentDidMount() {
+        if (typeof(window) === 'undefined')
+            return;
+
+        const hash = window.location.hash;
+        if (!hash || hash === '#')
+            return; // we turned off auto scroll so it should render at the top
+
+        const el = window.document.querySelector(hash);
+        if (!el || !el.scrollIntoView)
+            return;
+
+        el.scrollIntoView({
+            behavior: 'instant',
+            block: 'start',
+            inline: 'end'
+        });
+    }
+
     render() {
         const { surveyState } = this.props;
 
@@ -51,12 +70,12 @@ export default class SurveyComponent extends React.Component {
         const { survey } = surveyState;
 
         const categories = survey.categories
-            .map(category => <Category key={category.key} 
-                                        surveyState={surveyState} 
-                                        category={category} 
-                                        onAnswerChanged={this.props.onAnswerChanged.bind(this)} 
-                                        onPrev={this.onPrev.bind(this)}
-                                        onNext={this.onNext.bind(this)} />);
+            .map(category => <Category key={category.key}
+                surveyState={surveyState}
+                category={category}
+                onAnswerChanged={this.props.onAnswerChanged.bind(this)}
+                onPrev={this.onPrev.bind(this)}
+                onNext={this.onNext.bind(this)} />);
 
         return <section class="main-content">
             <Nav surveyState={surveyState} />

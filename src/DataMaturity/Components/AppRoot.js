@@ -34,7 +34,7 @@ const loadAuthThenSavedData = (onLoaded) => {
         .get(`/authentication/status?noCache=${(new Date()).getTime()}`)
         .then(statusRes => {
             const authStatus = statusRes.data;
-            
+
             onLoaded({ authStatus });
 
             if (!authStatus.isSignedIn)
@@ -136,6 +136,15 @@ export default class AppRoot extends React.Component {
         const { surveyState } = this.state;
         const { score, loading, organisationLabel } = surveyState;
 
+        const loadingEl = <Loading />;
+
+        const routeResults = {
+            '/': loading ? loadingEl : <SurveyMain surveyState={surveyState} onRespondentChanged={this.respondentChanged.bind(this)} onAnswerChanged={this.answerChanged.bind(this)} />,
+            '/result': loading ? loadingEl :<ResultMain surveyState={surveyState} score={score} />,
+            '/organisation': loading ? loadingEl : <ResultMain surveyState={surveyState} score={score} />,
+            '/table': loading ? loadingEl : <Table surveyState={surveyState} />
+        };
+
         return <Router key="content">
             <ScrollToTop>
                 <Fragment>
@@ -146,12 +155,12 @@ export default class AppRoot extends React.Component {
                         <NavLink exact className="button" activeClassName="active" to={{ pathname: '/table', hash: '#' }}>Table</NavLink>
                     </nav>
                     <Switch>
-                        <Route exact path="/" render={() => <SurveyMain surveyState={surveyState} onRespondentChanged={this.respondentChanged.bind(this)} onAnswerChanged={this.answerChanged.bind(this)} />} />
-                        <Route exact path="/result" render={() => <ResultMain surveyState={surveyState} score={score} />} />
-                        <Route exact path="/organisation" render={() => <ResultMain surveyState={surveyState} score={score} />} />
-                        
-                        <Route exact path="/table" render={() => <Table surveyState={surveyState} />} />
-                        
+                        <Route exact path="/" render={() => routeResults['/'] } />
+                        <Route exact path="/result" render={() => routeResults['/result'] } />
+                        <Route exact path="/organisation" render={() => routeResults['/organisation'] } />
+
+                        <Route exact path="/table" render={() => routeResults['/table'] } />
+
                         <Route exact path="/test-loading" render={() => <Loading />} />
                         <Route exact path="/test-not-signed-in" render={() => <NotSignedIn status={{ isSignedIn: false }} />} />
                     </Switch>
