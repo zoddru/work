@@ -7,6 +7,16 @@ Highcharts.setOptions(theme);
 export default class SimpleChart extends React.Component {
     constructor(props) {
         super(props);
+
+        this.chart = null;
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if (!this.chart)
+            return;
+
+        this.chart.destroy();
+        this.chart = Highcharts.chart(this.props.id, nextProps.data);
     }
 
     render() {

@@ -1,14 +1,13 @@
 import React from 'react';
 import Select from 'react-select';
-import SignInDetails from '../SignInDetails';
-import ResponseAggregator from '../../Scores/ResponseAggregator';
-import Loading from '../Loading';
-import NotSignedIn from '../NotSignedIn';
-import SimpleTable from '../SimpleTable';
 import axios from 'axios';
-import common from '../../common';
-
-const responsesCache = new Map();
+import SignInDetails from '../../SignInDetails';
+import Loading from '../../Loading';
+import NotSignedIn from '../../NotSignedIn';
+import SimpleTable from './SimpleTable';
+import ResponseAggregator from '../../../Scores/ResponseAggregator';
+import common from '../../../common';
+const responsesCache = common.responsesCache;
 
 const getScoresForOrganisation = (organisation) => {
     if (!organisation || !organisation.identifier)
@@ -26,7 +25,7 @@ const getScoresForOrganisation = (organisation) => {
         });
 };
 
-export default class ResultTable extends React.Component {
+export default class Container extends React.Component {
     constructor(props) {
         super(props);
 
@@ -98,10 +97,8 @@ export default class ResultTable extends React.Component {
 
     componentWillMount() {
         const { loadingResponses, responsesLoaded } = this.state;
-
         if (loadingResponses || responsesLoaded)
             return; // console.log('alread loading');
-
         this.init(this.props);
     }
 
@@ -126,13 +123,11 @@ export default class ResultTable extends React.Component {
         if (loadingResponses)
             return <Loading message="loading responses. hang on..." />;
 
-        const table = this.aggregatedTable;
-
         return <section class="main-content">
             <article>
                 <section className="category">
                     <header>
-                        <h2>Table</h2>
+                        <h2>{this.props.heading}</h2>
                     </header>
                     <main>
                         <form>
@@ -168,7 +163,7 @@ export default class ResultTable extends React.Component {
                             </div>
                         </form>
 
-                        <SimpleTable className="summary" table={table} />
+                        {this.renderChildren()}
 
                     </main>
                 </section>
@@ -176,24 +171,32 @@ export default class ResultTable extends React.Component {
         </section >;
     }
 
-
-
+    renderChildren() {
+        return 'OUTPUT GOES HERE';
+    }
 
     get aggregatedScores() {
         const { surveyState } = this.props;
         if (surveyState.loading || !surveyState.isSignedIn)
             return null;
-        const { respondent, survey, options } = surveyState;
+        const { respondent, survey, options, organisation } = surveyState;
         const { responses, selectedDepartments, selectedRoles } = this.state;
 
         const aggregator = new ResponseAggregator({ survey, responses });
 
         const filters = [
             {
-                key: { identifier: respondent.identifier, label: 'Your scores' },
+                key: { identifier: respondent.identifier, label: 'My score' },
                 filter: r => r.respondent.identifier === respondent.identifier
             }
         ];
+
+        if (organisation) {
+            filters.push({
+                key: { identifier: organisation.identifier, label: organisation.shortLabel || organisation.label },
+                filter: r => r.respondent.organisation === organisation.identifier
+            });
+        }
 
         const { departments, roles } = options;
 
@@ -214,33 +217,5 @@ export default class ResultTable extends React.Component {
         });
 
         return aggregator.multipleByCategory(filters);
-    }
-
-    get aggregatedTable() {
-        const { surveyState } = this.props;
-
-        if (surveyState.loading || !surveyState.isSignedIn)
-            return null;
-
-        const scores = this.aggregatedScores;
-        const { survey, options } = surveyState;
-        const categories = survey.categories;
-
-        const headings = ['Data'].concat(categories.map(c => c.identifier)).concat(['Overall']);
-        const rows = [];
-
-        scores.forEach(s => {
-            const row = [s.key];
-            rows.push(row);
-
-            categories.forEach(c => {
-                const cs = s.categoryScores.find(cs => cs.category.identifier === c.identifier);
-                row.push(!!cs ? `${cs.rankLabel} (${cs.meanDisplayName})` : '---');
-            });
-
-            row.push(`${s.rankLabel} (${s.meanDisplayName})`);
-        });
-
-        return { headings, rows };
     }
 }
