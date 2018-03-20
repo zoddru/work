@@ -2,18 +2,16 @@
     scroll-behavior: smooth;
 } */
 
-body > header {
+body>header {
     z-index: 20;
     position: fixed;
     top: 0;
     left: 0;
     right: 0;
     padding: 0;
-
     font-size: 1rem;
     line-height: 1rem;
     text-align: right;
-
     height: 4.16rem;
     background-color: #410440;
     color: white;
@@ -23,13 +21,13 @@ body > header {
     padding: 0 1.5rem;
 }
 
-body > main {
+body>main {
     padding-left: 0;
     padding-top: 0;
     padding-bottom: 0;
 }
 
-body > main > nav {
+body>main>nav {
     /*font-size: 1rem;*/
     z-index: 20;
     position: fixed;
@@ -41,7 +39,7 @@ body > main > nav {
     background-color: white;
 }
 
-body > main > nav > a.button {
+body>main>nav>a.button {
     position: relative;
     display: inline-block;
     height: 3rem;
@@ -49,13 +47,12 @@ body > main > nav > a.button {
     padding-left: 2rem;
 }
 
-body > main > nav > a.button:first-child {
+body>main>nav>a.button:first-child {
     margin-left: 0;
     padding-left: 1rem;
 }
 
-body > main > nav > a::before,
-body > main > nav > a::after {
+body>main>nav>a::before, body>main>nav>a::after {
     position: absolute;
     bottom: 0;
     top: 0;
@@ -69,54 +66,51 @@ body > main > nav > a::after {
     z-index: 10;
 }
 
-body > main > nav > a:first-child::before,
-body > main > nav > a:last-child::after {
+body>main>nav>a:first-child::before, body>main>nav>a:last-child::after {
     display: none;
 }
 
-body > main > nav > a::after {
+body>main>nav>a::after {
     left: auto;
     right: -3rem;
     border-left-color: #E2E3E7;
     transition: 0.15s border-left-color;
 }
 
-body > main > nav > a:not(.active) {    
+body>main>nav>a:not(.active) {
     background-color: #E2E3E7;
     color: #464B51;
 }
 
-body > main > nav > a:not(.active):hover {    
+body>main>nav>a:not(.active):hover {
     background-color: #d4d6db;
 }
 
-body > main > nav > a:not(.active):hover::after {
+body>main>nav>a:not(.active):hover::after {
     border-left-color: #d4d6db;
 }
 
-body > main > nav > a.active::after {
+body>main>nav>a.active::after {
     border-left-color: #92278F;
 }
 
-body > main > nav > a.active:hover::after {
+body>main>nav>a.active:hover::after {
     border-left-color: #6a1c68;
 }
 
 /* main content */
 
-.main-content > article {
+.main-content>article {
     /* leave space for the side bar nav */
     margin-left: 18rem;
 }
 
-.main-content > article header {
-    padding-top: 10rem;   
+.main-content>article header {
+    padding-top: 10rem;
     padding-bottom: 2rem;
 }
 
-.main-content > article > main,
-.category > main,
-.question > main {
+.main-content>article>main, .category>main, .question>main {
     padding-top: 2rem;
 }
 
@@ -165,8 +159,7 @@ table.summary {
     border-collapse: collapse;
 }
 
-table.summary th,
-table.summary td {
+table.summary th, table.summary td {
     padding: 1rem;
     border: solid 1px #E2E3E7;
 }
@@ -202,8 +195,9 @@ a.expand {
 
 /* category */
 
-.category {    
-    min-height: 100vh; /* should be dynamic 100% of  */
+.category {
+    min-height: 100vh;
+    /* should be dynamic 100% of  */
 }
 
 .category p {
@@ -218,17 +212,17 @@ a.expand {
     border-left: none;
     padding-bottom: 18rem;
     text-align: justify;
-
     min-height: 60rem;
-    min-height: 100vh; /* should be dynamic 100% of  */
+    min-height: 100vh;
+    /* should be dynamic 100% of  */
 }
 
-.question > main {
+.question>main {
     position: relative;
     min-height: 10rem;
 }
 
-.question > footer {    
+.question>footer {
     border-bottom: solid 1px #E2E3E7;
     margin-bottom: 4rem;
     position: absolute;
@@ -237,16 +231,11 @@ a.expand {
     right: 0;
 }
 
-.question .text,
-.question .help,
-.question .answers, 
-.question .navigation {
+.question .text, .question .help, .question .answers, .question .navigation {
     margin-bottom: 4rem;
 }
 
-.question .answers,
-.question .answer,
-.question .answer label {
+.question .answers, .question .answer, .question .answer label {
     min-height: 4rem;
     min-width: 12.4rem;
 }
@@ -298,8 +287,7 @@ a.expand {
     height: 2.8rem;
 }
 
-.question .prev,
-.question .next {
+.question .prev, .question .next {
     display: block;
     position: absolute;
     top: 0;
@@ -360,30 +348,23 @@ a.expand {
     border-bottom: solid 0.02rem black;
 }
 
-.category .sub-section.caseStudy,
-.category .sub-section.tips,
-.category .sub-section.bestPractice,
-.category .sub-section.signPosting {
+.category .sub-section.caseStudy, .category .sub-section.tips, .category .sub-section.bestPractice, .category .sub-section.signPosting {
     border: solid 1px black;
     padding: 2rem;
 }
 
-.category .sub-section.caseStudy > header,
-.category .sub-section.tips > header,
-.category .sub-section.bestPractice > header,
-.category .sub-section.signPosting > header {
+.category .sub-section.caseStudy>header, .category .sub-section.tips>header, .category .sub-section.bestPractice>header, .category .sub-section.signPosting>header {
     margin-bottom: 2rem;
 }
 
 /* .category.end */
 
-.category.end .buttons {    
+.category.end .buttons {
     margin-top: 4rem;
     margin-bottom: 4rem;
 }
 
-.category.end .button.result,
-.category.end .button.organisation {
+.category.end .button.result, .category.end .button.organisation {
     display: block;
     text-align: center;
 }
@@ -402,15 +383,41 @@ a.expand {
         display: flex;
         flex-direction: row;
     }
-
-    .columns > .main-column {
+    .columns>.main-column {
         flex: 6;
         margin-right: 6rem;
     }
-
-    .columns > .side-column {
+    .columns>.side-column {
         flex: 3;
     }
 }
 
 /* chart */
+
+/* modal */
+
+.modal {
+    background: #fff !important;
+    padding: 2rem !important;
+    font-size: 1.6rem;
+}
+
+.modal h2 {
+    padding-bottom: 1rem;
+}
+
+.modal p {
+    padding: 1rem 0;
+}
+
+.modal .buttons {
+    margin-top: 1rem;
+}
+
+.modal .buttons a.button:not(:first-child) {
+    margin-left: 1rem;
+}
+
+.modal svg.Modal-closeIcon-0-1-4 {
+    display: none;
+}

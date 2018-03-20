@@ -77,7 +77,8 @@ export default class Survey {
     }
 
     attemptToMergeAnswers(oldAnswers, newAnswers) {
-        const merged = new Map();
+        const preserved = new Map();
+        const overwritten = new Map();
         const conflicts = new Map();
 
         this.categories.forEach(c => {
@@ -88,25 +89,29 @@ export default class Survey {
                 if (!oldValue && !newValue)
                     return;
                 if (!!oldValue && !newValue) {
-                    merged.set(q, oldValue);
+                    preserved.set(q, oldValue);
+                    overwritten.set(q, oldValue);
                     return;
                 }
                 if (!oldValue && !!newValue) {
-                    merged.set(q, newValue);
+                    preserved.set(q, newValue);
+                    overwritten.set(q, newValue);
                     return;
                 }
                 if (oldValue.equals(newValue)) {
-                    merged.set(q, newValue);
+                    preserved.set(q, newValue);
+                    overwritten.set(q, newValue);
                     return;
                 }
-                else {
-                    merged.set(q, oldValue); // don't change the old value by default
+                else { // the only difference is here
+                    preserved.set(q, oldValue);
+                    overwritten.set(q, newValue);
                     conflicts.set(q, { oldValue, newValue });
                 }
             });
         });
 
-        return { merged, conflicts };
+        return Object.freeze({ preserved, overwritten, conflicts, hasConflicts: (conflicts.size > 0) });
     }
 
     overwriteAnswers(oldAnswers, newAnswers) {

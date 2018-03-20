@@ -17,7 +17,7 @@ h3 {
     font-size: 1.9rem;
 }
 
-input, select {
+input, select, button {
     border: solid 1px #E2E3E7;
     color: rgb(70, 75, 81);
     background-color: transparent;
@@ -36,7 +36,8 @@ label {
 }
 
 input:focus,
-select:focus {
+select:focus,
+button:focus {
     outline: none;
     border: solid 1px #92278F;
 }
@@ -53,6 +54,7 @@ body > main {
 
 input[type="button"],
 input[type="submit"],
+button,
 a.button {
     background-color: #92278F;
     color: #FFF;
@@ -65,6 +67,7 @@ a.button {
 
 input[type="button"]:hover,
 input[type="submit"]:hover,
+button:hover,
 a.button:hover {
     background-color: #6a1c68;
     text-decoration: none;

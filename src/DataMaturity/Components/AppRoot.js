@@ -1,17 +1,18 @@
 import React from 'react';
 import { BrowserRouter as Router, Switch, Route, NavLink } from 'react-router-dom';
 import axios from 'axios';
+import Modal from 'react-responsive-modal';
 import SurveyState from '../SurveyState';
 import Respondent from '../Respondent';
 import Survey from '../Survey';
 import ScrollToTop from './ScrollToTop';
-import Introduction from './Introduction';
 import SurveyMain from './Survey/Main';
 import ResultMain from './Result/Main';
 import Table from './Result/Table';
+import LocalStore from '../LocalStore';
 import Loading from './Loading';
 import NotSignedIn from './NotSignedIn';
-import LocalStore from '../LocalStore';
+import ModalExample from './ModalExample';
 const Fragment = React.Fragment;
 
 const localStore = new LocalStore('DataMaturity_Responses');
@@ -20,7 +21,7 @@ const saveSurveyState = (surveyState) => {
 
     const { respondent, responses } = surveyState;
     const data = { respondent, responses };
-    
+
     if (!respondent || !respondent.identifier) {
         localStore.store(responses);
         return;
@@ -89,8 +90,11 @@ export default class AppRoot extends React.Component {
         super(props);
 
         this.state = {
-            surveyState: new SurveyState()
+            surveyState: new SurveyState(),
+            hasConflicts: false
         };
+
+        this.mergeAttempt = { preserved: [], overwritten: [], conflicts: [], hasConflicts: false };
 
         this.loadData();
     }
@@ -106,9 +110,26 @@ export default class AppRoot extends React.Component {
         });
     }
 
+    warnConflict(mergeAttempt) {
+        this.mergeAttempt = mergeAttempt;
+        const hasConflicts = mergeAttempt.hasConflicts;
+        this.setState({ hasConflicts });
+    }
+
+    acceptMerge() {
+        const answers = this.mergeAttempt.overwritten;
+        this.changeSurveyStatus({ answers }, true);
+        this.setState(prevState => ({ hasConflicts: false }));
+    }
+
+    rejectMerge() {
+        const answers = this.mergeAttempt.preserved;
+        this.changeSurveyStatus({ answers }, true);
+        this.setState(prevState => ({ hasConflicts: false }));
+    }
+
     loadData() {
-        const self = this;
-        const onAuthStatusLoaded = ((newProps, save) => { this.props.onAuthStatusReceived(newProps.authStatus), self.changeSurveyStatus(newProps, save); });
+        const onAuthStatusLoaded = ((newProps, save) => { this.props.onAuthStatusReceived(newProps.authStatus), this.changeSurveyStatus(newProps, save); });
 
         Promise.all([loadAuthThenSavedData(onAuthStatusLoaded), getOptions(), getSurvey()])
             .then(([authData, options, survey]) => {
@@ -121,19 +142,18 @@ export default class AppRoot extends React.Component {
 
                 const mergeAttempt = survey.attemptToMergeAnswers(loadedAnswers, enteredAnswers);
 
-                console.log({ enteredAnswers, mergeAttempt, size: mergeAttempt.conflicts.length });
+                const loadedData = { respondent, options, survey, loading: false };
 
-                let answers = mergeAttempt.merged;
-
-                if (mergeAttempt.conflicts.size) {
-                    if (confirm('CONFLICTS? - overwrite????')) {
-                        answers = survey.overwriteAnswers(answers, mergeAttempt.conflicts);
-                    }
-                }
-                
                 console.log('all loaded');
-                
-                onAuthStatusLoaded({ respondent, options, survey, answers, loading: false }, true);
+
+                if (mergeAttempt.hasConflicts) {
+                    onAuthStatusLoaded(loadedData, false);
+                    this.warnConflict(mergeAttempt);
+                }
+                else {
+                    loadedData.answers = mergeAttempt.overwritten;
+                    onAuthStatusLoaded(loadedData, true);
+                }
             });
     }
 
@@ -156,14 +176,14 @@ export default class AppRoot extends React.Component {
     }
 
     render() {
-        const { surveyState } = this.state;
+        const { surveyState, hasConflicts } = this.state;
         const { score, loading, organisationLabel } = surveyState;
 
         const loadingEl = <Loading />;
 
         const routeResults = {
             '/': loading ? loadingEl : <SurveyMain surveyState={surveyState} onRespondentChanged={this.respondentChanged.bind(this)} onAnswerChanged={this.answerChanged.bind(this)} />,
-            '/result': loading ? loadingEl :<ResultMain surveyState={surveyState} score={score} />,
+            '/result': loading ? loadingEl : <ResultMain surveyState={surveyState} score={score} />,
             '/organisation': loading ? loadingEl : <ResultMain surveyState={surveyState} score={score} />,
             '/table': loading ? loadingEl : <Table surveyState={surveyState} />
         };
@@ -178,15 +198,29 @@ export default class AppRoot extends React.Component {
                         <NavLink exact className="button" activeClassName="active" to={{ pathname: '/table', hash: '#' }}>Table</NavLink>
                     </nav>
                     <Switch>
-                        <Route exact path="/" render={() => routeResults['/'] } />
-                        <Route exact path="/result" render={() => routeResults['/result'] } />
-                        <Route exact path="/organisation" render={() => routeResults['/organisation'] } />
+                        <Route exact path="/" render={() => routeResults['/']} />
+                        <Route exact path="/result" render={() => routeResults['/result']} />
+                        <Route exact path="/organisation" render={() => routeResults['/organisation']} />
 
-                        <Route exact path="/table" render={() => routeResults['/table'] } />
+                        <Route exact path="/table" render={() => routeResults['/table']} />
 
                         <Route exact path="/test-loading" render={() => <Loading />} />
                         <Route exact path="/test-not-signed-in" render={() => <NotSignedIn status={{ isSignedIn: false }} />} />
+                        <Route exact path="/test-modal" render={() => <ModalExample />} />
                     </Switch>
+                    <Modal open={hasConflicts} onClose={this.acceptMerge.bind(this)} little classNames={{ modal: 'modal' }}>
+                        <h2>Warning</h2>
+                        <p>
+                            It looks like you have previously answered some questions in a different way.
+                        </p>
+                        <p>
+                            Whould you like to overwrite an saved answers with your latest responses?
+                        </p>
+                        <div className="buttons">
+                            <a className="button" onClick={this.acceptMerge.bind(this)}>Overwrite my previous answers</a>
+                            <a className="button" onClick={this.rejectMerge.bind(this)}>Keep my previous answers</a>
+                        </div>
+                    </Modal>
                 </Fragment>
             </ScrollToTop>
         </Router>;
