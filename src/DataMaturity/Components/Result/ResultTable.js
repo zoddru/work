@@ -26,7 +26,7 @@ const getScoresForOrganisation = (organisation) => {
         });
 };
 
-export default class Table extends React.Component {
+export default class ResultTable extends React.Component {
     constructor(props) {
         super(props);
 
@@ -101,7 +101,7 @@ export default class Table extends React.Component {
 
         if (loadingResponses || responsesLoaded)
             return; // console.log('alread loading');
-        
+
         this.init(this.props);
     }
 
@@ -166,10 +166,10 @@ export default class Table extends React.Component {
                                     />
                                 </div>
                             </div>
-
-                            <SimpleTable className="summary" table={table} />
-
                         </form>
+
+                        <SimpleTable className="summary" table={table} />
+
                     </main>
                 </section>
             </article>
@@ -226,7 +226,7 @@ export default class Table extends React.Component {
         const { survey, options } = surveyState;
         const categories = survey.categories;
 
-        const headings = ['Data'].concat(categories).concat(['Overall']);
+        const headings = ['Data'].concat(categories.map(c => c.identifier)).concat(['Overall']);
         const rows = [];
 
         scores.forEach(s => {

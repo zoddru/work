@@ -172,6 +172,14 @@ table.summary td.number {
     text-align: right;
 }
 
+/* .chart.summary */
+
+.chart.summary{
+    min-width: 10rem;
+    width: 100%;
+    min-height: 30rem;
+}
+
 /* .help-text */
 
 a.expand {
@@ -401,8 +409,6 @@ a.expand {
         flex: 3;
     }
 }
-
-/* chart */
 
 /* modal */
 

@@ -2,7 +2,6 @@ import React from 'react';
 import Nav from './Nav';
 import NavHelper from '../NavHelper';
 import Summary from './Summary';
-import Chart from './Chart';
 import Loading from '../Loading';
 import NotSignedIn from '../NotSignedIn';
 import content from './content';

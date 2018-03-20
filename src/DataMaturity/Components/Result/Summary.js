@@ -1,6 +1,5 @@
 import React from 'react';
 import GenericSection from './GenericSection';
-import Chart from './Chart';
 
 export default class Summary extends React.Component {
     constructor(props) {
@@ -31,12 +30,6 @@ export default class Summary extends React.Component {
             {characteristics}
         </section>;
 
-        const columnChartData = score.columnChartData;
-        const columnChart = !!columnChartData && <Chart id={`${score.key}.columnChart`} data={columnChartData} />;
-
-        const spiderChartData = score.spiderChartData;
-        const spiderChart = !!spiderChartData && <Chart id={`${score.key}.spiderChart`} data={spiderChartData} />;
-
         return <section className="category score" id={score.key}>
             <header>
                 <h2>{score.label}</h2>
@@ -49,11 +42,9 @@ export default class Summary extends React.Component {
                     <GenericSection className="score" content={scoreContent} />
                     <GenericSection heading="Tips for progression" className="tips" content={tips} />
                     <GenericSection heading="Case study" className="caseStudy" content={caseStudy} />
-                    {columnChart}
                 </div>
 
                 <div class="side-column">
-                    {spiderChart}
                     <GenericSection heading="Best practice" className="bestPractice" content={bestPractice} />
                     <GenericSection heading="Additional resources" className="signPosting" content={signPosting} />
                 </div>

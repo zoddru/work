@@ -8,7 +8,8 @@ import Survey from '../Survey';
 import ScrollToTop from './ScrollToTop';
 import SurveyMain from './Survey/Main';
 import ResultMain from './Result/Main';
-import Table from './Result/Table';
+import ResultTable from './Result/ResultTable';
+import ResultChart from './Result/ResultChart';
 import LocalStore from '../LocalStore';
 import Loading from './Loading';
 import NotSignedIn from './NotSignedIn';
@@ -185,7 +186,8 @@ export default class AppRoot extends React.Component {
             '/': loading ? loadingEl : <SurveyMain surveyState={surveyState} onRespondentChanged={this.respondentChanged.bind(this)} onAnswerChanged={this.answerChanged.bind(this)} />,
             '/result': loading ? loadingEl : <ResultMain surveyState={surveyState} score={score} />,
             '/organisation': loading ? loadingEl : <ResultMain surveyState={surveyState} score={score} />,
-            '/table': loading ? loadingEl : <Table surveyState={surveyState} />
+            '/table': loading ? loadingEl : <ResultTable surveyState={surveyState} />,
+            '/chart': loading ? loadingEl : <ResultChart surveyState={surveyState} />
         };
 
         return <Router key="content">
@@ -196,6 +198,7 @@ export default class AppRoot extends React.Component {
                         <NavLink exact className="button" activeClassName="active" to={{ pathname: '/result', hash: '#' }}>Your results</NavLink>
                         <NavLink exact className="button" activeClassName="active" to={{ pathname: '/organisation', hash: '#' }}>{!!organisationLabel ? organisationLabel : 'Your organisation'}'s results</NavLink>
                         <NavLink exact className="button" activeClassName="active" to={{ pathname: '/table', hash: '#' }}>Table</NavLink>
+                        <NavLink exact className="button" activeClassName="active" to={{ pathname: '/chart', hash: '#' }}>Chart</NavLink>
                     </nav>
                     <Switch>
                         <Route exact path="/" render={() => routeResults['/']} />
@@ -203,6 +206,7 @@ export default class AppRoot extends React.Component {
                         <Route exact path="/organisation" render={() => routeResults['/organisation']} />
 
                         <Route exact path="/table" render={() => routeResults['/table']} />
+                        <Route exact path="/chart" render={() => routeResults['/chart']} />
 
                         <Route exact path="/test-loading" render={() => <Loading />} />
                         <Route exact path="/test-not-signed-in" render={() => <NotSignedIn status={{ isSignedIn: false }} />} />
