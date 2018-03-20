@@ -218,7 +218,7 @@ export default class AppRoot extends React.Component {
                             It looks like you have previously answered some questions in a different way.
                         </p>
                         <p>
-                            Whould you like to overwrite any saved answers with your latest responses?
+                            Would you like to overwrite any saved answers with your latest responses?
                         </p>
                         <div className="buttons">
                             <a className="button" onClick={this.acceptMerge.bind(this)}>Overwrite my previous answers</a>
