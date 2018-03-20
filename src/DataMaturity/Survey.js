@@ -76,7 +76,7 @@ export default class Survey {
         return map;
     }
 
-    attemptToMergeAnswers(oldAnswers, newAnswers) {
+    mergeAnswers(oldAnswers, newAnswers) {
         const preserved = new Map();
         const overwritten = new Map();
         const conflicts = new Map();
@@ -99,8 +99,8 @@ export default class Survey {
                     return;
                 }
                 if (oldValue.equals(newValue)) {
-                    preserved.set(q, newValue);
-                    overwritten.set(q, newValue);
+                    preserved.set(q, oldValue);
+                    overwritten.set(q, oldValue);
                     return;
                 }
                 else { // the only difference is here

@@ -43,6 +43,13 @@ export default class SurveyState {
         return this.authStatus && this.authStatus.user || null;
     }
 
+    get userLabel() {
+        const user = this.user;
+        if (!user)
+            return null;
+        return user.shortLabel || user.label || false;
+    }
+
     get organisation() {
         return this.user && this.user.organisation || null;
     }

@@ -61,3 +61,104 @@ test('createQAMap', t => {
     t.true(map.get(firstCategory.questions[1]).notKnown);
     t.true(map.get(firstCategory.questions[2]).notUnderstood);
 });
+
+const createNoConflictMergeData = (t) => {
+    const survey = new Survey(surveyData);
+    const firstCategory = survey.firstCategory;
+    const questions = firstCategory.questions;
+    const responses1 = [5, 'NOT_KNOWN', 'NOT_UNDERSTOOD', null, null, 3].map((v, i) => ({ category: 'A', question: (i + 1), value: v })).filter(r => r.value !== null);
+    const answers1 = survey.createQAMap(responses1);
+    t.is(answers1.size, 4);
+    
+    const responses2 = [null, 'NOT_KNOWN', 'NOT_UNDERSTOOD', 1, 2, 3].map((v, i) => ({ category: 'A', question: (i + 1), value: v })).filter(r => r.value !== null);
+    const answers2 = survey.createQAMap(responses2);
+    t.is(answers2.size, 5);
+
+    const mergeReport = survey.mergeAnswers(answers1, answers2);
+
+    return { survey, questions, mergeReport };
+};
+
+test('mergeAnswers - no conflict', t => {
+    const { survey, questions, mergeReport } = createNoConflictMergeData(t);
+
+    t.false(mergeReport.hasConflicts);
+    t.is(mergeReport.conflicts.size, 0);
+    t.is(mergeReport.preserved.size, 6);
+    t.is(mergeReport.overwritten.size, 6);
+});
+
+test('mergeAnswers - no conflict - kept old value', t => {
+    const { survey, questions, mergeReport } = createNoConflictMergeData(t);
+
+    t.is(mergeReport.preserved.get(questions[0]).value, 5);
+    t.is(mergeReport.overwritten.get(questions[0]).value, 5);
+});
+
+test('mergeAnswers - no conflict - kept unaltered value', t => {
+    const { survey, questions, mergeReport } = createNoConflictMergeData(t);
+
+    t.is(mergeReport.preserved.get(questions[1]).value, 'NOT_KNOWN');
+    t.is(mergeReport.overwritten.get(questions[1]).value, 'NOT_KNOWN');
+});
+
+test('mergeAnswers - no conflict - kept new value', t => {
+    const { survey, questions, mergeReport } = createNoConflictMergeData(t);
+
+    t.is(mergeReport.preserved.get(questions[4]).value, 2);
+    t.is(mergeReport.overwritten.get(questions[4]).value, 2);
+});
+
+const createConflictMergeData = (t) => {
+    const survey = new Survey(surveyData);
+    const firstCategory = survey.firstCategory;
+    const questions = firstCategory.questions;
+    const responses1 = [5, 'NOT_KNOWN', 'NOT_UNDERSTOOD', null, null, 3].map((v, i) => ({ category: 'A', question: (i + 1), value: v })).filter(r => r.value !== null);
+    const answers1 = survey.createQAMap(responses1);
+    t.is(answers1.size, 4);
+
+    const responses2 = [null, 'NOT_KNOWN', 5, 1, 2, 3].map((v, i) => ({ category: 'A', question: (i + 1), value: v })).filter(r => r.value !== null);
+    const answers2 = survey.createQAMap(responses2);
+    t.is(answers2.size, 5);
+
+    const mergeReport = survey.mergeAnswers(answers1, answers2);
+
+    return { survey, questions, mergeReport };
+};
+
+test('mergeAnswers - conflict', t => {
+    const { survey, questions, mergeReport } = createConflictMergeData(t);
+
+    t.true(mergeReport.hasConflicts);
+    t.is(mergeReport.conflicts.size, 1);
+    t.is(mergeReport.preserved.size, 6);
+    t.is(mergeReport.overwritten.size, 6);
+});
+
+test('mergeAnswers - conflict - kept old value', t => {
+    const { survey, questions, mergeReport } = createConflictMergeData(t);
+
+    t.is(mergeReport.preserved.get(questions[0]).value, 5);
+    t.is(mergeReport.overwritten.get(questions[0]).value, 5);
+});
+
+test('mergeAnswers - no conflict - kept unaltered value', t => {
+    const { survey, questions, mergeReport } = createConflictMergeData(t);
+
+    t.is(mergeReport.preserved.get(questions[1]).value, 'NOT_KNOWN');
+    t.is(mergeReport.overwritten.get(questions[1]).value, 'NOT_KNOWN');
+});
+
+test('mergeAnswers - conflict - kept new value', t => {
+    const { survey, questions, mergeReport } = createConflictMergeData(t);
+
+    t.is(mergeReport.preserved.get(questions[4]).value, 2);
+    t.is(mergeReport.overwritten.get(questions[4]).value, 2);
+});
+
+test('mergeAnswers - conflict - merged value is in the right place', t => {
+    const { survey, questions, mergeReport } = createConflictMergeData(t);
+
+    t.is(mergeReport.preserved.get(questions[2]).value, 'NOT_UNDERSTOOD');
+    t.is(mergeReport.overwritten.get(questions[2]).value, 5);
+});

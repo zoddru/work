@@ -94,7 +94,7 @@ export default class AppRoot extends React.Component {
             hasConflicts: false
         };
 
-        this.mergeAttempt = { preserved: [], overwritten: [], conflicts: [], hasConflicts: false };
+        this.mergeReport = { preserved: [], overwritten: [], conflicts: [], hasConflicts: false };
 
         this.loadData();
     }
@@ -110,20 +110,20 @@ export default class AppRoot extends React.Component {
         });
     }
 
-    warnConflict(mergeAttempt) {
-        this.mergeAttempt = mergeAttempt;
-        const hasConflicts = mergeAttempt.hasConflicts;
+    warnConflict(mergeReport) {
+        this.mergeReport = mergeReport;
+        const hasConflicts = mergeReport.hasConflicts;
         this.setState({ hasConflicts });
     }
 
     acceptMerge() {
-        const answers = this.mergeAttempt.overwritten;
+        const answers = this.mergeReport.overwritten;
         this.changeSurveyStatus({ answers }, true);
         this.setState(prevState => ({ hasConflicts: false }));
     }
 
     rejectMerge() {
-        const answers = this.mergeAttempt.preserved;
+        const answers = this.mergeReport.preserved;
         this.changeSurveyStatus({ answers }, true);
         this.setState(prevState => ({ hasConflicts: false }));
     }
@@ -140,18 +140,18 @@ export default class AppRoot extends React.Component {
                 const enteredResponses = localStore.fetch();
                 const enteredAnswers = survey.createQAMap(enteredResponses || []);
 
-                const mergeAttempt = survey.attemptToMergeAnswers(loadedAnswers, enteredAnswers);
+                const mergeReport = survey.mergeAnswers(loadedAnswers, enteredAnswers);
 
                 const loadedData = { respondent, options, survey, loading: false };
 
                 console.log('all loaded');
 
-                if (mergeAttempt.hasConflicts) {
+                if (mergeReport.hasConflicts) {
                     onAuthStatusLoaded(loadedData, false);
-                    this.warnConflict(mergeAttempt);
+                    this.warnConflict(mergeReport);
                 }
                 else {
-                    loadedData.answers = mergeAttempt.overwritten;
+                    loadedData.answers = mergeReport.overwritten;
                     onAuthStatusLoaded(loadedData, true);
                 }
             });
@@ -177,7 +177,7 @@ export default class AppRoot extends React.Component {
 
     render() {
         const { surveyState, hasConflicts } = this.state;
-        const { score, loading, organisationLabel } = surveyState;
+        const { score, loading, userLabel, organisationLabel } = surveyState;
 
         const loadingEl = <Loading />;
 
@@ -208,13 +208,13 @@ export default class AppRoot extends React.Component {
                         <Route exact path="/test-not-signed-in" render={() => <NotSignedIn status={{ isSignedIn: false }} />} />
                         <Route exact path="/test-modal" render={() => <ModalExample />} />
                     </Switch>
-                    <Modal open={hasConflicts} onClose={this.acceptMerge.bind(this)} little classNames={{ modal: 'modal' }}>
-                        <h2>Warning</h2>
+                    <Modal open={hasConflicts} onClose={() => {}} little classNames={{ modal: 'modal' }}>
+                        <h2>Hello {userLabel}</h2>
                         <p>
                             It looks like you have previously answered some questions in a different way.
                         </p>
                         <p>
-                            Whould you like to overwrite an saved answers with your latest responses?
+                            Whould you like to overwrite any saved answers with your latest responses?
                         </p>
                         <div className="buttons">
                             <a className="button" onClick={this.acceptMerge.bind(this)}>Overwrite my previous answers</a>
