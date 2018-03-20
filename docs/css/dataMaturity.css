@@ -357,6 +357,16 @@ a.expand {
     margin-bottom: 2rem;
 }
 
+/* .category.start */
+
+.category.start main header {
+    padding-top: 2rem;
+}
+
+.category.start h2 {
+    font-size: 2rem;
+}
+
 /* .category.end */
 
 .category.end .buttons {

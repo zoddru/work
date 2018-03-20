@@ -13,7 +13,7 @@ export default class Start extends React.Component {
         const firstQuestionKey = !!firstQuestion ? firstQuestion.key : 'end';
 
         return <section className="category start">
-            <section class="question">
+            <section className="question">
                 <header>
                     <h1>Data Maturity</h1>
                 </header>
