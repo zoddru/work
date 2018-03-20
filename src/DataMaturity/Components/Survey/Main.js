@@ -67,9 +67,9 @@ export default class SurveyComponent extends React.Component {
             <Nav surveyState={surveyState} />
             <article>
                 <div class="main-column">
-                    <Start surveyState={surveyState} onRespondentChanged={this.props.onRespondentChanged.bind(this)} onPrev={this.onPrev.bind(this)} onNext={this.onNext.bind(this)} />
+                    <Start surveyState={surveyState} onPrev={this.onPrev.bind(this)} onNext={this.onNext.bind(this)} />
                     {categories}
-                    <End surveyState={surveyState} onPrev={this.onPrev.bind(this)} onNext={this.onNext.bind(this)} />
+                    <End surveyState={surveyState} onRespondentChanged={this.props.onRespondentChanged.bind(this)} onPrev={this.onPrev.bind(this)} onNext={this.onNext.bind(this)} />
                 </div>
             </article>
         </section>;

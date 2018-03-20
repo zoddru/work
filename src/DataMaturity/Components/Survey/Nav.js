@@ -22,8 +22,8 @@ export default class Nav extends React.Component {
         const { respondent, survey, answers } = surveyState;
         const { expandedCategory, currentQuestion } = this.state;
 
-        const startClass = `${respondent.hasBeenAnswered ? 'answered' : respondent.hasBeenStarted ? 'started' : ''} ${expandedCategory && expandedCategory.isStart && 'selected'}`;
-        const endClass = `${expandedCategory && expandedCategory.isEnd && 'selected'}`;
+        const startClass = `answered ${expandedCategory && expandedCategory.isStart && 'selected'}`;
+        const endClass = `${respondent.hasBeenAnswered ? 'answered' : respondent.hasBeenStarted ? 'started' : ''} ${expandedCategory && expandedCategory.isEnd && 'selected'}`;
 
         const nodes = [];
 
