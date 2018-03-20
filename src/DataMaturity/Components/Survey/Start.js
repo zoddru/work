@@ -32,7 +32,7 @@ export default class Start extends React.Component {
 
                     <section>
                         <header>
-                            <h2>Data usage</h2>
+                            <h2>How your data will be used</h2>
                         </header>
                         <p>
                             You need to register and sign in to agree to the data usage policy, to save your responses and to see resultant improvement advance.
