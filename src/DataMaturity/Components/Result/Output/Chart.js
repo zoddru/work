@@ -2,6 +2,7 @@ import React from 'react';
 import Select from 'react-select';
 import Base from './Base';
 import SimpleChart from './SimpleChart';
+import ScoreProperties from '../../../Scores/ScoreProperties';
 
 const colors = ['#B43F6B', '#737D27', '#CF7B25', '#8EAA94', '#C7B757', '#0056b3', '#f8c27c', '#c2a0f5', '#acd5b6', '#83128d', '#d75466', '#e3125c', '#422d5e', '#17a2b8', '#076443', '#ffb3dc', '#ff9e45', '#72ba3a', '#f0d000', '#5e8579', '#343a40'];
 
@@ -24,6 +25,8 @@ const getSeries = (scores, colorMap, categories, overallScoreMode) => {
 
         categories.forEach(c => {
             const cs = s.categoryScores.find(cs => cs.category.identifier === c.identifier);
+            if (!cs)
+                return;
             data.push({ y: cs.mean, score: cs });
         });
 
@@ -41,21 +44,30 @@ const getSeries = (scores, colorMap, categories, overallScoreMode) => {
     if (overallScoreMode !== 'line')
         return series;
 
-    return series.concat(scores.map(s => {
-        const color = colorMap.get(s);
+    return series.concat(scores.map(score => {
+        const color = colorMap.get(score);
+        const y = score.mean;
+        const category = 'Overall';
         return {
             type: 'line',
             showInLegend: false,
-            name: s.key.label,
+            name: score.key.label,
             xAxis: 1,
             data: [{
-                y: s.mean,
-                x: 0,
-                score: s
+                y,
+                x: -10, // off the chart to the left
+                score,
+                category
             }, {
-                y: s.mean,
-                x: 1,
-                score: s
+                y,
+                x: 0.5, // the center of the chart
+                score,
+                category
+            }, {
+                y,
+                x: 20, // off the chart to the right
+                score,
+                category
             }],
             color
         };
@@ -77,7 +89,6 @@ const getXAxis = (categories, overallScoreMode) => {
             lineWidth: 0,
             gridLineWidth: 0,
             minorGridLineWidth: 0,
-            minorGridLineDashStyle: 'none',
             lineColor: 'transparent',
             labels: {
                 enabled: false
@@ -132,11 +143,12 @@ export default class Chart extends Base {
         if (surveyState.loading || !surveyState.isSignedIn)
             return null;
 
-        const scores = this.aggregatedScores;
+        const scores = this.aggregatedScores; // fakeScores
+
+        console.log((scores));
+
         const { survey, options } = surveyState;
         const categories = survey.categories;
-
-        console.log(scores);
 
         const colorMap = getColorMap(scores);
         const xAxis = getXAxis(categories, overallScoreMode);
@@ -150,30 +162,48 @@ export default class Chart extends Base {
                 text: ''
             },
             xAxis,
-            yAxis: {
-                min: 0,
-                max: 5,
-                endOnTick: false,
-                title: {
-                    text: 'Score (avg)'
+            yAxis: [
+                {
+                    tickPositions: [0, 1, 1.8, 2.6, 3.4, 4.2, 5],
+                    minorGridLineWidth: 0,
+                    tickWidth: 1,
+                    title: {
+                        text: 'Score (avg)',
+                        enabled: false
+                    },
+                    labels: {
+                        overflow: 'justify',
+                        enabled: false
+                    }
                 },
-                labels: {
-                    overflow: 'justify'
+                {
+                    tickPositions: [1.4, 2.2, 3, 3.8, 4.6],
+                    gridLineWidth: 0,
+                    minorGridLineWidth: 0,
+                    linkedTo: 0,
+                    title: {
+                        enabled: false
+                    },
+                    labels: {
+                        formatter: function () {
+                            return ScoreProperties.getBandLabel(this.value);
+                        }
+                    }
                 }
-            },
+            ],
             tooltip: {
                 formatter: function () {
-                    const point = this.point;
-                    const series = point.series;
-                    const score = point.options.score;
-                    const label = `<b>${series.name}</b><br />${point.category}<br />${score.rankLabel} (${score.meanDisplayName})`;
+                    const { options, series, category } = this.point;
+                    const score = options.score;
+                    const categoryLabel = options.category || category;
+                    const label = `<b>${series.name}</b><br />${categoryLabel}<br />${score.rankLabel} (${score.meanDisplayName})`;
                     return label;
                 }
             },
             legend: {
                 layout: 'vertical',
-                align: 'center',
-                verticalAlign: 'bottom',
+                align: 'right',
+                verticalAlign: 'top',
                 floating: false,
                 borderWidth: 1,
                 backgroundColor: '#FFFFFF'
@@ -185,3 +215,39 @@ export default class Chart extends Base {
         };
     }
 }
+
+const fakeScores = [
+    {
+        categoryScores: [
+            {
+                category: { identifier: "Management", label: "Data Management", sort: 1 },
+                mean: 1.8,
+                numberNotKnown: 0,
+                numberNotUnderstood: 0,
+                hasMean: true,
+                isValid: true,
+                meanDisplayName: "1.8",
+                rankLabel: ScoreProperties.getBandLabel(1.8)
+            },
+            {
+                category: { identifier: "Use", label: "Data Use", sort: 2 },
+                mean: 5,
+                numberNotKnown: 0,
+                numberNotUnderstood: 0,
+                hasMean: true,
+                isValid: true,
+                meanDisplayName: "5.0",
+                rankLabel: ScoreProperties.getBandLabel(5)
+            }
+        ],
+        key: { identifier: "1a33f4bb-8a7a-4447-9808-9f1199ff2dc4", label: "My score", type: "respondent" },
+        mean: 3,
+        numberOfValid: 5,
+        sum: 15,
+        hasMean: true,
+        isValid: true,
+        meanDisplayName: "3.0",
+        offsetMean: 2.2,
+        rankLabel: "Intermediate"
+    }
+];

@@ -27,6 +27,8 @@ export default {
         shadow: false
     },
     legend: {
+        useHTML: true,
+        floating: true,
         symbolRadius: 0,
         itemStyle: {
             color: '#000000'

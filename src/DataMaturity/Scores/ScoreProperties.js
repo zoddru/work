@@ -10,18 +10,20 @@ const bands = Object.freeze([
 const minNumberOfValid = 3;
 const unknownValueLabel = '---';
 
+const getBandLabel = (value) => {
+    return (bands.find(b => value < b.upperThreshold) || { label: unknownValueLabel }).label;
+};
+
 const getFunctions = {
     hasMean() {
-        return typeof(this.mean) === 'number';
+        return typeof (this.mean) === 'number';
     },
     rankLabel() {
         if (!this.hasMean)
             return unknownValueLabel;
-        
-        const mean = this.mean;
-        return (bands.find(b => mean < b.upperThreshold) || { label: unknownValueLabel }).label;
+        return getBandLabel(this.mean);
     },
-    meanDisplayName () {
+    meanDisplayName() {
         return this.hasMean
             ? (this.mean).toFixed(1)
             : unknownValueLabel;
@@ -42,5 +44,6 @@ Object.keys(getFunctions).forEach(key => {
 export default Object.freeze({
     defineProperties: function (obj) {
         Object.defineProperties(obj, props);
-    }
+    },
+    getBandLabel
 });
