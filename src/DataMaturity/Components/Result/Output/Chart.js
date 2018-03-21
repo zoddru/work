@@ -17,7 +17,7 @@ const getColorMap = (scores) => {
     return colorMap;
 };
 
-const getSeries = (scores, colorMap, categories, overallScoreMode) => {    
+const getSeries = (scores, colorMap, categories, overallScoreMode) => {
     const series = scores.map(s => {
         const data = [];
         const color = colorMap.get(s);
@@ -152,6 +152,8 @@ export default class Chart extends Base {
             xAxis,
             yAxis: {
                 min: 0,
+                max: 5,
+                endOnTick: false,
                 title: {
                     text: 'Score (avg)'
                 },
