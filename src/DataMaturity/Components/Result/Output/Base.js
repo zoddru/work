@@ -49,29 +49,30 @@ const createFilters = (surveyState) => {
     const filters = [
         {
             key: new TypedItem('respondent', { identifier: respondent.identifier, label: 'My score' }),
-            filter: r => r.respondent.identifier === respondent.identifier
+            filter: v => v.respondent.identifier === respondent.identifier
         }
     ].concat(
-        departments.map(d => ({
-            key: new TypedItem('department', d),
-            filter: r => r.respondent.department === d.identifier
-        }))
-    ).concat(
         roles.map(r => ({
             key: new TypedItem('role', r),
-            filter: r => r.respondent.role === r.identifier
+            filter: v => v.respondent.role === r.identifier
+        }))
+    ).concat(
+        departments.map(d => ({
+            key: new TypedItem('department', d),
+            filter: v => v.respondent.department === d.identifier
         }))
     );
 
     if (organisation) {
         filters.push({
             key: new TypedItem('organisation', { identifier: organisation.identifier, label: organisation.shortLabel || organisation.label }),
-            filter: r => r.respondent.organisation === organisation.identifier
+            filter: v => v.respondent.organisation === organisation.identifier
         });
     }
 
     filters.forEach(f => {
         f.value = f.key.key;
+        f.type = f.key.type;
         f.label = f.key.label;
     });
 
@@ -100,27 +101,8 @@ export default class Container extends React.Component {
         return (currentOrg !== nextOrg);
     }
 
-    changeDepartments(selectedDepartments) {
-        this.setState(prevState => ({ selectedDepartments: selectedDepartments.map(d => d.value) })); // it would work if we stored th object, but be inconsistent
-    }
-
-    changeRoles(selectedRoles) {
-        this.setState(prevState => ({ selectedRoles: selectedRoles.map(d => d.value) }));
-    }
-
     changeFilters(selectedFilters) {
-        //console.log(selectedFilters);
         this.setState(prevState => ({ selectedFilters: selectedFilters }));
-    }
-
-    getSelectOption(lookup, identifier) {
-        const item = lookup.find(i => i.identifier === identifier);
-        if (!item)
-            return null;
-        return {
-            value: item.identifier,
-            label: item.label
-        };
     }
 
     init(props) {
@@ -137,12 +119,19 @@ export default class Container extends React.Component {
             const newState = { loadingResponses: true };
 
             if (!!respondent.department) {
-                newState.selectedDepartments = [respondent.department]; // very weird that the select it wants the identifier, but later can store the object
+                newState.selectedDepartments = [respondent.department];
             }
 
             if (!!respondent.role) {
                 newState.selectedRoles = [respondent.role];
             }
+
+            newState.selectedFilters = this.filters.filter(f => 
+                f.type === 'respondent' || 
+                f.type === 'organisation' ||
+                !!respondent.role && f.type === 'role' && f.key.identifier === respondent.role ||
+                !!respondent.department && f.type === 'department' && f.key.identifier === respondent.department
+            );
 
             return newState;
         });
@@ -161,15 +150,14 @@ export default class Container extends React.Component {
     componentWillMount() {
         const { loadingResponses, responsesLoaded } = this.state;
         if (loadingResponses || responsesLoaded)
-            return; // console.log('alread loading');
+            return;
         this.init(this.props);
     }
 
     render() {
         const { surveyState } = this.props;
-        const { isSignedIn, authStatus, survey, respondent, options, organisation } = surveyState;
-        const { departments, roles } = options;
-        const { loadingResponses, responses, selectedDepartments, selectedRoles, selectedFilters } = this.state;
+        const { isSignedIn, authStatus, survey, respondent } = surveyState;
+        const { loadingResponses, selectedFilters } = this.state;
 
         if (surveyState.loading)
             return <Loading />;
@@ -204,37 +192,6 @@ export default class Container extends React.Component {
                                     />
                                 </div>
                             </div>
-
-                            <div className="form-item">
-                                <label>Organisation</label>
-                                <div className="value">{!!organisation ? organisation.label : '---'}</div>
-                            </div>
-                            <div className="form-item">
-                                <label>Function</label>
-                                <div className="value">
-                                    <Select
-                                        name="departments"
-                                        clearable={false}
-                                        value={selectedDepartments}
-                                        multi
-                                        onChange={this.changeDepartments.bind(this)}
-                                        options={common.toSelectOptions(departments)}
-                                    />
-                                </div>
-                            </div>
-                            <div className="form-item">
-                                <label>Role</label>
-                                <div className="value">
-                                    <Select
-                                        name="roles"
-                                        clearable={false}
-                                        value={selectedRoles}
-                                        multi
-                                        onChange={this.changeRoles.bind(this)}
-                                        options={common.toSelectOptions(roles)}
-                                    />
-                                </div>
-                            </div>
                         </form>
 
                         {this.renderChildren()}
@@ -254,7 +211,7 @@ export default class Container extends React.Component {
         if (surveyState.loading || !surveyState.isSignedIn)
             return null;
         const { respondent, survey, options, organisation } = surveyState;
-        const { responses, selectedDepartments, selectedRoles } = this.state;
+        const { responses, selectedDepartments, selectedRoles, selectedFilters } = this.state;
 
         const aggregator = new ResponseAggregator({ survey, responses });
 
@@ -290,6 +247,8 @@ export default class Container extends React.Component {
             });
         });
 
-        return aggregator.multipleByCategory(filters);
+        console.log(selectedFilters);
+
+        return aggregator.multipleByCategory(selectedFilters);
     }
 }
