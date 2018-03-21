@@ -9,18 +9,21 @@ import ResponseAggregator from '../../../Scores/ResponseAggregator';
 import common from '../../../common';
 const responsesCache = common.responsesCache;
 
-const getScoresForOrganisation = (organisation) => {
+const getScoresForOrganisation = (surveyState) => {
+    const { organisation, created } = surveyState;
+
     if (!organisation || !organisation.identifier)
         return Promise.resolve({ data: [] });
 
-    const cachedResponses = responsesCache.get(organisation.identifier);
-    if (cachedResponses) {
-        return Promise.resolve({ data: cachedResponses });
+    const cached = responsesCache.get(organisation.identifier);
+    if (cached && cached.created === created) {
+        return Promise.resolve({ data: cached.responses });
     }
 
     return axios.get(`/dmApi/responses?organisation=${organisation.identifier}`)
         .then(r => {
-            responsesCache.set(organisation.identifier, r.data || []);
+            const toCache = { created, responses: (r.data || []) };
+            responsesCache.set(organisation.identifier, toCache);
             return r;
         });
 };
@@ -100,24 +103,31 @@ export default class Container extends React.Component {
 
     loadData(props) {
         const self = this;
-        return getScoresForOrganisation(props.surveyState.organisation).then(r => {
+        return getScoresForOrganisation(props.surveyState).then(r => {
             const responses = r.data || [];
             self.setState(prevState => ({ loadingResponses: false, responsesLoaded: true, responses }));
         });
     }
 
     componentWillMount() {
+        console.log('componentWillMount');
         const { loadingResponses, responsesLoaded } = this.state;
         if (loadingResponses || responsesLoaded)
             return; // console.log('alread loading');
         this.init(this.props);
     }
 
-    componentWillReceiveProps(nextProps) {
-        if (this.hasOrganisationChanged(nextProps))
-            return;
-        this.init(nextProps);
-    }
+    // componentWillReceiveProps(nextProps) {
+    //     console.log('componentWillReceiveProps');
+    //     if (this.hasRespondentOrResponsesChanged(nextProps)) {
+    //         responsesCache.clear(); // this changes the scores, so best to clear our cache
+    //     }
+
+    //     if (this.hasOrganisationChanged(nextProps))
+    //         return;
+
+    //     this.init(nextProps);
+    // }
 
     render() {
         const { surveyState } = this.props;

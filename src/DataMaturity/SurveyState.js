@@ -18,6 +18,8 @@ export default class SurveyState {
         this.respondent = respondent; // assume Respondent
         this.answers = answers; // this is a Map, and so can't be frozen
 
+        this.created = new Date();
+
         Object.freeze(this);
     }
 
