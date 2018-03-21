@@ -39,6 +39,7 @@ Thumbs.db
 node_modules/
 .vscode
 config.js
+.env
 
 dist/
 app/

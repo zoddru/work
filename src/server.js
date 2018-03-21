@@ -1,3 +1,4 @@
+require('dotenv').config();
 const config = require('../config.broker');
 const express = require('express');
 const session = require('express-session');
@@ -180,6 +181,26 @@ const app = express()
             .catch(error => {
                 res.send(JSON.stringify({ error: true, message: error.message, stack: error.stack }));
             });
+    })
+
+    .get('/secretConfig', (req, res) => {
+        const { configName, testString } = process.env;
+
+        res.setHeader('Content-Type', 'application/json');
+        res.send({
+            process: {
+                env: { configName, testString }
+            }
+        });
+
+        // const { configName, host, PORT, consumerKey, consumerSecret } = process.env;        
+        // res.setHeader('Content-Type', 'application/json');
+        // res.send({
+        //     process: {
+        //         env: { configName, host, PORT, consumerKey, consumerSecret }
+        //     },
+        //     config
+        // });
     })
 
     .use(express.static('docs'))
