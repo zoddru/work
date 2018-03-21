@@ -155,6 +155,18 @@ const app = express()
         res.end();
     })
 
+    .get('/secretConfig', (req, res) => {
+        const { configName, host, PORT, consumerKey, consumerSecret } = process.env;
+        
+        res.setHeader('Content-Type', 'application/json');
+        res.send({
+            process: {
+                env: { configName, host, PORT, consumerKey, consumerSecret }
+            },
+            config
+        });
+    })
+
     .get('/wait/:time*', (req, res) => {
         const time = parseInt(req.params.time);
         const start = Date.now();
