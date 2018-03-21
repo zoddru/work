@@ -7,6 +7,7 @@ import NotSignedIn from '../../NotSignedIn';
 import SimpleTable from './SimpleTable';
 import ResponseAggregator from '../../../Scores/ResponseAggregator';
 import common from '../../../common';
+import { create } from 'domain';
 const responsesCache = common.responsesCache;
 
 const getScoresForOrganisation = (surveyState) => {
@@ -39,16 +40,57 @@ class TypedItem {
     }
 }
 
+const createFilters = (surveyState) => {
+
+    const { respondent, organisation, options } = surveyState;
+    const { departments, roles } = options;
+    const { department, role } = respondent;
+
+    const filters = [
+        {
+            key: new TypedItem('respondent', { identifier: respondent.identifier, label: 'My score' }),
+            filter: r => r.respondent.identifier === respondent.identifier
+        }
+    ].concat(
+        departments.map(d => ({
+            key: new TypedItem('department', d),
+            filter: r => r.respondent.department === d.identifier
+        }))
+    ).concat(
+        roles.map(r => ({
+            key: new TypedItem('role', r),
+            filter: r => r.respondent.role === r.identifier
+        }))
+    );
+
+    if (organisation) {
+        filters.push({
+            key: new TypedItem('organisation', { identifier: organisation.identifier, label: organisation.shortLabel || organisation.label }),
+            filter: r => r.respondent.organisation === organisation.identifier
+        });
+    }
+
+    filters.forEach(f => {
+        f.value = f.key.key;
+        f.label = f.key.label;
+    });
+
+    return filters;
+};
+
 export default class Container extends React.Component {
     constructor(props) {
         super(props);
+
+        this.filters = [];
 
         this.state = {
             loadingResponses: false,
             responses: [],
             responsesLoaded: false,
             selectedDepartments: [],
-            selectedRoles: []
+            selectedRoles: [],
+            selectedFilters: []
         };
     }
 
@@ -66,6 +108,11 @@ export default class Container extends React.Component {
         this.setState(prevState => ({ selectedRoles: selectedRoles.map(d => d.value) }));
     }
 
+    changeFilters(selectedFilters) {
+        //console.log(selectedFilters);
+        this.setState(prevState => ({ selectedFilters: selectedFilters }));
+    }
+
     getSelectOption(lookup, identifier) {
         const item = lookup.find(i => i.identifier === identifier);
         if (!item)
@@ -79,6 +126,8 @@ export default class Container extends React.Component {
     init(props) {
         if (props.surveyState.loading)
             return;
+
+        this.filters = createFilters(props.surveyState);
 
         this.setState(prevState => {
             const respondent = props.surveyState.respondent;
@@ -110,30 +159,17 @@ export default class Container extends React.Component {
     }
 
     componentWillMount() {
-        console.log('componentWillMount');
         const { loadingResponses, responsesLoaded } = this.state;
         if (loadingResponses || responsesLoaded)
             return; // console.log('alread loading');
         this.init(this.props);
     }
 
-    // componentWillReceiveProps(nextProps) {
-    //     console.log('componentWillReceiveProps');
-    //     if (this.hasRespondentOrResponsesChanged(nextProps)) {
-    //         responsesCache.clear(); // this changes the scores, so best to clear our cache
-    //     }
-
-    //     if (this.hasOrganisationChanged(nextProps))
-    //         return;
-
-    //     this.init(nextProps);
-    // }
-
     render() {
         const { surveyState } = this.props;
         const { isSignedIn, authStatus, survey, respondent, options, organisation } = surveyState;
         const { departments, roles } = options;
-        const { loadingResponses, responses, selectedDepartments, selectedRoles } = this.state;
+        const { loadingResponses, responses, selectedDepartments, selectedRoles, selectedFilters } = this.state;
 
         if (surveyState.loading)
             return <Loading />;
@@ -144,6 +180,8 @@ export default class Container extends React.Component {
         if (loadingResponses)
             return <Loading message="loading responses. hang on..." />;
 
+        const filters = this.filters;
+
         return <section class="main-content">
             <article>
                 <section className="category">
@@ -152,6 +190,21 @@ export default class Container extends React.Component {
                     </header>
                     <main>
                         <form>
+
+                            <div className="form-item">
+                                <label>Series</label>
+                                <div className="value">
+                                    <Select
+                                        name="series"
+                                        clearable={false}
+                                        value={selectedFilters}
+                                        multi
+                                        onChange={this.changeFilters.bind(this)}
+                                        options={filters}
+                                    />
+                                </div>
+                            </div>
+
                             <div className="form-item">
                                 <label>Organisation</label>
                                 <div className="value">{!!organisation ? organisation.label : '---'}</div>
