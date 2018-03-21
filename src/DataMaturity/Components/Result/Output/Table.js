@@ -1,5 +1,4 @@
 import React from 'react';
-import Select from 'react-select';
 import Base from './Base';
 import SimpleTable from './SimpleTable';
 

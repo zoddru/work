@@ -25,6 +25,17 @@ const getScoresForOrganisation = (organisation) => {
         });
 };
 
+class TypedItem {
+    constructor (type, item) {
+        Object.assign(this, item, { type });
+        Object.freeze(this);
+    }
+
+    get key() {
+        return `${this.type}-${this.identifier}`;
+    }
+}
+
 export default class Container extends React.Component {
     constructor(props) {
         super(props);
@@ -186,14 +197,14 @@ export default class Container extends React.Component {
 
         const filters = [
             {
-                key: { identifier: respondent.identifier, label: 'My score' },
+                key: new TypedItem('respondent', { identifier: respondent.identifier, label: 'My score' }),
                 filter: r => r.respondent.identifier === respondent.identifier
             }
         ];
 
         if (organisation) {
             filters.push({
-                key: { identifier: organisation.identifier, label: organisation.shortLabel || organisation.label },
+                key: new TypedItem('organisation', { identifier: organisation.identifier, label: organisation.shortLabel || organisation.label }),
                 filter: r => r.respondent.organisation === organisation.identifier
             });
         }
@@ -201,7 +212,7 @@ export default class Container extends React.Component {
         const { departments, roles } = options;
 
         selectedDepartments.forEach(dept => {
-            const key = departments.find(d => d.identifier === dept) || { identifier: dept, label: dept };
+            const key = new TypedItem('department', departments.find(d => d.identifier === dept) || { identifier: dept, label: dept });
             filters.push({
                 key: key,
                 filter: r => r.respondent.department === dept
@@ -209,7 +220,7 @@ export default class Container extends React.Component {
         });
 
         selectedRoles.forEach(role => {
-            const key = roles.find(r => r.identifier === role) || { identifier: role, label: role };
+            const key = new TypedItem('role', roles.find(r => r.identifier === role) || { identifier: role, label: role });
             filters.push({
                 key: key,
                 filter: r => r.respondent.role === role

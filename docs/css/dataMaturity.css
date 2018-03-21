@@ -177,7 +177,7 @@ table.summary td.number {
 .chart.summary{
     min-width: 10rem;
     width: 100%;
-    min-height: 30rem;
+    min-height: 40rem;
 }
 
 /* .help-text */
