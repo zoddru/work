@@ -143,9 +143,7 @@ export default class Chart extends Base {
         if (surveyState.loading || !surveyState.isSignedIn)
             return null;
 
-        const scores = this.aggregatedScores; // fakeScores
-
-        console.log((scores));
+        const scores = this.aggregatedScores;
 
         const { survey, options } = surveyState;
         const categories = survey.categories;
