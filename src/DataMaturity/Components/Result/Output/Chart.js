@@ -3,7 +3,7 @@ import Select from 'react-select';
 import Base from './Base';
 import SimpleChart from './SimpleChart';
 
-const colors = ["#acd5b6", "#c2a0f5", "#17a2b8", "#83128d", "#d75466", "#e3125c", "#422d5e", "#0056b3", "#f8c27c", "#076443", "#ffb3dc", "#ff9e45", "#72ba3a", "#f0d000", "#5e8579", "#343a40"];
+const colors = ['#B43F6B', '#737D27', '#CF7B25', '#8EAA94', '#C7B757', '#0056b3', '#f8c27c', '#c2a0f5', '#acd5b6', '#83128d', '#d75466', '#e3125c', '#422d5e', '#17a2b8', '#076443', '#ffb3dc', '#ff9e45', '#72ba3a', '#f0d000', '#5e8579', '#343a40'];
 
 const overallScoreModes = [
     { value: 'line', label: 'Show overall scores as lines' },
@@ -11,9 +11,16 @@ const overallScoreModes = [
     { value: 'none', label: 'Hide overall scores' }
 ];
 
-const getSeries = (scores, categories, overallScoreMode) => {
+const getColorMap = (scores) => {
+    const colorMap = new Map();
+    scores.forEach((s, i) => colorMap.set(s, colors[i % colors.length]));
+    return colorMap;
+};
+
+const getSeries = (scores, colorMap, categories, overallScoreMode) => {    
     const series = scores.map(s => {
         const data = [];
+        const color = colorMap.get(s);
 
         categories.forEach(c => {
             const cs = s.categoryScores.find(cs => cs.category.identifier === c.identifier);
@@ -26,7 +33,8 @@ const getSeries = (scores, categories, overallScoreMode) => {
 
         return {
             name: s.key.label,
-            data: data
+            data: data,
+            color
         };
     });
 
@@ -34,6 +42,7 @@ const getSeries = (scores, categories, overallScoreMode) => {
         return series;
 
     return series.concat(scores.map(s => {
+        const color = colorMap.get(s);
         return {
             type: 'line',
             showInLegend: false,
@@ -47,7 +56,8 @@ const getSeries = (scores, categories, overallScoreMode) => {
                 y: s.mean,
                 x: 1,
                 score: s
-            }]
+            }],
+            color
         };
     }));
 };
@@ -128,8 +138,9 @@ export default class Chart extends Base {
 
         console.log(scores);
 
+        const colorMap = getColorMap(scores);
         const xAxis = getXAxis(categories, overallScoreMode);
-        const series = getSeries(scores, categories, overallScoreMode);
+        const series = getSeries(scores, colorMap, categories, overallScoreMode);
 
         return {
             chart: {
