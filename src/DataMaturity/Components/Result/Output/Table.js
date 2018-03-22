@@ -32,10 +32,10 @@ export default class Table extends Base {
 
             categories.forEach(c => {
                 const cs = s.categoryScores.find(cs => cs.category.identifier === c.identifier);
-                row.push(!!cs ? `${cs.rankLabel} (${cs.meanDisplayName})` : '---');
+                row.push(!!cs ? cs.fullLabel : '---');
             });
 
-            row.push(`${s.rankLabel} (${s.meanDisplayName})`);
+            row.push(s.fullLabel);
         });
 
         return { headings, rows };
