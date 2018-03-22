@@ -30,6 +30,9 @@ const getFunctions = {
     },
     isValid() {
         return this.numberOfValid >= minNumberOfValid;
+    },
+    fullLabel() {
+        return `${this.rankLabel} (${this.meanDisplayName})${this.hasMean && !this.isValid ? ' (invalid)': ''}`;
     }
 };
 
