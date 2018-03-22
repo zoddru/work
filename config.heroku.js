@@ -4,7 +4,7 @@ const config = {
     server: {
         protocol: 'https',
         host: 'vast-basin-95949.herokuapp.com',
-        port: process.env.PORT || null
+        port: process.env.PORT || 80
     },
     oAuth: {
         signInUrl: signInUrl,

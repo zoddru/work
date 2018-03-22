@@ -4,7 +4,7 @@ const config = {
     server: {
         protocol: 'https',
         host: process.env.host || '',
-        port: process.env.PORT || null
+        port: process.env.PORT || 8000
     },
     oAuth: {
         signInUrl: signInUrl,
