@@ -212,7 +212,7 @@ export default class AppRoot extends React.Component {
                         <Route exact path="/test-not-signed-in" render={() => <NotSignedIn status={{ isSignedIn: false }} />} />
                         <Route exact path="/test-modal" render={() => <ModalExample />} />
                     </Switch>
-                    <Modal open={hasConflicts} onClose={() => {}} little classNames={{ modal: 'modal' }}>
+                    <Modal open={hasConflicts} onClose={() => { }} little classNames={{ modal: 'modal' }}>
                         <h2>Hello {userLabel}</h2>
                         <p>
                             It looks like you have previously answered some questions in a different way.

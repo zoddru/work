@@ -93,6 +93,8 @@ export default class Container extends React.Component {
             selectedRoles: [],
             selectedFilters: []
         };
+
+        this.dataPromise = null;
     }
 
     hasOrganisationChanged(nextProps) {
@@ -140,11 +142,14 @@ export default class Container extends React.Component {
     }
 
     loadData(props) {
-        const self = this;
-        return getScoresForOrganisation(props.surveyState).then(r => {
+        this.dataPromise = getScoresForOrganisation(props.surveyState).then(r => {
+            if (this.dataPromise.canceled)
+                return;                
             const responses = r.data || [];
-            self.setState(prevState => ({ loadingResponses: false, responsesLoaded: true, responses }));
+            this.dataPromise = null;
+            this.setState(prevState => ({ loadingResponses: false, responsesLoaded: true, responses }));
         });
+        return this.dataPromise;        
     }
 
     componentWillMount() {
@@ -152,6 +157,12 @@ export default class Container extends React.Component {
         if (loadingResponses || responsesLoaded)
             return;
         this.init(this.props);
+    }
+
+    componentWillUnmount() {
+        if (this.dataPromise) {
+            this.dataPromise.canceled = true;
+        }
     }
 
     render() {
@@ -246,8 +257,6 @@ export default class Container extends React.Component {
                 filter: r => r.respondent.role === role
             });
         });
-
-        console.log(selectedFilters);
 
         return aggregator.multipleByCategory(selectedFilters);
     }

@@ -88,7 +88,7 @@ const app = express()
                 }
             })
             .catch(error => {
-                res.send(JSON.stringify({ isSignedIn: false, error }));
+                res.send(JSON.stringify({ isSignedIn: false, error: error.message }));
             });
     })
 

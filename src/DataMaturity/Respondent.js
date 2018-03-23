@@ -1,6 +1,6 @@
 export default class Respondent {
-    constructor({ identifier, email, organisation, department, role, created = new Date(), lastSeen = new Date(), lastUpdated = new Date() } = {}) {
-        Object.assign(this, { identifier, email, organisation, department, role, created, lastSeen, lastUpdated });
+    constructor({ identifier, email, organisation, area, department, role, created = new Date(), lastSeen = new Date(), lastUpdated = new Date() } = {}) {
+        Object.assign(this, { identifier, email, organisation, area, department, role, created, lastSeen, lastUpdated });
         Object.freeze(this);
     }
 

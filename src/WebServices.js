@@ -28,6 +28,7 @@ class WebServices {
         const url = this.signUrl(path);
         return axios({
             method: 'get',
+            timeout: 5000,
             url: url
         });
     }
