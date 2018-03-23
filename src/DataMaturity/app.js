@@ -11,6 +11,7 @@ import TopBar from './Components/TopBar';
 import SurveyMain from './Components/Survey/Main';
 import ResultMain from './Components/Result/Main';
 import AppRoot from './Components/AppRoot';
+//import AnimatedExample from './Components/AnimatedExample';
 
 if ('scrollRestoration' in history) { // turn off scrolling to top bottom in chrome
     history.scrollRestoration = 'manual';
@@ -27,3 +28,8 @@ const start = () => {
 };
 
 start();
+
+// ((() => {
+//     const app = document.getElementById('appRoot');
+//     ReactDom.render(<AnimatedExample />, app);
+// })());
