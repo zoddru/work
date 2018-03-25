@@ -9,14 +9,12 @@ body>header {
     left: 0;
     right: 0;
     padding: 0;
-    font-size: 1rem;
-    line-height: 1rem;
     text-align: right;
-    height: 4.16rem;
     background-color: #410440;
     color: white;
     font-size: 1.3rem;
     font-weight: 700;
+    height: 4.16rem;
     line-height: 4.16rem;
     padding: 0 1.5rem;
 }
@@ -25,6 +23,14 @@ body>main {
     padding-left: 0;
     padding-top: 0;
     padding-bottom: 0;
+    min-height: calc(100vh - 4.16rem);
+    /* subtract the footer height */
+}
+
+body>footer {
+    height: 4.16rem;
+    line-height: 4.16rem;
+    background-color: #E2E3E7;
 }
 
 body>main>nav {
@@ -174,7 +180,7 @@ table.summary td.number {
 
 /* .chart.summary */
 
-.chart.summary{
+.chart.summary {
     min-width: 10rem;
     width: 100%;
 }
@@ -207,6 +213,11 @@ a.expand {
     /* should be dynamic 100% of  */
 }
 
+.category:last-child {
+    min-height: calc(100vh - 4.16rem);
+    /* subtract the footer height */
+}
+
 .category p {
     margin-bottom: 2rem;
 }
@@ -224,6 +235,11 @@ a.expand {
     /* should be dynamic 100% of  */
 }
 
+.category:last-child .question {
+    min-height: calc(100vh - 4.16rem);
+    /* subtract the footer height */
+}
+
 .question>main {
     position: relative;
     min-height: 10rem;
@@ -231,11 +247,15 @@ a.expand {
 
 .question>footer {
     border-bottom: solid 1px #E2E3E7;
-    margin-bottom: 4rem;
+    margin-bottom: 4.16rem;
     position: absolute;
     bottom: 0;
     left: 0;
     right: 0;
+}
+
+.category:last-child .question>footer {
+    margin-bottom: 0;
 }
 
 .question .text, .question .help, .question .answers, .question .navigation {
