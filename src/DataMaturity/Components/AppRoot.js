@@ -8,6 +8,7 @@ import Survey from '../Survey';
 import ScrollToTop from './ScrollToTop';
 import SurveyMain from './Survey/Main';
 import ResultMain from './Result/Main';
+import Disclaimer from './Disclaimer';
 import ResultTable from './Result/Output/Table';
 import ResultChart from './Result/Output/Chart';
 import LocalStore from '../LocalStore';
@@ -186,6 +187,7 @@ export default class AppRoot extends React.Component {
             '/': loading ? loadingEl : <SurveyMain surveyState={surveyState} onRespondentChanged={this.respondentChanged.bind(this)} onAnswerChanged={this.answerChanged.bind(this)} />,
             '/result': loading ? loadingEl : <ResultMain surveyState={surveyState} score={score} />,
             '/organisation': loading ? loadingEl : <ResultMain surveyState={surveyState} score={score} />,
+            '/disclaimer': <Disclaimer />,
             '/table': loading ? loadingEl : <ResultTable surveyState={surveyState} />,
             '/chart': loading ? loadingEl : <ResultChart surveyState={surveyState} />
         };
@@ -204,6 +206,7 @@ export default class AppRoot extends React.Component {
                         <Route exact path="/" render={() => routeResults['/']} />
                         <Route exact path="/result" render={() => routeResults['/result']} />
                         <Route exact path="/organisation" render={() => routeResults['/organisation']} />
+                        <Route exact path="/disclaimer" render={() => routeResults['/disclaimer']} />
 
                         <Route exact path="/table" render={() => routeResults['/table']} />
                         <Route exact path="/chart" render={() => routeResults['/chart']} />

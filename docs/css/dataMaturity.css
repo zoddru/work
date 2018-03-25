@@ -70,6 +70,7 @@ body>main>nav>a::before, body>main>nav>a::after {
     border-left-color: white;
     content: '';
     z-index: 10;
+    opacity: 1;
 }
 
 body>main>nav>a:first-child::before, body>main>nav>a:last-child::after {
@@ -218,15 +219,10 @@ a.expand {
     /* subtract the footer height */
 }
 
-.category p {
-    margin-bottom: 2rem;
-}
-
 /* question */
 
 .question {
     position: relative;
-    border-left: 1rem solid #92278F;
     border-left: none;
     padding-bottom: 18rem;
     text-align: justify;
@@ -255,6 +251,7 @@ a.expand {
 }
 
 .category:last-child .question>footer {
+    border-bottom: none;
     margin-bottom: 0;
 }
 

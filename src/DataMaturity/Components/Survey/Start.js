@@ -44,32 +44,6 @@ export default class Start extends React.Component {
                             The LGA has access to detailed data which it might use for different aggregations and to offer advice to specific councils. If your organisation ranks highly in one area, the LGA might approach you to ask if you can share your learning with others.
                         </p>
                     </section>
-
-                    <section>
-                        <header>
-                            <h2>Disclaimer</h2>
-                        </header>
-                        <p>
-                            This Prototype Data Maturity Model has been prepared by Nesta solely for information purposes,
-                            and is available to a limited number of parties solely to assist the recipient in testing
-                            approaches to assessing data maturity.
-                        </p>
-                        <p>
-                            Nesta reserves the right to amend or replace the prototype at any time.
-                        </p>
-                        <p>
-                            This prototype has not been independently verified and Nesta, its respective directors,
-                            employees or affiliates makes any representation or warranty, express or implied,
-                            as to the accuracy,
-                            completeness or fairness of any information provided in connection with the prototype,
-                            and none of such parties shall have any liability for the information contained in,
-                            or for any omissions from the prototype.
-                        </p>
-                        <p>
-                            This prototype references work by HESA - for more information visit:
-                            <a href="https://www.hesa.ac.uk/support/tools/data-capability/full/assess-maturity">https://www.hesa.ac.uk/support/tools/data-capability/full/assess-maturity</a>
-                        </p>
-                    </section>
                 </main>
                 <footer>
                     <div className="navigation">

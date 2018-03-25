@@ -6,11 +6,54 @@
 
 body {
     color: rgb(70, 75, 81);
-    font-family: Arial,Helvetica,sans-serif;
+    font-family: Arial, Helvetica, sans-serif;
 }
 
 h1, h2, h3 {
     font-size: 2.4rem;
+}
+
+a {
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: none;
+}
+
+a {
+    border-bottom: solid .2rem #92278F;
+    transition: color 0.15s ease-in-out;
+    position: relative;
+}
+
+a::after {
+    content: '';
+    width: 0;
+    left: -1rem;
+    top: 0;
+    bottom: -.2rem;
+    border-bottom: solid .2rem white;
+    transition: left ease 0.4s;
+    position: absolute;
+    z-index: 1;
+}
+
+a:hover::after {
+    left: 100%;
+    width: 1rem;
+}
+
+a:hover::after {
+    top: 0;
+}
+
+p {
+    margin-bottom: 2rem;
+}
+
+p:last-child {
+    margin-bottom: 0;
 }
 
 input, select, button {
@@ -31,9 +74,7 @@ label {
     font-weight: 700;
 }
 
-input:focus,
-select:focus,
-button:focus {
+input:focus, select:focus, button:focus {
     outline: none;
     border: solid 1px #92278F;
 }
@@ -42,16 +83,12 @@ input[type=number]::-webkit-inner-spin-button {
     -webkit-margin-start: 0.5rem;
 }
 
-body > header,
-body > main {
+body>header, body>main {
     padding: 2rem;
     font-size: 1.6rem;
 }
 
-input[type="button"],
-input[type="submit"],
-button,
-a.button {
+input[type="button"], input[type="submit"], button, a.button {
     background-color: #92278F;
     color: #FFF;
     padding: 0.5rem 1rem;
@@ -59,18 +96,16 @@ a.button {
     height: inherit;
     cursor: pointer;
     user-select: none;
+    border-bottom: none;
 }
 
-input[type="button"]:hover,
-input[type="submit"]:hover,
-button:hover,
-a.button:hover {
+input[type="button"]:hover, input[type="submit"]:hover, button:hover, a.button:hover {
     background-color: #6a1c68;
     text-decoration: none;
 }
 
 a.button.link {
-    background-color: transparent;    
+    background-color: transparent;
     color: #92278F;
     transition: color 0.15s;
 }
@@ -85,13 +120,11 @@ table.normal {
     border-collapse: collapse;
 }
 
-table.normal th,
-table.normal td {
+table.normal th, table.normal td {
     padding: 1rem;
 }
 
-table.normal th:first-child,
-table.normal td:first-child {
+table.normal th:first-child, table.normal td:first-child {
     padding-left: 0;
 }
 
@@ -113,8 +146,7 @@ table.bright {
     border-collapse: collapse;
 }
 
-table.bright th,
-table.bright td {
+table.bright th, table.bright td {
     padding: 0.5rem 1.4rem;
     border-right: solid 0.2rem #92278F;
 }
@@ -123,8 +155,7 @@ table.bright tfoot th:first-child {
     text-align: left;
 }
 
-table.bright tfoot tr:nth-child(2) th,
-table.bright tfoot tr:nth-child(2) td {
+table.bright tfoot tr:nth-child(2) th, table.bright tfoot tr:nth-child(2) td {
     border-right: none;
 }
 
@@ -137,17 +168,15 @@ table.bright td.number {
     text-align: right;
 }
 
-table.bright th:first-child,
-table.bright td:first-child {
+table.bright th:first-child, table.bright td:first-child {
     padding-left: 0;
 }
 
-table.bright td:first-child {    
+table.bright td:first-child {
     border-right: none;
 }
 
-table.bright th:last-child,
-table.bright td:last-child {
+table.bright th:last-child, table.bright td:last-child {
     padding-right: 0;
     border-right: none;
 }

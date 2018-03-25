@@ -52,6 +52,7 @@ const app = express()
     .get('/result', (req, res) => res.sendFile('dataMaturity.html', { root: './docs' }))
     .get('/questions', (req, res) => res.sendFile('dataMaturity.html', { root: './docs' }))
     .get('/organisation', (req, res) => res.sendFile('dataMaturity.html', { root: './docs' }))
+    .get('/disclaimer', (req, res) => res.sendFile('dataMaturity.html', { root: './docs' }))
     .get('/table', (req, res) => res.sendFile('dataMaturity.html', { root: './docs' }))
     .get('/chart', (req, res) => res.sendFile('dataMaturity.html', { root: './docs' }))
 

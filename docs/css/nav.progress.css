@@ -9,8 +9,17 @@ nav.progress {
     flex-direction: column;
 }
 
+/* reset some of the link styles */
+nav.progress a {
+    border: none;
+}
+
 nav.progress a:hover {
     text-decoration: none;
+}
+
+nav.progress a::after {
+    content: none;
 }
 
 nav.progress .node {
