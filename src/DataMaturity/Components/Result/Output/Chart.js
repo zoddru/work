@@ -118,7 +118,7 @@ export default class Chart extends Base {
         const chartData = this.aggregatedChart;
 
         return <div>
-            <form>
+            {/* <form>
                 <div className="form-item">
                     <label>Overall</label>
                     <div className="value">
@@ -131,7 +131,7 @@ export default class Chart extends Base {
                         />
                     </div>
                 </div>
-            </form>
+            </form> */}
             <SimpleChart id="chart" data={chartData} />
         </div>;
     }

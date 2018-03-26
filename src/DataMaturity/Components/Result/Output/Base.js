@@ -81,6 +81,8 @@ const createFilters = (surveyState) => {
         f.label = f.key.label;
     });
 
+    filters.sort((a, b) => a.label < b.label ? -1 : 1);
+
     return filters;
 };
 
@@ -230,39 +232,6 @@ export default class Container extends React.Component {
         const { responses, selectedDepartments, selectedRoles, selectedFilters } = this.state;
 
         const aggregator = new ResponseAggregator({ survey, responses });
-
-        const filters = [
-            {
-                key: new TypedItem('respondent', { identifier: respondent.identifier, label: 'My score' }),
-                filter: r => r.respondent.identifier === respondent.identifier
-            }
-        ];
-
-        if (organisation) {
-            filters.push({
-                key: new TypedItem('organisation', { identifier: organisation.identifier, label: organisation.shortLabel || organisation.label }),
-                filter: r => r.respondent.organisation === organisation.identifier
-            });
-        }
-
-        const { departments, roles } = options;
-
-        selectedDepartments.forEach(dept => {
-            const key = new TypedItem('department', departments.find(d => d.identifier === dept) || { identifier: dept, label: dept });
-            filters.push({
-                key: key,
-                filter: r => r.respondent.department === dept
-            });
-        });
-
-        selectedRoles.forEach(role => {
-            const key = new TypedItem('role', roles.find(r => r.identifier === role) || { identifier: role, label: role });
-            filters.push({
-                key: key,
-                filter: r => r.respondent.role === role
-            });
-        });
-
         return aggregator.multipleByCategory(selectedFilters);
     }
 }
