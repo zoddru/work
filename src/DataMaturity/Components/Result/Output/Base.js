@@ -10,6 +10,8 @@ import common from '../../../common';
 import { create } from 'domain';
 const responsesCache = common.responsesCache;
 
+const startSortOrder = { respondent: 1, organisation: 2, role: 3, department: 4 };
+
 const getScoresForOrganisation = (surveyState) => {
     const { organisation, created } = surveyState;
 
@@ -96,8 +98,6 @@ export default class Container extends React.Component {
             loadingResponses: false,
             responses: [],
             responsesLoaded: false,
-            selectedDepartments: [],
-            selectedRoles: [],
             selectedFilters: []
         };
 
@@ -127,20 +127,14 @@ export default class Container extends React.Component {
 
             const newState = { loadingResponses: true };
 
-            if (!!respondent.department) {
-                newState.selectedDepartments = [respondent.department];
-            }
-
-            if (!!respondent.role) {
-                newState.selectedRoles = [respondent.role];
-            }
-
             newState.selectedFilters = this.filters.filter(f => 
                 f.type === 'respondent' || 
                 f.type === 'organisation' ||
                 !!respondent.role && f.type === 'role' && f.key.identifier === respondent.role ||
                 !!respondent.department && f.type === 'department' && f.key.identifier === respondent.department
             );
+
+            newState.selectedFilters.sort((a, b) => startSortOrder[a.type] - startSortOrder[b.type]);
 
             return newState;
         });
@@ -198,7 +192,7 @@ export default class Container extends React.Component {
                         <form>
 
                             <div className="form-item">
-                                <label>Series</label>
+                                <label>Show</label>
                                 <div className="value">
                                     <Select
                                         name="series"
@@ -228,8 +222,8 @@ export default class Container extends React.Component {
         const { surveyState } = this.props;
         if (surveyState.loading || !surveyState.isSignedIn)
             return null;
-        const { respondent, survey, options, organisation } = surveyState;
-        const { responses, selectedDepartments, selectedRoles, selectedFilters } = this.state;
+        const { survey } = surveyState;
+        const { responses, selectedFilters } = this.state;
 
         const aggregator = new ResponseAggregator({ survey, responses });
         return aggregator.multipleByCategory(selectedFilters);
