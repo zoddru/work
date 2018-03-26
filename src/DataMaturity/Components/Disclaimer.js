@@ -26,7 +26,7 @@ export default class Disclaimer extends React.Component {
                         </p>
                     <p>
                         This prototype references work by HESA - for more information visit:&nbsp;
-                        <a href="https://www.hesa.ac.uk/support/tools/data-capability/full/assess-maturity">https://www.hesa.ac.uk/support/tools/data-capability/full/assess-maturity</a>
+                        <a className="link" href="https://www.hesa.ac.uk/support/tools/data-capability/full/assess-maturity">https://www.hesa.ac.uk/support/tools/data-capability/full/assess-maturity</a>
                     </p>
                 </main>
             </article>

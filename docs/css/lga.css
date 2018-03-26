@@ -23,25 +23,6 @@ a:hover {
 
 a {
     border-bottom: solid .2rem #92278F;
-    transition: color 0.15s ease-in-out;
-    position: relative;
-}
-
-a::after {
-    content: '';
-    width: 0;
-    left: -1rem;
-    top: 0;
-    bottom: -.2rem;
-    border-bottom: solid .2rem white;
-    transition: left ease 0.4s;
-    position: absolute;
-    z-index: 1;
-}
-
-a:hover::after {
-    left: 100%;
-    width: 1rem;
 }
 
 p {
@@ -109,6 +90,29 @@ a.button.link {
 a.button.link:hover {
     color: #6a1c68;
     text-decoration: underline;
+}
+
+a.link {
+    border-bottom: solid .2rem #92278F;
+    transition: color 0.15s ease-in-out;
+    position: relative;
+}
+
+a.link::after {
+    content: '';
+    width: 0;
+    left: -1rem;
+    top: 0;
+    bottom: -.2rem;
+    border-bottom: solid .2rem white;
+    transition: left ease 0.4s;
+    position: absolute;
+    z-index: 1;
+}
+
+a.link:hover::after {
+    left: 100%;
+    width: 1rem;
 }
 
 table.normal {

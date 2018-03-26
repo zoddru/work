@@ -61,7 +61,35 @@ const app = express()
     .get('/dataMaturity.html', (req, res) => res.redirect('/'))
     .get('/dataMaturity.result.html', (req, res) => res.redirect('/result'))
 
-    .get('/authentication/status', (req, res) => {
+    .get('/save/area', (req, res) => {
+        res.setHeader('Content-Type', 'application/json');
+
+        const oAuthAccessor = new OAuthAccessor(req, res);
+        const oAuth = oAuthAccessor.get();
+
+        if (!oAuth || !oAuth.token || !oAuth.secret) {
+            res.send(JSON.stringify({ isSignedIn: false, error: 'not signed in' }));
+            return;
+        }
+
+        const webServices = new WebServices(oAuth);
+        
+        webServices
+            .getCurrentArea()
+            .then(result => {
+                if (result.error || result.data && result.data.errors && result.data.errors.length) {
+                    res.send(JSON.stringify({ isSignedIn: false, error: result.error || result.data.errors }));
+                    return;
+                }                
+                res.send(JSON.stringify(result.data));
+            })
+            .catch(error => {
+                res.send(JSON.stringify({ isSignedIn: false, error: error.message }));
+            });
+    })
+
+    .get('/authentication/status', (req, res) => {        
+        res.setHeader('Content-Type', 'application/json');
 
         if (config.useLocal) {
             res.send(JSON.stringify({ isSignedIn: false, usingLocal: true }));
@@ -70,7 +98,6 @@ const app = express()
 
         const oAuthAccessor = new OAuthAccessor(req, res);
         const oAuth = oAuthAccessor.get();
-        res.setHeader('Content-Type', 'application/json');
 
         if (!oAuth || !oAuth.token || !oAuth.secret) {
             res.send(JSON.stringify({ isSignedIn: false }));

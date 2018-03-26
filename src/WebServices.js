@@ -36,6 +36,22 @@ class WebServices {
     getCurrentUser() {
         return this.get('users/current');
     }
+
+    getCurrentArea() {
+        return new Promise(this.get('users/current'))
+            .then(result => {
+                if (result.error || result.data && result.data.errors && result.data.errors.length) {
+                    return { message: 'not signed in' };
+                }
+                const data = result.data;
+                if (!data.user || !data.user.organisation || !data.user.organisation.governs || !data.user.organisation.governs.identifier) {
+                    return { message: 'no current area' };
+                }
+                const identifier = data.user.organisation.governs.identifier;
+                
+                return { identifier };
+            });
+    }
 }
 
 module.exports = WebServices;
