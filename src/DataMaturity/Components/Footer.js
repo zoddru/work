@@ -16,7 +16,8 @@ export default class Footer extends React.Component {
                 <a href="/privacy" onClick={(e) => this.setHistory(e, '/privacy')}>Privacy policy</a>
             </div>
             <div class="column">
-                <a href="https://www.local.gov.uk/">LGA Home</a>
+                <a href="https://porism.com/">Porism</a>
+                <a href="https://www.local.gov.uk/">LGA</a>
                 <a href="https://www.nesta.org.uk/">Nesta</a>
                 <span>
                     Copyright © 2018
