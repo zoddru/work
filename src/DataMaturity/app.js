@@ -20,12 +20,12 @@ if ('scrollRestoration' in history) { // turn off scrolling to top bottom in chr
     history.scrollRestoration = 'manual';
 }
 
-function renderSignIn(authStatus) {
+function renderHeader(authStatus) {
     ReactDom.render(<TopBar status={authStatus} />, document.getElementById('mainHeader'));
 }
 
 const start = () => {
-    ReactDom.render(<AppRoot onAuthStatusReceived={renderSignIn} history={history} />, document.getElementById('appRoot'));
+    ReactDom.render(<AppRoot onAuthStatusReceived={renderHeader} history={history} />, document.getElementById('appRoot'));
 };
 
 ReactDom.render(<Footer history={history} />, document.getElementById('mainFooter'));

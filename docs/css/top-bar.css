@@ -1,10 +1,67 @@
-body > nav {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 4.16rem;
-    background-color: #410440;
+body>header {
     z-index: 30;
-    color: white;
+}
+
+body>header a {
+    display: inline-block;
+    position: relative;
+    border-bottom: none;
+    padding: 0 1rem;
+    z-index: 100000;
+}
+
+body>header a::before,
+body>header div.dropdown::before {
+    content: '';
+    position: relative;
+    left: 0;
+    border-left: solid 1px white;
+}
+
+body>header a::before {
+    left: -1rem;
+}
+
+body>header a:first-child::before,
+body>header div.dropdown:first-child::before {
+    content: none;
+}
+
+body>header div.dropdown {
+    display: inline-block;
+    position: relative;
+}
+
+body>header div.dropdown>a {
+    cursor: pointer;
+}
+
+body>header div.dropdown>a:before {
+    content: none;
+}
+
+body>header div.dropdown>a::after {
+    content: '';
+    position: relative;
+    display: inline-block;
+    width: 1.2rem;
+    height: 1.2rem;
+    margin-left: 1rem;
+    top: .1rem;
+    background-image: url(https://resources.esd.org.uk/images/common/down.png);
+    background-repeat: no-repeat;
+}
+
+body>header div.dropdown>a:hover::after {
+    background-position: -12px top;
+}
+
+body>header div.dropdown>div.content {
+    position: absolute;
+    z-index: 20;
+    padding: 1rem;
+    line-height: 1rem;
+    width: auto;
+    background-color: #410440;
+    border: solid 1px #6A217A;
 }
