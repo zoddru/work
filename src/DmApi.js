@@ -27,17 +27,17 @@ export default class DmApi {
         });
     }
 
-    post(path, data) {
+    put(path, data) {
         const url = this.getUrl(path);
         return axios({
-            method: 'post',
+            method: 'put',
             timeout: 5000,
             url,
             data
         });
     }
 
-    postArea(area) {
-        return this.post('area', area);
+    putArea(area) {
+        return this.put('area', area);
     }
 }

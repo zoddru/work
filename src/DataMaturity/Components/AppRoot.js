@@ -31,8 +31,8 @@ const saveSurveyState = (surveyState) => {
 
     localStore.clear();
 
-    axios.post('/dmApi/responses', data).catch(error => console.log(error));
-    axios.post('/save/area').catch(error => console.log(error));
+    axios.put('/dmApi/responses', data).catch(error => console.log(error));
+    axios.put('/save/area').catch(error => console.log(error));
 };
 
 const loadAuthThenSavedData = (onLoaded) => {

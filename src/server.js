@@ -62,7 +62,7 @@ const app = express()
     .get('/dataMaturity.html', (req, res) => res.redirect('/'))
     .get('/dataMaturity.result.html', (req, res) => res.redirect('/result'))
 
-    .post('/save/area', (req, res) => {
+    .put('/save/area', (req, res) => {
         res.setHeader('Content-Type', 'application/json');
 
         const oAuthAccessor = new OAuthAccessor(req, res);
@@ -83,7 +83,7 @@ const app = express()
                     return;
                 }
 
-                new DmApi().postArea(area).catch((e) => console.log({ success: false, message: e.message }));
+                new DmApi().putArea(area).catch((e) => console.log({ success: false, message: e.message }));
 
                 res.send(JSON.stringify({ success: true }));
             });
