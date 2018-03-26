@@ -9,8 +9,6 @@ import ScrollToTop from './ScrollToTop';
 import SurveyMain from './Survey/Main';
 import ResultMain from './Result/Main';
 import Disclaimer from './Disclaimer';
-import Cookies from './Cookies';
-import Privacy from './Privacy';
 import ResultTable from './Result/Output/Table';
 import ResultChart from './Result/Output/Chart';
 import LocalStore from '../LocalStore';
@@ -193,8 +191,6 @@ export default class AppRoot extends React.Component {
             '/result': loading ? loadingEl : <ResultMain surveyState={surveyState} score={score} />,
             '/organisation': loading ? loadingEl : <ResultMain surveyState={surveyState} score={score} />,
             '/disclaimer': <Disclaimer />,
-            '/cookies': <Cookies />,
-            '/privacy': <Privacy />,
             '/table': loading ? loadingEl : <ResultTable surveyState={surveyState} />,
             '/chart': loading ? loadingEl : <ResultChart surveyState={surveyState} />
         };
