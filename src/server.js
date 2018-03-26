@@ -9,6 +9,7 @@ const OAuth = require('oauth');
 import CsvWriter from './CsvWriter';
 import OAuthAccessor from './OAuthAccessor';
 import WebServices from './WebServices';
+import DmApi from './DmApi';
 
 const dmApiProxy = require(config.useLocal ? './LocalDmApiProxyFactory' : './DmApiProxyFactory').default();
 const webservicesProxy = require('./OAuthWebServicesProxyFactory').default();
@@ -61,30 +62,30 @@ const app = express()
     .get('/dataMaturity.html', (req, res) => res.redirect('/'))
     .get('/dataMaturity.result.html', (req, res) => res.redirect('/result'))
 
-    .get('/save/area', (req, res) => {
+    .post('/save/area', (req, res) => {
         res.setHeader('Content-Type', 'application/json');
 
         const oAuthAccessor = new OAuthAccessor(req, res);
         const oAuth = oAuthAccessor.get();
 
         if (!oAuth || !oAuth.token || !oAuth.secret) {
-            res.send(JSON.stringify({ isSignedIn: false, error: 'not signed in' }));
+            res.send(JSON.stringify({ success: true, isSignedIn: false, error: 'not signed in' }));
             return;
         }
 
         const webServices = new WebServices(oAuth);
         
-        webServices
+        return webServices
             .getCurrentArea()
-            .then(result => {
-                if (result.error || result.data && result.data.errors && result.data.errors.length) {
-                    res.send(JSON.stringify({ isSignedIn: false, error: result.error || result.data.errors }));
+            .then(area => {
+                if (!area.success) {
+                    res.send(JSON.stringify(area));
                     return;
-                }                
-                res.send(JSON.stringify(result.data));
-            })
-            .catch(error => {
-                res.send(JSON.stringify({ isSignedIn: false, error: error.message }));
+                }
+
+                new DmApi().postArea(area).catch((e) => console.log({ success: false, message: e.message }));
+
+                res.send(JSON.stringify({ success: true }));
             });
     })
 

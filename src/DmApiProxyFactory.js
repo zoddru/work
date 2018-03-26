@@ -1,8 +1,9 @@
 const config = require('../config.broker');
 import proxy from 'express-http-proxy';
 import url from 'url';
+import DmApi from './DmApi';
 
-const dmApiHost = config.dataMaturity && config.dataMaturity.apiHost || 'api.dataMaturity.esd.org.uk';
+const dmApiHost = DmApi.host;
 
 export default function ({pathRegex = /^\/dmApi/} = {}) {
     return proxy(dmApiHost, {

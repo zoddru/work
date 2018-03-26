@@ -38,19 +38,27 @@ class WebServices {
     }
 
     getCurrentArea() {
-        return new Promise(this.get('users/current'))
+        return this.get('users/current')
             .then(result => {
-                if (result.error || result.data && result.data.errors && result.data.errors.length) {
-                    return { message: 'not signed in' };
-                }
-                const data = result.data;
-                if (!data.user || !data.user.organisation || !data.user.organisation.governs || !data.user.organisation.governs.identifier) {
-                    return { message: 'no current area' };
-                }
-                const identifier = data.user.organisation.governs.identifier;
+                if (result.error || result.data && result.data.errors && result.data.errors.length || !result.data.user)
+                    return { success: false, message: 'not signed in' };
+                const organisation = result.data.user.organisation;
+                if (!organisation)
+                    return { success: false, message: 'no organisation' };
+                if (!organisation || !organisation.governs || !organisation.governs.identifier)
+                    return { success: false, message: `organisation ${organisation.identifier} does not govern an area` };
+                const identifier = organisation.governs.identifier;                
                 
-                return { identifier };
-            });
+                return this.get(`areas/${identifier}`)
+                    .then(result => {
+                        if (result.error || result.data && result.data.errors && result.data.errors.length || !result.data.area)
+                            return { success: false, message: `could not retrieve area ${identifier}` };
+                        const area = result.data.area;
+                        area.success = true;
+                        return area;
+                    });
+            })
+            .catch(error => ({ success: false, message: 'error', error }));
     }
 }
 

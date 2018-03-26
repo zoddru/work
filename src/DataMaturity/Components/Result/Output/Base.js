@@ -43,7 +43,7 @@ class TypedItem {
 const createFilters = (surveyState) => {
 
     const { respondent, organisation, options } = surveyState;
-    const { departments, roles } = options;
+    const { departments, roles, areaGroupTypes } = options;
     const { department, role } = respondent;
 
     const filters = [
@@ -60,6 +60,11 @@ const createFilters = (surveyState) => {
         departments.map(d => ({
             key: new TypedItem('department', d),
             filter: v => v.respondent.department === d.identifier
+        }))
+    ).concat(
+        areaGroupTypes.map(agt => ({
+            key: new TypedItem('areaGroupType', agt),
+            filter: v => v.areaGroupType === agt.identifier
         }))
     );
 
