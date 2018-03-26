@@ -58,6 +58,13 @@ body>footer a:hover {
     color: #6a1c68;
 }
 
+@media screen and (min-width: 600px) {
+    body>footer .columns {
+        display: flex;
+        flex-direction: row;
+    }
+}
+
 body>footer .columns .column {
     flex-grow: 1;
 }

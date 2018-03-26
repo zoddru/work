@@ -20,7 +20,7 @@ export default class Footer extends React.Component {
                 <a href="https://www.local.gov.uk/">LGA</a>
                 <a href="https://www.nesta.org.uk/">Nesta</a>
                 <span>
-                    Copyright © 2018
+                    Copyright © {new Date().getFullYear()}
                 </span>
             </div>
         </div>;
