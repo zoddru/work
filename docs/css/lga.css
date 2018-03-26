@@ -44,10 +44,6 @@ a:hover::after {
     width: 1rem;
 }
 
-a:hover::after {
-    top: 0;
-}
-
 p {
     margin-bottom: 2rem;
 }

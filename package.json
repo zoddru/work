@@ -40,6 +40,7 @@
     "express-session": "^1.15.6",
     "highcharts": "^6.0.7",
     "highcharts-more-node": "^5.0.13",
+    "history": "^4.7.2",
     "lodash": "^4.17.4",
     "oauth": "^0.9.15",
     "raf": "^3.4.0",

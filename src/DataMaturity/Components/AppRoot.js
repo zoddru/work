@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Switch, Route, NavLink } from 'react-router-dom';
+import { Router, Switch, Route, NavLink } from 'react-router-dom';
 import axios from 'axios';
 import Modal from 'react-responsive-modal';
 import SurveyState from '../SurveyState';
@@ -9,6 +9,8 @@ import ScrollToTop from './ScrollToTop';
 import SurveyMain from './Survey/Main';
 import ResultMain from './Result/Main';
 import Disclaimer from './Disclaimer';
+import Cookies from './Cookies';
+import Privacy from './Privacy';
 import ResultTable from './Result/Output/Table';
 import ResultChart from './Result/Output/Chart';
 import LocalStore from '../LocalStore';
@@ -101,6 +103,10 @@ export default class AppRoot extends React.Component {
         this.loadData();
     }
 
+    redirect(path) {
+
+    }
+
     changeSurveyStatus(loadedProps, save) {
         const self = this;
         this.setState(prevState => {
@@ -179,6 +185,7 @@ export default class AppRoot extends React.Component {
 
     render() {
         const { surveyState, hasConflicts } = this.state;
+        const { history } = this.props;
         const { score, loading, userLabel, organisationLabel } = surveyState;
 
         const loadingEl = <Loading />;
@@ -188,11 +195,13 @@ export default class AppRoot extends React.Component {
             '/result': loading ? loadingEl : <ResultMain surveyState={surveyState} score={score} />,
             '/organisation': loading ? loadingEl : <ResultMain surveyState={surveyState} score={score} />,
             '/disclaimer': <Disclaimer />,
+            '/cookies': <Cookies />,
+            '/privacy': <Privacy />,
             '/table': loading ? loadingEl : <ResultTable surveyState={surveyState} />,
             '/chart': loading ? loadingEl : <ResultChart surveyState={surveyState} />
         };
 
-        return <Router key="content">
+        return <Router key="content" history={history}>
             <ScrollToTop>
                 <Fragment>
                     <nav>
@@ -207,6 +216,8 @@ export default class AppRoot extends React.Component {
                         <Route exact path="/result" render={() => routeResults['/result']} />
                         <Route exact path="/organisation" render={() => routeResults['/organisation']} />
                         <Route exact path="/disclaimer" render={() => routeResults['/disclaimer']} />
+                        <Route exact path="/cookies" render={() => routeResults['/cookies']} />
+                        <Route exact path="/privacy" render={() => routeResults['/privacy']} />
 
                         <Route exact path="/table" render={() => routeResults['/table']} />
                         <Route exact path="/chart" render={() => routeResults['/chart']} />

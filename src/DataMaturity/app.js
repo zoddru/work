@@ -8,28 +8,26 @@ import Survey from './Survey';
 import Respondent from './Respondent';
 import SurveyState from './SurveyState';
 import TopBar from './Components/TopBar';
+import Footer from './Components/Footer';
 import SurveyMain from './Components/Survey/Main';
 import ResultMain from './Components/Result/Main';
 import AppRoot from './Components/AppRoot';
 //import AnimatedExample from './Components/AnimatedExample';
+import { createBrowserHistory } from 'history';
+const history = createBrowserHistory()
 
 if ('scrollRestoration' in history) { // turn off scrolling to top bottom in chrome
     history.scrollRestoration = 'manual';
 }
 
 function renderSignIn(authStatus) {
-    const app = document.getElementById('mainHeader');
-    ReactDom.render(<TopBar status={authStatus} />, app);
+    ReactDom.render(<TopBar status={authStatus} />, document.getElementById('mainHeader'));
 }
 
 const start = () => {
-    const app = document.getElementById('appRoot');
-    ReactDom.render(<AppRoot onAuthStatusReceived={renderSignIn} />, app);
+    ReactDom.render(<AppRoot onAuthStatusReceived={renderSignIn} history={history} />, document.getElementById('appRoot'));
 };
 
-start();
+ReactDom.render(<Footer history={history} />, document.getElementById('mainFooter'));
 
-// ((() => {
-//     const app = document.getElementById('appRoot');
-//     ReactDom.render(<AnimatedExample />, app);
-// })());
+start();

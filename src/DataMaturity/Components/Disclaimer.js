@@ -1,7 +1,6 @@
 import React from 'react';
-import SignInDetails from './SignInDetails';
 
-export default class NotSignedIn extends React.Component {
+export default class Disclaimer extends React.Component {
     render() {
         return <section className="main-content">
             <article>
