@@ -6,13 +6,13 @@ const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const urlParser = require('url');
 const OAuth = require('oauth');
+import AuthenticationActions from './Server/AuthenticationActions';
 import CsvWriter from './CsvWriter';
-import OAuthAccessor from './OAuthAccessor';
-import WebServices from './WebServices';
-import DmApi from './DmApi';
-
-const dmApiProxy = require(config.useLocal ? './LocalDmApiProxyFactory' : './DmApiProxyFactory').default();
-const webservicesProxy = require('./OAuthWebServicesProxyFactory').default();
+import OAuthAccessor from './Server/OAuthAccessor';
+import WebServices from './Data/WebServices';
+import DmApi from './Data/DmApi';
+const dmApiProxy = require(`./Server/${config.useLocal ? 'LocalDmApiProxyFactory' : 'DmApiProxyFactory'}`).default();
+const webservicesProxy = require('./Server/OAuthWebServicesProxyFactory').default();
 
 function getOAuthManager(returnUrl) {
     let callback = config.server.rootUrl + 'callback';
@@ -32,14 +32,6 @@ function getOAuthManager(returnUrl) {
     );
 }
 
-function getRootUrl(req) {
-    return req.protocol + '://' + req.get('host');
-}
-
-function getFullUrl(req) {
-    return getRootUrl(req) + req.originalUrl;
-}
-
 const port = config.server.port;
 
 const app = express()
@@ -48,7 +40,8 @@ const app = express()
     .use('/dmApi/*', dmApiProxy)
     .use('/webservices/*', webservicesProxy)
     .use(bodyParser.json())
-    
+
+    // data maturity
     .get('/', (req, res) => res.sendFile('dataMaturity.html', { root: './docs' }))
     .get('/result', (req, res) => res.sendFile('dataMaturity.html', { root: './docs' }))
     .get('/questions', (req, res) => res.sendFile('dataMaturity.html', { root: './docs' }))
@@ -74,7 +67,7 @@ const app = express()
         }
 
         const webServices = new WebServices(oAuth);
-        
+
         return webServices
             .getCurrentArea()
             .then(area => {
@@ -84,93 +77,16 @@ const app = express()
                 }
 
                 new DmApi().putArea(area).catch((e) => console.log({ success: false, message: e.message }));
-
-                res.send(JSON.stringify({ success: true }));
             });
+
+        res.send(JSON.stringify({ success: true }));
     })
 
-    .get('/authentication/status', (req, res) => {        
-        res.setHeader('Content-Type', 'application/json');
-
-        if (config.useLocal) {
-            res.send(JSON.stringify({ isSignedIn: false, usingLocal: true }));
-            return;
-        }
-
-        const oAuthAccessor = new OAuthAccessor(req, res);
-        const oAuth = oAuthAccessor.get();
-
-        if (!oAuth || !oAuth.token || !oAuth.secret) {
-            res.send(JSON.stringify({ isSignedIn: false }));
-            return;
-        }
-
-        new WebServices(oAuth)
-            .getCurrentUser()
-            .then(result => {
-                if (result.error || result.data && result.data.errors && result.data.errors.length) {
-                    oAuthAccessor.set(null); // assume this data is now invalid
-                    res.send(JSON.stringify({ isSignedIn: false, error: result.error || result.data.errors }));
-                }
-                else {
-                    res.send(JSON.stringify({ isSignedIn: true, user: result.data.user }));
-                }
-            })
-            .catch(error => {
-                res.send(JSON.stringify({ isSignedIn: false, error: error.message }));
-            });
-    })
-
-    .get('/signin', (req, res) => {
-        const urlObj = urlParser.parse(req.url, true);
-        const returnUrl = urlObj.query.returnUrl;
-
-        getOAuthManager(returnUrl).getOAuthRequestToken(function (error, token, secret, results) {
-            if (error && error.data) {
-                res.setHeader('Content-Type', 'text/html');
-                res.send(error.data);
-                return;
-            }
-
-            new OAuthAccessor(req, res).set({ token, secret });
-            const authURL = `${config.oAuth.url}?oauth_token=${token}`;
-
-            res.redirect(`${authURL}`);
-        });
-    })
-
-    .get('/signout', (req, res) => {
-        const rootUrl = getRootUrl(req);
-        const urlObj = urlParser.parse(req.url, true);
-        const returnUrl = urlObj.query.returnUrl || rootUrl;
-        const encodedUrl = encodeURIComponent(returnUrl);
-
-        new OAuthAccessor(req, res).set(null); // assume this data is now invalid
-        res.redirect(`${config.oAuth.signOutUrl}?returnUrl=${encodedUrl}`);
-    })
-
-    .get('/callback', (req, res) => {
-        const rootUrl = getRootUrl(req);
-        const urlObj = urlParser.parse(req.url, true);
-        const returnUrl = urlObj.query.returnUrl || rootUrl;
-        const oAuthAccessor = new OAuthAccessor(req, res);
-        const oAuthDetails = oAuthAccessor.get(); 
-
-        if (!oAuthDetails) {
-            console.log('no oAuth object found in session');
-            res.redirect(rootUrl);
-            return;
-        }
-
-        getOAuthManager().getOAuthAccessToken(
-            urlObj.query.oauth_token,
-            oAuthDetails.secret,
-            urlObj.query.oauth_verifier,
-            (error, token, secret, results) => {
-                oAuthAccessor.set({ token, secret });
-                res.redirect(returnUrl);
-            });
-    })
+    // authentication:
+    .get('/authentication/status', AuthenticationActions.status)
+    .get('/signin', AuthenticationActions.signIn)
+    .get('/signout', AuthenticationActions.signOut)
+    .get('/callback', AuthenticationActions.callback)
 
     .post('/csv', (req, res) => {
         const table = req.body;
@@ -183,18 +99,6 @@ const app = express()
         res.write(csv);
 
         res.end();
-    })
-
-    .get('/wait/:time*', (req, res) => {
-        const time = parseInt(req.params.time);
-        const start = Date.now();
-
-        setTimeout(() => {
-            const end = Date.now();
-            const diff = end - start;
-            res.setHeader('Content-Type', 'application/json');
-            res.send(JSON.stringify({ time, start, end, diff }));
-        }, time);
     })
 
     .get(/data\/(.+)/, (req, res) => {
@@ -210,17 +114,6 @@ const app = express()
             .catch(error => {
                 res.send(JSON.stringify({ error: true, message: error.message, stack: error.stack }));
             });
-    })
-
-    .get('/secretConfig', (req, res) => {
-        const { configName, testString } = process.env;
-
-        res.setHeader('Content-Type', 'application/json');
-        res.send({
-            process: {
-                env: { configName, testString }
-            }
-        });
     })
 
     .use(express.static('docs'))

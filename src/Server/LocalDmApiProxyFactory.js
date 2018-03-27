@@ -1,4 +1,4 @@
-const config = require('../config.broker');
+const config = require('../../config.broker');
 import proxy from 'express-http-proxy';
 import fs from 'fs';
 

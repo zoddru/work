@@ -1,7 +1,7 @@
-const config = require('../config.broker');
+const config = require('../../config.broker');
 import proxy from 'express-http-proxy';
 import url from 'url';
-import DmApi from './DmApi';
+import DmApi from '../Data/DmApi';
 
 const dmApiHost = DmApi.host;
 

@@ -1,6 +1,6 @@
-const config = require('../config.broker');
-const OAuth = require('oauth');
-const axios = require('axios');
+import config from '../../config.broker';
+import OAuth from 'oauth';
+import axios from 'axios';
 
 const oAuthManager = new OAuth.OAuth(
     config.oAuth.url,

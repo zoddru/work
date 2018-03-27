@@ -1,4 +1,4 @@
-const config = require('../config.broker');
+const config = require('../../config.broker');
 const axios = require('axios');
 
 const host = config.dataMaturity && config.dataMaturity.apiHost || 'api.dataMaturity.esd.org.uk';
