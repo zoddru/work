@@ -4,33 +4,13 @@ const express = require('express');
 const session = require('express-session');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
-const urlParser = require('url');
-const OAuth = require('oauth');
 import AuthenticationActions from './Server/AuthenticationActions';
+import DataMaturityActions from './Server/DataMaturityActions';
 import CsvWriter from './CsvWriter';
 import OAuthAccessor from './Server/OAuthAccessor';
 import WebServices from './Data/WebServices';
-import DmApi from './Data/DmApi';
 const dmApiProxy = require(`./Server/${config.useLocal ? 'LocalDmApiProxyFactory' : 'DmApiProxyFactory'}`).default();
 const webservicesProxy = require('./Server/OAuthWebServicesProxyFactory').default();
-
-function getOAuthManager(returnUrl) {
-    let callback = config.server.rootUrl + 'callback';
-
-    if (returnUrl) {
-        callback += `?returnUrl=${returnUrl}`;
-    }
-
-    return new OAuth.OAuth(
-        config.oAuth.url,
-        config.oAuth.url,
-        config.oAuth.consumerKey,
-        config.oAuth.consumerSecret,
-        '1.0',
-        callback,
-        'HMAC-SHA1'
-    );
-}
 
 const port = config.server.port;
 
@@ -55,39 +35,18 @@ const app = express()
     .get('/dataMaturity.html', (req, res) => res.redirect('/'))
     .get('/dataMaturity.result.html', (req, res) => res.redirect('/result'))
 
-    .put('/save/area', (req, res) => {
-        res.setHeader('Content-Type', 'application/json');
-
-        const oAuthAccessor = new OAuthAccessor(req, res);
-        const oAuth = oAuthAccessor.get();
-
-        if (!oAuth || !oAuth.token || !oAuth.secret) {
-            res.send(JSON.stringify({ success: true, isSignedIn: false, error: 'not signed in' }));
-            return;
-        }
-
-        const webServices = new WebServices(oAuth);
-
-        return webServices
-            .getCurrentArea()
-            .then(area => {
-                if (!area.success) {
-                    res.send(JSON.stringify(area));
-                    return;
-                }
-
-                new DmApi().putArea(area).catch((e) => console.log({ success: false, message: e.message }));
-            });
-
-        res.send(JSON.stringify({ success: true }));
-    })
+    .get('/save/area/list', DataMaturityActions.saveAreaList)
+    .put('/save/area/:identifier', DataMaturityActions.saveArea)
+    .put('/save/area', DataMaturityActions.saveCurrentArea)
 
     // authentication:
     .get('/authentication/status', AuthenticationActions.status)
+    .get('/authentication/log', AuthenticationActions.log)
     .get('/signin', AuthenticationActions.signIn)
     .get('/signout', AuthenticationActions.signOut)
     .get('/callback', AuthenticationActions.callback)
 
+    // misc:
     .post('/csv', (req, res) => {
         const table = req.body;
 

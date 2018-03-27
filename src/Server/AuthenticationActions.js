@@ -111,5 +111,16 @@ export default Object.freeze({
             .catch(error => {
                 res.send(JSON.stringify({ isSignedIn: false, error: error.message }));
             });
+    },
+
+    log: (req, res) => {
+        res.setHeader('Content-Type', 'application/json');
+
+        const oAuthAccessor = new OAuthAccessor(req, res);
+        const oAuth = oAuthAccessor.get();
+
+        console.log(JSON.stringify(oAuth));
+
+        res.send({ message: 'check the logs' });
     }
 });

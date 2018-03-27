@@ -33,6 +33,18 @@ class WebServices {
         });
     }
 
+    getArea(identifier) {
+        return this.get(`areas/${identifier}`)
+            .then(result => {
+                if (result.error || result.data && result.data.errors && result.data.errors.length || !result.data.area)
+                    return { success: false, message: `could not retrieve area ${identifier}` };
+                const area = result.data.area;
+                area.success = true;
+                return area;
+            })
+            .catch(error => ({ success: false, message: 'error', error }));
+    }
+
     getCurrentUser() {
         return this.get('users/current');
     }
@@ -47,16 +59,9 @@ class WebServices {
                     return { success: false, message: 'no organisation' };
                 if (!organisation || !organisation.governs || !organisation.governs.identifier)
                     return { success: false, message: `organisation ${organisation.identifier} does not govern an area` };
-                const identifier = organisation.governs.identifier;                
-                
-                return this.get(`areas/${identifier}`)
-                    .then(result => {
-                        if (result.error || result.data && result.data.errors && result.data.errors.length || !result.data.area)
-                            return { success: false, message: `could not retrieve area ${identifier}` };
-                        const area = result.data.area;
-                        area.success = true;
-                        return area;
-                    });
+                const identifier = organisation.governs.identifier;
+
+                return this.getArea(identifier);
             })
             .catch(error => ({ success: false, message: 'error', error }));
     }
