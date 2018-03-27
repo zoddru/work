@@ -339,20 +339,9 @@ a.expand {
     bottom: 0;
     left: 0;
     right: 0;
-    line-height: 4rem;
+    height: 3rem;
+    line-height: 3rem;
     text-align: center;
-    background-color: #E2E3E7;
-    color: #464B51;
-    transition: 0.15s background-color, color;
-}
-
-.question .answer label:hover {
-    background-color: #d4d6db;
-}
-
-.question .answer.selected label {
-    color: white;
-    background-color: #92278F;
 }
 
 .question .navigation {
@@ -445,18 +434,21 @@ a.expand {
 .category.end .buttons {
     margin-top: 4rem;
     margin-bottom: 4rem;
-}
-
-.category.end .button.result, .category.end .button.organisation {
-    display: block;
     text-align: center;
+    font-size: large;
 }
 
 .category.end .button.result {
+    display: block;
+    text-align: center;
     padding: 2rem;
-    margin-bottom: 2rem;
+    margin-bottom: 3rem;
     font-weight: bold;
-    font-size: large;
+}
+
+.category.end .buttons a.link {
+    color: #92278F;
+    font-weight: bold;
 }
 
 /* .columns */

@@ -24,8 +24,8 @@ export default class End extends React.Component {
                     <RespondentDetails authStatus={authStatus} respondent={respondent} options={options} onRespondentChanged={this.props.onRespondentChanged} />
 
                     <section class="buttons">
-                        <Link className="button result" to={{ pathname: '/result', hash: '#' }}>Take me to my results</Link>
-                        <Link className="button link organisation" to={{ pathname: '/organisation', hash: '#' }}>or take me to the results of my organisation</Link>
+                        <Link className="button active result" to={{ pathname: '/result', hash: '#' }}>Take me to my results</Link>
+                        <Link className="link organisation" to={{ pathname: '/organisation', hash: '#' }}>or take me to the results of my organisation</Link>
                     </section>
 
                     {/* <Result score={score} /> */}
@@ -33,7 +33,7 @@ export default class End extends React.Component {
                 <footer>
                     <div className="navigation">
                         <a href={`#${lastQuestionKey}`}
-                            className="prev button"
+                            className="prev button active"
                             onClick={e => this.props.onPrev(`${lastQuestionKey}`, e)}>Previous</a>
                     </div>
                 </footer>

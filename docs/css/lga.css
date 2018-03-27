@@ -65,9 +65,9 @@ body>header, body>main {
     font-size: 1.6rem;
 }
 
-input[type="button"], input[type="submit"], button, a.button {
-    background-color: #92278F;
-    color: #FFF;
+input[type="button"], input[type="submit"], button, .button {
+    background-color: #E2E3E7;
+    color: #464B51;
     padding: 0.5rem 1rem;
     transition: background-color 0.15s;
     height: inherit;
@@ -76,20 +76,28 @@ input[type="button"], input[type="submit"], button, a.button {
     border-bottom: none;
 }
 
-input[type="button"]:hover, input[type="submit"]:hover, button:hover, a.button:hover {
-    background-color: #6a1c68;
+input[type="button"]:hover, input[type="submit"]:hover, button:hover, .button:hover {
+    background-color: #d4d6db;
     text-decoration: none;
 }
 
-a.button.link {
+input[type="button"].active, input[type="submit"].active, button.active, .button.active {
+    background-color: #92278F;
+    color: #FFF;
+}
+
+input[type="button"].active:hover, input[type="submit"].active:hover, button.active:hover, .button.active:hover {
+    background-color: #6a1c68;
+}
+
+.button.link {
     background-color: transparent;
     color: #92278F;
     transition: color 0.15s;
 }
 
-a.button.link:hover {
+.button.link:hover {
     color: #6a1c68;
-    text-decoration: underline;
 }
 
 a.link {

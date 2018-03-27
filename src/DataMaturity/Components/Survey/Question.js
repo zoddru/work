@@ -33,11 +33,11 @@ export default class Question extends React.Component {
 
         const createAnswer = (a, i) => {
             const isAnswer = a === answer;
-            const className = isAnswer ? 'answer selected' : 'answer';
+            const labelClassName = isAnswer ? 'button active' : 'button';
             
-            return <div key={a.key} className={className}>
+            return <div key={a.key} className="answer">
                 <input id={a.key} name={`${question.key}.answer`} checked={isAnswer} type="radio" value={a.value} onChange={this.selectAnswer.bind(this)} />
-                <label for={a.key}>{a.text}</label>
+                <label for={a.key} className={labelClassName}>{a.text}</label>
             </div>;
         };
 
@@ -78,8 +78,8 @@ export default class Question extends React.Component {
             </main>
             <footer>
                 <div className="navigation">
-                    {<a href={`#${prevQuestionKey}`} className="prev button" onClick={e => this.props.onPrev(`${prevQuestionKey}`, e)}>Previous</a>}
-                    {<a href={`#${nextQuestionKey}`} className="next button" onClick={e => this.props.onNext(`${nextQuestionKey}`, e)}>Next</a>}
+                    {<a href={`#${prevQuestionKey}`} className="prev button active" onClick={e => this.props.onPrev(`${prevQuestionKey}`, e)}>Previous</a>}
+                    {<a href={`#${nextQuestionKey}`} className="next button active" onClick={e => this.props.onNext(`${nextQuestionKey}`, e)}>Next</a>}
                 </div>
             </footer>
         </section>;
