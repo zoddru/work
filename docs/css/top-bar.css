@@ -64,4 +64,55 @@ body>header div.dropdown>div.content {
     width: auto;
     background-color: #410440;
     border: solid 1px #6A217A;
+    transition: opacity 200ms ease-in;
+    opacity: 0;
+}
+
+body>header div.dropdown.open>div.content {
+    opacity: 1;
+}
+
+body>header div.dropdown>div.content a,
+body>header div.dropdown>div.content .label {
+    display: block;
+    padding: 0;
+    margin: 0;
+    line-height: normal;
+}
+
+body>header div.dropdown>div.content a:last-child,
+body>header div.dropdown>div.content .label:last-child {
+    padding-bottom: 0;
+}
+
+body>header div.dropdown>div.content a::before {
+    content: none;
+}
+
+body>header .credentials div.dropdown>div.content {
+    min-width: 23.6rem;
+    text-align: left;
+    right: 0;
+}
+
+body>header .credentials div.dropdown>div.content a,
+body>header .credentials div.dropdown>div.content .label {
+    margin: 2.8rem 0;
+}
+
+body>header .credentials div.dropdown>div.content .label:first-child,
+body>header .credentials div.dropdown>div.content .label.subtle {
+    margin-top: 0;
+    margin-bottom: .8rem; 
+}
+
+body>header .credentials div.dropdown>div.content .label.subtle {
+    color: #959595;
+}
+
+body>header div.dropdown>div.content a.signOut {
+    border-top: 1px solid #6A217A;
+    text-align: center;
+    padding: 2rem 0;
+    margin: 0 -1rem -1rem -1rem;
 }
