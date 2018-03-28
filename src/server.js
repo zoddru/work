@@ -35,9 +35,11 @@ const app = express()
     .get('/dataMaturity.html', (req, res) => res.redirect('/'))
     .get('/dataMaturity.result.html', (req, res) => res.redirect('/result'))
 
-    .get('/save/area/list', DataMaturityActions.saveAreaList)
-    .put('/save/area/:identifier', DataMaturityActions.saveArea)
     .put('/save/area', DataMaturityActions.saveCurrentArea)
+    .put('/save/area/:identifier', DataMaturityActions.saveArea)
+    //.get('/save/area/list', DataMaturityActions.saveAreaList)
+
+    .get('/data/responses', DataMaturityActions.responses)
 
     // authentication:
     .get('/authentication/status', AuthenticationActions.status)

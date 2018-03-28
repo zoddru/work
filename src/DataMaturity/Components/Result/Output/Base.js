@@ -8,31 +8,48 @@ import SimpleTable from './SimpleTable';
 import ResponseAggregator from '../../../Scores/ResponseAggregator';
 import common from '../../../common';
 import { create } from 'domain';
-const responsesCache = common.responsesCache;
+const { filtersCache, responsesCache } = common;
 
 const startSortOrder = { respondent: 1, organisation: 2, role: 3, department: 4 };
 
-const getScoresForOrganisation = (surveyState) => {
+const getFilters = (surveyState) => {
+    const { respondent, created } = surveyState;
+
+    if (!respondent || !respondent.identifier)
+        return Promise.resolve(createFilters(surveyState, surveyState.options));
+
+    const cached = filtersCache.get(respondent.identifier);
+    if (cached && cached.created === created)
+        return Promise.resolve(cached.filters);
+
+    return axios.get(`/dmApi/respondentOptions?respondent=${respondent.identifier}`)
+        .then(r => {
+            const filters = createFilters(surveyState, (r.data || {}));
+            filtersCache.set(respondent.identifier, { created, filters });
+            return filters;
+        });
+};
+
+const getResponses = (surveyState) => {
     const { organisation, created } = surveyState;
 
     if (!organisation || !organisation.identifier)
-        return Promise.resolve({ data: [] });
+        return Promise.resolve([]);
 
     const cached = responsesCache.get(organisation.identifier);
-    if (cached && cached.created === created) {
-        return Promise.resolve({ data: cached.responses });
-    }
+    if (cached && cached.created === created)
+        return Promise.resolve(cached.responses);
 
     return axios.get(`/dmApi/responses?organisation=${organisation.identifier}`)
         .then(r => {
-            const toCache = { created, responses: (r.data || []) };
-            responsesCache.set(organisation.identifier, toCache);
-            return r;
+            const responses = (r.data || []);
+            responsesCache.set(organisation.identifier, { created, responses });
+            return responses;
         });
 };
 
 class TypedItem {
-    constructor (type, item) {
+    constructor(type, item) {
         Object.assign(this, item, { type });
         Object.freeze(this);
     }
@@ -41,6 +58,17 @@ class TypedItem {
         return `${this.type}-${this.identifier}`;
     }
 }
+
+const getInitialSelectedFilters = (respondent, filters) => {
+    if (!respondent || !respondent.identifier)
+        return [];
+    return filters.filter(f =>
+        f.type === 'respondent' ||
+        f.type === 'organisation' ||
+        !!respondent.role && f.type === 'role' && f.key.identifier === respondent.role ||
+        !!respondent.department && f.type === 'department' && f.key.identifier === respondent.department
+    ).sort((a, b) => startSortOrder[a.type] - startSortOrder[b.type]);
+};
 
 const createFilters = (surveyState) => {
 
@@ -92,13 +120,16 @@ export default class Container extends React.Component {
     constructor(props) {
         super(props);
 
-        this.filters = [];
-
         this.state = {
+            selectedFilters: [],
+
+            loadingFilters: false,
+            filters: [],
+            filtersLoaded: false,
+
             loadingResponses: false,
             responses: [],
-            responsesLoaded: false,
-            selectedFilters: []
+            responsesLoaded: false
         };
 
         this.dataPromise = null;
@@ -117,40 +148,31 @@ export default class Container extends React.Component {
     init(props) {
         if (props.surveyState.loading)
             return;
-
-        this.filters = createFilters(props.surveyState);
-
-        this.setState(prevState => {
-            const respondent = props.surveyState.respondent;
-            if (!respondent)
-                return { loadingResponses: true };
-
-            const newState = { loadingResponses: true };
-
-            newState.selectedFilters = this.filters.filter(f => 
-                f.type === 'respondent' || 
-                f.type === 'organisation' ||
-                !!respondent.role && f.type === 'role' && f.key.identifier === respondent.role ||
-                !!respondent.department && f.type === 'department' && f.key.identifier === respondent.department
-            );
-
-            newState.selectedFilters.sort((a, b) => startSortOrder[a.type] - startSortOrder[b.type]);
-
-            return newState;
-        });
-
         this.loadData(props);
     }
 
     loadData(props) {
-        this.dataPromise = getScoresForOrganisation(props.surveyState).then(r => {
+        this.setState(prevState => ({ loadingFilters: true, loadingResponses: true }));
+        
+        const respondent = props.surveyState.respondent;
+        const loadedFilters = filters => {
+            this.setState(prevState => ({ loadingFilters: false, filtersLoaded: true, selectedFilters: getInitialSelectedFilters(respondent, filters) }));
+            return filters;
+        };
+
+        this.dataPromise = Promise.all([
+
+            getFilters(props.surveyState).then(loadedFilters),
+            getResponses(props.surveyState)
+        
+        ]).then(([filters, responses]) => {
             if (this.dataPromise.canceled)
-                return;                
-            const responses = r.data || [];
+                return;
             this.dataPromise = null;
-            this.setState(prevState => ({ loadingResponses: false, responsesLoaded: true, responses }));
+            this.setState(prevState => ({ loadingResponses: false, responsesLoaded: true, filters, responses }));
         });
-        return this.dataPromise;        
+
+        return this.dataPromise;
     }
 
     componentWillMount() {
@@ -169,7 +191,7 @@ export default class Container extends React.Component {
     render() {
         const { surveyState } = this.props;
         const { isSignedIn, authStatus, survey, respondent } = surveyState;
-        const { loadingResponses, selectedFilters } = this.state;
+        const { loadingFilters, loadingResponses, filters, selectedFilters } = this.state;
 
         if (surveyState.loading)
             return <Loading />;
@@ -177,10 +199,11 @@ export default class Container extends React.Component {
         if (!isSignedIn)
             return <NotSignedIn status={authStatus} />;
 
+        if (loadingFilters)
+            return <Loading message="loading filters. please wait..." />;
+
         if (loadingResponses)
             return <Loading message="loading responses. hang on..." />;
-
-        const filters = this.filters;
 
         return <section class="main-content">
             <article>

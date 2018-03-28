@@ -1,4 +1,5 @@
 import config from '../../config.broker';
+import urlParser from 'url';
 import OAuthAccessor from './OAuthAccessor';
 import WebServices from '../Data/WebServices';
 import DmApi from '../Data/DmApi';
@@ -19,7 +20,6 @@ const saveArea = (req, res, loadArea) => {
     loadArea(webServices)
         .then(area => {
             if (!area.success) {
-                res.send(JSON.stringify(area));
                 return;
             }
 
@@ -75,5 +75,38 @@ export default Object.freeze({
 
         res.setHeader('Content-Type', 'application/json');
         res.send(JSON.stringify({ success: true }));
+    },
+
+    responses: (req, res) => {
+        res.setHeader('Content-Type', 'application/json');
+
+        const urlObj = urlParser.parse(req.url, true);
+        const filters = parseFilters(ensureArray(urlObj.query.filter));
+        const types = filters.map(f => f.type).filter((t, i, self) => self.indexOf(t) === i); // distinct
+
+        res.send(JSON.stringify({ success: true, filters, types }));
     }
 });
+
+const ensureArray = (value) => {
+    if (Array.isArray(value))
+        return value;
+    if (typeof(value) === 'undefined')
+        return [];
+    return [value];
+};
+
+const filterRegex = /([^-]+)-(.+)/;
+const parseFilter = (filter) => {
+    const match = filter.match(filterRegex);
+    if (!match)
+        return null;
+    return {
+        type: match[1],
+        identifier: match[2]
+    };
+};
+
+const parseFilters = (filters) => {
+    return filters.map(parseFilter).filter(f => !!f);
+};
