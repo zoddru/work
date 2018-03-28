@@ -70,10 +70,10 @@ const getInitialSelectedFilters = (respondent, filters) => {
     ).sort((a, b) => startSortOrder[a.type] - startSortOrder[b.type]);
 };
 
-const createFilters = (surveyState) => {
+const createFilters = (surveyState, options) => {
 
-    const { respondent, organisation, options } = surveyState;
-    const { departments, roles, areaGroupTypes } = options;
+    const { respondent, organisation } = surveyState;
+    const { departments, roles, areaGroups } = options;
     const { department, role } = respondent;
 
     const filters = [
@@ -92,9 +92,9 @@ const createFilters = (surveyState) => {
             filter: v => v.respondent.department === d.identifier
         }))
     ).concat(
-        areaGroupTypes.map(agt => ({
-            key: new TypedItem('areaGroupType', agt),
-            filter: v => v.areaGroupType === agt.identifier
+        areaGroups.map(ag => ({
+            key: new TypedItem('areaGroup', ag),
+            filter: v => v.areaGroup === ag.identifier
         }))
     );
 
