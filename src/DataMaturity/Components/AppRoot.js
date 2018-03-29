@@ -79,8 +79,9 @@ const getSurvey = () => {
 };
 
 const getNewSaveDataResponse = ({ identifier, email, organisation }) => {
+    const area = organisation && organisation.governs && organisation.governs.identifier; 
     return {
-        respondent: { identifier, email, organisation: organisation && organisation.identifier },
+        respondent: { identifier, email, organisation: organisation && organisation.identifier, area },
         responses: []
     };
 };
