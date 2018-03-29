@@ -57,6 +57,12 @@ class TypedItem {
     get key() {
         return `${this.type}-${this.identifier}`;
     }
+
+    equals(item) {
+        if (!item)
+            return false;
+        return this.type === item.type && this.identifier === item.identifier;
+    }
 }
 
 const getInitialSelectedFilters = (respondent, filters) => {
@@ -79,28 +85,33 @@ const createFilters = (surveyState, options) => {
     const filters = [
         {
             key: new TypedItem('respondent', { identifier: respondent.identifier, label: 'My score' }),
+            local: true,
             filter: v => v.respondent.identifier === respondent.identifier
         }
     ].concat(
         roles.map(r => ({
             key: new TypedItem('role', r),
+            local: true,
             filter: v => v.respondent.role === r.identifier
         }))
     ).concat(
         departments.map(d => ({
             key: new TypedItem('department', d),
+            local: true,
             filter: v => v.respondent.department === d.identifier
         }))
     ).concat(
         areaGroups.map(ag => ({
             key: new TypedItem('areaGroup', ag),
-            filter: v => v.areaGroup === ag.identifier
+            local: false,
+            filter: v => false
         }))
     );
 
     if (organisation) {
         filters.push({
             key: new TypedItem('organisation', { identifier: organisation.identifier, label: organisation.shortLabel || organisation.label }),
+            local: true,
             filter: v => v.respondent.organisation === organisation.identifier
         });
     }
@@ -129,8 +140,14 @@ export default class Container extends React.Component {
 
             loadingResponses: false,
             responses: [],
-            responsesLoaded: false
+            responsesLoaded: false,
+
+            externalAggregatedScoresMap: new Map()
         };
+
+        this.state.externalAggregatedScoresMap.set('areaGroup-Essex_CIPFA_Near_Neighbours', {
+
+        });
 
         this.dataPromise = null;
     }
@@ -249,6 +266,13 @@ export default class Container extends React.Component {
         const { responses, selectedFilters } = this.state;
 
         const aggregator = new ResponseAggregator({ survey, responses });
-        return aggregator.multipleByCategory(selectedFilters);
+        const localAggregatedScores = aggregator.multipleByCategory(selectedFilters);
+
+        console.log(localAggregatedScores.map(s => s.serialize()));
+        console.log(selectedFilters.filter(f => !f.local).map(f => f.key.key));
+
+        const aggregatedScores = localAggregatedScores; // todo merge with loaded external scores
+
+        return aggregatedScores;
     }
 }

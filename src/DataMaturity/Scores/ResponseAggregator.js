@@ -7,7 +7,7 @@ const getMean = function () { return this.numberOfValid > 0 ? (this.sum / this.n
 const aggregateByCategory = function (filter) {
     const allResponses = this.responses;
 
-    let byCategory = this.survey.categories
+    const byCategory = this.survey.categories
         .map(category => ({ category, numberThatAreBuggy: 0, numberNotKnown: 0, numberNotUnderstood: 0, numberOfValid: 0, sum: 0 }))
         .reduce((obj, agg) => {
             obj[agg.category.identifier] = agg;
@@ -63,6 +63,31 @@ class AggregatedScore {
     }
 }
 
+class OverallAggregatedScore extends AggregatedScore {
+    constructor(props) {
+        super(props);
+        Object.freeze(this);
+    }
+
+    serialize(aggregatedScore) {
+        const { key, categoryScores, numberOfValid, sum } = this;
+    
+        const serializedCategroyScores = categoryScores.map(cs => {
+            const { category, numberThatAreBuggy, numberNotKnown, numberNotUnderstood, numberOfValid, sum } = cs;
+            return {
+                category: { identifier: category.identifier, label: category.label, survey: { identifier: category.survey.identifier } }, 
+                numberThatAreBuggy, 
+                numberNotKnown, 
+                numberNotUnderstood, 
+                numberOfValid, 
+                sum
+            }
+        });
+    
+        return { key, categoryScores: serializedCategroyScores, numberOfValid, sum };
+    }
+}
+
 export default class ResponseAggregator {
     constructor({
         survey = { categories: [] },
@@ -75,11 +100,12 @@ export default class ResponseAggregator {
 
     byCategory({ key, filter }) {
         const byCategory = aggregateByCategory.call(this, filter);
+        console.log(byCategory);
         const categoryScores = Object.values(byCategory).map(s => new AggregatedScore(s));
 
         const { sum, numberOfValid } = CategoryScore.sumValid(categoryScores);
 
-        return new AggregatedScore({
+        return new OverallAggregatedScore({
             key,
             categoryScores,
             numberOfValid,
@@ -88,7 +114,10 @@ export default class ResponseAggregator {
     }
 
     multipleByCategory(filters) { // { key: { identifier, label }, filter }
-        const self = this;
-        return filters.map(f => self.byCategory(f));
+        return filters.map(f => this.byCategory(f));
+    }
+
+    deserializeResult(aggregatedScore) {
+        //this.survey.categories.
     }
 }
