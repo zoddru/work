@@ -22,7 +22,7 @@ const getFilters = (surveyState) => {
     if (cached && cached.created === created)
         return Promise.resolve(cached.filters);
 
-    return axios.get(`/dmApi/respondentOptions?respondent=${respondent.identifier}`)
+    return axios.get(`/data/currentResponseOptions`)
         .then(r => {
             const filters = createFilters(surveyState, (r.data || {}));
             filtersCache.set(respondent.identifier, { created, filters });

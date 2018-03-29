@@ -18,12 +18,13 @@ export default class DmApi {
         return `${scheme}://${host}/${path}`;
     }
 
-    get(path) {
+    get(path, params) {
         const url = this.getUrl(path);
         return axios({
             method: 'get',
             timeout: 5000,
-            url: url
+            url,
+            params
         });
     }
 
@@ -39,5 +40,9 @@ export default class DmApi {
 
     putArea(area) {
         return this.put('area', area);
+    }
+
+    getResponseOptions({ owner } = {}) {
+        return this.get('respondentOptions', { owner });
     }
 }

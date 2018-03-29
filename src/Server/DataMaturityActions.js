@@ -4,18 +4,29 @@ import OAuthAccessor from './OAuthAccessor';
 import WebServices from '../Data/WebServices';
 import DmApi from '../Data/DmApi';
 
+const isCompleteOAuth = (oAuth) => {
+    return oAuth && oAuth.token && !!oAuth.secret;
+};
+
+const getWebServices = (req, res) => {
+    const oAuth = new OAuthAccessor(req, res).get();
+
+    if (!isCompleteOAuth(oAuth)) {
+        return false;
+    }
+
+    return new WebServices(oAuth);
+};
+
 const saveArea = (req, res, loadArea) => {
     res.setHeader('Content-Type', 'application/json');
 
-    const oAuthAccessor = new OAuthAccessor(req, res);
-    const oAuth = oAuthAccessor.get();
+    const webServices = getWebServices(req, res);
 
-    if (!oAuth || !oAuth.token || !oAuth.secret) {
-        res.send(JSON.stringify({ success: true, isSignedIn: false, error: 'not signed in' }));
+    if (!webServices) {
+        res.send({ success: true, isSignedIn: false, message: 'not signed in' });
         return;
     }
-
-    const webServices = new WebServices(oAuth);
 
     loadArea(webServices)
         .then(area => {
@@ -26,16 +37,47 @@ const saveArea = (req, res, loadArea) => {
             new DmApi().putArea(area).catch((e) => console.log({ success: false, message: e.message }));
         });
 
-    res.send(JSON.stringify({ success: true }));
+    res.send({ success: true });
+};
+
+const getCurrentResponseOptions = (req, res) => {
+    const webServices = getWebServices(req, res);
+
+    if (!webServices) {
+        return new DmApi().getResponseOptions();
+    }
+
+    return webServices.getCurrentUser()
+        .then(result => {
+            const user = result.data.user;
+
+            if (!user || !user.organisation || !user.organisation.governs || !user.organisation.governs.identifier) {
+                return new DmApi().getResponseOptions();
+            }
+
+            const owner = user.organisation.governs.identifier;
+            return new DmApi().getResponseOptions({ owner });
+        });
 };
 
 export default Object.freeze({
     saveArea: (req, res) => {
-        console.log(req.params.identifier);
         saveArea(req, res, ws => ws.getArea(req.params.identifier));
     },
 
     saveCurrentArea: (req, res) => saveArea(req, res, ws => ws.getCurrentArea()),
+
+    currentResponseOptions: (req, res) => {
+        res.setHeader('Content-Type', 'application/json');
+
+        getCurrentResponseOptions(req, res)
+            .then(result => {
+                res.send(result.data)
+            })
+            .catch(error => {
+                res.send({ error: true, message: error.message, stack: error.stack });
+            });
+    },
 
     saveAreaList: (req, res) => {
 
@@ -43,7 +85,7 @@ export default Object.freeze({
         const oAuth = oAuthAccessor.get();
 
         if (!oAuth || !oAuth.token || !oAuth.secret) {
-            res.send(JSON.stringify({ success: true, isSignedIn: false, error: 'not signed in' }));
+            res.send({ success: true, isSignedIn: false, error: 'not signed in' });
             return;
         }
 
@@ -68,13 +110,13 @@ export default Object.freeze({
         const putArea = a => {
             console.log(a.identifier);
             dmApi.putArea(a)
-            .catch((e) => console.log('error: ' + e.message));
+                .catch((e) => console.log('error: ' + e.message));
         };
 
         list.forEach(a => webServices.getArea(a).then(putArea));
 
         res.setHeader('Content-Type', 'application/json');
-        res.send(JSON.stringify({ success: true }));
+        res.send({ success: true });
     },
 
     responses: (req, res) => {
@@ -84,14 +126,14 @@ export default Object.freeze({
         const filters = parseFilters(ensureArray(urlObj.query.filter));
         const types = filters.map(f => f.type).filter((t, i, self) => self.indexOf(t) === i); // distinct
 
-        res.send(JSON.stringify({ success: true, filters, types }));
+        res.send({ success: true, filters, types });
     }
 });
 
 const ensureArray = (value) => {
     if (Array.isArray(value))
         return value;
-    if (typeof(value) === 'undefined')
+    if (typeof (value) === 'undefined')
         return [];
     return [value];
 };

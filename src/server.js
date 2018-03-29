@@ -40,6 +40,7 @@ const app = express()
     //.get('/save/area/list', DataMaturityActions.saveAreaList)
 
     .get('/data/responses', DataMaturityActions.responses)
+    .get('/data/currentResponseOptions', DataMaturityActions.currentResponseOptions)
 
     // authentication:
     .get('/authentication/status', AuthenticationActions.status)

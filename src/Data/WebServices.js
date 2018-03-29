@@ -12,7 +12,7 @@ const oAuthManager = new OAuth.OAuth(
     'HMAC-SHA1'
 );
 
-class WebServices {
+export default class WebServices {
     constructor({ token, secret }) {
         this.root = config.webservices.root;
         this.token = token;
@@ -66,5 +66,3 @@ class WebServices {
             .catch(error => ({ success: false, message: 'error', error }));
     }
 }
-
-module.exports = WebServices;
