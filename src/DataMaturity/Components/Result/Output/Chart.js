@@ -213,39 +213,3 @@ export default class Chart extends Base {
         };
     }
 }
-
-const fakeScores = [
-    {
-        categoryScores: [
-            {
-                category: { identifier: "Management", label: "Data Management", sort: 1 },
-                mean: 1.8,
-                numberNotKnown: 0,
-                numberNotUnderstood: 0,
-                hasMean: true,
-                isValid: true,
-                meanDisplayName: "1.8",
-                rankLabel: ScoreProperties.getBandLabel(1.8)
-            },
-            {
-                category: { identifier: "Use", label: "Data Use", sort: 2 },
-                mean: 5,
-                numberNotKnown: 0,
-                numberNotUnderstood: 0,
-                hasMean: true,
-                isValid: true,
-                meanDisplayName: "5.0",
-                rankLabel: ScoreProperties.getBandLabel(5)
-            }
-        ],
-        key: { identifier: "1a33f4bb-8a7a-4447-9808-9f1199ff2dc4", label: "My score", type: "respondent" },
-        mean: 3,
-        numberOfValid: 5,
-        sum: 15,
-        hasMean: true,
-        isValid: true,
-        meanDisplayName: "3.0",
-        offsetMean: 2.2,
-        rankLabel: "Intermediate"
-    }
-];

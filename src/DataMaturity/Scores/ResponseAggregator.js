@@ -61,6 +61,12 @@ class AggregatedScore {
         this.mean = getMean.apply(this);
         Object.freeze(this);
     }
+
+    get simplified() {
+        const { category, numberThatAreBuggy, numberNotKnown, numberNotUnderstood, numberOfValid, sum } = this;
+        const { identifier, label, survey } = category;
+        return { category: { identifier, label, survey: { identifier: survey.identifier, label: survey.label } }, numberThatAreBuggy, numberNotKnown, numberNotUnderstood, numberOfValid, sum };
+    }
 }
 
 class OverallAggregatedScore extends AggregatedScore {
@@ -69,22 +75,15 @@ class OverallAggregatedScore extends AggregatedScore {
         Object.freeze(this);
     }
 
-    serialize(aggregatedScore) {
+    get simplified() {
         const { key, categoryScores, numberOfValid, sum } = this;
-    
-        const serializedCategroyScores = categoryScores.map(cs => {
-            const { category, numberThatAreBuggy, numberNotKnown, numberNotUnderstood, numberOfValid, sum } = cs;
-            return {
-                category: { identifier: category.identifier, label: category.label, survey: { identifier: category.survey.identifier } }, 
-                numberThatAreBuggy, 
-                numberNotKnown, 
-                numberNotUnderstood, 
-                numberOfValid, 
-                sum
-            }
-        });
-    
-        return { key, categoryScores: serializedCategroyScores, numberOfValid, sum };
+
+        return {
+            key,
+            categoryScores: categoryScores.map(cs => cs.simplified),
+            numberOfValid,
+            sum
+        };
     }
 }
 
@@ -100,7 +99,6 @@ export default class ResponseAggregator {
 
     byCategory({ key, filter }) {
         const byCategory = aggregateByCategory.call(this, filter);
-        console.log(byCategory);
         const categoryScores = Object.values(byCategory).map(s => new AggregatedScore(s));
 
         const { sum, numberOfValid } = CategoryScore.sumValid(categoryScores);
@@ -113,11 +111,27 @@ export default class ResponseAggregator {
         });
     }
 
-    multipleByCategory(filters) { // { key: { identifier, label }, filter }
-        return filters.map(f => this.byCategory(f));
+    unsimplify(simplified) {
+        const survey = this.survey;
+        const simplifiedCategoryScores = simplified.categoryScores;
+        
+        const categoryScores = simplifiedCategoryScores.map(cs => {
+            const category = survey.categories.find(c => c.identifier === cs.category.identifier);
+            const { numberThatAreBuggy, numberNotKnown, numberNotUnderstood, numberOfValid, sum } = cs;
+            return new AggregatedScore({ category, numberThatAreBuggy, numberNotKnown, numberNotUnderstood, numberOfValid, sum });
+        });
+
+        const { key, sum, numberOfValid } = simplified;
+
+        return new OverallAggregatedScore({
+            key,
+            categoryScores,
+            numberOfValid,
+            sum
+        });
     }
 
-    deserializeResult(aggregatedScore) {
-        //this.survey.categories.
+    multipleByCategory(filters) { // { key: { identifier, label }, filter }
+        return filters.map(f => this.byCategory(f));
     }
 }

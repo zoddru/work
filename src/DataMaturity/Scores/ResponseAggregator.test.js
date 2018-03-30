@@ -1,6 +1,7 @@
 import test from 'ava';
 import Survey from '../Survey';
 import ResponseAggregator from './ResponseAggregator';
+import util from 'util';
 
 {
     const surveyData = require('../Testing/surveyData.3.json');
@@ -26,7 +27,7 @@ import ResponseAggregator from './ResponseAggregator';
         ]);
 
         t.is(scores.length, 1);
-        
+
         const score = scores[0];
         t.is(score.key, 'the key');
     });
@@ -70,8 +71,7 @@ import ResponseAggregator from './ResponseAggregator';
 
     const getToResponentsResults = () => {
         const score = scoreAggregator.byCategory({
-            identifier: 'aggregator identifier',
-            label: 'aggregator label',
+            key: 'the key',
             filter: r => r.respondent.identifier === '1a33f4bb-8a7a-4447-9808-9f1199ff2dc4' || r.respondent.identifier === '48c292a1-c8f6-4df0-9576-68bacee119bc'
         });
 
@@ -81,9 +81,9 @@ import ResponseAggregator from './ResponseAggregator';
     };
 
     test('two respondents - average valid results', t => {
-        
+
         const { score, lookup } = getToResponentsResults();
-        
+
         t.truthy(score.mean);
 
         t.is(lookup.Management.numberOfValid, 7); // 4 + 3
@@ -94,7 +94,7 @@ import ResponseAggregator from './ResponseAggregator';
     });
 
     test('two respondents - overall invalid results are still counted when summing', t => {
-        
+
         const { score, lookup } = getToResponentsResults();
 
         t.is(lookup.Use.mean, (3 * 2 + 5 * 4) / 6);
@@ -102,7 +102,7 @@ import ResponseAggregator from './ResponseAggregator';
     });
 
     test('two respondents - one respondent has no answers, does not affect average', t => {
-        
+
         const { score, lookup } = getToResponentsResults();
 
         t.is(lookup.Skills.numberOfValid, 4);
@@ -111,11 +111,83 @@ import ResponseAggregator from './ResponseAggregator';
     });
 
     test('two respondents - no answers, score is invalid', t => {
-        
+
         const { score, lookup } = getToResponentsResults();
-        
+
         t.is(lookup.Culture.numberOfValid, 0);
         t.false(lookup.Culture.isValid);
         t.false(lookup.Culture.hasMean);
+    });
+
+    test('simplified - can be stringify for serialization', t => {
+        
+        const { score, lookup } = getToResponentsResults();
+        const simplified = score.simplified;
+
+        t.notThrows(() => JSON.stringify(simplified));
+    });
+
+    test('simplified - values look correct', t => {
+        
+        const { score, lookup } = getToResponentsResults();
+        const simplified = score.simplified;
+
+        t.is(simplified.numberOfValid, score.numberOfValid);
+        t.is(simplified.sum, score.sum);
+        
+        t.truthy(simplified.key);
+        t.is(simplified.key, score.key);
+
+        t.truthy(simplified.categoryScores);
+        t.is(simplified.categoryScores.length, score.categoryScores.length);
+        
+        for (let i = 0; i < score.categoryScores.length; i += 1) {
+            t.is(simplified.categoryScores[i].numberNotKnown, score.categoryScores[i].numberNotKnown);
+            t.is(simplified.categoryScores[i].numberNotUnderstood, score.categoryScores[i].numberNotUnderstood);
+            t.is(simplified.categoryScores[i].numberOfValid, score.categoryScores[i].numberOfValid);
+            t.is(simplified.categoryScores[i].sum, score.categoryScores[i].sum);
+            t.is(simplified.categoryScores[i].sum, score.categoryScores[i].sum);
+            const simplifiedCategory = simplified.categoryScores[i].category;
+            const category = score.categoryScores[i].category;
+            t.truthy(simplifiedCategory);
+            t.is(simplifiedCategory.identifier, category.identifier);
+            t.is(simplifiedCategory.survey.identifier, category.survey.identifier);
+        }
+    });
+
+    test('simplified - can convert back to proper object', t => {
+
+        const { score, lookup } = getToResponentsResults();
+        const simplified = score.simplified;
+
+        const unsimplified = scoreAggregator.unsimplify(simplified);
+
+        t.truthy(unsimplified);
+
+        t.is(unsimplified.numberOfValid, score.numberOfValid);
+        t.is(unsimplified.sum, score.sum);
+        
+        t.truthy(unsimplified.key);
+        t.is(unsimplified.key, score.key);
+
+        t.truthy(unsimplified.categoryScores);
+        t.is(unsimplified.categoryScores.length, score.categoryScores.length);
+        
+        for (let i = 0; i < score.categoryScores.length; i += 1) {
+            t.is(unsimplified.categoryScores[i].numberNotKnown, score.categoryScores[i].numberNotKnown);
+            t.is(unsimplified.categoryScores[i].numberNotUnderstood, score.categoryScores[i].numberNotUnderstood);
+            t.is(unsimplified.categoryScores[i].numberOfValid, score.categoryScores[i].numberOfValid);
+            t.is(unsimplified.categoryScores[i].sum, score.categoryScores[i].sum);
+            t.is(unsimplified.categoryScores[i].sum, score.categoryScores[i].sum);
+            t.is(unsimplified.categoryScores[i].category, score.categoryScores[i].category);
+
+            // the real test:
+            t.true(unsimplified.categoryScores[i] instanceof score.categoryScores[i].constructor);
+            t.is(unsimplified.categoryScores[i].mean, score.categoryScores[i].mean);
+        }
+
+        // the real test:
+        t.true(unsimplified instanceof score.constructor);
+        t.is(unsimplified.mean, score.mean);
     });
 }

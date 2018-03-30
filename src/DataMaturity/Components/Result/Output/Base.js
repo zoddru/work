@@ -268,9 +268,6 @@ export default class Container extends React.Component {
         const aggregator = new ResponseAggregator({ survey, responses });
         const localAggregatedScores = aggregator.multipleByCategory(selectedFilters);
 
-        console.log(localAggregatedScores.map(s => s.serialize()));
-        console.log(selectedFilters.filter(f => !f.local).map(f => f.key.key));
-
         const aggregatedScores = localAggregatedScores; // todo merge with loaded external scores
 
         return aggregatedScores;

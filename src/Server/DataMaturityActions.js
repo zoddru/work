@@ -108,7 +108,6 @@ export default Object.freeze({
 
         const dmApi = new DmApi();
         const putArea = a => {
-            console.log(a.identifier);
             dmApi.putArea(a)
                 .catch((e) => console.log('error: ' + e.message));
         };
