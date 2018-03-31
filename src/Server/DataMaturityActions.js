@@ -2,6 +2,8 @@ import config from '../../config.broker';
 import urlParser from 'url';
 import OAuthAccessor from './OAuthAccessor';
 import WebServices from '../Data/WebServices';
+import ResponseFilters from '../DataMaturity/Scores/ResponseFilters';
+import ResponseAggregator from '../DataMaturity/Scores/ResponseAggregator';
 import DmApi from '../Data/DmApi';
 
 const isCompleteOAuth = (oAuth) => {
@@ -43,20 +45,47 @@ const saveArea = (req, res, loadArea) => {
 const getCurrentResponseOptions = (req, res) => {
     const webServices = getWebServices(req, res);
 
-    if (!webServices) {
+    if (!webServices)
         return new DmApi().getResponseOptions();
-    }
 
     return webServices.getCurrentUser()
         .then(result => {
             const user = result.data.user;
 
-            if (!user || !user.organisation || !user.organisation.governs || !user.organisation.governs.identifier) {
+            if (!user || !user.organisation || !user.organisation.governs || !user.organisation.governs.identifier)
                 return new DmApi().getResponseOptions();
-            }
 
             const owner = user.organisation.governs.identifier;
             return new DmApi().getResponseOptions({ owner });
+        });
+};
+
+const getAllResponses = (req, res) => {
+    const webServices = getWebServices(req, res);
+    const failure = Promise.resolve({ failure: true });
+
+    if (!webServices)
+        return failure;
+
+    return webServices.getCurrentUser()
+        .then(result => {
+            const user = result.data.user;
+
+            if (!user || !user.organisation || !user.organisation.governs || !user.organisation.governs.identifier)
+                return failure;
+
+            const organisation = user.organisation;
+            const owner = user.organisation.governs.identifier;
+            const dmApi = new DmApi();
+
+            return Promise.all([
+                dmApi.getSurvey(),
+                dmApi.getResponseOptions({ owner }),
+                dmApi.getResponses({ owner })
+            ])
+                .then(([ res1, res2, res3 ]) => { 
+                    return { user, organisation, survey: res1.data, responseOptions: res2.data, responses: res3.data };
+                });
         });
 };
 
@@ -122,10 +151,28 @@ export default Object.freeze({
         res.setHeader('Content-Type', 'application/json');
 
         const urlObj = urlParser.parse(req.url, true);
-        const filters = parseFilters(ensureArray(urlObj.query.filter));
-        const types = filters.map(f => f.type).filter((t, i, self) => self.indexOf(t) === i); // distinct
+        const desiredFilters = ensureArray(urlObj.query.filter);
+        
+        getAllResponses(req, res)
+            .then(data => {
+                const { failure, responseOptions, user, organisation, survey, responses } = data;
+                                
+                if (failure) {
+                    res.send([]);
+                    return;
+                }
 
-        res.send({ success: true, filters, types });
+                const allFilters = ResponseFilters.create(Object.assign({ respondent: user, organisation }, responseOptions));
+                const aggregator = new ResponseAggregator({ survey, responses });
+                
+                const filters = allFilters.filter(f => !!desiredFilters.find(df => f.key.key === df));
+                const results = filters.map(f => aggregator.byCategory(f));
+
+                res.send(results);
+            })
+            .catch(error => {
+                res.send({ success: false, message: error.message, stack: error.stack });
+            });
     }
 });
 
@@ -138,6 +185,7 @@ const ensureArray = (value) => {
 };
 
 const filterRegex = /([^-]+)-(.+)/;
+
 const parseFilter = (filter) => {
     const match = filter.match(filterRegex);
     if (!match)

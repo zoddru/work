@@ -6,6 +6,7 @@ import Loading from '../../Loading';
 import NotSignedIn from '../../NotSignedIn';
 import SimpleTable from './SimpleTable';
 import ResponseAggregator from '../../../Scores/ResponseAggregator';
+import ResponseFilters from '../../../Scores/ResponseFilters';
 import common from '../../../common';
 import { create } from 'domain';
 const { filtersCache, responsesCache } = common;
@@ -48,83 +49,20 @@ const getResponses = (surveyState) => {
         });
 };
 
-class TypedItem {
-    constructor(type, item) {
-        Object.assign(this, item, { type });
-        Object.freeze(this);
-    }
-
-    get key() {
-        return `${this.type}-${this.identifier}`;
-    }
-
-    equals(item) {
-        if (!item)
-            return false;
-        return this.type === item.type && this.identifier === item.identifier;
-    }
-}
-
 const getInitialSelectedFilters = (respondent, filters) => {
     if (!respondent || !respondent.identifier)
         return [];
     return filters.filter(f =>
-        f.type === 'respondent' ||
-        f.type === 'organisation' ||
+        f.type === 'default' ||
         !!respondent.role && f.type === 'role' && f.key.identifier === respondent.role ||
         !!respondent.department && f.type === 'department' && f.key.identifier === respondent.department
     ).sort((a, b) => startSortOrder[a.type] - startSortOrder[b.type]);
 };
 
 const createFilters = (surveyState, options) => {
-
     const { respondent, organisation } = surveyState;
     const { departments, roles, areaGroups } = options;
-    const { department, role } = respondent;
-
-    const filters = [
-        {
-            key: new TypedItem('respondent', { identifier: respondent.identifier, label: 'My score' }),
-            local: true,
-            filter: v => v.respondent.identifier === respondent.identifier
-        }
-    ].concat(
-        roles.map(r => ({
-            key: new TypedItem('role', r),
-            local: true,
-            filter: v => v.respondent.role === r.identifier
-        }))
-    ).concat(
-        departments.map(d => ({
-            key: new TypedItem('department', d),
-            local: true,
-            filter: v => v.respondent.department === d.identifier
-        }))
-    ).concat(
-        areaGroups.map(ag => ({
-            key: new TypedItem('areaGroup', ag),
-            local: false,
-            filter: v => false
-        }))
-    );
-
-    if (organisation) {
-        filters.push({
-            key: new TypedItem('organisation', { identifier: organisation.identifier, label: organisation.shortLabel || organisation.label }),
-            local: true,
-            filter: v => v.respondent.organisation === organisation.identifier
-        });
-    }
-
-    filters.forEach(f => {
-        f.value = f.key.key;
-        f.type = f.key.type;
-        f.label = f.key.label;
-    });
-
-    filters.sort((a, b) => a.label < b.label ? -1 : 1);
-
-    return filters;
+    return ResponseFilters.create({ respondent, organisation, departments, roles, areaGroups });
 };
 
 export default class Container extends React.Component {
@@ -140,14 +78,8 @@ export default class Container extends React.Component {
 
             loadingResponses: false,
             responses: [],
-            responsesLoaded: false,
-
-            externalAggregatedScoresMap: new Map()
+            responsesLoaded: false
         };
-
-        this.state.externalAggregatedScoresMap.set('areaGroup-Essex_CIPFA_Near_Neighbours', {
-
-        });
 
         this.dataPromise = null;
     }

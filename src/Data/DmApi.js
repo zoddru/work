@@ -42,7 +42,15 @@ export default class DmApi {
         return this.put('area', area);
     }
 
+    getSurvey() {
+        return this.get('survey');
+    }
+
     getResponseOptions({ owner } = {}) {
         return this.get('respondentOptions', { owner });
+    }
+
+    getResponses({ owner } = {}) {
+        return this.get('responses', { owner });
     }
 }
