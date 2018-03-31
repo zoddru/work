@@ -97,7 +97,7 @@ export default class Container extends React.Component {
         return this.dataPromise;
     }
 
-    componentWillMount() {
+    componentDidMount() {
         const { loadingResponses, responsesLoaded } = this.state;
         if (loadingResponses || responsesLoaded)
             return;
