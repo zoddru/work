@@ -11,7 +11,7 @@ import common from '../../../common';
 import { create } from 'domain';
 const { filtersCache, responsesCache } = common;
 
-const startSortOrder = { respondent: 1, organisation: 2, role: 3, department: 4 };
+const startSortOrder = { respondent: 1, role: 2, department: 3, organisation: 4 };
 
 const getFilters = (surveyState) => {
     const { respondent, created } = surveyState;
@@ -53,7 +53,7 @@ const getInitialSelectedFilters = (respondent, filters) => {
     if (!respondent || !respondent.identifier)
         return [];
     return filters.filter(f =>
-        f.type === 'default' ||
+        f.key.identifier === 'default' ||
         !!respondent.role && f.type === 'role' && f.key.identifier === respondent.role ||
         !!respondent.department && f.type === 'department' && f.key.identifier === respondent.department
     ).sort((a, b) => startSortOrder[a.type] - startSortOrder[b.type]);
