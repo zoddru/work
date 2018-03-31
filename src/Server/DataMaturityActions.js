@@ -165,7 +165,7 @@ export default Object.freeze({
                 const allFilters = ResponseFilters.create(Object.assign({ respondent: user, organisation }, responseOptions));
                 const aggregator = new ResponseAggregator({ survey, responses });
                 
-                const filters = allFilters.filter(f => !!desiredFilters.find(df => f.key.key === df));
+                const filters = desiredFilters.map(df => allFilters.find(f => f.key.key === df)).filter(f => !!f);
                 const results = filters.map(f => aggregator.byCategory(f));
 
                 res.send(results);
