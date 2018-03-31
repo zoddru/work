@@ -39,7 +39,7 @@ const app = express()
     .put('/save/area/:identifier', DataMaturityActions.saveArea)
     //.get('/save/area/list', DataMaturityActions.saveAreaList)
 
-    .get('/data/responses', DataMaturityActions.responses)
+    .get('/data/scores', DataMaturityActions.scores)
     .get('/data/currentResponseOptions', DataMaturityActions.currentResponseOptions)
 
     // authentication:

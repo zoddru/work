@@ -6,106 +6,11 @@ import ScoreProperties from '../../../Scores/ScoreProperties';
 
 const colors = ['#B43F6B', '#737D27', '#CF7B25', '#8EAA94', '#C7B757', '#0056b3', '#f8c27c', '#c2a0f5', '#acd5b6', '#83128d', '#d75466', '#e3125c', '#422d5e', '#17a2b8', '#076443', '#ffb3dc', '#ff9e45', '#72ba3a', '#f0d000', '#5e8579', '#343a40'];
 
-const overallScoreModes = [
-    { value: 'line', label: 'Show overall scores as lines' },
-    { value: 'column', label: 'Show overall scores as bars' },
-    { value: 'none', label: 'Hide overall scores' }
-];
-
-const getColorMap = (scores) => {
-    const colorMap = new Map();
-    scores.forEach((s, i) => colorMap.set(s, colors[i % colors.length]));
-    return colorMap;
-};
-
-const getSeries = (scores, colorMap, categories, overallScoreMode) => {
-    const series = scores.map(s => {
-        const data = [];
-        const color = colorMap.get(s);
-
-        categories.forEach(c => {
-            const cs = s.categoryScores.find(cs => cs.category.identifier === c.identifier);
-            if (!cs)
-                return;
-            data.push({ y: cs.mean, score: cs });
-        });
-
-        if (overallScoreMode === 'column') {
-            data.push({ y: s.mean, score: s });
-        }
-
-        return {
-            name: s.key.label,
-            data: data,
-            color
-        };
-    });
-
-    if (overallScoreMode !== 'line')
-        return series;
-
-    return series.concat(scores.map(score => {
-        const color = colorMap.get(score);
-        const y = score.mean;
-        const category = 'Overall';
-        return {
-            type: 'line',
-            showInLegend: false,
-            name: score.key.label,
-            xAxis: 1,
-            data: [{
-                y,
-                x: -10, // off the chart to the left
-                score,
-                category
-            }, {
-                y,
-                x: 0.5, // the center of the chart
-                score,
-                category
-            }, {
-                y,
-                x: 20, // off the chart to the right
-                score,
-                category
-            }],
-            color
-        };
-    }));
-};
-
-const getXAxis = (categories, overallScoreMode) => {
-    const chartCategories = categories.map(c => c.identifier).concat(['Overall']);
-
-    if (overallScoreMode !== 'line')
-        return { categories: chartCategories };
-
-    return [
-        { categories: chartCategories },
-        {
-            min: 0,
-            max: 1,
-            type: 'linear',
-            lineWidth: 0,
-            gridLineWidth: 0,
-            minorGridLineWidth: 0,
-            lineColor: 'transparent',
-            labels: {
-                enabled: false
-            },
-            minorTickLength: 0,
-            tickLength: 0
-        }
-    ];
-};
-
 export default class Chart extends Base {
     constructor(props) {
         super(props);
 
-        this.state = {
-            overallScoreMode: 'line'
-        };
+        this.state.overallScoreMode = 'line';
     }
 
     changeOverallScoreMode(item) {
@@ -213,3 +118,96 @@ export default class Chart extends Base {
         };
     }
 }
+
+const overallScoreModes = [
+    { value: 'line', label: 'Show overall scores as lines' },
+    { value: 'column', label: 'Show overall scores as bars' },
+    { value: 'none', label: 'Hide overall scores' }
+];
+
+const getColorMap = (scores) => {
+    const colorMap = new Map();
+    scores.forEach((s, i) => colorMap.set(s, colors[i % colors.length]));
+    return colorMap;
+};
+
+const getSeries = (scores, colorMap, categories, overallScoreMode) => {
+    const series = scores.map(s => {
+        const data = [];
+        const color = colorMap.get(s);
+
+        categories.forEach(c => {
+            const cs = s.categoryScores.find(cs => cs.category.identifier === c.identifier);
+            if (!cs)
+                return;
+            data.push({ y: cs.mean, score: cs });
+        });
+
+        if (overallScoreMode === 'column') {
+            data.push({ y: s.mean, score: s });
+        }
+
+        return {
+            name: s.key.label,
+            data: data,
+            color
+        };
+    });
+
+    if (overallScoreMode !== 'line')
+        return series;
+
+    return series.concat(scores.map(score => {
+        const color = colorMap.get(score);
+        const y = score.mean;
+        const category = 'Overall';
+        return {
+            type: 'line',
+            showInLegend: false,
+            name: score.key.label,
+            xAxis: 1,
+            data: [{
+                y,
+                x: -10, // off the chart to the left
+                score,
+                category
+            }, {
+                y,
+                x: 0.5, // the center of the chart
+                score,
+                category
+            }, {
+                y,
+                x: 20, // off the chart to the right
+                score,
+                category
+            }],
+            color
+        };
+    }));
+};
+
+const getXAxis = (categories, overallScoreMode) => {
+    const chartCategories = categories.map(c => c.identifier).concat(['Overall']);
+
+    if (overallScoreMode !== 'line')
+        return { categories: chartCategories };
+
+    return [
+        { categories: chartCategories },
+        {
+            min: 0,
+            max: 1,
+            type: 'linear',
+            lineWidth: 0,
+            gridLineWidth: 0,
+            minorGridLineWidth: 0,
+            lineColor: 'transparent',
+            labels: {
+                enabled: false
+            },
+            minorTickLength: 0,
+            tickLength: 0
+        }
+    ];
+};

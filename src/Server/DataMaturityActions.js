@@ -147,7 +147,7 @@ export default Object.freeze({
         res.send({ success: true });
     },
 
-    responses: (req, res) => {
+    scores: (req, res) => {
         res.setHeader('Content-Type', 'application/json');
 
         const urlObj = urlParser.parse(req.url, true);

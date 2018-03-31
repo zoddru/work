@@ -46,6 +46,8 @@ export default class ResponseFilters {
     static create({ respondent, organisation, departments, roles, areaGroups }) {
         const { department, role } = respondent || { department: {}, role: {} };
 
+        console.log(areaGroups);
+
         const filters = [{
             key: new TypedItem('respondent', { identifier: 'default', label: 'My score' }),
             local: true,
@@ -56,7 +58,7 @@ export default class ResponseFilters {
                 areaGroups.map(ag => ({
                     key: new TypedItem('areaGroup', ag),
                     local: false,
-                    filter: v => false
+                    filter: v => ag.members.filter(m => m.identifier === v.respondent.area)
                 }))
             );
 
