@@ -60,7 +60,7 @@ export default class OrganisationMain extends React.Component {
 
         const filter = v => v.respondent.organisation === organisation.identifier;
         const aggregator = new ResponseAggregator({ survey, responses });
-        return aggregator.byCategory({ key: organisation, filter });
+        return aggregator.byCategory({ key: `${survey.key}-score`, filter });
     }
 }
 
