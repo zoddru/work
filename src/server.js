@@ -11,6 +11,7 @@ import OAuthAccessor from './Server/OAuthAccessor';
 import WebServices from './Data/WebServices';
 const dmApiProxy = require(`./Server/${config.useLocal ? 'LocalDmApiProxyFactory' : 'DmApiProxyFactory'}`).default();
 const webservicesProxy = require('./Server/OAuthWebServicesProxyFactory').default();
+const resourcesProxy = require('./Server/ResourcesProxyFactory').default();
 
 const port = config.server.port;
 
@@ -19,6 +20,7 @@ const app = express()
     .use(session({ secret: 'saint seiya vs gatchaman', cookie: { maxAge: 6000000 } }))
     .use('/dmApi/*', dmApiProxy)
     .use('/webservices/*', webservicesProxy)
+    .use('/resources/*', resourcesProxy)
     .use(bodyParser.json())
 
     // data maturity

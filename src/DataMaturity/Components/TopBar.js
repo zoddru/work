@@ -1,4 +1,5 @@
 import React from 'react';
+import axios from 'axios';
 const Fragment = React.Fragment;
 
 const dropdownInDelay = 200;
@@ -8,6 +9,27 @@ const links = {
     changePasswordLink: 'https://signin.esd.org.uk/change.html?app=esd',
     myProfileLink: 'https://signin.esd.org.uk/profile.html?app=esd'
 };
+
+const HelpLink = () => <a href="http://gethelp.esd.org.uk/?category=datamaturity">Help</a>;
+
+const ItemLink = ({ item }) => <a href={item.url} className={item.cssClass}>{item.title}</a>;
+
+const ItemParent = ({ item }) => {
+    if (!item.children || !item.children.length)
+        return <ItemLink item={item} />;
+    return <Fragment>
+        <ItemLink item={item} />
+        <div class="children">
+            <MenuItems children={item.children} />
+        </div>
+    </Fragment>;
+};
+
+const MenuItems = ({ children }) => {
+    return children.map((item, i) => <ItemParent key={i} item={item} />);
+};
+
+const getCurrentUrl = () => (typeof window === 'undefined' || !window.location) ? '' : window.location.href.split("#")[0];
 
 class Dropdown extends React.Component {
     constructor(props) {
@@ -45,7 +67,7 @@ class Dropdown extends React.Component {
 
     mouseEnter() {
         this.open();
-        
+
     }
 
     mouseLeave() {
@@ -53,11 +75,13 @@ class Dropdown extends React.Component {
     }
 
     render() {
-        const { label, children } = this.props;
+        const { label, href, children } = this.props;
         const { isOpen, inDom } = this.state;
 
+        const link = href ? <a href={href}>{label}</a> : <a>{label}</a>;
+
         return <div className={`dropdown ${isOpen ? 'open' : ''}`} onMouseEnter={this.mouseEnter.bind(this)} onMouseLeave={this.mouseLeave.bind(this)}>
-            <a>{label}</a>
+            {link}
             {inDom && <div className="content">
                 {children}
             </div>}
@@ -65,19 +89,7 @@ class Dropdown extends React.Component {
     }
 }
 
-
-function getCurrentUrl() {
-    if (typeof window === 'undefined' || !window.location)
-        return '';
-    return window.location.href.split("#")[0];;
-}
-
-function HelpLink() {
-    return <a href="http://gethelp.esd.org.uk/?category=datamaturity">Help</a>;
-}
-
-function WhenSignedIn(props) {
-    const { status } = props;
+const WhenSignedIn = ({ status }) => {
     const encodedUrl = encodeURIComponent(getCurrentUrl());
     const user = status.user;
     const organisation = user.organisation;
@@ -104,10 +116,9 @@ function WhenSignedIn(props) {
             <a className="signOut" href={`/signout?returnUrl=${encodedUrl}`}>Sign out</a>
         </Dropdown>
     </div>;
-}
+};
 
-function WhenSignedOut(props) {
-    const { status } = props;
+const WhenSignedOut = ({ status }) => {
     const encodedUrl = encodeURIComponent(getCurrentUrl());
 
     return <div className="credentials">
@@ -115,28 +126,43 @@ function WhenSignedOut(props) {
         <a href={"/signin?returnUrl=" + encodedUrl}>Sign in</a>
         <a href="https://signin.esd.org.uk/register.html?app=esd">Register</a>
     </div>;
-}
+};
 
-function SignInStatus(props) {
-    const { status } = props;
-
+const SignInStatus = ({ status }) => {
     return status.isSignedIn
         ? <WhenSignedIn status={status} />
         : <WhenSignedOut status={status} />;
-}
+};
 
-export default class SignInDetails extends React.Component {
+export default class TopBar extends React.Component {
     constructor(props) {
         super(props);
 
-        const { status } = props;
+        this.state = { menu: [] };
+    }
 
-        this.state = { status };
+    componentDidMount() {
+        axios.get('/resources/menu.json')
+            .then(res => {
+                this.setState(prevState => ({ menu: res.data }));
+            })
+            .catch(error => console.log({ success: false, message: 'could not load menu', error }))
     }
 
     render() {
-        const { status } = this.state;
+        const { menu } = this.state;
 
-        return <SignInStatus status={status} />;
+        const items = menu.map((item, i) => {
+            if (!item.children || !item.children.length)
+                return <ItemLink key={i} item={item} />;
+            return <Dropdown key={i} label={item.title} href={item.url}>
+                <MenuItems children={item.children} />
+            </Dropdown>
+        })
+
+        return <Fragment>
+            {items}
+            <SignInStatus status={this.props.status} />
+        </Fragment>
     }
 }

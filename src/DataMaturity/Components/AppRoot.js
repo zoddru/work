@@ -35,13 +35,13 @@ const saveSurveyState = (surveyState) => {
     axios.put('/save/area').catch(error => console.log(error));
 };
 
-const loadAuthThenSavedData = (onLoaded) => {
+const loadAuthThenSavedData = (onAuthStatusLoaded) => {
     return axios
         .get(`/authentication/status?noCache=${(new Date()).getTime()}`)
         .then(statusRes => {
             const authStatus = statusRes.data;
 
-            onLoaded({ authStatus });
+            onAuthStatusLoaded(authStatus);
 
             if (!authStatus.isSignedIn)
                 return { authStatus };
@@ -134,7 +134,7 @@ export default class AppRoot extends React.Component {
     }
 
     loadData() {
-        const onAuthStatusLoaded = ((newProps, save) => { this.props.onAuthStatusReceived(newProps.authStatus), this.changeSurveyStatus(newProps, save); });
+        const onAuthStatusLoaded = (authStatus => { this.props.onAuthStatusReceived(authStatus), this.changeSurveyStatus({ authStatus }, false); });
 
         Promise.all([loadAuthThenSavedData(onAuthStatusLoaded), getOptions(), getSurvey()])
             .then(([authData, options, survey]) => {
@@ -152,12 +152,12 @@ export default class AppRoot extends React.Component {
                 console.log('all loaded');
 
                 if (mergeReport.hasConflicts) {
-                    onAuthStatusLoaded(loadedData, false);
+                    this.changeSurveyStatus(loadedData, false);
                     this.warnConflict(mergeReport);
                 }
                 else {
                     loadedData.answers = mergeReport.overwritten;
-                    onAuthStatusLoaded(loadedData, true);
+                    this.changeSurveyStatus(loadedData, true);
                 }
             });
     }

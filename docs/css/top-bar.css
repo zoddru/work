@@ -1,4 +1,17 @@
 body>header {
+    z-index: 20;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    padding: 0;
+    background-color: #410440;
+    color: white;
+    font-size: 1.3rem;
+    font-weight: 700;
+    height: 4.16rem;
+    line-height: 4.16rem;
+    padding: 0 1.5rem;
     z-index: 30;
 }
 
@@ -8,6 +21,10 @@ body>header a {
     border-bottom: none;
     padding: 0 1rem;
     z-index: 100000;
+}
+
+body>header>a:first-child {
+    padding-left: 0;
 }
 
 body>header a::before,
@@ -46,7 +63,7 @@ body>header div.dropdown>a::after {
     display: inline-block;
     width: 1.2rem;
     height: 1.2rem;
-    margin-left: 1rem;
+    margin-left: .5rem;
     top: .1rem;
     background-image: url(https://resources.esd.org.uk/images/common/down.png);
     background-repeat: no-repeat;
@@ -66,6 +83,8 @@ body>header div.dropdown>div.content {
     border: solid 1px #6A217A;
     transition: opacity 200ms ease-in;
     opacity: 0;
+    white-space: nowrap;
+    right: 0;
 }
 
 body>header div.dropdown.open>div.content {
@@ -75,18 +94,41 @@ body>header div.dropdown.open>div.content {
 body>header div.dropdown>div.content a,
 body>header div.dropdown>div.content .label {
     display: block;
-    padding: 0;
+    padding: 1rem 0;
     margin: 0;
     line-height: normal;
 }
 
-body>header div.dropdown>div.content a:last-child,
-body>header div.dropdown>div.content .label:last-child {
+body>header div.dropdown>div.content .home {
+    border-bottom: solid 1px #6A217A;
+}
+
+body>header div.dropdown>div.content .children {
+    padding-left: 1.3rem;
+}
+
+body>header div.dropdown>div.content>a:first-child,
+body>header div.dropdown>div.content>.label:first-child {
+    padding-top: 0;
+}
+
+body>header div.dropdown>div.content>a:last-child,
+body>header div.dropdown>div.content>.label:last-child {
+    padding-bottom: 0;
+}
+
+body>header div.dropdown>div.content>.children:last-child>a:last-child,
+body>header div.dropdown>div.content>.children:last-child>.label:last-child {
     padding-bottom: 0;
 }
 
 body>header div.dropdown>div.content a::before {
     content: none;
+}
+
+body>header .credentials {
+    display: block;
+    float: right;
 }
 
 body>header .credentials div.dropdown>div.content {
@@ -97,6 +139,7 @@ body>header .credentials div.dropdown>div.content {
 
 body>header .credentials div.dropdown>div.content a,
 body>header .credentials div.dropdown>div.content .label {
+    padding: 0;
     margin: 2.8rem 0;
 }
 

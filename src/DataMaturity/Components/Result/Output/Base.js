@@ -57,9 +57,6 @@ export default class Container extends React.Component {
             .then(scores => {
                 if (this.state.useLocalData || promise != this.scoresPromise)
                     return;
-
-                console.log(scores);
-
                 this.setState(prevState => ({ 
                     loadingScores: false, 
                     scores
