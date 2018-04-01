@@ -8,6 +8,7 @@ import Survey from '../Survey';
 import ScrollToTop from './ScrollToTop';
 import SurveyMain from './Survey/Main';
 import ResultMain from './Result/Main';
+import OrganisationMain from './Result/OrganisationMain';
 import Disclaimer from './Disclaimer';
 import ResultTable from './Result/Output/Table';
 import ResultChart from './Result/Output/Chart';
@@ -19,72 +20,6 @@ const Fragment = React.Fragment;
 
 const localStore = new LocalStore('DataMaturity_Responses');
 
-const saveSurveyState = (surveyState) => {
-
-    const { respondent, responses } = surveyState;
-    const data = { respondent, responses };
-
-    if (!respondent || !respondent.identifier) {
-        localStore.store(responses);
-        return;
-    }
-
-    localStore.clear();
-
-    axios.put('/dmApi/responses', data).catch(error => console.log(error));
-    axios.put('/save/area').catch(error => console.log(error));
-};
-
-const loadAuthThenSavedData = (onAuthStatusLoaded) => {
-    return axios
-        .get(`/authentication/status?noCache=${(new Date()).getTime()}`)
-        .then(statusRes => {
-            const authStatus = statusRes.data;
-
-            onAuthStatusLoaded(authStatus);
-
-            if (!authStatus.isSignedIn)
-                return { authStatus };
-            return loadSavedData(authStatus);
-        });
-};
-
-const loadSavedData = (authStatus) => {
-    if (!authStatus.isSignedIn)
-        return { authStatus };
-
-    const { identifier, email, organisation } = authStatus.user;
-
-    return axios.get(`/dmApi/responses/${identifier}`)
-        .then(function (response) {
-            const result = Object.assign(getNewSaveDataResponse(authStatus.user), response.data);
-            const respondent = new Respondent(result.respondent);
-            const responses = result.responses || [];
-            return { authStatus, respondent, responses };
-        });
-};
-
-const getOptions = () => {
-    return axios.get(`/dmApi/respondentOptions`)
-        .then(res => {
-            return res.data;
-        });
-};
-
-const getSurvey = () => {
-    return axios.get('/dmApi/survey')
-        .then(function (response) {
-            return new Survey(response.data);
-        });
-};
-
-const getNewSaveDataResponse = ({ identifier, email, organisation }) => {
-    const area = organisation && organisation.governs && organisation.governs.identifier; 
-    return {
-        respondent: { identifier, email, organisation: organisation && organisation.identifier, area },
-        responses: []
-    };
-};
 
 export default class AppRoot extends React.Component {
     constructor(props) {
@@ -96,12 +31,10 @@ export default class AppRoot extends React.Component {
         };
 
         this.mergeReport = { preserved: [], overwritten: [], conflicts: [], hasConflicts: false };
-
-        this.loadData();
     }
 
-    redirect(path) {
-
+    componentDidMount() {
+        this.loadData();
     }
 
     changeSurveyStatus(loadedProps, save) {
@@ -190,7 +123,7 @@ export default class AppRoot extends React.Component {
         const routeResults = {
             '/': loading ? loadingEl : <SurveyMain surveyState={surveyState} onRespondentChanged={this.respondentChanged.bind(this)} onAnswerChanged={this.answerChanged.bind(this)} />,
             '/result': loading ? loadingEl : <ResultMain surveyState={surveyState} score={score} />,
-            '/organisation': loading ? loadingEl : <ResultMain surveyState={surveyState} score={score} />,
+            '/organisation': loading ? loadingEl : <OrganisationMain surveyState={surveyState} />,
             '/disclaimer': <Disclaimer />,
             '/table': loading ? loadingEl : <ResultTable surveyState={surveyState} />,
             '/chart': loading ? loadingEl : <ResultChart surveyState={surveyState} />
@@ -239,3 +172,70 @@ export default class AppRoot extends React.Component {
         </Router>;
     }
 }
+
+const saveSurveyState = (surveyState) => {
+
+    const { respondent, responses } = surveyState;
+    const data = { respondent, responses };
+
+    if (!respondent || !respondent.identifier) {
+        localStore.store(responses);
+        return;
+    }
+
+    localStore.clear();
+
+    axios.put('/dmApi/responses', data).catch(error => console.log(error));
+    axios.put('/save/area').catch(error => console.log(error));
+};
+
+const loadAuthThenSavedData = (onAuthStatusLoaded) => {
+    return axios
+        .get(`/authentication/status?noCache=${(new Date()).getTime()}`)
+        .then(statusRes => {
+            const authStatus = statusRes.data;
+
+            onAuthStatusLoaded(authStatus);
+
+            if (!authStatus.isSignedIn)
+                return { authStatus };
+            return loadSavedData(authStatus);
+        });
+};
+
+const loadSavedData = (authStatus) => {
+    if (!authStatus.isSignedIn)
+        return { authStatus };
+
+    const { identifier, email, organisation } = authStatus.user;
+
+    return axios.get(`/dmApi/responses/${identifier}`)
+        .then(function (response) {
+            const result = Object.assign(getNewSaveDataResponse(authStatus.user), response.data);
+            const respondent = new Respondent(result.respondent);
+            const responses = result.responses || [];
+            return { authStatus, respondent, responses };
+        });
+};
+
+const getOptions = () => {
+    return axios.get(`/dmApi/respondentOptions`)
+        .then(res => {
+            return res.data;
+        });
+};
+
+const getSurvey = () => {
+    return axios.get('/dmApi/survey')
+        .then(function (response) {
+            return new Survey(response.data);
+        });
+};
+
+const getNewSaveDataResponse = ({ identifier, email, organisation }) => {
+    const area = organisation && organisation.governs && organisation.governs.identifier; 
+    return {
+        respondent: { identifier, email, organisation: organisation && organisation.identifier, area },
+        responses: []
+    };
+};

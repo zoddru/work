@@ -6,7 +6,6 @@ const getMean = function () { return this.numberOfValid > 0 ? (this.sum / this.n
 
 const aggregateByCategory = function (filter) {
     const allResponses = this.responses;
-
     const byCategory = this.survey.categories
         .map(category => ({ category, numberThatAreBuggy: 0, numberNotKnown: 0, numberNotUnderstood: 0, numberOfValid: 0, sum: 0 }))
         .reduce((obj, agg) => {
@@ -67,11 +66,25 @@ class AggregatedScore {
         const { identifier, label, survey } = category;
         return { category: { identifier, label, survey: { identifier: survey.identifier, label: survey.label } }, numberThatAreBuggy, numberNotKnown, numberNotUnderstood, numberOfValid, sum };
     }
+    
+    get identifier() {
+        return this.category.identifier;
+    }
+
+    get label() {
+        return this.category.label;
+    }
+
+    get key() {
+        return `${this.category.key}-score`;
+    }
 }
 
-class OverallAggregatedScore extends AggregatedScore {
+class OverallAggregatedScore {
     constructor(props) {
-        super(props);
+        Object.assign(this, props);
+        ScoreProperties.defineProperties(this);
+        this.mean = getMean.apply(this);
         Object.freeze(this);
     }
 
@@ -84,6 +97,14 @@ class OverallAggregatedScore extends AggregatedScore {
             numberOfValid,
             sum
         };
+    }
+
+    get identifier() {
+        return 'Overall';
+    }
+
+    get label() {
+        return 'Overall';
     }
 }
 

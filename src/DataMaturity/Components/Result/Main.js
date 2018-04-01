@@ -25,7 +25,7 @@ export default class Main extends React.Component {
             return <Loading />;
 
         const categoryScores = score.categoryScores.map(cs => <Summary key={cs.key} score={cs} content={content[cs.identifier]} />);
-        
+
         return <section class="main-content">
             <Nav score={score} />
             <article>

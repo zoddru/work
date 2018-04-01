@@ -8,8 +8,8 @@ import NotSignedIn from '../../NotSignedIn';
 import SimpleTable from './SimpleTable';
 import ResponseAggregator from '../../../Scores/ResponseAggregator';
 import ResponseFilters from '../../../Scores/ResponseFilters';
-import common from '../../../common';
 import { create } from 'domain';
+import common from '../../../common';
 const { filtersCache, responsesCache } = common;
 
 const startSortOrder = { respondent: 1, role: 2, department: 3, organisation: 4 };
@@ -175,11 +175,7 @@ export default class Container extends React.Component {
         const { responses, selectedFilters } = this.state;
 
         const aggregator = new ResponseAggregator({ survey, responses });
-        const localAggregatedScores = aggregator.multipleByCategory(selectedFilters);
-
-        const aggregatedScores = localAggregatedScores; // todo merge with loaded external scores
-
-        return aggregatedScores;
+        return aggregator.multipleByCategory(selectedFilters);
     }
 }
 

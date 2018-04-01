@@ -15,6 +15,6 @@ categories.forEach(category => {
             tips: require(`./Content/${category}/${level}/tips`).default
         };
     });
-})
+});
 
 export default content;

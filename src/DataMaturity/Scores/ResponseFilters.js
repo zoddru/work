@@ -21,10 +21,8 @@ const getOrgFilters = ({ organisation, roles, departments }) => {
     if (!organisation)
         return [];
 
-    const orgLabel = organisation.shortLabel || organisation.label;
-
     return [{
-        key: new TypedItem('organisation', { identifier: 'default', label: orgLabel }),
+        key: new TypedItem('organisation', { identifier: 'default', label: organisation.shortLabel || organisation.label }),
         local: true,
         filter: v => v.respondent.organisation === organisation.identifier
     }].concat(
