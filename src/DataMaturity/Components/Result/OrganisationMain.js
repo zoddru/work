@@ -5,6 +5,7 @@ import ResultMain from './Main';
 import NotSignedIn from '../NotSignedIn';
 import Loading from '../Loading';
 import ScoreLoader from '../../Scores/ScoreLoader';
+import ResponseFilters from '../../Scores/ResponseFilters';
 import ResponseAggregator from '../../Scores/ResponseAggregator';
 
 export default class OrganisationMain extends React.Component {
@@ -12,23 +13,21 @@ export default class OrganisationMain extends React.Component {
         super(props);
 
         this.state = {
-            loadingResponses: false,
-            responses: []
+            loadingData: false,
+            responses: [],
+            filters: []
         };
     }
 
-    loadResponses() {
-        this.setState(prevState => ({ loadingResponses: true }));
+    componentDidMount() {
+        this.setState(prevState => ({ loadingData: true }));
 
         new ScoreLoader(this.props.surveyState)
-            .loadOrganisationResponses()
-            .then(responses => {
-                this.setState(prevState => ({ loadingResponses: false, responses }));
+            .loadFiltersAndOrganisationResponses()
+            .then(([ allFilters, responses ]) => {
+                const filters = allFilters.filter(f => f.type === 'organisation' || f.type === 'areaGroup');
+                this.setState(prevState => ({ loadingData: false, responses, filters }));
             });
-    }
-
-    componentDidMount() {
-        this.loadResponses();
     }
 
     render() {
@@ -40,14 +39,15 @@ export default class OrganisationMain extends React.Component {
         if (!surveyState.isSignedIn || !surveyState.organisation)
             return <NotSignedIn status={surveyState.authStatus} />;
 
-        const { loadingResponses } = this.state;
+        const { loadingData } = this.state;
 
-        if (loadingResponses)
-            return <Loading message="loading responses. please wait..." />;
+        if (loadingData)
+            return <Loading message="loading data. please wait..." />;
 
         const organisation = surveyState.organisation;
         const options = {
-            summaryText: `Answers from ${organisation.shortLabel || organisation.label} indicate that staff perceive the council to be at level`
+            summaryText: `Answers from ${organisation.shortLabel || organisation.label} indicate that staff perceive the council to be at level`,
+            initalFilters: this.state.filters
         };
 
         return <ResultMain surveyState={surveyState} score={this.aggregatedScore} options={options} />;

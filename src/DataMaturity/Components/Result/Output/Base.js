@@ -5,7 +5,8 @@ import Loading from '../../Loading';
 import NotSignedIn from '../../NotSignedIn';
 import ScoreLoader from '../../../Scores/ScoreLoader';
 
-const startSortOrder = { respondent: 1, role: 2, department: 3, organisation: 4 };
+const startSortOrder = { respondent: 1, role: 2, department: 3, organisation: 4, areaGroup: 5 };
+const sortFunction = (a, b) => startSortOrder[a.type] - startSortOrder[b.type];
 
 export default class Container extends React.Component {
     constructor(props) {
@@ -52,7 +53,7 @@ export default class Container extends React.Component {
             .then(([filters]) => {
                 if (this.dataPromise.canceled)
                     return [];
-                const selectedFilters = getInitialSelectedFilters(respondent, filters);
+                const selectedFilters = getInitialSelectedFilters(respondent, filters, this.props.options);
                 this.setState(prevState => ({ loadingFilters: false, filters, selectedFilters }));
                 return selectedFilters;
             })
@@ -142,12 +143,21 @@ export default class Container extends React.Component {
     }
 }
 
-const getInitialSelectedFilters = (respondent, filters) => {
+const getInitialSelectedFilters = (respondent, filters, options) => {
+
     if (!respondent || !respondent.identifier)
         return [];
+
+    const initalFilters = options && options.initalFilters;
+
+    if (initalFilters)
+        return filters
+            .filter(f => initalFilters.filter(f2 => f.key.key === f2.key.key).length > 0)
+            .sort(sortFunction);
+
     return filters.filter(f =>
         f.key.identifier === 'default' ||
         !!respondent.role && f.type === 'role' && f.key.identifier === respondent.role ||
         !!respondent.department && f.type === 'department' && f.key.identifier === respondent.department
-    ).sort((a, b) => startSortOrder[a.type] - startSortOrder[b.type]);
+    ).sort(sortFunction);
 };

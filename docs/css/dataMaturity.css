@@ -191,17 +191,23 @@ form .Select input {
     border: none;
 }
 
+form .Select.is-focused:not(.is-open) > .Select-control {
+    border-color: #b3b3b3 #ccc #d9d9d9;
+    box-shadow: inherit;
+}
+
 /* form.chart-options  */
 
 form.chart-options {
     margin-bottom: 1rem;
     font-size: 1.3rem;
-    float: right;
-    max-width: 70rem;
+    text-align: right;
 }
 
 form.chart-options .Select {
     top: auto;
+    display: inline-block;
+    text-align: left;
 }
 
 form.chart-options .Select-control,

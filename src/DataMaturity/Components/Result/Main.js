@@ -27,7 +27,7 @@ export default class Main extends React.Component {
 
         const categoryScores = score.categoryScores.map(cs => <Summary key={cs.key} score={cs} content={content[cs.identifier]} options={options} />);
 
-        const chart = <Chart surveyState={surveyState} />;
+        const chart = <Chart surveyState={surveyState} options={options} />;
 
         return <section class="main-content capped-width">
             <Nav score={score} />

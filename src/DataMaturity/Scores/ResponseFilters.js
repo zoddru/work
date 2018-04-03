@@ -44,8 +44,6 @@ export default class ResponseFilters {
     static create({ respondent, organisation, departments, roles, areaGroups }) {
         const { department, role } = respondent || { department: {}, role: {} };
 
-        console.log(areaGroups);
-
         const filters = [{
             key: new TypedItem('respondent', { identifier: 'default', label: 'My score' }),
             local: true,
