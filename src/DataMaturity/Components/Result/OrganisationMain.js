@@ -4,9 +4,8 @@ import common from '../../common';
 import ResultMain from './Main';
 import NotSignedIn from '../NotSignedIn';
 import Loading from '../Loading';
+import ScoreLoader from '../../Scores/ScoreLoader';
 import ResponseAggregator from '../../Scores/ResponseAggregator';
-import ResponseFilters from '../../Scores/ResponseFilters';
-const { responsesCache } = common;
 
 export default class OrganisationMain extends React.Component {
     constructor(props) {
@@ -21,7 +20,8 @@ export default class OrganisationMain extends React.Component {
     loadResponses() {
         this.setState(prevState => ({ loadingResponses: true }));
 
-        getResponses(this.props.surveyState)
+        new ScoreLoader(this.props.surveyState)
+            .loadOrganisationResponses()
             .then(responses => {
                 this.setState(prevState => ({ loadingResponses: false, responses }));
             });
@@ -62,21 +62,3 @@ export default class OrganisationMain extends React.Component {
         return aggregator.byCategory({ key: `${survey.key}-score`, filter });
     }
 }
-
-const getResponses = (surveyState) => {
-    const { organisation, created } = surveyState;
-
-    if (!organisation || !organisation.identifier)
-        return Promise.resolve([]);
-
-    const cached = responsesCache.get(organisation.identifier);
-    if (cached && cached.created === created)
-        return Promise.resolve(cached.responses);
-
-    return axios.get(`/dmApi/responses?organisation=${organisation.identifier}`)
-        .then(r => {
-            const responses = (r.data || []);
-            responsesCache.set(organisation.identifier, { created, responses });
-            return responses;
-        });
-};

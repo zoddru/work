@@ -3,13 +3,7 @@ import Select from 'react-select';
 import SignInDetails from '../../SignInDetails';
 import Loading from '../../Loading';
 import NotSignedIn from '../../NotSignedIn';
-import SimpleTable from './SimpleTable';
 import ScoreLoader from '../../../Scores/ScoreLoader';
-import ResponseAggregator from '../../../Scores/ResponseAggregator';
-import ResponseFilters from '../../../Scores/ResponseFilters';
-import { create } from 'domain';
-import common from '../../../common';
-const { filtersCache, responsesCache } = common;
 
 const startSortOrder = { respondent: 1, role: 2, department: 3, organisation: 4 };
 
