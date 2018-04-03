@@ -46,7 +46,7 @@ export default class Summary extends React.Component {
     }
 
     renderScoreContent() {
-        const { score, content, text } = this.props;
+        const { score, content, options } = this.props;
 
         const rankContent = content[score.rankLabel];
 
@@ -55,8 +55,8 @@ export default class Summary extends React.Component {
         if (!characteristics)
             return null;
 
-        const summaryText = text && text.summary
-            ? text.summary
+        const summaryText = options && options.summaryText
+            ? options.summaryText
             : 'Your answers indicate that you perceive your council to be at level';
 
         return <section className="characteristics">

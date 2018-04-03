@@ -17,7 +17,7 @@ export default class Main extends React.Component {
     }
 
     render() {
-        const { score, surveyState, text = text || {} } = this.props;
+        const { score, surveyState, options = options || {} } = this.props;
 
         if (!surveyState.isSignedIn)
             return <NotSignedIn status={surveyState.authStatus} />;
@@ -25,14 +25,14 @@ export default class Main extends React.Component {
         if (surveyState.loading)
             return <Loading />;
 
-        const categoryScores = score.categoryScores.map(cs => <Summary key={cs.key} score={cs} content={content[cs.identifier]} text={text} />);
+        const categoryScores = score.categoryScores.map(cs => <Summary key={cs.key} score={cs} content={content[cs.identifier]} options={options} />);
 
         const chart = <Chart surveyState={surveyState} />;
 
         return <section class="main-content capped-width">
             <Nav score={score} />
             <article>
-                <Summary score={score} content={content.Overall} text={text} chart={chart} />
+                <Summary score={score} content={content.Overall} options={options} chart={chart} />
                 {categoryScores}
             </article>
         </section>;

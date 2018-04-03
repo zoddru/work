@@ -46,11 +46,11 @@ export default class OrganisationMain extends React.Component {
             return <Loading message="loading responses. please wait..." />;
 
         const organisation = surveyState.organisation;
-        const text = {
-            summary: `Answers from ${organisation.shortLabel || organisation.label} indicate that staff perceive the council to be at level`
+        const options = {
+            summaryText: `Answers from ${organisation.shortLabel || organisation.label} indicate that staff perceive the council to be at level`
         };
 
-        return <ResultMain surveyState={surveyState} score={this.aggregatedScore} text={text} />;
+        return <ResultMain surveyState={surveyState} score={this.aggregatedScore} options={options} />;
     }
 
     get aggregatedScore() {
