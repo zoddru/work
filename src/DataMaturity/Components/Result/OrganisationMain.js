@@ -37,7 +37,7 @@ export default class OrganisationMain extends React.Component {
         if (surveyState.loading)
             return <Loading />;
 
-        if (!surveyState.isSignedIn)
+        if (!surveyState.isSignedIn || !surveyState.organisation)
             return <NotSignedIn status={surveyState.authStatus} />;
 
         const { loadingResponses } = this.state;
@@ -45,7 +45,12 @@ export default class OrganisationMain extends React.Component {
         if (loadingResponses)
             return <Loading message="loading responses. please wait..." />;
 
-        return <ResultMain surveyState={surveyState} score={this.aggregatedScore} />;
+        const organisation = surveyState.organisation;
+        const text = {
+            summary: `Answers from ${organisation.shortLabel || organisation.label} indicate that staff perceive the council to be at level`
+        };
+
+        return <ResultMain surveyState={surveyState} score={this.aggregatedScore} text={text} />;
     }
 
     get aggregatedScore() {

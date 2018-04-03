@@ -7,7 +7,11 @@ export default class Summary extends React.Component {
     }
 
     render() {
-        const { score, content } = this.props;
+        const { score, content, text } = this.props;
+
+        const summaryText = text && text.summary
+            ? text.summary
+            : 'Your answers indicate that you perceive your council to be at level';
 
         const rankContent = content[score.rankLabel];
         
@@ -22,7 +26,7 @@ export default class Summary extends React.Component {
         const characteristics = !!rankContent && rankContent.characteristics;
         const scoreContent = !!characteristics && <section className="characteristics">
             <p class="level">
-                Your answers indicate that you perceive your council to be at level <strong>{score.rankLabel}</strong>
+                {summaryText} <strong>{score.rankLabel}</strong>
             </p>
             <p>
                 Organisations at this level of data maturity typically have these characteristics:
