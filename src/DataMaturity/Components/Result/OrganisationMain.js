@@ -28,7 +28,6 @@ export default class OrganisationMain extends React.Component {
     }
 
     componentDidMount() {
-        console.log(`OrganisationMain - componentDidMount`);
         this.loadResponses();
     }
 

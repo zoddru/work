@@ -1,11 +1,10 @@
 import React from 'react';
 import Select from 'react-select';
-import axios from 'axios';
-import qs from 'qs';
 import SignInDetails from '../../SignInDetails';
 import Loading from '../../Loading';
 import NotSignedIn from '../../NotSignedIn';
 import SimpleTable from './SimpleTable';
+import ScoreLoader from '../../../Scores/ScoreLoader';
 import ResponseAggregator from '../../../Scores/ResponseAggregator';
 import ResponseFilters from '../../../Scores/ResponseFilters';
 import { create } from 'domain';
@@ -23,13 +22,11 @@ export default class Container extends React.Component {
 
             loadingFilters: false,
             filters: [],
-            filtersLoaded: false,
 
             useLocalData: true,
 
             loadingResponses: false,
             responses: [],
-            responsesLoaded: false,
 
             loadingScores: false,
             scores: []
@@ -53,12 +50,12 @@ export default class Container extends React.Component {
         if (useLocalData)
             return;
 
-        const promise = this.scoresPromise = getScores(this.props.surveyState.survey, selectedFilters)
+        const promise = this.scoresPromise = getScores(this.props.surveyState, selectedFilters)
             .then(scores => {
                 if (this.state.useLocalData || promise != this.scoresPromise)
                     return;
-                this.setState(prevState => ({ 
-                    loadingScores: false, 
+                this.setState(prevState => ({
+                    loadingScores: false,
                     scores
                 }));
             });
@@ -75,7 +72,9 @@ export default class Container extends React.Component {
 
         const respondent = props.surveyState.respondent;
         const loadedFilters = filters => {
-            this.setState(prevState => ({ loadingFilters: false, filtersLoaded: true, selectedFilters: getInitialSelectedFilters(respondent, filters) }));
+            if (this.dataPromise.canceled)
+                return;
+            this.setState(prevState => ({ loadingFilters: false, selectedFilters: getInitialSelectedFilters(respondent, filters) }));
             return filters;
         };
 
@@ -88,15 +87,14 @@ export default class Container extends React.Component {
             if (this.dataPromise.canceled)
                 return;
             this.dataPromise = null;
-            this.setState(prevState => ({ loadingResponses: false, responsesLoaded: true, filters, responses }));
+            this.setState(prevState => ({ loadingResponses: false, filters, responses }));
         });
 
         return this.dataPromise;
     }
 
     componentDidMount() {
-        const { loadingResponses, responsesLoaded } = this.state;
-        if (loadingResponses || responsesLoaded)
+        if (this.state.loadingResponses)
             return;
         this.init(this.props);
     }
@@ -110,7 +108,7 @@ export default class Container extends React.Component {
     render() {
         const { surveyState } = this.props;
         const { isSignedIn, authStatus, survey, respondent } = surveyState;
-        const { useLocalData, loadingFilters, loadingResponses, loadingScores, filters, selectedFilters } = this.state;
+        const { loadingFilters, filters, selectedFilters } = this.state;
 
         if (surveyState.loading)
             return <Loading />;
@@ -121,41 +119,41 @@ export default class Container extends React.Component {
         if (loadingFilters)
             return <Loading message="loading filters. should not be long..." />;
 
-        if (loadingResponses)
-            return <Loading message="loading responses. hang on..." />;
-
-        if (!useLocalData && loadingScores)
-            return <Loading message="loading scores. please wait..." />;
-
         return <section class="main-content">
             <article>
                 <section className="category">
                     <header>
                         <h2>{this.props.heading}</h2>
                     </header>
-                    <main>
-                        <form>
-                            <div className="form-item">
-                                <label>Show</label>
-                                <div className="value">
-                                    <Select
-                                        name="series"
-                                        clearable={false}
-                                        value={selectedFilters}
-                                        multi
-                                        onChange={this.changeFilters.bind(this)}
-                                        options={filters}
-                                    />
-                                </div>
-                            </div>
+                    <main class="chart">
+                        <form className="chart-options">
+                            <Select
+                                name="series"
+                                clearable={false}
+                                value={selectedFilters}
+                                multi
+                                onChange={this.changeFilters.bind(this)}
+                                options={filters}
+                            />
                         </form>
-
-                        {this.renderChildren()}
-
+                        {this.renderLoadingOrChildren()}
                     </main>
                 </section>
             </article>
         </section >;
+    }
+
+    renderLoadingOrChildren() {
+        const { useLocalData, loadingResponses, loadingScores } = this.state;
+
+        if (loadingResponses)
+            return <Loading isSubSection={true} message="loading responses. hang on..." />;
+
+        if (!useLocalData && loadingScores)
+            return <Loading isSubSection={true} message="loading scores. please wait..." />;
+        
+        //return <Loading isSubSection={true} message="loading scores. not really loading..." />;
+        return this.renderChildren();
     }
 
     renderChildren() {
@@ -167,7 +165,7 @@ export default class Container extends React.Component {
 
         if (!useLocalData && !loadingScores)
             return scores;
-        
+
         const { surveyState } = this.props;
         if (surveyState.loading || !surveyState.isSignedIn)
             return null;
@@ -180,49 +178,15 @@ export default class Container extends React.Component {
 }
 
 const getFilters = (surveyState) => {
-    const { respondent, created } = surveyState;
-
-    if (!respondent || !respondent.identifier)
-        return Promise.resolve(createFilters(surveyState, surveyState.options));
-
-    const cached = filtersCache.get(respondent.identifier);
-    if (cached && cached.created === created)
-        return Promise.resolve(cached.filters);
-
-    return axios.get(`/data/currentResponseOptions`)
-        .then(r => {
-            const filters = createFilters(surveyState, (r.data || {}));
-            filtersCache.set(respondent.identifier, { created, filters });
-            return filters;
-        });
+    return new ScoreLoader(surveyState).loadFilters();
 };
 
 const getResponses = (surveyState) => {
-    const { organisation, created } = surveyState;
-
-    if (!organisation || !organisation.identifier)
-        return Promise.resolve([]);
-
-    const cached = responsesCache.get(organisation.identifier);
-    if (cached && cached.created === created)
-        return Promise.resolve(cached.responses);
-
-    return axios.get(`/dmApi/responses?organisation=${organisation.identifier}`)
-        .then(r => {
-            const responses = (r.data || []);
-            responsesCache.set(organisation.identifier, { created, responses });
-            return responses;
-        });
+    return new ScoreLoader(surveyState).loadOrganisationResponses();
 };
 
-const getScores = (survey, filters) => {
-    const query = qs.stringify({ filter: filters.map(f => f.key.key) }, { arrayFormat: 'repeat' });    
-    return axios.get(`/data/scores?${query}`).then(r => { 
-        const simplified = r.data || [];
-        const aggregator = new ResponseAggregator({ survey, responses: [] });
-        const scores = simplified.map(s => aggregator.unsimplify(s));
-        return scores;
-    });
+const getScores = (surveyState, filters) => {
+    return new ScoreLoader(surveyState).loadAggregatedScores(filters);
 };
 
 const getInitialSelectedFilters = (respondent, filters) => {
@@ -233,10 +197,4 @@ const getInitialSelectedFilters = (respondent, filters) => {
         !!respondent.role && f.type === 'role' && f.key.identifier === respondent.role ||
         !!respondent.department && f.type === 'department' && f.key.identifier === respondent.department
     ).sort((a, b) => startSortOrder[a.type] - startSortOrder[b.type]);
-};
-
-const createFilters = (surveyState, options) => {
-    const { respondent, organisation } = surveyState;
-    const { departments, roles, areaGroups } = options;
-    return ResponseFilters.create({ respondent, organisation, departments, roles, areaGroups });
 };

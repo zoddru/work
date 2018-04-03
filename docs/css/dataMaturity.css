@@ -185,9 +185,41 @@ form .form-item .Select {
     top: -1rem;
 }
 
-form .form-item .Select input {
+form .Select input {
     outline: none;
     border: none;
+}
+
+/* form.chart-options  */
+
+form.chart-options {
+    margin-bottom: 1rem;
+    font-size: 1.3rem;
+}
+
+form.chart-options .Select {
+    top: auto;
+}
+
+form.chart-options .Select-control,
+form.chart-options .Select-input {
+    height: auto;
+}
+
+form.chart-options .Select-input>input {
+    height: auto;
+    line-height: 1em;
+    padding: .3rem;
+    margin: .5rem 0;
+}
+
+form.chart-options .Select--multi .Select-value {
+    margin: .5rem 0 0 .5rem;
+}
+
+form.chart-options {
+    max-width: 90rem;
+    float: right;
 }
 
 /* table.summary */

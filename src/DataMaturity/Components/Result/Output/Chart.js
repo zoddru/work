@@ -22,23 +22,7 @@ export default class Chart extends Base {
         const { overallScoreMode } = this.state;
         const chartData = this.aggregatedChart;
 
-        return <div>
-            {/* <form>
-                <div className="form-item">
-                    <label>Overall</label>
-                    <div className="value">
-                        <Select
-                            name="overallScoreDisplay"
-                            clearable={false}
-                            value={overallScoreMode}
-                            onChange={this.changeOverallScoreMode.bind(this)}
-                            options={overallScoreModes}
-                        />
-                    </div>
-                </div>
-            </form> */}
-            <SimpleChart id="chart" data={chartData} />
-        </div>;
+        return <SimpleChart id="chart" data={chartData} />;
     }
 
     get aggregatedChart() {
