@@ -25,26 +25,26 @@ export default class Container extends React.Component {
         this.scoresPromise = null;
     }
 
-    hasOrganisationChanged(nextProps) {
-        const currentOrg = this.props.surveyState.organisation;
-        const nextOrg = nextProps.surveyState.organisation;
-        return (currentOrg !== nextOrg);
+    filtersChanged(selectedFilters) {
+        this.setState(prevState => ({ loadingScores: true, selectedFilters: selectedFilters }));
+
+        const promise = this.dataPromise = new ScoreLoader(this.props.surveyState)
+            .loadAggregatedScores(selectedFilters)
+            .then(scores => {
+                if (this.dataPromise.canceled || promise != this.dataPromise)
+                    return;
+                this.setState(prevState => ({ loadingScores: false, scores }));
+            })
     }
 
     changeFilters(selectedFilters) {
         this.filtersChanged(selectedFilters);
     }
 
-    init(props) {
-        if (props.surveyState.loading)
-            return;
-        this.loadData(props);
-    }
-
-    loadData(props) {
+    componentDidMount() {
         this.setState(prevState => ({ loadingFilters: true }));
 
-        const surveyState = props.surveyState;
+        const surveyState = this.props.surveyState;
         const respondent = surveyState.respondent;
 
         return this.dataPromise = new ScoreLoader(surveyState)
@@ -63,22 +63,6 @@ export default class Container extends React.Component {
             });
     }
 
-    filtersChanged(selectedFilters) {
-        this.setState(prevState => ({ loadingScores: true, selectedFilters: selectedFilters }));
-
-        const promise = this.dataPromise = new ScoreLoader(this.props.surveyState)
-            .loadAggregatedScores(selectedFilters)
-            .then(scores => {
-                if (this.dataPromise.canceled || promise != this.dataPromise)
-                    return;
-                this.setState(prevState => ({ loadingScores: false, scores }));
-            })
-    }
-
-    componentDidMount() {
-        this.init(this.props);
-    }
-
     componentWillUnmount() {
         if (this.dataPromise) {
             this.dataPromise.canceled = true;
@@ -86,18 +70,21 @@ export default class Container extends React.Component {
     }
 
     render() {
-        const { surveyState } = this.props;
+        const { surveyState, isStandAlone } = this.props;
         const { isSignedIn, authStatus, survey, respondent } = surveyState;
-        const { loadingFilters, filters, selectedFilters } = this.state;
+        const { loadingFilters } = this.state;
 
         if (surveyState.loading)
-            return <Loading />;
+            return <Loading isSubSection={!isStandAlone} />;
 
         if (!isSignedIn)
-            return <NotSignedIn status={authStatus} />;
+            return <NotSignedIn isSubSection={!isStandAlone} status={authStatus} />;
 
         if (loadingFilters)
-            return <Loading message="loading filters. just a moment..." />;
+            return <Loading isSubSection={!isStandAlone} message="loading filters. just a moment..." />;
+
+        if (!isStandAlone)
+            return this.renderMainContent();
 
         return <section class="main-content">
             <article>
@@ -105,31 +92,32 @@ export default class Container extends React.Component {
                     <header>
                         <h2>{this.props.heading}</h2>
                     </header>
-                    <main class="chart">
-                        <form className="chart-options">
-                            <Select
-                                name="series"
-                                clearable={false}
-                                value={selectedFilters}
-                                multi
-                                onChange={this.changeFilters.bind(this)}
-                                options={filters}
-                            />
-                        </form>
-                        {this.renderLoadingOrChildren()}
-                    </main>
+                    {this.renderMainContent()}
                 </section>
             </article>
         </section >;
     }
 
-    renderLoadingOrChildren() {
-        const { loadingScores } = this.state;
+    renderMainContent() {
+        const { loadingScores, filters, selectedFilters } = this.state;
 
-        if (loadingScores)
-            return <Loading isSubSection={true} message="loading scores. just a moment..." />;
+        const content = loadingScores
+            ? <Loading isSubSection={true} message="loading scores. just a moment..." />
+            : this.renderChildren();
 
-        return this.renderChildren();
+        return <main class="chart">
+            <form className="chart-options">
+                <Select
+                    name="series"
+                    clearable={false}
+                    value={selectedFilters}
+                    multi
+                    onChange={this.changeFilters.bind(this)}
+                    options={filters}
+                />
+            </form>
+            {content}
+        </main>;
     }
 
     renderChildren() {
@@ -137,15 +125,15 @@ export default class Container extends React.Component {
     }
 
     get aggregatedScores() {
-        
-        const { loadingScores, scores } = this.state;
-
-        if (loadingScores)
-            return null;
 
         const { surveyState } = this.props;
 
         if (surveyState.loading || !surveyState.isSignedIn)
+            return null;
+
+        const { loadingScores, scores } = this.state;
+
+        if (loadingScores)
             return null;
 
         return scores;

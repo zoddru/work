@@ -125,8 +125,8 @@ export default class AppRoot extends React.Component {
             '/result': loading ? loadingEl : <ResultMain surveyState={surveyState} score={score} />,
             '/organisation': loading ? loadingEl : <OrganisationMain surveyState={surveyState} />,
             '/disclaimer': <Disclaimer />,
-            '/table': loading ? loadingEl : <ResultTable surveyState={surveyState} />,
-            '/chart': loading ? loadingEl : <ResultChart surveyState={surveyState} />
+            '/table': loading ? loadingEl : <ResultTable isStandAlone={true} surveyState={surveyState} />,
+            '/chart': loading ? loadingEl : <ResultChart isStandAlone={true} surveyState={surveyState} />
         };
 
         return <Router key="content" history={history}>
