@@ -6,7 +6,7 @@ export default class Loading extends React.Component {
         const message = this.props.message || 'loading data. just a moment...';
 
         if (isSubSection) {
-            return <section class="sub-content">                
+            return <section class="loader-container">                
                 <p>
                     {message}
                 </p>

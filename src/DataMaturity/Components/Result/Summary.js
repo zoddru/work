@@ -7,32 +7,16 @@ export default class Summary extends React.Component {
     }
 
     render() {
-        const { score, content, text } = this.props;
+        const { score, content } = this.props;
 
-        const summaryText = text && text.summary
-            ? text.summary
-            : 'Your answers indicate that you perceive your council to be at level';
-
-        const rankContent = content[score.rankLabel];
-        
         const warningContent = score.isValid ? null : <p>You haven't filled in enough of the survey to get an accurate score.</p>;
-        
+
         const bestPractice = content.bestPractice;
         const caseStudy = content.caseStudy;
         const signPosting = content.signPosting;
 
+        const rankContent = content[score.rankLabel];
         const tips = !!rankContent && rankContent.tips;
-        
-        const characteristics = !!rankContent && rankContent.characteristics;
-        const scoreContent = !!characteristics && <section className="characteristics">
-            <p class="level">
-                {summaryText} <strong>{score.rankLabel}</strong>
-            </p>
-            <p>
-                Organisations at this level of data maturity typically have these characteristics:
-            </p>
-            {characteristics}
-        </section>;
 
         return <section className="category score" id={score.key}>
             <header>
@@ -40,20 +24,60 @@ export default class Summary extends React.Component {
             </header>
 
             <GenericSection heading="Warning" className="warning" content={warningContent} />
-            
-            <main class="columns">
-                <div class="main-column">
-                    <GenericSection className="score" content={scoreContent} />
-                    <GenericSection heading="Tips for progression" className="tips" content={tips} />
-                    <GenericSection heading="Case study" className="caseStudy" content={caseStudy} />
+
+            <main>
+                <div className="columns">
+                    <div className="main-column">
+                        <GenericSection className="score" content={this.renderScoreContent()} />
+                        <GenericSection heading="Tips for progression" className="tips" content={tips} />
+                        <GenericSection heading="Case study" className="caseStudy" content={caseStudy} />
+                    </div>
+
+                    <div className="side-column">
+                        <GenericSection heading="Best practice" className="bestPractice" content={bestPractice} />
+                        <GenericSection heading="Additional resources" className="signPosting" content={signPosting} />
+                    </div>
                 </div>
 
-                <div class="side-column">
-                    <GenericSection heading="Best practice" className="bestPractice" content={bestPractice} />
-                    <GenericSection heading="Additional resources" className="signPosting" content={signPosting} />
-                </div>
+                {this.props.chart}
             </main>
 
         </section>;
+    }
+
+    renderScoreContent() {
+        const { score, content, text } = this.props;
+
+        const rankContent = content[score.rankLabel];
+
+        const characteristics = !!rankContent && rankContent.characteristics;
+
+        if (!characteristics)
+            return null;
+
+        const summaryText = text && text.summary
+            ? text.summary
+            : 'Your answers indicate that you perceive your council to be at level';
+
+        return <section className="characteristics">
+            <p class="level">
+                {summaryText} <strong>{score.rankLabel}</strong>
+            </p>
+            <p>
+                Organisations at this level of data maturity typically have these characteristics:
+            </p>
+            {characteristics}
+        </section>
+    }
+
+    renderChart() {
+        const { chart } = this.props;
+
+        if (!chart)
+            return null;
+
+        return <div class="columns">
+            {chart}
+        </div>;
     }
 }

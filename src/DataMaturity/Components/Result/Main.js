@@ -5,6 +5,7 @@ import Summary from './Summary';
 import Loading from '../Loading';
 import NotSignedIn from '../NotSignedIn';
 import content from './content';
+import Chart from './Output/Chart';
 
 export default class Main extends React.Component {
     constructor(props) {
@@ -26,10 +27,12 @@ export default class Main extends React.Component {
 
         const categoryScores = score.categoryScores.map(cs => <Summary key={cs.key} score={cs} content={content[cs.identifier]} text={text} />);
 
-        return <section class="main-content">
+        const chart = <Chart surveyState={surveyState} />;
+
+        return <section class="main-content capped-width">
             <Nav score={score} />
             <article>
-                <Summary score={score} content={content.Overall} text={text} />
+                <Summary score={score} content={content.Overall} text={text} chart={chart} />
                 {categoryScores}
             </article>
         </section>;

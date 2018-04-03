@@ -83,6 +83,8 @@ export default class Container extends React.Component {
         if (loadingFilters)
             return <Loading isSubSection={!isStandAlone} message="loading filters. just a moment..." />;
 
+        //return <Loading isSubSection={!isStandAlone} message="loading. not loading." />;
+
         if (!isStandAlone)
             return this.renderMainContent();
 
