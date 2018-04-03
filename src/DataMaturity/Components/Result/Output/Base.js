@@ -23,11 +23,6 @@ export default class Container extends React.Component {
             loadingFilters: false,
             filters: [],
 
-            useLocalData: true,
-
-            loadingResponses: false,
-            responses: [],
-
             loadingScores: false,
             scores: []
         };
@@ -43,22 +38,7 @@ export default class Container extends React.Component {
     }
 
     changeFilters(selectedFilters) {
-        const useLocalData = selectedFilters.filter(f => !f.local).length === 0;
-
-        this.setState(prevState => ({ useLocalData, loadingScores: !useLocalData, selectedFilters: selectedFilters }));
-
-        if (useLocalData)
-            return;
-
-        const promise = this.scoresPromise = getScores(this.props.surveyState, selectedFilters)
-            .then(scores => {
-                if (this.state.useLocalData || promise != this.scoresPromise)
-                    return;
-                this.setState(prevState => ({
-                    loadingScores: false,
-                    scores
-                }));
-            });
+        this.filtersChanged(selectedFilters);
     }
 
     init(props) {
@@ -68,34 +48,38 @@ export default class Container extends React.Component {
     }
 
     loadData(props) {
-        this.setState(prevState => ({ loadingFilters: true, loadingResponses: true }));
+        this.setState(prevState => ({ loadingFilters: true }));
 
-        const respondent = props.surveyState.respondent;
-        const loadedFilters = filters => {
-            if (this.dataPromise.canceled)
-                return;
-            this.setState(prevState => ({ loadingFilters: false, selectedFilters: getInitialSelectedFilters(respondent, filters) }));
-            return filters;
-        };
+        const surveyState = props.surveyState;
+        const respondent = surveyState.respondent;
 
-        this.dataPromise = Promise.all([
+        return this.dataPromise = getFilters(surveyState)
+            .then(filters => {
+                if (this.dataPromise.canceled)
+                    return [];
+                const selectedFilters = getInitialSelectedFilters(respondent, filters);
+                this.setState(prevState => ({ loadingFilters: false, filters, selectedFilters }));
+                return selectedFilters;
+            })
+            .then(selectedFilters => {
+                if (this.dataPromise.canceled)
+                    return;
+                this.filtersChanged(selectedFilters);
+            });
+    }
 
-            getFilters(props.surveyState).then(loadedFilters),
-            getResponses(props.surveyState)
+    filtersChanged(selectedFilters) {
+        this.setState(prevState => ({ loadingScores: true, selectedFilters: selectedFilters }));
 
-        ]).then(([filters, responses]) => {
-            if (this.dataPromise.canceled)
-                return;
-            this.dataPromise = null;
-            this.setState(prevState => ({ loadingResponses: false, filters, responses }));
-        });
-
-        return this.dataPromise;
+        const promise = this.dataPromise = getScores(this.props.surveyState, selectedFilters)
+            .then(scores => {
+                if (this.dataPromise.canceled || promise != this.dataPromise)
+                    return;
+                this.setState(prevState => ({ loadingScores: false, scores }));
+            })
     }
 
     componentDidMount() {
-        if (this.state.loadingResponses)
-            return;
         this.init(this.props);
     }
 
@@ -144,14 +128,11 @@ export default class Container extends React.Component {
     }
 
     renderLoadingOrChildren() {
-        const { useLocalData, loadingResponses, loadingScores } = this.state;
+        const { loadingScores } = this.state;
 
-        if (loadingResponses)
-            return <Loading isSubSection={true} message="loading responses. hang on..." />;
-
-        if (!useLocalData && loadingScores)
+        if (loadingScores)
             return <Loading isSubSection={true} message="loading scores. please wait..." />;
-        
+
         //return <Loading isSubSection={true} message="loading scores. not really loading..." />;
         return this.renderChildren();
     }
@@ -161,19 +142,22 @@ export default class Container extends React.Component {
     }
 
     get aggregatedScores() {
-        const { useLocalData, loadingScores, scores } = this.state;
+        const { loadingScores, scores } = this.state;
 
-        if (!useLocalData && !loadingScores)
-            return scores;
-
-        const { surveyState } = this.props;
-        if (surveyState.loading || !surveyState.isSignedIn)
+        if (loadingScores)
             return null;
-        const { survey } = surveyState;
-        const { responses, selectedFilters } = this.state;
 
-        const aggregator = new ResponseAggregator({ survey, responses });
-        return aggregator.multipleByCategory(selectedFilters);
+        //if (!useLocalData && !loadingScores)
+        return scores;
+
+        // const { surveyState } = this.props;
+        // if (surveyState.loading || !surveyState.isSignedIn)
+        //     return null;
+        // const { survey } = surveyState;
+        // const { responses, selectedFilters } = this.state;
+
+        // const aggregator = new ResponseAggregator({ survey, responses });
+        // return aggregator.multipleByCategory(selectedFilters);
     }
 }
 
@@ -181,9 +165,9 @@ const getFilters = (surveyState) => {
     return new ScoreLoader(surveyState).loadFilters();
 };
 
-const getResponses = (surveyState) => {
-    return new ScoreLoader(surveyState).loadOrganisationResponses();
-};
+// const getResponses = (surveyState) => {
+//     return new ScoreLoader(surveyState).loadOrganisationResponses();
+// };
 
 const getScores = (surveyState, filters) => {
     return new ScoreLoader(surveyState).loadAggregatedScores(filters);
