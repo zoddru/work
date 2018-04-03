@@ -20,8 +20,26 @@ export default class ScoreLoader {
         return loadOrganisationResponses(this.surveyState);
     }
 
+    loadFiltersAndOrganisationResponses() {
+        return Promise.all([
+            this.loadFilters(),
+            this.loadOrganisationResponses()
+        ]);
+    }
+
     loadAggregatedScores(filters) {
-        return loadAggregatedScores(this.surveyState, filters);
+        if (!filters || !filters.length)
+            return Promise.resolve([]);
+
+        if (filters.filter(f => !f.local).length > 0)
+            return loadAggregatedScores(this.surveyState, filters);
+        
+        return this.loadOrganisationResponses()
+            .then(responses => {
+                const survey = this.surveyState.survey;
+                return new ResponseAggregator({ survey, responses })
+                    .multipleByCategory(filters);
+            });
     }
 }
 

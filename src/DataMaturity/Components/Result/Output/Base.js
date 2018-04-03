@@ -53,8 +53,9 @@ export default class Container extends React.Component {
         const surveyState = props.surveyState;
         const respondent = surveyState.respondent;
 
-        return this.dataPromise = getFilters(surveyState)
-            .then(filters => {
+        return this.dataPromise = new ScoreLoader(surveyState)
+            .loadFiltersAndOrganisationResponses()
+            .then(([filters]) => {
                 if (this.dataPromise.canceled)
                     return [];
                 const selectedFilters = getInitialSelectedFilters(respondent, filters);
@@ -71,7 +72,8 @@ export default class Container extends React.Component {
     filtersChanged(selectedFilters) {
         this.setState(prevState => ({ loadingScores: true, selectedFilters: selectedFilters }));
 
-        const promise = this.dataPromise = getScores(this.props.surveyState, selectedFilters)
+        const promise = this.dataPromise = new ScoreLoader(this.props.surveyState)
+            .loadAggregatedScores(selectedFilters)
             .then(scores => {
                 if (this.dataPromise.canceled || promise != this.dataPromise)
                     return;
@@ -101,7 +103,7 @@ export default class Container extends React.Component {
             return <NotSignedIn status={authStatus} />;
 
         if (loadingFilters)
-            return <Loading message="loading filters. should not be long..." />;
+            return <Loading message="loading filters. just a moment..." />;
 
         return <section class="main-content">
             <article>
@@ -131,9 +133,8 @@ export default class Container extends React.Component {
         const { loadingScores } = this.state;
 
         if (loadingScores)
-            return <Loading isSubSection={true} message="loading scores. please wait..." />;
+            return <Loading isSubSection={true} message="loading scores. just a moment..." />;
 
-        //return <Loading isSubSection={true} message="loading scores. not really loading..." />;
         return this.renderChildren();
     }
 
@@ -142,36 +143,20 @@ export default class Container extends React.Component {
     }
 
     get aggregatedScores() {
+        
         const { loadingScores, scores } = this.state;
 
         if (loadingScores)
             return null;
 
-        //if (!useLocalData && !loadingScores)
+        const { surveyState } = this.props;
+
+        if (surveyState.loading || !surveyState.isSignedIn)
+            return null;
+
         return scores;
-
-        // const { surveyState } = this.props;
-        // if (surveyState.loading || !surveyState.isSignedIn)
-        //     return null;
-        // const { survey } = surveyState;
-        // const { responses, selectedFilters } = this.state;
-
-        // const aggregator = new ResponseAggregator({ survey, responses });
-        // return aggregator.multipleByCategory(selectedFilters);
     }
 }
-
-const getFilters = (surveyState) => {
-    return new ScoreLoader(surveyState).loadFilters();
-};
-
-// const getResponses = (surveyState) => {
-//     return new ScoreLoader(surveyState).loadOrganisationResponses();
-// };
-
-const getScores = (surveyState, filters) => {
-    return new ScoreLoader(surveyState).loadAggregatedScores(filters);
-};
 
 const getInitialSelectedFilters = (respondent, filters) => {
     if (!respondent || !respondent.identifier)

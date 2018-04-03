@@ -43,7 +43,7 @@ export default class OrganisationMain extends React.Component {
         const { loadingResponses } = this.state;
 
         if (loadingResponses)
-            return <Loading message="loading responses. hang on..." />;
+            return <Loading message="loading responses. please wait..." />;
 
         return <ResultMain surveyState={surveyState} score={this.aggregatedScore} />;
     }
