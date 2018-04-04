@@ -1,5 +1,6 @@
 import React from 'react';
 import GenericSection from './GenericSection';
+import TipsForProgression from './TipsForProgression';
 
 export default class Summary extends React.Component {
     constructor(props) {
@@ -16,7 +17,8 @@ export default class Summary extends React.Component {
         const signPosting = content.signPosting;
 
         const rankContent = content[score.rankLabel];
-        const tips = !!rankContent && rankContent.tips;
+        
+        //const tips = !!rankContent && rankContent.tips;
 
         return <section className="category score" id={score.key}>
             <header>
@@ -29,7 +31,7 @@ export default class Summary extends React.Component {
                 <div className="columns">
                     <div className="main-column">
                         <GenericSection className="score" content={this.renderScoreContent()} />
-                        <GenericSection heading="Tips for progression" className="tips" content={tips} />
+                        <TipsForProgression content={content} currentRank={score.rankLabel} />
                         <GenericSection heading="Case study" className="caseStudy" content={caseStudy} />
                     </div>
 

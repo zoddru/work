@@ -466,6 +466,18 @@ a.expand {
     margin-bottom: 2rem;
 }
 
+.category .sub-section>header h3:not(:last-child) {
+    margin-bottom: 1rem;
+}
+
+.category .sub-section.tips {
+    display: none;
+}
+
+.category .sub-section.tips.current {
+    display: block;
+}
+
 /* .category.start */
 
 .category.start main header {
