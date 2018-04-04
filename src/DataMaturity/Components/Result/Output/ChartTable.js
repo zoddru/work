@@ -30,17 +30,13 @@ export default class ChartTable extends Base {
             ? this.renderChartChildren()
             : this.renderTableChildren();
 
-    return <Fragment>
+        return <Fragment>
             <form className="chart-sub-options">
-                <a onClick={this.toggleMode.bind(this)}>{ mode === modes.chart ? 'show table' : 'show chart' }</a>
+                <a onClick={this.toggleMode.bind(this)}>{mode === modes.chart ? 'show table' : 'show chart'}</a>
             </form>
             {chartOrTable}
         </Fragment>;
     }
-
-    // renderAfterForm() {
-    //     return <a className="button" onClick={this.toggleMode.bind(this)}>x</a>;
-    // }
 }
 
 Object.defineProperties(ChartTable.prototype, {

@@ -196,6 +196,12 @@ form .Select.is-focused:not(.is-open) > .Select-control {
     box-shadow: inherit;
 }
 
+/* .chart-content */
+
+.chart-content {
+    min-height: 45.3rem;
+}
+
 /* form.chart-options  */
 
 form.chart-options {

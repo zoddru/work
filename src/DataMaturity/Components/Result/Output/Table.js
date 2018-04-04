@@ -1,6 +1,7 @@
 import React from 'react';
 import Base from './Base';
 import SimpleTable from './SimpleTable';
+import Loading from '../../Loading';
 
 export default class Table extends Base {
     constructor(props) {

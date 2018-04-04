@@ -4,6 +4,7 @@ import SignInDetails from '../../SignInDetails';
 import Loading from '../../Loading';
 import NotSignedIn from '../../NotSignedIn';
 import ScoreLoader from '../../../Scores/ScoreLoader';
+const Fragment = React.Fragment;
 
 const startSortOrder = { respondent: 1, role: 2, department: 3, organisation: 4, areaGroup: 5 };
 const sortFunction = (a, b) => startSortOrder[a.type] - startSortOrder[b.type];
@@ -35,7 +36,7 @@ export default class Container extends React.Component {
                 if (this.dataPromise.canceled || promise != this.dataPromise)
                     return;
                 this.setState(prevState => ({ loadingScores: false, scores }));
-            })
+            });
     }
 
     changeFilters(selectedFilters) {
@@ -71,23 +72,14 @@ export default class Container extends React.Component {
     }
 
     render() {
-        const { surveyState, isStandAlone } = this.props;
-        const { isSignedIn, authStatus, survey, respondent } = surveyState;
-        const { loadingFilters } = this.state;
+        const { isStandAlone } = this.props;
 
-        if (surveyState.loading)
-            return <Loading isSubSection={!isStandAlone} />;
-
-        if (!isSignedIn)
-            return <NotSignedIn isSubSection={!isStandAlone} status={authStatus} />;
-
-        if (loadingFilters)
-            return <Loading isSubSection={!isStandAlone} message="loading filters. just a moment..." />;
-
-        //return <Loading isSubSection={!isStandAlone} message="loading. not loading." />;
+        const chartContent = <div className="chart-content">
+            {this.renderChartContent()}
+        </div>;
 
         if (!isStandAlone)
-            return this.renderMainContent();
+            return chartContent;
 
         return <section class="main-content">
             <article>
@@ -95,41 +87,53 @@ export default class Container extends React.Component {
                     <header>
                         <h2>{this.props.heading}</h2>
                     </header>
-                    {this.renderMainContent()}
+                    {chartContent}
                 </section>
             </article>
         </section >;
     }
 
-    renderMainContent() {
-        const { loadingScores, filters, selectedFilters } = this.state;
+    renderChartContent() {
+        const { loadingFilters, loadingScores } = this.state;
+        const { surveyState, isStandAlone } = this.props;
+        const { isSignedIn, authStatus } = surveyState;
+
+        if (surveyState.loading)
+            return <Loading isSubSection={true} />;
+
+        if (!isSignedIn)
+            return <NotSignedIn isSubSection={true} status={authStatus} />;
+
+        if (loadingFilters)
+            return <Loading isSubSection={true} message="loading filters. just a sec..." />;
 
         const content = loadingScores
             ? <Loading isSubSection={true} message="loading scores. just a moment..." />
             : this.renderChildren();
 
-        return <main class="chart">
-            <form className="chart-options">
-                <Select
-                    name="series"
-                    clearable={false}
-                    value={selectedFilters}
-                    multi
-                    onChange={this.changeFilters.bind(this)}
-                    options={filters}
-                />
-                {this.renderAfterForm()}
-            </form>
+        return <Fragment>
+            {this.renderFilters()}
             {content}
-        </main>;
+        </Fragment>;
+    }
+
+    renderFilters() {
+        const { filters, selectedFilters } = this.state;
+
+        return <form className="chart-options">
+            <Select
+                name="series"
+                clearable={false}
+                value={selectedFilters}
+                multi
+                onChange={this.changeFilters.bind(this)}
+                options={filters}
+            />
+        </form>;
     }
 
     renderChildren() {
         return 'OUTPUT GOES HERE';
-    }
-
-    renderAfterForm() {
-        return null;
     }
 
     get aggregatedScores() {
