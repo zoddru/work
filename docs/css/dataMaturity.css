@@ -159,7 +159,7 @@ body>main>nav>a.active:hover::after {
 }
 
 .main-content.capped-width {
-    max-width: 130rem;
+    max-width: 100rem;
 }
 
 /* form */
@@ -466,15 +466,13 @@ a.expand {
     margin-bottom: 2rem;
 }
 
-.category .sub-section>header h3:not(:last-child) {
-    margin-bottom: 1rem;
-}
 
-.category .sub-section.tips {
+.category .sub-section.tips .tips-list,
+.category .sub-section.tips .tips-list>header {
     display: none;
 }
 
-.category .sub-section.tips.current {
+.category .sub-section.tips .tips-list.current {
     display: block;
 }
 
@@ -551,5 +549,11 @@ a.expand {
 }
 
 .modal svg.Modal-closeIcon-0-1-4 {
+    display: none;
+}
+
+/* print-only */
+
+.print-only {
     display: none;
 }

@@ -1,0 +1,114 @@
+
+@page {
+    margin: 5mm;
+}
+
+html {
+    margin: 0 4rem;
+}
+
+header {
+    page-break-inside: avoid;
+}
+
+header.print-only {
+    display: block;
+}
+
+#mainHeader, 
+#mainFooter,
+body>main>nav,
+nav.progress,
+.chart-options,
+.chart-sub-options {
+    display: none;
+}
+
+body>main {
+    padding: 2rem;
+}
+
+.main-content>article {
+    margin-left: 0;
+}
+
+.main-content>article>header h1 {
+    font-size: 3.6rem;
+    padding-bottom: 4rem;
+}
+
+.main-content>article>header h2 {
+    font-size: 3rem;
+    padding-bottom: 2rem;
+}
+
+.main-content>article header {
+    padding-top: 0;
+}
+
+.main-content.capped-width,
+.main-content .main-column, 
+.main-content .side-column {
+    max-width: 100%;
+}
+
+.category {
+    page-break-before: always;
+}
+
+.category:nth-child(2) {
+    page-break-before: auto;
+}
+
+.category .sub-section.tips {
+    display: block;
+}
+
+.category .sub-section.tips.current {
+    border-width: .4rem;
+}
+
+.category .sub-section.tips .tips-list>header {
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+}
+
+.category .sub-section.tips .tips-list>header,
+.category .sub-section.tips .tips-list {
+    display: block;
+}
+
+.category .sub-section.tips .tips-list.current>header {
+    position: relative;
+}
+
+.category .sub-section.tips .tips-list.current>header::before {
+    content: '▶';
+    position: absolute;
+    z-index: 10;
+    top: -.3rem;
+    left: -1.8rem;
+}
+
+.category .sub-section.caseStudy,
+.category .sub-section.tips,
+.category .sub-section.bestPractice {
+    border: none;
+    padding: 0;
+}
+
+.category .sub-section.tips header {
+    page-break-inside: avoid;
+    page-break-after: avoid;
+}
+
+.category .sub-section.caseStudy,
+.category .sub-section.tips,
+.category .sub-section.tips .tips-list,
+.category .sub-section.bestPractice {
+    page-break-inside: avoid;
+}
+
+.category .sub-section.signPosting {
+    display: none;
+}

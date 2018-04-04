@@ -17,10 +17,9 @@ const renderSection = (rank, content, currentRank) => {
 
     const tips = content[identifier].tips
 
-    return <section key={identifier} className={`sub-section tips ${rank.identifier === currentRank && ' current'}`}>
+    return <section key={identifier} className={`tips-list ${rank.identifier === currentRank && ' current'}`}>
 
         <header>
-            <h3>Tips for progression</h3>
             <h4>{rank.label}</h4>
         </header>
 
@@ -39,6 +38,17 @@ export default class TipsForProgression extends React.Component {
 
         const sections = ranks.map(l => renderSection(l, content, currentRank)).filter(s => !!s);
 
-        return sections;
+        if (!sections.length)
+            return null;
+
+        return <section className="sub-section tips">
+
+            <header>
+                <h3>Tips for progression</h3>
+            </header>
+
+            {sections}
+
+        </section>;
     }
 }

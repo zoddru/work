@@ -32,6 +32,10 @@ export default class Main extends React.Component {
         return <section class="main-content capped-width">
             <Nav score={score} />
             <article>
+                <header className="print-only">
+                    <h1>Local Government Data Maturity Self Assessment Tool</h1>
+                    <h2>Your results</h2>
+                </header>
                 <Summary score={score} content={content.Overall} options={options} chart={chart} />
                 {categoryScores}
             </article>
