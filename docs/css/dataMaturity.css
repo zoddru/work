@@ -202,6 +202,11 @@ form.chart-options {
     margin-bottom: 1rem;
     font-size: 1.3rem;
     text-align: right;
+    min-height: 2.8rem;
+}
+
+form.chart-options a.button {
+    display: inline-block;
 }
 
 form.chart-options .Select {
@@ -224,6 +229,19 @@ form.chart-options .Select-input>input {
 
 form.chart-options .Select--multi .Select-value {
     margin: .5rem 0 0 .5rem;
+}
+
+form.chart-sub-options {
+    font-size: 1rem;
+    margin-top: -1rem;    
+    margin-bottom: 0.4rem;
+    text-align: right;
+}
+
+form.chart-sub-options a {
+    border-bottom: none;
+    cursor: pointer;
+    user-select: none;
 }
 
 .loader-container {

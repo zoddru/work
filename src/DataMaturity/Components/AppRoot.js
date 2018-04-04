@@ -136,8 +136,8 @@ export default class AppRoot extends React.Component {
                         <NavLink exact className="button" activeClassName="active" to={{ pathname: '/', hash: '#' }}>Questions</NavLink>
                         <NavLink exact className="button" activeClassName="active" to={{ pathname: '/result', hash: '#' }}>Your results</NavLink>
                         <NavLink exact className="button" activeClassName="active" to={{ pathname: '/organisation', hash: '#' }}>{!!organisationLabel ? organisationLabel : 'Your organisation'}'s results</NavLink>
-                        <NavLink exact className="button" activeClassName="active" to={{ pathname: '/table', hash: '#' }}>Table</NavLink>
-                        <NavLink exact className="button" activeClassName="active" to={{ pathname: '/chart', hash: '#' }}>Chart</NavLink>
+                        {/* <NavLink exact className="button" activeClassName="active" to={{ pathname: '/table', hash: '#' }}>Table</NavLink>
+                        <NavLink exact className="button" activeClassName="active" to={{ pathname: '/chart', hash: '#' }}>Chart</NavLink> */}
                     </nav>
                     <Switch>
                         <Route exact path="/" render={() => routeResults['/']} />

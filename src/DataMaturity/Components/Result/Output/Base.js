@@ -118,6 +118,7 @@ export default class Container extends React.Component {
                     onChange={this.changeFilters.bind(this)}
                     options={filters}
                 />
+                {this.renderAfterForm()}
             </form>
             {content}
         </main>;
@@ -125,6 +126,10 @@ export default class Container extends React.Component {
 
     renderChildren() {
         return 'OUTPUT GOES HERE';
+    }
+
+    renderAfterForm() {
+        return null;
     }
 
     get aggregatedScores() {

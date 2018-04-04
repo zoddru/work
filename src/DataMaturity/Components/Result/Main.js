@@ -5,7 +5,7 @@ import Summary from './Summary';
 import Loading from '../Loading';
 import NotSignedIn from '../NotSignedIn';
 import content from './content';
-import Chart from './Output/Chart';
+import Chart from './Output/ChartTable';
 
 export default class Main extends React.Component {
     constructor(props) {

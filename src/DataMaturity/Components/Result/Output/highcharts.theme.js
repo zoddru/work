@@ -10,6 +10,7 @@ const axisStyle = Object.freeze({
 export default {
     colors: ['#B43F6B', '#737D27', '#CF7B25', '#8EAA94', '#C7B757'],
     chart: {
+        marginTop: 1,
         backgroundColor: null,
         style: {
             fontFamily: 'inherit'
@@ -28,7 +29,8 @@ export default {
     },
     legend: {
         useHTML: true,
-        floating: true,
+        floating: false,
+        borderColor: 'transparent',
         symbolRadius: 0,
         itemStyle: {
             color: '#000000'
