@@ -17,7 +17,8 @@ export default class Question extends React.Component {
         if (isNaN(answerValue)) {
             answerValue = e.target.value;
         }
-        const answer = this.props.question.findAnswerByValue(answerValue);
+        const question = this.props.question;
+        const answer = question.findAnswerByValue(answerValue);
         this.props.onAnswerChanged(this.props.question, answer);
     }
 
@@ -36,7 +37,7 @@ export default class Question extends React.Component {
             const labelClassName = isAnswer ? 'button active' : 'button';
             
             return <div key={a.key} className="answer">
-                <input id={a.key} name={`${question.key}.answer`} checked={isAnswer} type="radio" value={a.value} onChange={this.selectAnswer.bind(this)} />
+                <input id={a.key} name={`${question.key}.answer`} checked={isAnswer} type="radio" value={a.value} onChange={this.selectAnswer.bind(this)} onClick={e => this.props.onNext(nextQuestionKey, e)} />
                 <label for={a.key} className={labelClassName}>{a.text}</label>
             </div>;
         };
@@ -47,10 +48,8 @@ export default class Question extends React.Component {
         const questionText = parseText(question.text);
         const helpText = parseText(question.help);
 
-        const prevQuestion = question.prev;
-        const prevQuestionKey = !!prevQuestion ? prevQuestion.key: '';
-        const nextQuestion = question.next;
-        const nextQuestionKey = !!nextQuestion ? nextQuestion.key: 'end';
+        const prevQuestionKey = question.prevKey;
+        const nextQuestionKey = question.nextKey;
 
         return <section className="question" id={question.key}>
             <header>
@@ -78,8 +77,8 @@ export default class Question extends React.Component {
             </main>
             <footer>
                 <div className="navigation">
-                    {<a href={`#${prevQuestionKey}`} className="prev button active" onClick={e => this.props.onPrev(`${prevQuestionKey}`, e)}>Previous</a>}
-                    {<a href={`#${nextQuestionKey}`} className="next button active" onClick={e => this.props.onNext(`${nextQuestionKey}`, e)}>Next</a>}
+                    {<a href={`#${prevQuestionKey}`} className="prev button active" onClick={e => this.props.onPrev(prevQuestionKey, e)}>Previous</a>}
+                    {<a href={`#${nextQuestionKey}`} className="next button active" onClick={e => this.props.onNext(nextQuestionKey, e)}>Next</a>}
                 </div>
             </footer>
         </section>;

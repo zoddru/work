@@ -69,6 +69,11 @@ export default class Question {
         return prevCategory.lastQuestion;
     }
 
+    get prevKey() {
+        const prev = this.prev;
+        return !!prev ? prev.key: ''
+    }
+
     get next() {
         const questions = this.category.questions;
         const index = questions.indexOf(this);
@@ -86,6 +91,11 @@ export default class Question {
             return null;
 
         return nextCategory.firstQuestion;
+    }
+
+    get nextKey() {
+        const next = this.next;
+        return !!next ? next.key: 'end'
     }
 
     get key() {
