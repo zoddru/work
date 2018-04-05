@@ -67,6 +67,7 @@ body>header div.dropdown>a::after {
     top: .1rem;
     background-image: url(https://resources.esd.org.uk/images/common/down.png);
     background-repeat: no-repeat;
+    background-size: 2.4rem 1.2rem;
 }
 
 body>header div.dropdown>a:hover::after {

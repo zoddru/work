@@ -18,20 +18,20 @@ function WhenSignedIn(props) {
 }
 
 function WhenSignedOut(props) {
-    const { status } = props;
+    const { status, message = message || 'You are not signed in.' } = props;
     const encodedUrl = encodeURIComponent(getCurrentUrl());
 
     return <div className="signInDetails">
-        You are not signed in. <a className="button" href={"/signin?returnUrl=" + encodedUrl}>sign in</a>
+        {message} <a className="button" href={"/signin?returnUrl=" + encodedUrl}>sign in</a>
     </div>;
 }
 
 function SignInStatus(props) {
-    const { status } = props;
+    const { status, signedOutMessage } = props;
 
     return status.isSignedIn
         ? <WhenSignedIn status={status} />
-        : <WhenSignedOut status={status} />;
+        : <WhenSignedOut status={status} message={signedOutMessage} />;
 }
 
 export default class SignInDetails extends React.Component {
@@ -44,8 +44,9 @@ export default class SignInDetails extends React.Component {
     }
 
     render() {
+        const { signedOutMessage } = this.props;
         const { status } = this.state;
 
-        return <SignInStatus status={status} />;
+        return <SignInStatus status={status} signedOutMessage={signedOutMessage} />;
     }
 }

@@ -184,7 +184,7 @@ const saveSurveyState = (surveyState) => {
     localStore.clear();
 
     axios.put('/dmApi/responses', data).catch(error => console.log(error));
-    axios.put('/save/area').catch(error => console.log(error));
+    axios.put('/data/save/area').catch(error => console.log(error));
 };
 
 const loadAuthThenSavedData = (onAuthStatusLoaded) => {

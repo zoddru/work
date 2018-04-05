@@ -1,3 +1,7 @@
+html, body {
+    font-size: 10px;
+}
+
 /* html {
     scroll-behavior: smooth;
 } */
@@ -41,7 +45,7 @@ body>footer a:hover {
     color: #6a1c68;
 }
 
-@media screen and (min-width: 600px) {
+@media screen and (min-width: 60rem) {
     body>footer .columns {
         display: flex;
         flex-direction: row;
@@ -510,7 +514,7 @@ a.expand {
 
 /* .columns */
 
-@media screen and (min-width: 900px) {
+@media screen and (min-width: 90rem) {
     .columns {
         display: flex;
         flex-direction: row;

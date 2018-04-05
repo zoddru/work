@@ -10,10 +10,17 @@ export default class End extends React.Component {
 
     render() {
         const { surveyState } = this.props;
-        const { authStatus, options, survey, respondent, score } = surveyState;
+        const { authStatus, options, survey, respondent, score, isSignedIn, hasOrganisation } = surveyState;
 
         const lastQuestion = survey.lastQuestion;
         const lastQuestionKey = !!lastQuestion ? lastQuestion.key : '';
+
+        const links = !isSignedIn
+            ? null
+            : <section class="buttons">
+                <Link className="button active result" to={{ pathname: '/result', hash: '#' }}>Take me to my results</Link>
+                {hasOrganisation && <Link className="link organisation" to={{ pathname: '/organisation', hash: '#' }}>or take me to the results of my organisation</Link>}
+            </section>;
 
         return <section className="category end" id="end">
             <section class="question">
@@ -23,12 +30,7 @@ export default class End extends React.Component {
                 <main>
                     <RespondentDetails authStatus={authStatus} respondent={respondent} options={options} onRespondentChanged={this.props.onRespondentChanged} />
 
-                    <section class="buttons">
-                        <Link className="button active result" to={{ pathname: '/result', hash: '#' }}>Take me to my results</Link>
-                        <Link className="link organisation" to={{ pathname: '/organisation', hash: '#' }}>or take me to the results of my organisation</Link>
-                    </section>
 
-                    {/* <Result score={score} /> */}
                 </main>
                 <footer>
                     <div className="navigation">

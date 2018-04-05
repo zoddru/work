@@ -9,6 +9,10 @@
     box-sizing: border-box;
 }
 
+html * {
+    max-height:1000000px;
+}
+
 html, body {
     font-size: 10px;
     font-family: 'Open Sans', sans-serif;    

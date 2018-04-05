@@ -26,7 +26,7 @@ export default class RespondentDetails extends React.Component {
         const { isSignedIn, user } = authStatus;
 
         if (!isSignedIn) {
-            return <SignInDetails status={authStatus} />
+            return <SignInDetails status={authStatus} signedOutMessage="You need to sign in to finish." />
         }
 
         return <form>            

@@ -6,88 +6,7 @@ import ResponseFilters from '../DataMaturity/Scores/ResponseFilters';
 import ResponseAggregator from '../DataMaturity/Scores/ResponseAggregator';
 import DmApi from '../Data/DmApi';
 
-const isCompleteOAuth = (oAuth) => {
-    return oAuth && oAuth.token && !!oAuth.secret;
-};
 
-const getWebServices = (req, res) => {
-    const oAuth = new OAuthAccessor(req, res).get();
-
-    if (!isCompleteOAuth(oAuth)) {
-        return false;
-    }
-
-    return new WebServices(oAuth);
-};
-
-const saveArea = (req, res, loadArea) => {
-    res.setHeader('Content-Type', 'application/json');
-
-    const webServices = getWebServices(req, res);
-
-    if (!webServices) {
-        res.send({ success: true, isSignedIn: false, message: 'not signed in' });
-        return;
-    }
-
-    loadArea(webServices)
-        .then(area => {
-            if (!area.success) {
-                return;
-            }
-
-            new DmApi().putArea(area).catch((e) => console.log({ success: false, message: e.message }));
-        });
-
-    res.send({ success: true });
-};
-
-const getCurrentResponseOptions = (req, res) => {
-    const webServices = getWebServices(req, res);
-
-    if (!webServices)
-        return new DmApi().getResponseOptions();
-
-    return webServices.getCurrentUser()
-        .then(result => {
-            const user = result.data.user;
-
-            if (!user || !user.organisation || !user.organisation.governs || !user.organisation.governs.identifier)
-                return new DmApi().getResponseOptions();
-
-            const owner = user.organisation.governs.identifier;
-            return new DmApi().getResponseOptions({ owner });
-        });
-};
-
-const getAllResponses = (req, res) => {
-    const webServices = getWebServices(req, res);
-    const failure = Promise.resolve({ failure: true });
-
-    if (!webServices)
-        return failure;
-
-    return webServices.getCurrentUser()
-        .then(result => {
-            const user = result.data.user;
-
-            if (!user || !user.organisation || !user.organisation.governs || !user.organisation.governs.identifier)
-                return failure;
-
-            const organisation = user.organisation;
-            const owner = user.organisation.governs.identifier;
-            const dmApi = new DmApi();
-
-            return Promise.all([
-                dmApi.getSurvey(),
-                dmApi.getResponseOptions({ owner }),
-                dmApi.getResponses({ owner })
-            ])
-                .then(([ res1, res2, res3 ]) => { 
-                    return { user, organisation, survey: res1.data, responseOptions: res2.data, responses: res3.data };
-                });
-        });
-};
 
 export default Object.freeze({
     saveArea: (req, res) => {
@@ -175,6 +94,89 @@ export default Object.freeze({
             });
     }
 });
+
+const isCompleteOAuth = (oAuth) => {
+    return oAuth && oAuth.token && !!oAuth.secret;
+};
+
+const getWebServices = (req, res) => {
+    const oAuth = new OAuthAccessor(req, res).get();
+
+    if (!isCompleteOAuth(oAuth)) {
+        return false;
+    }
+
+    return new WebServices(oAuth);
+};
+
+const saveArea = (req, res, loadArea) => {
+    res.setHeader('Content-Type', 'application/json');
+
+    const webServices = getWebServices(req, res);
+
+    if (!webServices) {
+        res.send({ success: true, isSignedIn: false, message: 'not signed in' });
+        return;
+    }
+
+    loadArea(webServices)
+        .then(area => {
+            if (!area.success) {
+                return;
+            }
+
+            new DmApi().putArea(area).catch((e) => console.log({ success: false, message: e.message }));
+        });
+
+    res.send({ success: true });
+};
+
+const getCurrentResponseOptions = (req, res) => {
+    const webServices = getWebServices(req, res);
+
+    if (!webServices)
+        return new DmApi().getResponseOptions();
+
+    return webServices.getCurrentUser()
+        .then(result => {
+            const user = result.data.user;
+
+            if (!user || !user.organisation || !user.organisation.governs || !user.organisation.governs.identifier)
+                return new DmApi().getResponseOptions();
+
+            const owner = user.organisation.governs.identifier;
+            return new DmApi().getResponseOptions({ owner });
+        });
+};
+
+const getAllResponses = (req, res) => {
+    const webServices = getWebServices(req, res);
+    const failure = Promise.resolve({ failure: true });
+
+    if (!webServices)
+        return failure;
+
+    return webServices.getCurrentUser()
+        .then(result => {
+            const user = result.data.user;
+
+            if (!user || !user.organisation || !user.organisation.governs || !user.organisation.governs.identifier)
+                return failure;
+
+            const organisation = user.organisation;
+            const owner = user.organisation.governs.identifier;
+            const dmApi = new DmApi();
+
+            return Promise.all([
+                dmApi.getSurvey(),
+                dmApi.getResponseOptions({ owner }),
+                dmApi.getResponses({ owner })
+            ])
+                .then(([ res1, res2, res3 ]) => { 
+                    return { user, organisation, survey: res1.data, responseOptions: res2.data, responses: res3.data };
+                });
+        });
+};
 
 const ensureArray = (value) => {
     if (Array.isArray(value))
