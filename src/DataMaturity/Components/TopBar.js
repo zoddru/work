@@ -36,7 +36,7 @@ class Dropdown extends React.Component {
         super(props);
 
         this.timeoutId = null;
-        this.state = { isOpen: true, inDom: true };
+        this.state = { isOpen: false, inDom: false };
 
         this.windowClick = () => this.close();
     }
