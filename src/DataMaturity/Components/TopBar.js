@@ -36,7 +36,9 @@ class Dropdown extends React.Component {
         super(props);
 
         this.timeoutId = null;
-        this.state = { isOpen: false, inDom: false };
+        this.state = { isOpen: true, inDom: true };
+
+        this.windowClick = () => this.close();
     }
 
     addToDom() {
@@ -65,23 +67,41 @@ class Dropdown extends React.Component {
         this.timeoutId = setTimeout(this.removeFromDom.bind(this), dropdownOutDelay);
     }
 
+    toggle() {
+        if (this.state.isOpen)
+            this.close();
+        else
+            this.open();
+    }
+
     mouseEnter() {
         this.open();
-
     }
 
     mouseLeave() {
         this.close();
     }
 
+    mouseClick(e) {
+        e.preventDefault();
+        this.toggle();
+        return false;
+    }
+    
+    componentDidMount() {
+        document.addEventListener('mousedown', this.windowClick);
+    }
+
+    componentWillUnmount() {
+        document.removeEventListener('mousedown', this.windowClick);
+    }
+
     render() {
         const { label, href, children } = this.props;
         const { isOpen, inDom } = this.state;
 
-        const link = href ? <a href={href}>{label}</a> : <a>{label}</a>;
-
         return <div className={`dropdown ${isOpen ? 'open' : ''}`} onMouseEnter={this.mouseEnter.bind(this)} onMouseLeave={this.mouseLeave.bind(this)}>
-            {link}
+            <a href={href || null}>{label}<span className="toggle" onClick={this.mouseClick.bind(this)}></span></a>
             {inDom && <div className="content">
                 {children}
             </div>}

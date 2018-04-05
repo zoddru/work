@@ -57,7 +57,7 @@ body>header div.dropdown>a:before {
     content: none;
 }
 
-body>header div.dropdown>a::after {
+/* body>header div.dropdown>a::after {
     content: '';
     position: relative;
     display: inline-block;
@@ -71,6 +71,25 @@ body>header div.dropdown>a::after {
 }
 
 body>header div.dropdown>a:hover::after {
+    background-position: -12px top;
+} */
+
+body>header div.dropdown>a>.toggle {
+    display: inline-block;
+    position: relative;
+    width: 1.2rem;
+    height: 1.2rem;
+
+    padding: 0;
+    top: .1rem;
+    margin-left: .5rem;
+
+    background-image: url(https://resources.esd.org.uk/images/common/down.png);
+    background-repeat: no-repeat;
+    background-size: 2.4rem 1.2rem;
+}
+
+body>header div.dropdown>a:hover>.toggle {
     background-position: -12px top;
 }
 
