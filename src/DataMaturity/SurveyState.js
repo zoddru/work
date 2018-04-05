@@ -56,6 +56,10 @@ export default class SurveyState {
         return this.user && this.user.organisation || null;
     }
 
+    get hasOrganisation() {
+        return !!this.organisation && !!this.organisation.identifier;
+    }
+
     get organisationLabel() {
         const organisation = this.organisation;
         if (!organisation)

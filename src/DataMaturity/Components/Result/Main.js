@@ -17,7 +17,7 @@ export default class Main extends React.Component {
     }
 
     render() {
-        const { score, surveyState, options = options || {} } = this.props;
+        const { score, surveyState, options = options || {}, subHeading = subHeading || 'Your results' } = this.props;
 
         if (!surveyState.isSignedIn)
             return <NotSignedIn status={surveyState.authStatus} />;
@@ -34,7 +34,7 @@ export default class Main extends React.Component {
             <article>
                 <header className="print-only">
                     <h1>Local Government Data Maturity Self Assessment Tool</h1>
-                    <h2>Your results</h2>
+                    <h2>{subHeading}</h2>
                 </header>
                 <Summary score={score} content={content.Overall} options={options} chart={chart} />
                 {categoryScores}

@@ -4,6 +4,7 @@ import common from '../../common';
 import ResultMain from './Main';
 import NotSignedIn from '../NotSignedIn';
 import Loading from '../Loading';
+import Error from '../Error';
 import ScoreLoader from '../../Scores/ScoreLoader';
 import ResponseFilters from '../../Scores/ResponseFilters';
 import ResponseAggregator from '../../Scores/ResponseAggregator';
@@ -24,7 +25,7 @@ export default class OrganisationMain extends React.Component {
 
         new ScoreLoader(this.props.surveyState)
             .loadFiltersAndOrganisationResponses()
-            .then(([ allFilters, responses ]) => {
+            .then(([allFilters, responses]) => {
                 const filters = allFilters.filter(f => f.type === 'organisation' || f.type === 'areaGroup');
                 this.setState(prevState => ({ loadingData: false, responses, filters }));
             });
@@ -44,13 +45,17 @@ export default class OrganisationMain extends React.Component {
         if (loadingData)
             return <Loading message="loading data. please wait..." />;
 
-        const organisation = surveyState.organisation;
+        const { organisation, organisationLabel } = surveyState;
+
+        if (!organisation || !organisation.identifier)
+            return <Error message="You are not associated with an organisation." />;
+
         const options = {
-            summaryText: `Answers from ${organisation.shortLabel || organisation.label} indicate that staff perceive the council to be at level`,
+            summaryText: `Answers from ${organisationLabel} indicate that staff perceive the council to be at level`,
             initalFilters: this.state.filters
         };
 
-        return <ResultMain surveyState={surveyState} score={this.aggregatedScore} options={options} />;
+        return <ResultMain surveyState={surveyState} score={this.aggregatedScore} options={options} subHeading={organisationLabel} />;
     }
 
     get aggregatedScore() {

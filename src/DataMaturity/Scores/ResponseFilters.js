@@ -18,7 +18,7 @@ class TypedItem {
 }
 
 const getOrgFilters = ({ organisation, roles, departments }) => {
-    if (!organisation)
+    if (!organisation || !organisation.identifier)
         return [];
 
     return [{

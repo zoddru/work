@@ -116,7 +116,7 @@ export default class AppRoot extends React.Component {
     render() {
         const { surveyState, hasConflicts } = this.state;
         const { history } = this.props;
-        const { score, loading, userLabel, organisationLabel } = surveyState;
+        const { score, loading, userLabel, hasOrganisation, organisationLabel } = surveyState;
 
         const loadingEl = <Loading />;
 
@@ -135,9 +135,7 @@ export default class AppRoot extends React.Component {
                     <nav>
                         <NavLink exact className="button" activeClassName="active" to={{ pathname: '/', hash: '#' }}>Questions</NavLink>
                         <NavLink exact className="button" activeClassName="active" to={{ pathname: '/result', hash: '#' }}>Your results</NavLink>
-                        <NavLink exact className="button" activeClassName="active" to={{ pathname: '/organisation', hash: '#' }}>{!!organisationLabel ? organisationLabel : 'Your organisation'}'s results</NavLink>
-                        {/* <NavLink exact className="button" activeClassName="active" to={{ pathname: '/table', hash: '#' }}>Table</NavLink>
-                        <NavLink exact className="button" activeClassName="active" to={{ pathname: '/chart', hash: '#' }}>Chart</NavLink> */}
+                        {hasOrganisation && <NavLink exact className="button" activeClassName="active" to={{ pathname: '/organisation', hash: '#' }}>{!!organisationLabel ? organisationLabel : 'Your organisation'}'s results</NavLink>}
                     </nav>
                     <Switch>
                         <Route exact path="/" render={() => routeResults['/']} />
