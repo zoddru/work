@@ -41,7 +41,7 @@ export default class Summary extends React.Component {
                     </div>
                 </div>
 
-                {score.isValid && this.props.chart}
+                {score.hasMean && this.props.chart}
             </main>
 
         </section>;
