@@ -45,7 +45,7 @@ body>footer a:hover {
     color: #6a1c68;
 }
 
-@media screen and (min-width: 60rem) {
+@media screen and (min-width: 600px) {
     body>footer .columns {
         display: flex;
         flex-direction: row;
@@ -514,7 +514,9 @@ a.expand {
 
 /* .columns */
 
-@media screen and (min-width: 90rem) {
+/* https://stackoverflow.com/questions/6370690/media-queries-how-to-target-desktop-tablet-and-mobile */
+
+@media screen and (min-width: 900px) {
     .columns {
         display: flex;
         flex-direction: row;
