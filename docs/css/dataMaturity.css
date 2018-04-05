@@ -72,19 +72,34 @@ body>main {
 body>main>nav {
     /*font-size: 1rem;*/
     z-index: 20;
-    position: fixed;
+    position: static;
     top: 4.16rem;
     left: 18rem;
     right: 0;
-    padding: 1rem 0;
+    padding: 0 0 1rem 0;
     border-bottom: solid 1px #E2E3E7;
     background-color: white;
+    margin-left: 2rem;
+}
+
+@media screen and (min-width: 600px) {
+    body>main>nav {
+        margin-left: 18rem;
+    }
+}
+
+@media screen and (min-width: 800px) {
+    body>main>nav {
+        margin-left: 0;
+        position: fixed;
+    }
 }
 
 body>main>nav>a.button {
     position: relative;
     display: inline-block;
     height: 3rem;
+    margin-top: 1rem;
     margin-left: 1.5rem;
     padding-left: 2rem;
 }
@@ -145,7 +160,14 @@ body>main>nav>a.active:hover::after {
 
 .main-content>article {
     /* leave space for the side bar nav */
-    margin-left: 18rem;
+    margin-left: 2rem;
+}
+
+@media screen and (min-width: 600px) {
+    .main-content>article {
+        /* leave space for the side bar nav */
+        margin-left: 18rem;
+    }
 }
 
 .main-content>article header {
@@ -157,8 +179,7 @@ body>main>nav>a.active:hover::after {
     padding-top: 2rem;
 }
 
-.main-content .main-column,
-.main-content .side-column {
+.main-content .main-column, .main-content .side-column {
     max-width: 62rem;
 }
 
@@ -195,7 +216,7 @@ form .Select input {
     border: none;
 }
 
-form .Select.is-focused:not(.is-open) > .Select-control {
+form .Select.is-focused:not(.is-open)>.Select-control {
     border-color: #b3b3b3 #ccc #d9d9d9;
     box-shadow: inherit;
 }
@@ -225,8 +246,7 @@ form.chart-options .Select {
     text-align: left;
 }
 
-form.chart-options .Select-control,
-form.chart-options .Select-input {
+form.chart-options .Select-control, form.chart-options .Select-input {
     height: auto;
 }
 
@@ -243,7 +263,7 @@ form.chart-options .Select--multi .Select-value {
 
 form.chart-sub-options {
     font-size: 1rem;
-    margin-top: -1rem;    
+    margin-top: -1rem;
     margin-bottom: 0.4rem;
     text-align: right;
 }
@@ -470,9 +490,7 @@ a.expand {
     margin-bottom: 2rem;
 }
 
-
-.category .sub-section.tips .tips-list,
-.category .sub-section.tips .tips-list>header {
+.category .sub-section.tips .tips-list, .category .sub-section.tips .tips-list>header {
     display: none;
 }
 

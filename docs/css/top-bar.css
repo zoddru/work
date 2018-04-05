@@ -1,6 +1,6 @@
 body>header {
     z-index: 20;
-    position: fixed;
+    position: static;
     top: 0;
     left: 0;
     right: 0;
@@ -27,8 +27,7 @@ body>header>a:first-child {
     padding-left: 0;
 }
 
-body>header a::before,
-body>header div.dropdown::before {
+body>header a::before, body>header div.dropdown::before {
     content: '';
     position: relative;
     left: 0;
@@ -39,8 +38,7 @@ body>header a::before {
     left: -1rem;
 }
 
-body>header a:first-child::before,
-body>header div.dropdown:first-child::before {
+body>header a:first-child::before, body>header div.dropdown:first-child::before {
     content: none;
 }
 
@@ -57,33 +55,14 @@ body>header div.dropdown>a:before {
     content: none;
 }
 
-/* body>header div.dropdown>a::after {
-    content: '';
-    position: relative;
-    display: inline-block;
-    width: 1.2rem;
-    height: 1.2rem;
-    margin-left: .5rem;
-    top: .1rem;
-    background-image: url(https://resources.esd.org.uk/images/common/down.png);
-    background-repeat: no-repeat;
-    background-size: 2.4rem 1.2rem;
-}
-
-body>header div.dropdown>a:hover::after {
-    background-position: -12px top;
-} */
-
 body>header div.dropdown>a>.toggle {
     display: inline-block;
     position: relative;
     width: 1.2rem;
     height: 1.2rem;
-
     padding: 0;
     top: .1rem;
     margin-left: .5rem;
-
     background-image: url(https://resources.esd.org.uk/images/common/down.png);
     background-repeat: no-repeat;
     background-size: 2.4rem 1.2rem;
@@ -111,8 +90,7 @@ body>header div.dropdown.open>div.content {
     opacity: 1;
 }
 
-body>header div.dropdown>div.content a,
-body>header div.dropdown>div.content .label {
+body>header div.dropdown>div.content a, body>header div.dropdown>div.content .label {
     display: block;
     padding: 1rem 0;
     margin: 0;
@@ -127,18 +105,15 @@ body>header div.dropdown>div.content .children {
     padding-left: 1.3rem;
 }
 
-body>header div.dropdown>div.content>a:first-child,
-body>header div.dropdown>div.content>.label:first-child {
+body>header div.dropdown>div.content>a:first-child, body>header div.dropdown>div.content>.label:first-child {
     padding-top: 0;
 }
 
-body>header div.dropdown>div.content>a:last-child,
-body>header div.dropdown>div.content>.label:last-child {
+body>header div.dropdown>div.content>a:last-child, body>header div.dropdown>div.content>.label:last-child {
     padding-bottom: 0;
 }
 
-body>header div.dropdown>div.content>.children:last-child>a:last-child,
-body>header div.dropdown>div.content>.children:last-child>.label:last-child {
+body>header div.dropdown>div.content>.children:last-child>a:last-child, body>header div.dropdown>div.content>.children:last-child>.label:last-child {
     padding-bottom: 0;
 }
 
@@ -157,16 +132,14 @@ body>header .credentials div.dropdown>div.content {
     right: 0;
 }
 
-body>header .credentials div.dropdown>div.content a,
-body>header .credentials div.dropdown>div.content .label {
+body>header .credentials div.dropdown>div.content a, body>header .credentials div.dropdown>div.content .label {
     padding: 0;
     margin: 2.8rem 0;
 }
 
-body>header .credentials div.dropdown>div.content .label:first-child,
-body>header .credentials div.dropdown>div.content .label.subtle {
+body>header .credentials div.dropdown>div.content .label:first-child, body>header .credentials div.dropdown>div.content .label.subtle {
     margin-top: 0;
-    margin-bottom: .8rem; 
+    margin-bottom: .8rem;
 }
 
 body>header .credentials div.dropdown>div.content .label.subtle {
@@ -178,4 +151,18 @@ body>header div.dropdown>div.content a.signOut {
     text-align: center;
     padding: 2rem 0;
     margin: 0 -1rem -1rem -1rem;
+}
+
+body>header>a, body>header>div.dropdown {
+    display: none;
+}
+
+@media screen and (min-width: 800px) {
+    body>header {
+        position: fixed;
+    }
+
+    body>header>a, body>header>div.dropdown {
+        display: inline-block;
+    }
 }

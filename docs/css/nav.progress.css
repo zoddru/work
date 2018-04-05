@@ -5,8 +5,37 @@ nav.progress {
     left: 0;
     width: 16rem;
     text-align: center;
-    display: flex;
+    display: none;
     flex-direction: column;
+
+    background-color: white;
+    z-index: 20;
+}
+
+@media screen and (min-width: 600px) {
+    nav.progress {
+        display: flex;
+    }
+}
+
+nav.progress::before {
+    content: '';
+    position: absolute;
+    top: -4rem;
+    left: 0;
+    right: 0;
+    height: 4rem;
+    background-color: white;
+}
+
+nav.progress::after {
+    content: '';
+    position: absolute;
+    bottom: -4rem;
+    left: 0;
+    right: 0;
+    height: 4rem;
+    background-color: white;
 }
 
 /* reset some of the link styles */
