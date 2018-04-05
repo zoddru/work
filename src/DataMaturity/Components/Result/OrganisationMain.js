@@ -51,6 +51,7 @@ export default class OrganisationMain extends React.Component {
             return <Error message="You are not associated with an organisation." />;
 
         const options = {
+            invalidWarning: `There have not been enough responses from ${organisationLabel} to calculate an accurate score.`,
             summaryText: `Answers from ${organisationLabel} indicate that staff perceive the council to be at level`,
             initalFilters: this.state.filters
         };

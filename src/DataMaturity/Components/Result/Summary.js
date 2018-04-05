@@ -8,15 +8,21 @@ export default class Summary extends React.Component {
     }
 
     render() {
-        const { score, content } = this.props;
+        const { score, content, options } = this.props;
 
-        const warningContent = score.isValid ? null : <p>You haven't filled in enough of the survey to get an accurate score.</p>;
+        const invalidWarning = options && options.invalidWarning
+            ? options.invalidWarning
+            : 'You haven\'t filled in enough of the survey to calculate an accurate score.';
+
+        const warningContent = score.isValid ? null : <p>{invalidWarning}</p>;
 
         const bestPractice = content.bestPractice;
         const caseStudy = content.caseStudy;
         const signPosting = content.signPosting;
 
         const rankContent = content[score.rankLabel];
+
+        const showChart = score.hasMean || (score.categoryScores && score.categoryScores.filter(cs => cs.hasMean).length > 0);
         
         //const tips = !!rankContent && rankContent.tips;
 
@@ -41,7 +47,7 @@ export default class Summary extends React.Component {
                     </div>
                 </div>
 
-                {score.hasMean && this.props.chart}
+                {showChart && this.props.chart}
             </main>
 
         </section>;
