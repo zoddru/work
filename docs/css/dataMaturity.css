@@ -369,11 +369,18 @@ a.expand {
 
 .question>footer {
     border-bottom: solid 1px #E2E3E7;
-    margin-bottom: 4.16rem;
+    margin-bottom: 8.32rem;
     position: absolute;
     bottom: 0;
     left: 0;
     right: 0;
+}
+
+@media screen and (min-width: 600px),
+screen and (min-height: 600px) {
+    .question>footer {
+        margin-bottom: 4.16rem;
+    }
 }
 
 .category:last-child .question>footer {
