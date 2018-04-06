@@ -78,11 +78,12 @@ body>main {
 }
 
 .category .sub-section.tips .tips-list.current>header::before {
-    content: '▶';
+    content: '▸';
     position: absolute;
     z-index: 10;
-    top: -.3rem;
-    left: -1.8rem;
+    top: -1.8rem;
+    left: -3rem;
+    font-size: 3.8rem;
 }
 
 .category .sub-section.caseStudy,

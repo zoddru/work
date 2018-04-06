@@ -169,9 +169,10 @@ nav.progress .node.answered a:hover {
 
 nav.progress .node.selected::before {
     bottom: 0;
-    content: '▶';
+    content: '▸';
     position: absolute;
     z-index: 10;
     line-height: 0;
-    left: -8rem;
+    left: -8.6rem;
+    font-size: 3.8rem;
 }
