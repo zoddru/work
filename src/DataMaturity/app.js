@@ -1,6 +1,7 @@
 import 'babel-polyfill';
 import 'core-js/es6/map';
 import 'core-js/es6/set';
+import smoothscroll from 'smoothscroll-polyfill';
 import React from 'react';
 import ReactDom from 'react-dom';
 import axios from 'axios';
@@ -14,7 +15,9 @@ import ResultMain from './Components/Result/Main';
 import AppRoot from './Components/AppRoot';
 //import AnimatedExample from './Components/AnimatedExample';
 import { createBrowserHistory } from 'history';
-const history = createBrowserHistory()
+const history = createBrowserHistory();
+
+smoothscroll.polyfill();
 
 if ('scrollRestoration' in history) { // turn off scrolling to top bottom in chrome
     history.scrollRestoration = 'manual';

@@ -53,6 +53,7 @@
     "react-transition-group": "^2.2.1",
     "request": "^2.83.0",
     "request-promise": "^4.2.2",
+    "smoothscroll-polyfill": "^0.4.3",
     "vue": "^2.5.13",
     "webpack-dev-server": "^2.10.1"
   },
