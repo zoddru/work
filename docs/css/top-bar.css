@@ -157,7 +157,7 @@ body>header>a, body>header>div.dropdown {
     display: none;
 }
 
-@media screen and (min-width: 800px) {
+@media screen and (min-width: 768px) {
     body>header {
         position: fixed;
     }

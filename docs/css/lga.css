@@ -9,8 +9,16 @@ body {
     font-family: Arial, Helvetica, sans-serif;
 }
 
-h1, h2, h3 {
+main, section {
+    display: block;  /* new */
+}
+
+h1, h2 {
     font-size: 2.4rem;
+}
+
+h3 {
+    font-size: 2rem;
 }
 
 a {

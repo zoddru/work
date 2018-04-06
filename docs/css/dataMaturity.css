@@ -88,7 +88,7 @@ body>main>nav {
     }
 }
 
-@media screen and (min-width: 800px) {
+@media screen and (min-width: 768px) {
     body>main>nav {
         margin-left: 0;
         position: fixed;
@@ -171,8 +171,14 @@ body>main>nav>a.active:hover::after {
 }
 
 .main-content>article header {
-    padding-top: 10rem;
+    padding-top: 2rem;
     padding-bottom: 2rem;
+}
+
+@media screen and (min-width: 600px) {
+    .main-content>article header {
+        padding-top: 10rem;
+    }
 }
 
 .main-content>article>main, .category>main, .question>main {
@@ -462,11 +468,10 @@ a.expand {
 
 .category .sub-section.warning {
     padding: 2rem;
-    color: #9F6000;
-    background-color: #FEEFB3;
-    border: dashed 0.02rem #9F6000;
+    color: #8a6d3b;
+    background-color: #fcf8e3;
+    border: solid 1px #f7ecb5;
     max-width: 130rem;
-    font-weight: bold;
 }
 
 .category .sub-section.warning header {
