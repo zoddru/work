@@ -376,8 +376,7 @@ a.expand {
     right: 0;
 }
 
-@media screen and (min-width: 600px),
-screen and (min-height: 600px) {
+@media screen and (min-width: 600px) {
     .question>footer {
         margin-bottom: 4.16rem;
     }
