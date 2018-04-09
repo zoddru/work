@@ -43,6 +43,8 @@ const app = express()
     .get('/data/scores', DataMaturityActions.scores)
     .get('/data/currentResponseOptions', DataMaturityActions.currentResponseOptions)
 
+    .post('/error', DataMaturityActions.error)
+
     // authentication:
     .get('/authentication/status', AuthenticationActions.status)
     .get('/authentication/log', AuthenticationActions.log)

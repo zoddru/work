@@ -1,5 +1,7 @@
 import React from 'react';
 import axios from 'axios';
+import Error from './Error';
+import common from '../common';
 const Fragment = React.Fragment;
 
 const dropdownInDelay = 200;
@@ -158,7 +160,7 @@ export default class TopBar extends React.Component {
     constructor(props) {
         super(props);
 
-        this.state = { menu: [] };
+        this.state = { error: false, menu: [] };
     }
 
     componentDidMount() {
@@ -169,8 +171,16 @@ export default class TopBar extends React.Component {
             .catch(error => console.log({ success: false, message: 'could not load menu', error }))
     }
 
+    componentDidCatch(error, info) {
+        common.log.error(error, info);
+        this.setState({ error: { error, info } });
+    }
+
     render() {
-        const { menu } = this.state;
+        const { error, menu } = this.state;
+
+        if (error)
+            return null;
 
         const items = menu.map((item, i) => {
             if (!item.children || !item.children.length)

@@ -1,8 +1,7 @@
+import axios from 'axios';
+
 export default Object.freeze({
     toSelectOptions: items => items.map(item => { return { value: item.identifier, label: item.label } }).sort(item => item.label),
-
-    filtersCache: new Map(),
-    responsesCache: new Map(),
 
     stringifyReplcacers: Object.freeze({
         getNoCircular: () => {
@@ -15,6 +14,17 @@ export default Object.freeze({
                 cache.push(value); // Store value in our collection
                 return value;
             };
+        }
+    }),
+
+    log: Object.freeze({
+        error: (error, info) => {
+            const data = {
+                message: error && error.toString(),
+                info: info && info.componentStack && info.componentStack.toString()
+            };
+
+            return axios.post('/error', data);
         }
     })
 });

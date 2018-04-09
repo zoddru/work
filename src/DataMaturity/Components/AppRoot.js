@@ -16,6 +16,8 @@ import LocalStore from '../LocalStore';
 import Loading from './Loading';
 import NotSignedIn from './NotSignedIn';
 import ModalExample from './ModalExample';
+import Error from './Error';
+import common from '../common';
 const Fragment = React.Fragment;
 
 const localStore = new LocalStore('DataMaturity_Responses');
@@ -26,6 +28,7 @@ export default class AppRoot extends React.Component {
         super(props);
 
         this.state = {
+            error: false,
             surveyState: new SurveyState(),
             hasConflicts: false
         };
@@ -113,8 +116,17 @@ export default class AppRoot extends React.Component {
         });
     }
 
+    componentDidCatch(error, info) {
+        common.log.error(error, info);
+        this.setState({ error: { error, info } });
+    }
+
     render() {
-        const { surveyState, hasConflicts } = this.state;
+        const { surveyState, hasConflicts, error } = this.state;
+
+        if (error)
+            return <Error message={`The error message is: ${error.error.toString()}`} />;
+
         const { history } = this.props;
         const { score, loading, userLabel, hasOrganisation, organisationLabel } = surveyState;
 

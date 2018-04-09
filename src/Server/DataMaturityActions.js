@@ -9,6 +9,13 @@ import DmApi from '../Data/DmApi';
 
 
 export default Object.freeze({
+    error: (req, res) => {
+        const data = req.body;
+        new DmApi().postError(data);
+        res.setHeader('Content-Type', 'application/json');
+        res.send({ success: true });
+    },
+
     saveArea: (req, res) => {
         saveArea(req, res, ws => ws.getArea(req.params.identifier));
     },

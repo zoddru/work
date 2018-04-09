@@ -1,5 +1,6 @@
 const config = require('../../config.broker');
 const axios = require('axios');
+const timeout = 10000;
 
 const host = config.dataMaturity && config.dataMaturity.apiHost || 'api.dataMaturity.esd.org.uk';
 
@@ -22,9 +23,19 @@ export default class DmApi {
         const url = this.getUrl(path);
         return axios({
             method: 'get',
-            timeout: 5000,
+            timeout,
             url,
             params
+        });
+    }
+
+    post(path, data) {
+        const url = this.getUrl(path);
+        return axios({
+            method: 'post',
+            timeout,
+            url,
+            data
         });
     }
 
@@ -32,7 +43,7 @@ export default class DmApi {
         const url = this.getUrl(path);
         return axios({
             method: 'put',
-            timeout: 5000,
+            timeout,
             url,
             data
         });
@@ -40,6 +51,10 @@ export default class DmApi {
 
     putArea(area) {
         return this.put('area', area);
+    }
+
+    postError(data) {
+        return this.post('error', data);
     }
 
     getSurvey() {
