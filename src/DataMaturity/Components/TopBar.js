@@ -187,12 +187,12 @@ export default class TopBar extends React.Component {
                 return <ItemLink key={i} item={item} />;
             return <Dropdown key={i} label={item.title} href={item.url}>
                 <MenuItems children={item.children} />
-            </Dropdown>
-        })
+            </Dropdown>;
+        });
 
         return <Fragment>
             {items}
             <SignInStatus status={this.props.status} />
-        </Fragment>
+        </Fragment>;
     }
 }
