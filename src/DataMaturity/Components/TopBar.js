@@ -160,7 +160,7 @@ export default class TopBar extends React.Component {
     constructor(props) {
         super(props);
 
-        this.state = { error: false, menu: [] };
+        this.state = { menu: [] };
     }
 
     componentDidMount() {
@@ -171,16 +171,8 @@ export default class TopBar extends React.Component {
             .catch(error => console.log({ success: false, message: 'could not load menu', error }))
     }
 
-    componentDidCatch(error, info) {
-        common.log.error(error, info);
-        this.setState({ error: { error, info } });
-    }
-
     render() {
-        const { error, menu } = this.state;
-
-        if (error)
-            return null;
+        const { menu } = this.state;
 
         const items = menu.map((item, i) => {
             if (!item.children || !item.children.length)

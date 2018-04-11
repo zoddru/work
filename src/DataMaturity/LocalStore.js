@@ -1,8 +1,10 @@
+import common from './common';
+
 class DummyLocalStorage {
     constructor() {
         this.map = new Map();
     }
-    
+
     setItem(key, value) {
         this.map.set(key, value);
     }
@@ -25,25 +27,39 @@ export default class LocalStore {
 
     store(data) {
         let json;
-        
+
         try {
             json = JSON.stringify(data);
         }
-        catch(e) {
+        catch (e) {
             return;
         }
 
-        this._storage.setItem(this.key, json);
+        try {
+            this._storage.setItem(this.key, json);
+        }
+        catch (e) {
+            common.log.error('failed to write to local storage', e.toString());
+        }
     }
 
     fetch() {
-        const json = this._storage.getItem(this.key);
-        let obj;
+        let json;
+
+        try {
+            json = this._storage.getItem(this.key);
+        }
+        catch (e) {
+            common.log.error('could not retreive results from local storage', e.toString());
+            return null;
+        }
         
+        let obj;
+
         try {
             obj = JSON.parse(json);
         }
-        catch(e) {
+        catch (e) {
             return null;
         }
 

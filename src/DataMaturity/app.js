@@ -13,7 +13,9 @@ import Footer from './Components/Footer';
 import SurveyMain from './Components/Survey/Main';
 import ResultMain from './Components/Result/Main';
 import AppRoot from './Components/AppRoot';
+import ErrorBoundary from './Components/ErrorBoundary';
 //import AnimatedExample from './Components/AnimatedExample';
+import common from './common';
 import { createBrowserHistory } from 'history';
 const history = createBrowserHistory();
 
@@ -23,14 +25,15 @@ if ('scrollRestoration' in history) { // turn off scrolling to top bottom in chr
     history.scrollRestoration = 'manual';
 }
 
-function renderHeader(authStatus) {
-    ReactDom.render(<TopBar status={authStatus} />, document.getElementById('mainHeader'));
-}
-
-const start = () => {
-    ReactDom.render(<AppRoot onAuthStatusReceived={renderHeader} history={history} />, document.getElementById('appRoot'));
+const authStatusReceived = (authStatus) => {
+    common.global.set('authStatus', authStatus);
+    ReactDom.render(<ErrorBoundary isSubSection={true}><TopBar status={authStatus} /></ErrorBoundary>, document.getElementById('mainHeader'));
 };
 
-ReactDom.render(<Footer history={history} />, document.getElementById('mainFooter'));
+const start = () => {
+    ReactDom.render(<ErrorBoundary><AppRoot onAuthStatusReceived={authStatusReceived} history={history} /></ErrorBoundary>, document.getElementById('appRoot'));
+};
+
+ReactDom.render(<ErrorBoundary isSubSection={true}><Footer history={history} /></ErrorBoundary>, document.getElementById('mainFooter'));
 
 start();

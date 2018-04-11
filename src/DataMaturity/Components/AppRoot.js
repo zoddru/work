@@ -28,7 +28,6 @@ export default class AppRoot extends React.Component {
         super(props);
 
         this.state = {
-            error: false,
             surveyState: new SurveyState(),
             hasConflicts: false
         };
@@ -116,16 +115,8 @@ export default class AppRoot extends React.Component {
         });
     }
 
-    componentDidCatch(error, info) {
-        common.log.error(error, info);
-        this.setState({ error: { error, info } });
-    }
-
     render() {
-        const { surveyState, hasConflicts, error } = this.state;
-
-        if (error)
-            return <Error message={`The error message is: ${error.error.toString()}`} />;
+        const { surveyState, hasConflicts } = this.state;
 
         const { history } = this.props;
         const { score, loading, userLabel, hasOrganisation, organisationLabel } = surveyState;

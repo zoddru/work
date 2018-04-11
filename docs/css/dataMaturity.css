@@ -17,6 +17,19 @@ body>footer {
     font-size: 1.3rem;
 }
 
+body>footer>.error,
+body>footer>.error>header,
+body>footer>.error>header>h2,
+body>footer>.error>p {
+    display: inline-block;
+    font-size: 1.3rem;
+}
+
+body>footer>.error>header>h2::after {
+    content: '. ';
+    padding-right: 1rem;
+}
+
 body>footer p {
     margin-bottom: 0;
     display: inline-block;

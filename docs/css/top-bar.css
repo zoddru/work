@@ -15,6 +15,19 @@ body>header {
     z-index: 30;
 }
 
+body>header>.error,
+body>header>.error>header,
+body>header>.error>header>h2,
+body>header>.error>p {
+    display: inline-block;
+    font-size: 1.3rem;
+}
+
+body>header>.error>header>h2::after {
+    content: '. ';
+    padding-right: 1rem;
+}
+
 body>header a {
     display: inline-block;
     position: relative;
