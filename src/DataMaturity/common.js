@@ -16,7 +16,7 @@ const global = Object.freeze({
 });
 
 const common = Object.freeze({
-    version: 'beta 1.0.1',
+    version: 'Beta 1.0.1',
 
     toSelectOptions: items => items.map(item => { return { value: item.identifier, label: item.label } }).sort(item => item.label),
 
