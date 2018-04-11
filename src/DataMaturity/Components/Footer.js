@@ -1,4 +1,5 @@
 import React from 'react';
+import common from '../common';
 
 export default class Footer extends React.Component {
 
@@ -12,6 +13,9 @@ export default class Footer extends React.Component {
         return <div class="columns">
             <div class="column">
                 <a href="/disclaimer" onClick={(e) => this.setHistory(e, '/disclaimer')}>Disclaimer</a>
+                <span className="version">                    
+                    {common.version}
+                </span>
             </div>
             <div class="column">
                 <a href="https://www.local.gov.uk/">LGA</a>
