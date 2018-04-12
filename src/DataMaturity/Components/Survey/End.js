@@ -32,7 +32,7 @@ export default class End extends React.Component {
 
                     <section class="buttons">
                         <Link className="button active result" to={{ pathname: '/result', hash: '#' }}>Take me to my results</Link>
-                        <Link className="link organisation" to={{ pathname: '/organisation', hash: '#' }}>or take me to the results of my organisation</Link>
+                        {hasOrganisation && <Link className="link organisation" to={{ pathname: '/organisation', hash: '#' }}>or take me to the results of my organisation</Link>}
                     </section>
                 </main>
                 <footer>
