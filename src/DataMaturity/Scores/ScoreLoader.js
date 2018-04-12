@@ -33,7 +33,7 @@ export default class ScoreLoader {
 
         if (filters.filter(f => !f.local).length > 0)
             return loadAggregatedScores(this.surveyState, filters);
-        
+
         return this.loadOrganisationResponses()
             .then(responses => {
                 const survey = this.surveyState.survey;
@@ -70,8 +70,10 @@ const createFilters = (surveyState, options) => {
 const loadOrganisationResponses = (surveyState) => {
     const { organisation, created } = surveyState;
 
-    if (!organisation || !organisation.identifier)
-        return Promise.resolve([]);
+    if (!organisation || !organisation.identifier) {
+        const { responses, respondent } = surveyState;
+        return Promise.resolve([{ responses, respondent }]);
+    }
 
     const cached = organisationResponsesCache.get(organisation.identifier);
     if (cached && cached.created === created)
@@ -93,9 +95,9 @@ const loadAggregatedScores = (surveyState, filters) => {
 
     const filterKeys = filters.map(f => f.key.key);
     const filtersKey = filterKeys.join('-');
-    
+
     const cached = aggregatedScoreCache.get(survey.identifier);
-    
+
     if (cached && cached.created === created && cached.filtersKey === filtersKey)
         return Promise.resolve(cached.scores);
 
