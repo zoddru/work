@@ -7,6 +7,8 @@ const bands = Object.freeze([
     { label: 'Expert', upperThreshold: Number.POSITIVE_INFINITY }
 ]);
 
+const percentageMultiplier = 20;
+
 const minNumberOfValid = 3;
 const unknownValueLabel = '---';
 
@@ -27,6 +29,12 @@ const getFunctions = {
         return this.hasMean
             ? (this.mean).toFixed(1)
             : unknownValueLabel;
+    },
+    percentage() {
+        if (!this.hasMean)
+            return 0;
+        // this assumes that the minimum score is zero so the lowest value it can be is actually 20
+        return Math.min(100, percentageMultiplier * this.mean);
     },
     isValid() {
         return this.numberOfValid >= minNumberOfValid;

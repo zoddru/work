@@ -3,8 +3,7 @@ import Select from 'react-select';
 import Base from './Base';
 import SimpleChart from './SimpleChart';
 import ScoreProperties from '../../../Scores/ScoreProperties';
-
-const colors = ['#B43F6B', '#737D27', '#CF7B25', '#8EAA94', '#C7B757', '#0056b3', '#f8c27c', '#c2a0f5', '#acd5b6', '#83128d', '#d75466', '#e3125c', '#422d5e', '#17a2b8', '#076443', '#ffb3dc', '#ff9e45', '#72ba3a', '#f0d000', '#5e8579', '#343a40'];
+import Colors from './Colors';
 
 export default class Chart extends Base {
     constructor(props) {
@@ -37,7 +36,7 @@ export default class Chart extends Base {
         const { survey, options } = surveyState;
         const categories = survey.categories;
 
-        const colorMap = getColorMap(scores);
+        const colorMap = Colors.getColorMap(scores);
         const xAxis = getXAxis(categories, overallScoreMode);
         const series = getSeries(scores, colorMap, categories, overallScoreMode);
 
@@ -108,12 +107,6 @@ const overallScoreModes = [
     { value: 'column', label: 'Show overall scores as bars' },
     { value: 'none', label: 'Hide overall scores' }
 ];
-
-const getColorMap = (scores) => {
-    const colorMap = new Map();
-    scores.forEach((s, i) => colorMap.set(s, colors[i % colors.length]));
-    return colorMap;
-};
 
 const getSeries = (scores, colorMap, categories, overallScoreMode) => {
     const series = scores.map(s => {

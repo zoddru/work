@@ -566,6 +566,19 @@ a.expand {
     font-weight: bold;
 }
 
+/* figure.score-dial */
+
+figure.score-dial {
+    text-align: center;
+    max-width: 50%;
+    margin-bottom: 4rem;
+}
+
+figure.score-dial figcaption {
+    font-size: 2rem;
+    font-weight: bold;
+}
+
 /* .columns */
 
 /* https://stackoverflow.com/questions/6370690/media-queries-how-to-target-desktop-tablet-and-mobile */

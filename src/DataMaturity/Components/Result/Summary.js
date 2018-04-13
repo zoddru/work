@@ -40,6 +40,8 @@ export default class Summary extends React.Component {
             <GenericSection heading="Warning" className="warning" content={warningContent} />
 
             <main>
+                {this.props.scoreChart}
+
                 <div className="columns">
                     <div className="main-column">
                         <GenericSection className="score" content={this.renderScoreContent()} />
