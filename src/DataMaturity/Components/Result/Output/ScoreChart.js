@@ -2,7 +2,7 @@ import React from 'react';
 
 const gray = "rgb(70, 75, 81)";
 
-export default class Score extends React.Component {
+export default class ScoreChart extends React.Component {
     constructor(props) {
         super(props);
     }
