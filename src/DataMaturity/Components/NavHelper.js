@@ -1,5 +1,5 @@
 export default Object.freeze({
-    findTopElement: (querySelector, items, startKey) => {
+    findTopElement: (querySelector, items, startKey, itemSelector) => {
         if (typeof(window) === 'undefined')
             return;
             
@@ -19,7 +19,11 @@ export default Object.freeze({
         if (itemKey === 'end')
             return { isEnd: true };
 
-        return items.find(s => s.key === itemKey) || { end: true };
+        const predicate = !!itemSelector
+            ? (item => itemSelector(item, itemKey))
+            : (item => item.key === itemKey);
+
+        return items.find(predicate) || { end: true };
     },
 
     findTopQuestion: (category) => {
@@ -57,5 +61,22 @@ export default Object.freeze({
             block: 'start',
             inline: 'end'
         });
+    },
+
+    setHash(top) {
+        return;
+
+        if (typeof window === 'undefined' || typeof history === 'undefined')
+            return;
+        
+        if (!top)
+            return;
+
+        const hash = `#${top.isStart ? '' : top.isEnd ? 'end' : top.key}`;
+
+        if (window.location.hash === hash)
+            return;
+
+        history.replaceState(null, null, hash);
     }
 });

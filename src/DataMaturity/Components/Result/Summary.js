@@ -23,10 +23,16 @@ export default class Summary extends React.Component {
         const rankContent = content[score.rankLabel];
 
         const showChart = score.hasMean || (score.categoryScores && score.categoryScores.filter(cs => cs.hasMean).length > 0);
+                
+        const id = score.category ? score.category.key : score.key;
         
-        //const tips = !!rankContent && rankContent.tips;
+        const questionIds = !!score.category && !!score.category.questions ? score.category.questions.map(q => q.key) : [];
+        const questionAnchors = questionIds.map(id => <a key={id} id={id}></a>); // these are useful for switching between tabs
 
-        return <section className="category score" id={score.key}>
+        return <section className="category score" id={id}>
+            
+            {questionAnchors}
+            
             <header>
                 <h2>{score.label}</h2>
             </header>

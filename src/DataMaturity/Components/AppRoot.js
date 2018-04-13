@@ -5,7 +5,7 @@ import Modal from 'react-responsive-modal';
 import SurveyState from '../SurveyState';
 import Respondent from '../Respondent';
 import Survey from '../Survey';
-import ScrollToTop from './ScrollToTop';
+import ScrollToHash from './ScrollToHash';
 import SurveyMain from './Survey/Main';
 import ResultMain from './Result/Main';
 import OrganisationMain from './Result/OrganisationMain';
@@ -133,12 +133,12 @@ export default class AppRoot extends React.Component {
         };
 
         return <Router key="content" history={history}>
-            <ScrollToTop>
+            <ScrollToHash>
                 <Fragment>
                     <nav>
-                        <NavLink exact className="button" activeClassName="active" to={{ pathname: '/', hash: '#' }}>Questions</NavLink>
-                        <NavLink exact className="button" activeClassName="active" to={{ pathname: '/result', hash: '#' }}>Your results</NavLink>
-                        {hasOrganisation && <NavLink exact className="button" activeClassName="active" to={{ pathname: '/organisation', hash: '#' }}>{!!organisationLabel ? organisationLabel : 'Your organisation'}'s results</NavLink>}
+                        <NavLink exact className="button" activeClassName="active" to={{ pathname: '/', hash: '#' }} onClick={keepHash}>Questions</NavLink>
+                        <NavLink exact className="button" activeClassName="active" to={{ pathname: '/result', hash: '#' }} onClick={keepHash}>Your results</NavLink>
+                        {hasOrganisation && <NavLink exact className="button" activeClassName="active" to={{ pathname: '/organisation', hash: '#' }} onClick={keepHash}>{!!organisationLabel ? organisationLabel : 'Your organisation'}'s results</NavLink>}
                     </nav>
                     <Switch>
                         <Route exact path="/" render={() => routeResults['/']} />
@@ -169,10 +169,16 @@ export default class AppRoot extends React.Component {
                         </div>
                     </Modal>
                 </Fragment>
-            </ScrollToTop>
+            </ScrollToHash>
         </Router>;
     }
 }
+
+const keepHash = function () {
+    if (typeof window === 'undefined' || !window.location)
+        return;
+    this.to.hash = window.location.hash;
+};
 
 const saveSurveyState = (surveyState) => {
 

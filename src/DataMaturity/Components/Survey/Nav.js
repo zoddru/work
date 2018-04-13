@@ -15,6 +15,8 @@ export default class Nav extends React.Component {
         const currentQuestion = NavHelper.findTopQuestion(expandedCategory);
         
         this.setState({ expandedCategory, currentQuestion });
+
+        NavHelper.setHash(currentQuestion || expandedCategory);
     }
 
     render() {

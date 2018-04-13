@@ -8,11 +8,19 @@ export default class Nav extends React.Component {
     }
 
     handleScroll() {
-        if (this.unmounted || !this.props.score.categoryScores) 
+        if (this.unmounted || !this.props.score.categoryScores)
             return;
-        const expandedScore = NavHelper.findTopElement('.category.score', this.props.score.categoryScores, this.props.score.key);
-        
+
+        const expandedScore = NavHelper.findTopElement(
+            '.category.score',
+            this.props.score.categoryScores,
+            this.props.score.key,
+            (item, key) => (item.category ? item.category.key : item.key) === key
+        );
+
         this.setState({ expandedScore });
+
+        NavHelper.setHash(expandedScore.category || expandedScore);
     }
 
     render() {
@@ -23,9 +31,9 @@ export default class Nav extends React.Component {
         const nodes = categoryScores.map(cs => {
             const selectedClassName = cs === expandedScore ? 'selected' : '';
 
-            return <div className={`node ${selectedClassName}`} key={cs.key}>
-                <a href={`#${cs.key}`} className="text">{cs.category.identifier}</a>
-            </div>
+            return <div className={`node ${selectedClassName}`} key={cs.category.key}>
+                <a href={`#${cs.category.key}`} className="text">{cs.category.identifier}</a>
+            </div>;
         });
 
         const topSelectedClassName = expandedScore && expandedScore.isStart ? 'selected' : '';
@@ -35,7 +43,7 @@ export default class Nav extends React.Component {
                 <a href="#" className="text">Overall</a>
             </div>
             {nodes}
-        </nav>
+        </nav>;
     }
 
     componentDidMount() {
