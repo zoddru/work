@@ -8,7 +8,7 @@ export default class Summary extends React.Component {
     }
 
     render() {
-        const { score, content, options } = this.props;
+        const { score, content, options, scoreChart, comparisonScoreChart, chart } = this.props;
 
         const invalidWarning = options && options.invalidWarning
             ? options.invalidWarning
@@ -40,7 +40,8 @@ export default class Summary extends React.Component {
             <GenericSection heading="Warning" className="warning" content={warningContent} />
 
             <main>
-                {this.props.scoreChart}
+                {scoreChart}
+                {comparisonScoreChart}
 
                 <div className="columns">
                     <div className="main-column">
@@ -55,7 +56,7 @@ export default class Summary extends React.Component {
                     </div>
                 </div>
 
-                {showChart && this.props.chart}
+                {showChart && chart}
             </main>
 
         </section>;

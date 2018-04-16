@@ -17,15 +17,23 @@ class TypedItem {
     }
 }
 
-const getOrgFilters = ({ organisation, roles, departments }) => {
+const createOrganisationFilter = (organisation) => {
     if (!organisation || !organisation.identifier)
-        return [];
-
-    return [{
+        return null;
+    return {
         key: new TypedItem('organisation', { identifier: 'default', label: organisation.shortLabel || organisation.label }),
         local: true,
         filter: v => v.respondent.organisation === organisation.identifier
-    }].concat(
+    };
+};
+
+const createOrganisationFilters = ({ organisation, roles, departments }) => {
+    if (!organisation || !organisation.identifier)
+        return [];
+
+    const orgFilter = createOrganisationFilter(organisation);
+
+    return [orgFilter].concat(
         roles.map(r => ({
             key: new TypedItem('role', { identifier: r.identifier, label: `${r.label}` }),
             local: true,
@@ -37,11 +45,14 @@ const getOrgFilters = ({ organisation, roles, departments }) => {
             local: true,
             filter: v => v.respondent.organisation === organisation.identifier && v.respondent.department === d.identifier
         }))
-    )
+    );
 };
 
-export default class ResponseFilters {
-    static create({ respondent, organisation, departments, roles, areaGroups }) {
+export default Object.freeze({
+
+    createOrganisationFilter,
+
+    create: ({ respondent, organisation, departments, roles, areaGroups }) => {
         const { department, role } = respondent || { department: {}, role: {} };
 
         const filters = [{
@@ -49,7 +60,7 @@ export default class ResponseFilters {
             local: true,
             filter: v => v.respondent.identifier === respondent.identifier
         }]
-            .concat(getOrgFilters({ organisation, roles, departments }))
+            .concat(createOrganisationFilters({ organisation, roles, departments }))
             .concat(
                 areaGroups.map(ag => ({
                     key: new TypedItem('areaGroup', ag),
@@ -68,4 +79,4 @@ export default class ResponseFilters {
 
         return filters;
     }
-}
+});

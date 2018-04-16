@@ -256,6 +256,14 @@ form .Select.is-focused:not(.is-open)>.Select-control {
 
 .chart-content {
     min-height: 45.3rem;
+    position: relative;
+}
+
+.chart-content .loader-container {
+    position: absolute;
+    top: 0;
+    left: 0; 
+    right: 0;
 }
 
 /* form.chart-options  */
@@ -570,8 +578,13 @@ a.expand {
 
 figure.score-dial {
     text-align: center;
-    max-width: 50%;
-    margin-bottom: 4rem;
+    max-width: 100%;
+}
+
+@media screen and (min-width: 600px) {
+    figure.score-dial {
+        max-width: 50%;
+    }
 }
 
 figure.score-dial figcaption {

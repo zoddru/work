@@ -6,7 +6,6 @@ import NotSignedIn from '../NotSignedIn';
 import Loading from '../Loading';
 import Error from '../Error';
 import ScoreLoader from '../../Scores/ScoreLoader';
-import ResponseFilters from '../../Scores/ResponseFilters';
 import ResponseAggregator from '../../Scores/ResponseAggregator';
 
 export default class OrganisationMain extends React.Component {
@@ -56,7 +55,7 @@ export default class OrganisationMain extends React.Component {
             initalFilters: this.state.filters
         };
 
-        return <ResultMain surveyState={surveyState} score={this.aggregatedScore} options={options} subHeading={organisationLabel} />;
+        return <ResultMain surveyState={surveyState} score={this.aggregatedScore} options={options} type="organisation" subHeading={organisationLabel} />;
     }
 
     get aggregatedScore() {
