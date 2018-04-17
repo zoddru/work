@@ -576,14 +576,40 @@ a.expand {
 
 /* figure.score-dial */
 
+.score-dials {
+    display: flex;
+    flex-direction: column;
+}
+
 figure.score-dial {
+    flex-grow: 1;
     text-align: center;
     max-width: 100%;
+    padding: 4rem;
+    padding-bottom: 0;
+    margin-bottom: 4rem;
+}
+
+figure.score-dial figcaption {
+    margin-top: 4rem;
+}
+
+figure.score-dial:first-child {
+    padding: 0;
+}
+
+figure.score-dial:first-child figcaption {
+    margin-top: 0;
 }
 
 @media screen and (min-width: 600px) {
+    .score-dials {
+        flex-direction: row;
+    }
+
     figure.score-dial {
         max-width: 50%;
+        display: block;
     }
 }
 
