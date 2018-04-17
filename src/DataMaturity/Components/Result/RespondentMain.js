@@ -1,11 +1,12 @@
 import React from 'react';
 import axios from 'axios';
 import common from '../../common';
-import ResultMain from './Main';
+import Main from './Main';
 import NotSignedIn from '../NotSignedIn';
 import Loading from '../Loading';
 import Error from '../Error';
 import ScoreLoader from '../../Scores/ScoreLoader';
+import ResponseFilters from '../../Scores/ResponseFilters';
 import ResponseAggregator from '../../Scores/ResponseAggregator';
 
 const getComparisonScore = (responses, surveyState) => {
@@ -31,6 +32,7 @@ export default class RespondentMain extends React.Component {
 
     componentDidMount() {
         this.setState(prevState => ({ loadingData: true }));
+        const surveyState = this.props.surveyState;
 
         new ScoreLoader(surveyState)
             .loadOrganisationResponses()
@@ -50,19 +52,7 @@ export default class RespondentMain extends React.Component {
             return <NotSignedIn status={surveyState.authStatus} />;
 
         const { loadingData, comparisonScore } = this.state;
-
-        if (loadingData)
-            return <Loading message="loading data. please wait..." />;
-
-        const options = {
-            invalidWarning: `There have not been enough responses from ${organisationLabel} to calculate an accurate score.`,
-            summaryText: `Answers from ${organisationLabel} indicate that staff perceive the council to be at level`,
-            initalFilters: this.state.filters,
-            showComparison: true,
-            comparisonType: 'organisation',
-            comparisonHeading: 'Your organisation\'s score',
-        };
-
-        return <ResultMain surveyState={surveyState} score={this.aggregatedScore} options={options} type="organisation" subHeading={organisationLabel} comparisonOptions={{show: false}} />;
+        
+        return <Main surveyState={surveyState} score={score} options={this.options} comparisonScore={comparisonScore} />;
     }
 }

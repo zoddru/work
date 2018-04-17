@@ -40,9 +40,14 @@ export default class Summary extends React.Component {
             <GenericSection heading="Warning" className="warning" content={warningContent} />
 
             <main>
-                <div className="score-dials">
-                    {scoreChart}
-                    {comparisonScoreChart}
+                <div className="columns score-dials">
+                    <div className="main-column">
+                        {scoreChart}
+                    </div>
+
+                    <div className="side-column">
+                        {comparisonScoreChart}
+                    </div>
                 </div>
 
                 <div className="columns">

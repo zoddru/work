@@ -15,8 +15,6 @@ export default class ScoreChart extends React.Component {
         const y = Math.floor(100 - percentage);
         const height = Math.ceil(percentage);
 
-        console.log(score);
-
         const clipPathId = `${score.key.key}-cut-off`;
 
         return <figure className="score-dial">

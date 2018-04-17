@@ -7,7 +7,7 @@ import Respondent from '../Respondent';
 import Survey from '../Survey';
 import ScrollToHash from './ScrollToHash';
 import SurveyMain from './Survey/Main';
-import ResultMain from './Result/Main';
+import RespondentMain from './Result/RespondentMain';
 import OrganisationMain from './Result/OrganisationMain';
 import Disclaimer from './Disclaimer';
 import ResultTable from './Result/Output/Table';
@@ -125,7 +125,7 @@ export default class AppRoot extends React.Component {
 
         const routeResults = {
             '/': loading ? loadingEl : <SurveyMain surveyState={surveyState} onRespondentChanged={this.respondentChanged.bind(this)} onAnswerChanged={this.answerChanged.bind(this)} />,
-            '/result': loading ? loadingEl : <ResultMain surveyState={surveyState} score={score} />,
+            '/result': loading ? loadingEl : <RespondentMain surveyState={surveyState} score={score} />,
             '/organisation': loading ? loadingEl : <OrganisationMain surveyState={surveyState} />,
             '/disclaimer': <Disclaimer />,
             '/table': loading ? loadingEl : <ResultTable isStandAlone={true} surveyState={surveyState} />,

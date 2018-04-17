@@ -1,7 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import common from '../../common';
-import ResultMain from './Main';
+import Main from './Main';
 import NotSignedIn from '../NotSignedIn';
 import Loading from '../Loading';
 import Error from '../Error';
@@ -52,10 +52,14 @@ export default class OrganisationMain extends React.Component {
         const options = {
             invalidWarning: `There have not been enough responses from ${organisationLabel} to calculate an accurate score.`,
             summaryText: `Answers from ${organisationLabel} indicate that staff perceive the council to be at level`,
-            initalFilters: this.state.filters
+            initalFilters: this.state.filters,
+            subHeading: organisationLabel,
+            type: 'organisation',
+            scoreHeading: `${organisationLabel}'s score`,
+            showComparison: false
         };
 
-        return <ResultMain surveyState={surveyState} score={this.aggregatedScore} options={options} type="organisation" subHeading={organisationLabel} />;
+        return <Main surveyState={surveyState} score={this.aggregatedScore} options={options} />;
     }
 
     get aggregatedScore() {
