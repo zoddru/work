@@ -37,9 +37,15 @@ export default class RespondentMain extends React.Component {
         new ScoreLoader(surveyState)
             .loadOrganisationResponses()
             .then(responses => {
+                if (this.unmounted)
+                    return;
                 const comparisonScore = getComparisonScore(responses, surveyState);
                 this.setState(prevState => ({ comparisonScore }));
             });
+    }
+
+    componentWillUnmount() {
+        this.unmounted = true;
     }
 
     render() {

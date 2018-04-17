@@ -18,6 +18,10 @@ export default class Category extends React.Component {
                                         onNext={this.props.onNext} />);
 
         return <section className="category" id={category.key}>
+            {/* <h2>{category.label}</h2>
+            <p>
+                {category.description}
+            </p> */}
             {questions}
         </section>;
     }

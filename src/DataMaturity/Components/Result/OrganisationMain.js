@@ -25,9 +25,15 @@ export default class OrganisationMain extends React.Component {
         new ScoreLoader(this.props.surveyState)
             .loadFiltersAndOrganisationResponses()
             .then(([allFilters, responses]) => {
+                if (this.unmounted)
+                    return;
                 const filters = allFilters.filter(f => f.type === 'organisation' || f.type === 'areaGroup');
                 this.setState(prevState => ({ loadingData: false, responses, filters }));
             });
+    }
+
+    componentWillUnmount() {
+        this.unmounted = true;
     }
 
     render() {
