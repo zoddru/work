@@ -577,34 +577,41 @@ a.expand {
 /* figure.score-dial */
 
 .score-dials {
-    align-items: center;
+    align-items: top center;
+    vertical-align: top;
+    display: flex;
+    flex-flow: row wrap;
+
 }
 
 figure.score-dial {
     text-align: center;
-    max-width: 100%;
-    padding: 0 4rem;
+    padding: 0 1rem;
     margin-bottom: 4rem;
+    width: 100%;
 }
 
 .columns>.side-column figure.score-dial {
     padding: 0 8rem;
 }
 
-@media screen and (min-width: 900px) {
+@media screen and (min-width: 500px) {
     figure.score-dial {
-        padding: 0 8rem;
+        width: 50%;
     }
+}
 
-    .columns>.side-column figure.score-dial {
-        padding: 0;
+@media screen and (min-width: 700px) {
+    figure.score-dial {
+        width: 25%;
     }
 }
 
 figure.score-dial figcaption {
-    margin-top: 4rem;
-    font-size: 2rem;
+    margin-top: 0.5rem;
+    font-size: 1.74rem;
     font-weight: bold;
+    max-width: 100%;
 }
 
 /* .columns */

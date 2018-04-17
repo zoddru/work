@@ -40,12 +40,12 @@ export default class ScoreChart extends React.Component {
                 </defs>
 
                 <circle cx="50" cy="50" r="45" fill={color} clipPath={`url(#${clipPathId})`} />
-                <circle cx="50" cy="50" r="46" stroke={darkGray} strokeWidth="4" fill="transparent" />
+                <circle cx="50" cy="50" r="46" stroke={darkGray} strokeWidth="2" fill="transparent" />
 
-                <text x="50" y="50" fontFamily="Roboto,Arial,Verdana,sans-serif" fill={darkGray} stroke="white" strokeWidth="0.2" fontWeight="bold" fontSize="14" textAnchor="middle" alignmentBaseline="central">
+                <text x="50" y="50" fontFamily="Roboto,Arial,Verdana,sans-serif" fill={darkGray} fontWeight="bold" fontSize="14" textAnchor="middle" alignmentBaseline="central">
                     {rankLabel}
                 </text>
-                <text x="50" y="66" fontFamily="Roboto,Arial,Verdana,sans-serif" fill={darkGray} stroke="white" strokeWidth="0.2" fontWeight="bold" fontSize="12" textAnchor="middle" alignmentBaseline="central">
+                <text x="50" y="66" fontFamily="Roboto,Arial,Verdana,sans-serif" fill={darkGray} fontWeight="bold" fontSize="12" textAnchor="middle" alignmentBaseline="central">
                     {meanDisplayName}
                 </text>
             </svg>
