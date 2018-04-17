@@ -607,6 +607,12 @@ figure.score-dial {
     }
 }
 
+@media screen and (min-width: 900px) {
+    figure.score-dial {
+        padding: 0 2rem;
+    }
+}
+
 figure.score-dial figcaption {
     margin-top: 0.5rem;
     font-size: 1.74rem;
