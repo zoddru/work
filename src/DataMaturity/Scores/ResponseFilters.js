@@ -15,6 +15,10 @@ class TypedItem {
             return false;
         return this.type === item.type && this.identifier === item.identifier;
     }
+
+    toString() {
+        return this.key;
+    }
 }
 
 const createOrganisationFilter = (organisation) => {

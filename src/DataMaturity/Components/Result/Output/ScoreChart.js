@@ -2,20 +2,34 @@ import React from 'react';
 
 const darkGray = "rgb(70, 75, 81)";
 const lightGray = "rgb(180, 180, 180)";
-//const lightGray = "rgb(226, 227, 231)";
+
+const defaultScore = Object.freeze({
+    key: 'loading',
+    percentage: 0,
+    rankLabel: 'loading...',
+    meanDisplayName: '---'
+});
 
 export default class ScoreChart extends React.Component {
     constructor(props) {
         super(props);
     }
 
+    get clipPathId() {
+        const { score, type } = this.props;
+        
+        const key = score && score.key && score.key.toString() || 'unknown';
+
+        return `${key}-score-chart-${type}-clip`;
+    }
+
     render() {
-        const { title, score, color = color || '#00ff00' } = this.props;
+        const { title, score = score || defaultScore, color = color || '#00ff00' } = this.props;
         const { percentage, rankLabel, meanDisplayName } = score;
         const y = Math.floor(100 - percentage);
         const height = Math.ceil(percentage);
 
-        const clipPathId = `${score.key.key}-cut-off`;
+        const clipPathId = this.clipPathId;
 
         return <figure className="score-dial">
             <svg version="1.1" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink">
@@ -28,10 +42,10 @@ export default class ScoreChart extends React.Component {
                 <circle cx="50" cy="50" r="48" fill={color} clipPath={`url(#${clipPathId})`} />
                 <circle cx="50" cy="50" r="46" stroke={darkGray} strokeWidth="4" fill="transparent" />
 
-                <text x="50" y="50" fontFamily="Roboto,Arial,Verdana,sans-serif" fill={darkGray} fontWeight="bold" fontSize="14" textAnchor="middle" alignmentBaseline="central">
+                <text x="50" y="50" fontFamily="Roboto,Arial,Verdana,sans-serif" fill={darkGray} stroke="white" strokeWidth="0.2" fontWeight="bold" fontSize="14" textAnchor="middle" alignmentBaseline="central">
                     {rankLabel}
                 </text>
-                <text x="50" y="66" fontFamily="Roboto,Arial,Verdana,sans-serif" fill={darkGray} fontWeight="bold" fontSize="10" textAnchor="middle" alignmentBaseline="central">
+                <text x="50" y="66" fontFamily="Roboto,Arial,Verdana,sans-serif" fill={darkGray} stroke="white" strokeWidth="0.2" fontWeight="bold" fontSize="12" textAnchor="middle" alignmentBaseline="central">
                     {meanDisplayName}
                 </text>
             </svg>

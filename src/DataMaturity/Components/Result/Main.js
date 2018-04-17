@@ -51,13 +51,13 @@ export default class Main extends React.Component {
         const comparisonColor = Colors.byType[comparisonType];
 
         return score.categoryScores.map(cs => {
-            const scoreChart = <ScoreChart title={scoreHeading} score={cs} color={color} />;
+            const scoreChart = <ScoreChart title={scoreHeading} score={cs} color={color} type={type} />;
 
             if (!showComparison || !comparisonScore || !comparisonScore.categoryScores)
                 return <Summary key={cs.key} score={cs} content={content[cs.identifier]} options={options} scoreChart={scoreChart} />;
 
             const categoryComparisonScore = comparisonScore.categoryScores.find(s => s.category.identifier === cs.category.identifier);
-            const comparisonScoreChart = categoryComparisonScore && <ScoreChart title={comparisonScoreHeading} score={categoryComparisonScore} color={comparisonColor} />;
+            const comparisonScoreChart = categoryComparisonScore && <ScoreChart title={comparisonScoreHeading} score={categoryComparisonScore} color={comparisonColor} type={comparisonType} />;
 
             return <Summary key={cs.key} score={cs} content={content[cs.identifier]} options={options} scoreChart={scoreChart} comparisonScoreChart={comparisonScoreChart} />;
         });
@@ -76,13 +76,13 @@ export default class Main extends React.Component {
         const { subHeading, type, scoreHeading } = options;
 
         const color = Colors.byType[type];
-        const scoreChart = <ScoreChart title={scoreHeading} score={score} color={color} />;
+        const scoreChart = <ScoreChart title={scoreHeading} score={score} color={color} type={type} />;
 
         const { showComparison, comparisonType, comparisonScoreHeading } = options;
         const { comparisonScore } = this.props;
         const comparisonColor = Colors.byType[comparisonType];
-        const comparisonScoreChart = showComparison && !!comparisonScore
-            ? <ScoreChart title={comparisonScoreHeading} score={comparisonScore} color={comparisonColor} />
+        const comparisonScoreChart = showComparison
+            ? <ScoreChart title={comparisonScoreHeading} score={comparisonScore} color={comparisonColor} type={comparisonType} />
             : null;
 
         const chart = <Chart surveyState={surveyState} options={options} />;

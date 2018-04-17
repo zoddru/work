@@ -52,7 +52,11 @@ export default class RespondentMain extends React.Component {
             return <NotSignedIn status={surveyState.authStatus} />;
 
         const { loadingData, comparisonScore } = this.state;
-        
-        return <Main surveyState={surveyState} score={score} options={this.options} comparisonScore={comparisonScore} />;
+
+        const organisationLabel = surveyState.organisationLabel;
+        const comparisonScoreHeading = `${organisationLabel}'s score`;
+        const mainOptions = Object.assign({}, this.options, { comparisonScoreHeading });
+
+        return <Main surveyState={surveyState} score={score} options={mainOptions} comparisonScore={comparisonScore} />;
     }
 }
