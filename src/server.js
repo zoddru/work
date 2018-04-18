@@ -58,18 +58,18 @@ const app = express()
         res.send({ message: 'hello world' });
     })
 
-    .get('/secret', (req, res) => {
-        const _process$env = process.env,
-            configName = _process$env.configName,
-            testString = _process$env.testString;
+    // .get('/secret', (req, res) => {
+    //     const _process$env = process.env,
+    //         configName = _process$env.configName,
+    //         testString = _process$env.testString;
 
-        res.setHeader('Content-Type', 'application/json');
-        res.send({
-            process: {
-                env: process.env
-            }
-        });
-    })
+    //     res.setHeader('Content-Type', 'application/json');
+    //     res.send({
+    //         process: {
+    //             env: process.env
+    //         }
+    //     });
+    // })
 
     // misc:
     .post('/csv', (req, res) => {
