@@ -61,8 +61,7 @@ export default class OrganisationMain extends React.Component {
             initalFilters: this.state.filters,
             subHeading: organisationLabel,
             type: 'organisation',
-            scoreHeading: `${organisationLabel}'s score`,
-            showComparison: false
+            scoreHeading: `${organisationLabel}'s score`
         };
 
         return <Main surveyState={surveyState} score={this.aggregatedScore} options={options} />;

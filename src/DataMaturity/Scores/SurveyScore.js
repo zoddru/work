@@ -7,6 +7,8 @@ function calculateScore(categories, answers) {
     return CategoryScore.sumValid(categoryScores);
 }
 
+const overallCategory = Object.freeze({ identifier: 'Overall', label: 'Overall' });
+
 export default class SurveyScore {
     constructor({
         survey = { categories: [] },
@@ -17,6 +19,7 @@ export default class SurveyScore {
         const score = calculateScore(survey.categories, answers);
 
         Object.assign(this, score);
+        this.category = overallCategory;
         this.survey = survey;
         this.respondent = respondent;
         this.mean = score.numberOfValid === 0
@@ -26,14 +29,6 @@ export default class SurveyScore {
         ScoreProperties.defineProperties(this);
 
         Object.freeze();
-    }
-
-    get identifier() {
-        return 'Overall';
-    }
-
-    get label() {
-        return 'Overall';
     }
 
     get key() {

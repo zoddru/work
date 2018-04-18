@@ -16,11 +16,11 @@ export default class ScoreChart extends React.Component {
     }
 
     get clipPathId() {
-        const { score, type } = this.props;
-        
+        const { score } = this.props;
+        debugger;
         const key = score && score.key && score.key.toString() || 'unknown';
-
-        return `${key}-score-chart-${type}-clip`;
+        
+        return `${key}-score-chart-clip`;
     }
 
     render() {

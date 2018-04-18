@@ -13,7 +13,7 @@ export default class Dials extends Base {
     renderLoading(message) {
         const { loadingFilters, selectedFilters } = this.state;
         if (loadingFilters)
-            return <ScoreChart key="loading" title="---" />;
+            return <ScoreChart key="loading" title="---" color="white" />;
         return selectedFilters.slice(0, this.max).map(f => <ScoreChart key={f.key.toString()} title="---" />);
     }
 
@@ -22,7 +22,9 @@ export default class Dials extends Base {
     }
 
     renderChildren() {
-        const scores = this.aggregatedScores;
+        const category = this.props.category;
+        const aggregatedScores = this.aggregatedScores;
+        const scores = getScoresForCategory(aggregatedScores, category);
         const colors = Colors.getColorMap(scores);
 
         return scores.slice(0, this.max).map(s => {
@@ -31,3 +33,16 @@ export default class Dials extends Base {
         });
     }
 }
+
+const getScoresForCategory = (aggregatedScores, category) => {
+    if (!category)
+        return aggregatedScores; // the overall scores
+    
+    const categoryIdentifier = category.identifier;
+
+    return aggregatedScores.map(s => {
+        if (!s.categoryScores || !s.categoryScores.length)
+            return null;
+        return s.categoryScores.find(cs => cs.category && cs.category.identifier === categoryIdentifier);
+    });
+};

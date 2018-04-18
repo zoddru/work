@@ -18,11 +18,7 @@ const defaultOptions = Object.freeze({
     summaryText: 'Your answers indicate that you perceive your council to be at level',
     initalFilters: null,
     type: 'respondent',
-    subHeading: 'Your results',
-    showComparison: true,
-    scoreHeading: 'Your score',
-    comparisonType: 'organisation',
-    comparisonScoreHeading: 'Your organisation\'s score',
+    subHeading: 'Your results'
 });
 
 export default class Main extends React.Component {
@@ -40,28 +36,17 @@ export default class Main extends React.Component {
     }
 
     buildSummaryControls() {
-        const { score, comparisonScore } = this.props;
+        const { score, surveyState } = this.props;
 
         if (!score)
             return null;
 
         const options = this.options;
-        const { type, scoreHeading, showComparison, comparisonType, comparisonScoreHeading } = options;
-
-        const color = Colors.byType[type];
-        const comparisonColor = Colors.byType[comparisonType];
+        const { type, scoreHeading } = options;
 
         return score.categoryScores.map(cs => {
-            const scoreChart = <ScoreChart title={scoreHeading} score={cs} color={color} type={type} />;
-
-            if (!showComparison)
-                return <Summary key={cs.key} score={cs} content={content[cs.identifier]} options={options} scoreChart={scoreChart} />;
-
-            const categoryScores = (comparisonScore && comparisonScore.categoryScores) || [];    
-            const categoryComparisonScore = categoryScores.find(s => s.category.identifier === cs.category.identifier);
-            const comparisonScoreChart = <ScoreChart title={comparisonScoreHeading} score={categoryComparisonScore} color={comparisonColor} type={comparisonType} />;
-
-            return <Summary key={cs.key} score={cs} content={content[cs.identifier]} options={options} scoreChart={scoreChart} comparisonScoreChart={comparisonScoreChart} />;
+            const dials = <Dials surveyState={surveyState} options={options} showFilters={false} className="score-dials" category={cs.category} />;
+            return <Summary key={cs.key} score={cs} content={content[cs.category.identifier]} options={options} dials={dials} />;
         });
     }
 
@@ -78,14 +63,6 @@ export default class Main extends React.Component {
         const { subHeading, type, scoreHeading } = options;
 
         const color = Colors.byType[type];
-        const scoreChart = <ScoreChart title={scoreHeading} score={score} color={color} type={type} />;
-
-        const { showComparison, comparisonType, comparisonScoreHeading } = options;
-        const { comparisonScore } = this.props;
-        const comparisonColor = Colors.byType[comparisonType];
-        const comparisonScoreChart = showComparison
-            ? <ScoreChart title={comparisonScoreHeading} score={comparisonScore} color={comparisonColor} type={comparisonType} />
-            : null;
 
         const dials = <Dials surveyState={surveyState} options={options} showFilters={false} className="score-dials" />;
         const chart = <Chart surveyState={surveyState} options={options} />;
@@ -93,13 +70,13 @@ export default class Main extends React.Component {
         const categoryScores = this.buildSummaryControls();
 
         return <section class="main-content capped-width">
-            <Nav score={score} scoreChart={chart} />
+            <Nav score={score} />
             <article>
                 <header className="print-only">
                     <h1>Local Government Data Maturity Self Assessment Tool</h1>
                     <h2>{subHeading}</h2>
                 </header>
-                <Summary score={score} content={content.Overall} options={options} scoreChart={scoreChart} dials={dials} chart={chart} comparisonScoreChart={comparisonScoreChart} />
+                <Summary score={score} content={content.Overall} options={options} dials={dials} chart={chart} />
                 {categoryScores}
             </article>
         </section>;

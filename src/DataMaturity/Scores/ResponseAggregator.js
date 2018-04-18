@@ -1,4 +1,4 @@
-import TypedItem from './TypedItem';
+import ScoreKey from './ScoreKey';
 import ScoreProperties from './ScoreProperties';
 import CategoryScore from './CategoryScore';
 import Respondent from '../Respondent';
@@ -67,22 +67,13 @@ class AggregatedScore {
         const { identifier, label, survey } = category;
         return { category: { identifier, label, survey: { identifier: survey.identifier, label: survey.label } }, numberThatAreBuggy, numberNotKnown, numberNotUnderstood, numberOfValid, sum };
     }
-    
-    get identifier() {
-        return this.category.identifier;
-    }
-
-    get label() {
-        return this.category.label;
-    }
-
-    get key() {
-        return `${this.category.key}-score`;
-    }
 }
+
+const overallCategory = Object.freeze({ identifier: 'Overall', label: 'Overall' });
 
 class OverallAggregatedScore {
     constructor(props) {
+        this.category = overallCategory;
         Object.assign(this, props);
         ScoreProperties.defineProperties(this);
         this.mean = getMean.apply(this);
@@ -99,14 +90,6 @@ class OverallAggregatedScore {
             sum
         };
     }
-
-    get identifier() {
-        return 'Overall';
-    }
-
-    get label() {
-        return 'Overall';
-    }
 }
 
 export default class ResponseAggregator {
@@ -121,12 +104,14 @@ export default class ResponseAggregator {
 
     byCategory({ key, filter }) {
         const byCategory = aggregateByCategory.call(this, filter);
-        const categoryScores = Object.values(byCategory).map(s => new AggregatedScore(s));
+        const categoryScores = Object.values(byCategory).map(s => 
+            new AggregatedScore(Object.assign({ key: new ScoreKey({ filter: key, category: s.category }) }, s))
+        );
 
         const { sum, numberOfValid } = CategoryScore.sumValid(categoryScores);
 
         return new OverallAggregatedScore({
-            key,
+            key: new ScoreKey({ filter: key }),
             categoryScores,
             numberOfValid,
             sum
@@ -136,18 +121,19 @@ export default class ResponseAggregator {
     unsimplify(simplified) {
         const survey = this.survey;
         const simplifiedCategoryScores = simplified.categoryScores;
+
+        const { key, sum, numberOfValid } = simplified;
+        const { filter } = key;
         
         const categoryScores = simplifiedCategoryScores.map(cs => {
             const category = survey.categories.find(c => c.identifier === cs.category.identifier);
             const { numberThatAreBuggy, numberNotKnown, numberNotUnderstood, numberOfValid, sum } = cs;
-            return new AggregatedScore({ category, numberThatAreBuggy, numberNotKnown, numberNotUnderstood, numberOfValid, sum });
+            const key = new ScoreKey({ category, filter });
+            return new AggregatedScore({ key, category, numberThatAreBuggy, numberNotKnown, numberNotUnderstood, numberOfValid, sum });
         });
 
-        const { key, sum, numberOfValid } = simplified;
-        const typedKey = new TypedItem(key.type, key);
-
         return new OverallAggregatedScore({
-            key: typedKey,
+            key: new ScoreKey({ filter }),
             categoryScores,
             numberOfValid,
             sum

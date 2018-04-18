@@ -2,6 +2,7 @@ import axios from 'axios';
 import qs from 'qs';
 import ResponseAggregator from './ResponseAggregator';
 import ResponseFilters from './ResponseFilters';
+import { isArray } from 'util';
 
 const filtersCache = new Map();
 const organisationResponsesCache = new Map();
@@ -50,15 +51,23 @@ const loadFilters = (surveyState) => {
         return Promise.resolve(createFilters(surveyState, surveyState.options));
 
     const cached = filtersCache.get(respondent.identifier);
-    if (cached && cached.created === created)
+    
+    if (cached && cached.created === created && !!cached.filters)
         return Promise.resolve(cached.filters);
 
-    return axios.get(`/data/currentResponseOptions`)
+    if (cached && cached.created === created && !!cached.request)
+        return cached.request;
+
+    const request = axios.get(`/data/currentResponseOptions`)
         .then(r => {
             const filters = createFilters(surveyState, (r.data || {}));
             filtersCache.set(respondent.identifier, { created, filters });
             return filters;
         });
+
+    filtersCache.set(respondent.identifier, { created, request });
+
+    return request;
 };
 
 const createFilters = (surveyState, options) => {
@@ -76,15 +85,23 @@ const loadOrganisationResponses = (surveyState) => {
     }
 
     const cached = organisationResponsesCache.get(organisation.identifier);
-    if (cached && cached.created === created)
+    
+    if (cached && cached.created === created && !!cached.responses)
         return Promise.resolve(cached.responses);
 
-    return axios.get(`/dmApi/responses?organisation=${organisation.identifier}`)
+    if (cached && cached.created === created && !!cached.request)
+        return cached.request;
+
+    const request = axios.get(`/dmApi/responses?organisation=${organisation.identifier}`)
         .then(r => {
             const responses = (r.data || []);
             organisationResponsesCache.set(organisation.identifier, { created, responses });
             return responses;
         });
+
+    organisationResponsesCache.set(organisation.identifier, { created, request });
+
+    return request;
 };
 
 const loadAggregatedScores = (surveyState, filters) => {

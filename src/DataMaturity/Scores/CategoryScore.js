@@ -50,14 +50,6 @@ export default class CategoryScore {
         Object.freeze();
     }
 
-    get identifier() {
-        return this.category.identifier;
-    }
-
-    get label() {
-        return this.category.label;
-    }
-
     get key() {
         return `${this.category.key}-score`;
     }

@@ -8,7 +8,7 @@ export default class Summary extends React.Component {
     }
 
     render() {
-        const { score, content, options, scoreChart, comparisonScoreChart, dials, chart } = this.props;
+        const { score, content, options, dials, chart } = this.props;
 
         const invalidWarning = options && options.invalidWarning
             ? options.invalidWarning
@@ -31,18 +31,13 @@ export default class Summary extends React.Component {
             {questionAnchors}
 
             <header>
-                <h2>{score.label}</h2>
+                <h2>{score.category ? score.category.label : (() => { console.log(score); return 'XXX'; })() }</h2>
             </header>
 
             <GenericSection heading="Warning" className="warning" content={warningContent} />
 
             <main>
                 {dials}
-                
-                <div className="score-dials">
-                    {scoreChart}
-                    {comparisonScoreChart}
-                </div>
 
                 <div className="columns">
                     <div className="main-column">
