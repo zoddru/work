@@ -72,9 +72,9 @@ export default class Container extends React.Component {
     }
 
     render() {
-        const { isStandAlone } = this.props;
+        const { isStandAlone, className } = this.props;
 
-        const chartContent = <div className="chart-content">
+        const chartContent = <div className={`chart-content ${className}`}>
             {this.renderChartContent()}
         </div>;
 
@@ -95,20 +95,20 @@ export default class Container extends React.Component {
 
     renderChartContent() {
         const { loadingFilters, loadingScores } = this.state;
-        const { surveyState, isStandAlone } = this.props;
+        const { surveyState } = this.props;
         const { isSignedIn, authStatus } = surveyState;
 
         if (surveyState.loading)
-            return <Loading isSubSection={true} />;
+            return this.renderLoading();
 
         if (!isSignedIn)
             return <NotSignedIn isSubSection={true} status={authStatus} />;
 
         if (loadingFilters)
-            return <Loading isSubSection={true} message="loading filters. just a sec..." />;
+            return this.renderLoading('loading filters. just a sec...');
 
         const content = loadingScores
-            ? <Loading isSubSection={true} message="loading scores. just a moment..." />
+            ? this.renderLoading('loading scores. just a moment...')
             : this.renderChildren();
 
         return <Fragment>
@@ -117,7 +117,14 @@ export default class Container extends React.Component {
         </Fragment>;
     }
 
+    renderLoading(message) {
+        return <Loading isSubSection={true} message={message} />;
+    }
+
     renderFilters() {
+        if (this.props.showFilters === false)
+            return null;
+
         const { filters, selectedFilters } = this.state;
 
         return <form className="chart-options">

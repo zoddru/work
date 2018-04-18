@@ -259,6 +259,10 @@ form .Select.is-focused:not(.is-open)>.Select-control {
     position: relative;
 }
 
+.chart-content.score-dials {
+    min-height: auto;
+}
+
 .chart-content .loader-container {
     position: absolute;
     top: 0;
@@ -618,6 +622,7 @@ figure.score-dial figcaption {
     font-size: 1.74rem;
     font-weight: bold;
     max-width: 100%;
+    min-height: 4.2rem; /* allow for 2 lines without a jump */
 }
 
 /* .columns */

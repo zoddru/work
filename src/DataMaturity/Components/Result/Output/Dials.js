@@ -1,44 +1,33 @@
 import React from 'react';
 import Base from './Base';
-import ScoreChart from './SimpleTable';
+import ScoreChart from './ScoreChart';
+import Colors from './Colors';
 import Loading from '../../Loading';
+const Fragment = React.Fragment;
 
-export default class ScoreCharts extends Base {
+export default class Dials extends Base {
     constructor(props) {
         super(props);
     }
 
-    renderChildren() {
-        const table = this.aggregatedTable;
-
-        return 'CHART HERE';
+    renderLoading(message) {
+        const { loadingFilters, selectedFilters } = this.state;
+        if (loadingFilters)
+            return <ScoreChart key="loading" title="---" />;
+        return selectedFilters.slice(0, this.max).map(f => <ScoreChart key={f.key.toString()} title="---" />);
     }
 
-    get aggregatedTable() {
-        const { surveyState } = this.props;
+    get max() {
+        return 4;
+    }
 
-        if (surveyState.loading || !surveyState.isSignedIn)
-            return null;
-
+    renderChildren() {
         const scores = this.aggregatedScores;
-        const { survey, options } = surveyState;
-        const categories = survey.categories;
+        const colors = Colors.getColorMap(scores);
 
-        const headings = ['Data'].concat(categories.map(c => c.identifier)).concat(['Overall']);
-        const rows = [];
-
-        scores.forEach(s => {
-            const row = [s.key];
-            rows.push(row);
-
-            categories.forEach(c => {
-                const cs = s.categoryScores.find(cs => cs.category.identifier === c.identifier);
-                row.push(!!cs ? cs.fullLabel : '---');
-            });
-
-            row.push(s.fullLabel);
+        return scores.slice(0, this.max).map(s => {
+            const color = colors.get(s);
+            return <ScoreChart key={s.key.toString()} title={s.key.label} score={s} color={color} type={s.key.type} />;
         });
-
-        return { headings, rows };
     }
 }

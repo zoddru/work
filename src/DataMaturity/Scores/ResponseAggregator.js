@@ -1,3 +1,4 @@
+import TypedItem from './TypedItem';
 import ScoreProperties from './ScoreProperties';
 import CategoryScore from './CategoryScore';
 import Respondent from '../Respondent';
@@ -143,9 +144,10 @@ export default class ResponseAggregator {
         });
 
         const { key, sum, numberOfValid } = simplified;
+        const typedKey = new TypedItem(key.type, key);
 
         return new OverallAggregatedScore({
-            key,
+            key: typedKey,
             categoryScores,
             numberOfValid,
             sum
