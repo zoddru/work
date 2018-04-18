@@ -16,10 +16,7 @@ export default class Summary extends React.Component {
 
         const warningContent = score.isValid ? null : <p>{invalidWarning}</p>;
 
-        const bestPractice = content.bestPractice;
-        const caseStudy = content.caseStudy;
-        const signPosting = content.signPosting;
-
+        const { bestPractice, caseStudy, signPosting } = content;
         const rankContent = content[score.rankLabel];
 
         const showChart = score.hasMean || (score.categoryScores && score.categoryScores.filter(cs => cs.hasMean).length > 0);
