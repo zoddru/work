@@ -81,6 +81,17 @@ body>header div.dropdown>a>.toggle {
     background-size: 2.4rem 1.2rem;
 }
 
+body>header div.dropdown>a>.toggle::before {
+    background-color: transparent;
+    position: absolute;
+    content: '';
+    top: -1.6rem;
+    bottom: -1.6rem;
+    left: -0.4rem;
+    right: -0.4rem;
+    z-index: -1;
+}
+
 body>header div.dropdown>a:hover>.toggle {
     background-position: -12px top;
 }
@@ -101,6 +112,12 @@ body>header div.dropdown>div.content {
 
 body>header div.dropdown.open>div.content {
     opacity: 1;
+    animation: fadein 200ms;
+}
+
+@keyframes fadein {
+    from { opacity: 0; }
+    to   { opacity: 1; }
 }
 
 body>header div.dropdown>div.content a, body>header div.dropdown>div.content .label {

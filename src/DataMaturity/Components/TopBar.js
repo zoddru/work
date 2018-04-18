@@ -4,7 +4,7 @@ import Error from './Error';
 import common from '../common';
 const Fragment = React.Fragment;
 
-const dropdownInDelay = 200;
+const dropdownInDelay = 400;
 const dropdownOutDelay = 200;
 const links = {
     subscriptionLink: 'http://about.esd.org.uk/subscription-benefits',
@@ -40,7 +40,11 @@ class Dropdown extends React.Component {
         this.timeoutId = null;
         this.state = { isOpen: false, inDom: false };
 
-        this.windowClick = () => this.close();
+        this.windowClick = (e) => {
+            if (e.button === 1 || e.button === 2)
+                return;
+            this.close()
+        };
     }
 
     addToDom() {
@@ -84,12 +88,17 @@ class Dropdown extends React.Component {
         this.close();
     }
 
-    mouseClick(e) {
+    arrowClick(e) {
         e.preventDefault();
         this.toggle();
         return false;
     }
-    
+
+    menuClick(e) {
+        console.log('mouse click');
+        this.open();
+    }
+
     componentDidMount() {
         document.addEventListener('mousedown', this.windowClick);
     }
@@ -103,8 +112,8 @@ class Dropdown extends React.Component {
         const { isOpen, inDom } = this.state;
 
         return <div className={`dropdown ${isOpen ? 'open' : ''}`} onMouseEnter={this.mouseEnter.bind(this)} onMouseLeave={this.mouseLeave.bind(this)}>
-            <a href={href || null}>{label}<span className="toggle" onClick={this.mouseClick.bind(this)}></span></a>
-            {inDom && <div className="content">
+            <a href={href || null}>{label}<span className="toggle" onClick={this.arrowClick.bind(this)}></span></a>
+            {inDom && <div className="content" onClick={this.menuClick.bind(this)}>
                 {children}
             </div>}
         </div>;
@@ -119,7 +128,7 @@ const WhenSignedIn = ({ status }) => {
     const organisationEl = !!organisation && <span className="label subtle">{organisation.label}</span>;
     const subscriptionEl = !!organisation
         ? <a href={links.subscriptionLink}>
-            Organisation is {!organisation.isSubscribed ? "NOT" : ""} subscribed to LG Inform Plus
+            Organisation is {!organisation.isSubscribed ? 'NOT' : ''} subscribed to LG Inform Plus
         </a> : null;
 
     return <div className="credentials">
