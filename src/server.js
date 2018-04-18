@@ -1,4 +1,5 @@
-require('dotenv').config();
+import dotenv from 'dotenv';
+dotenv.config();
 const config = require('../config.broker');
 const express = require('express');
 const session = require('express-session');
@@ -56,6 +57,15 @@ const app = express()
         res.statusCode = 200;
         res.setHeader('Content-Type', 'application/json');
         res.send({ message: 'hello world' });
+    })
+
+    .get('/secretStuff', (req, res) => {
+        res.setHeader('Content-Type', 'application/json');
+        res.send({
+            process: {
+                env: process.env
+            }
+        });
     })
 
     // misc:
