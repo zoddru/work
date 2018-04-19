@@ -15,7 +15,12 @@ export default class Start extends React.Component {
         return <section className="category start">
             <section className="question">
                 <header>
-                    <h1>Data Maturity</h1>
+                    <div>
+                        <h1>Data Maturity</h1>
+                        <p>
+                            Rate your organisation's data management skills
+                        </p>
+                    </div>
                 </header>
                 <main>
                     <section>

@@ -548,6 +548,23 @@ a.expand {
 
 /* .category.start */
 
+.category.start>section>header h1 {
+    display: block;
+    font-size: 4.6rem;
+    width: 100%;
+}
+
+.category.start>section>header p {
+    padding: 0.5rem 0;
+    font-size: 1.8rem;
+}
+
+.category.start>section>header {
+    border-bottom: solid 1px #E2E3E7;
+    padding-bottom: 4rem;
+    margin-bottom: 2rem;
+}
+
 .category.start main header {
     padding-top: 2rem;
 }
