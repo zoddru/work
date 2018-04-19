@@ -51,7 +51,7 @@ const loadFilters = (surveyState) => {
         return Promise.resolve(createFilters(surveyState, surveyState.options));
 
     const cached = filtersCache.get(respondent.identifier);
-    
+
     if (cached && cached.created === created && !!cached.filters)
         return Promise.resolve(cached.filters);
 
@@ -85,7 +85,7 @@ const loadOrganisationResponses = (surveyState) => {
     }
 
     const cached = organisationResponsesCache.get(organisation.identifier);
-    
+
     if (cached && cached.created === created && !!cached.responses)
         return Promise.resolve(cached.responses);
 
@@ -104,6 +104,8 @@ const loadOrganisationResponses = (surveyState) => {
     return request;
 };
 
+const currentRequests = new Map();
+
 const loadAggregatedScores = (surveyState, filters) => {
     const { survey, created } = surveyState;
 
@@ -119,12 +121,23 @@ const loadAggregatedScores = (surveyState, filters) => {
         return Promise.resolve(cached.scores);
 
     const query = qs.stringify({ filter: filterKeys }, { arrayFormat: 'repeat' });
+    const requestUrl = `/data/scores?${query}`;
 
-    return axios.get(`/data/scores?${query}`).then(r => {
-        const simplified = r.data || [];
-        const aggregator = new ResponseAggregator({ survey, responses: [] });
-        const scores = simplified.map(s => aggregator.unsimplify(s));
-        aggregatedScoreCache.set(survey.identifier, { created, filtersKey, scores });
-        return scores;
-    });
+    if (currentRequests.has(requestUrl))
+        return currentRequests.get(requestUrl);
+
+    const request = axios
+        .get(requestUrl)
+        .then(r => {
+            currentRequests.delete(requestUrl);
+            const simplified = r.data || [];
+            const aggregator = new ResponseAggregator({ survey, responses: [] });
+            const scores = simplified.map(s => aggregator.unsimplify(s));
+            aggregatedScoreCache.set(survey.identifier, { created, filtersKey, scores });
+            return scores;
+        });
+
+    currentRequests.set(requestUrl, request);
+
+    return request;
 };

@@ -622,7 +622,7 @@ figure.score-dial figcaption {
     font-size: 1.74rem;
     font-weight: bold;
     max-width: 100%;
-    min-height: 4.2rem; /* allow for 2 lines without a jump */
+    min-height: 6.3rem; /* allow for 3 lines without a jump */
 }
 
 /* .columns */

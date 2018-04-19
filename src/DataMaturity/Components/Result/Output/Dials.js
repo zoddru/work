@@ -29,6 +29,7 @@ export default class Dials extends Base {
 
         return scores.slice(0, this.max).map(s => {
             const color = colors.get(s);
+            console.log(s.key);
             return <ScoreChart key={s.key.toString()} title={s.key.label} score={s} color={color} type={s.key.type} />;
         });
     }

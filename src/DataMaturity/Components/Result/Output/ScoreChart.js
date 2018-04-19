@@ -23,7 +23,7 @@ export default class ScoreChart extends React.Component {
     }
 
     render() {
-        const { title, score = score || defaultScore, color = color || '#00ff00' } = this.props;
+        const { title, score = score || defaultScore, color = color || '#ffffff' } = this.props;
         const { percentage, rankLabel, meanDisplayName } = score;
         const height = Math.ceil(90 * percentage / 100);
         const y = Math.floor(95 - height);
