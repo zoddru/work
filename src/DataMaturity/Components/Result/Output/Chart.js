@@ -92,7 +92,12 @@ export default class Chart extends Base {
                 verticalAlign: 'top',
                 floating: false,
                 borderWidth: 1,
-                backgroundColor: '#FFFFFF'
+                backgroundColor: '#ffffff',
+                itemWidth: 140,
+                itemMarginBottom: 10,
+                itemStyle: {
+                    textOverflow: 'wrap'
+                }
             },
             credits: {
                 enabled: false
