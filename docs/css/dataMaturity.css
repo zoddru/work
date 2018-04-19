@@ -595,8 +595,8 @@ figure.score-dial {
     width: 100%;
 }
 
-.columns>.side-column figure.score-dial {
-    padding: 0 8rem;
+figure.score-dial:not(:first-child) {
+    padding: 0 2rem;
 }
 
 @media screen and (min-width: 500px) {
@@ -614,6 +614,10 @@ figure.score-dial {
 @media screen and (min-width: 900px) {
     figure.score-dial {
         padding: 0 2rem;
+    }
+
+    figure.score-dial:not(:first-child) {
+        padding: 0 3rem;
     }
 }
 
