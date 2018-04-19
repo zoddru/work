@@ -32,6 +32,9 @@ export default class Category extends React.Component {
                 <main>
                     <div className="text">
                         {categoryText}
+                        <p>
+                            This section is comprised of {questions.length} questions.
+                        </p>
                     </div>
                 </main>
                 <footer>
