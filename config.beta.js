@@ -15,6 +15,9 @@ const config = {
     },
     webservices: {
         root: 'http://webservices.esd.org.uk/'
+    },
+    dataMaturity: {
+        apiHost: 'beta.api.dataMaturity.esd.org.uk'
     }
 };
 
