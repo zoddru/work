@@ -16,12 +16,17 @@ const simplify = (item) => {
 
 export default class ScoreKey {
     constructor({ category, filter }) {
-        Object.assign(this, { category: simplify(category), filter: simplify(filter) });
+
+        Object.assign(this, { 
+            category: simplify(Object.assign({}, defaultCategory, category)), 
+            filter: simplify(Object.assign({}, defaultFilter, filter)) 
+        });
+
         Object.freeze(this);
     }
 
     get identifier() {
-        const { category = category || defaultCategory, filter = filter || defaultFilter } = this;
+        const { category, filter } = this;
         return `${category.identifier}-${filter.identifier}-${filter.type}`;
     }
 

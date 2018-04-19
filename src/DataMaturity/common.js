@@ -1,4 +1,5 @@
 import axios from 'axios';
+import React from 'react';
 
 const global = Object.freeze({
     set: (name, value) => {
@@ -41,6 +42,11 @@ const common = Object.freeze({
             return axios.post('/error', data);
         }
     }),
+
+    parseText: (text) => {
+        const lines = text.split(/\n/);
+        return lines.map((l, i) => <p key={i}>{l}</p>);
+    },
 
     global
 });

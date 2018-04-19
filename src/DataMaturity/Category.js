@@ -50,6 +50,27 @@ export default class Category {
     }
 
     get prev() {
+        const prevCategory = this.prevCategory;
+        if (!prevCategory)
+            return null;
+        return prevCategory.lastQuestion;
+    }
+
+    get prevKey() {
+        const prev = this.prev;
+        return !!prev ? prev.key: ''
+    }
+
+    get next() {
+        return this.firstQuestion;
+    }
+
+    get nextKey() {
+        const next = this.next;
+        return !!next ? next.key: 'end'
+    }
+
+    get prevCategory() {
         const categories = this.survey.categories;
         const index = categories.indexOf(this);
         
@@ -63,7 +84,7 @@ export default class Category {
         return null;
     }
 
-    get next() {
+    get nextCategory() {
         const categories = this.survey.categories;
         const index = categories.indexOf(this);
         

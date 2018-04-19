@@ -17,7 +17,6 @@ export default class ScoreChart extends React.Component {
 
     get clipPathId() {
         const { score } = this.props;
-        debugger;
         const key = score && score.key && score.key.toString() || 'unknown';
         
         return `${key}-score-chart-clip`;

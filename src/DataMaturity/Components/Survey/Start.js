@@ -9,8 +9,8 @@ export default class Start extends React.Component {
         const { surveyState } = this.props;
         const { survey } = surveyState;
 
-        const firstQuestion = survey.firstQuestion;
-        const firstQuestionKey = !!firstQuestion ? firstQuestion.key : 'end';
+        const first = survey.first;
+        const firstKey = !!first ? first.key : 'end';
 
         return <section className="category start">
             <section className="question">
@@ -47,9 +47,9 @@ export default class Start extends React.Component {
                 </main>
                 <footer>
                     <div className="navigation">
-                        <a href={`#${firstQuestionKey}`}
+                        <a href={`#${firstKey}`}
                             className="next button active"
-                            onClick={e => this.props.onNext(`${firstQuestionKey}`, e)}>Start</a>
+                            onClick={e => this.props.onNext(`${firstKey}`, e)}>Start</a>
                     </div>
                 </footer>
             </section>

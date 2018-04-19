@@ -26,6 +26,15 @@ export default class Survey {
         return firstCategory.firstQuestion;
     }
 
+    get first() {
+        return this.firstCategory;
+    }
+
+    get firstKey() {
+        const first = this.first;
+        return !!first ? first.key: 'end';
+    }
+
     get lastCategory() {
         if (!this.categories.length)
             return null;
@@ -37,6 +46,15 @@ export default class Survey {
         if (!lastCategory)
             return null;
         return lastCategory.lastQuestion;
+    }
+
+    get last() {
+        return this.lastQuestion;
+    }
+
+    get lastKey() {
+        const last = this.last;
+        return !!last ? last.key: '';
     }
 
     get key() {

@@ -1,9 +1,7 @@
 import React from 'react';
+import common from './../../common';
 
-function parseText(text) {
-    const lines = text.split(/\n/);
-    return lines.map((l, i) => <p key={i}>{l}</p>);
-}
+const parseText = (text) => common.parseText(text);
 
 export default class Question extends React.Component {
     constructor(props) {

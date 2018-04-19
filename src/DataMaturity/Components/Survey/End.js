@@ -12,8 +12,8 @@ export default class End extends React.Component {
         const { surveyState } = this.props;
         const { authStatus, options, survey, respondent, score, isSignedIn, hasOrganisation } = surveyState;
 
-        const lastQuestion = survey.lastQuestion;
-        const lastQuestionKey = !!lastQuestion ? lastQuestion.key : '';
+        const last = survey.last;
+        const lastKey = !!last ? last.key : '';
 
         const links = !isSignedIn
             ? null
@@ -37,9 +37,9 @@ export default class End extends React.Component {
                 </main>
                 <footer>
                     <div className="navigation">
-                        <a href={`#${lastQuestionKey}`}
+                        <a href={`#${lastKey}`}
                             className="prev button active"
-                            onClick={e => this.props.onPrev(`${lastQuestionKey}`, e)}>Previous</a>
+                            onClick={e => this.props.onPrev(`${lastKey}`, e)}>Previous</a>
                     </div>
                 </footer>
             </section>

@@ -11,17 +11,19 @@ import util from 'util';
 
     test('score has label and identifier', t => {
         const score = scoreAggregator.byCategory({
-            key: 'the key',
+            key: { type: 'respondent' },
             filter: r => r.respondent.identifier === '1a33f4bb-8a7a-4447-9808-9f1199ff2dc4'
         });
 
-        t.is(score.key, 'the key');
+        t.truthy(score.key);
+        t.truthy(score.key.filter);
+        t.is(score.key.filter.type, 'respondent');
     });
 
     test('get multiple returns a result', t => {
         const scores = scoreAggregator.multipleByCategory([
             {
-                key: 'the key',
+                key: { type: 'respondent' },
                 filter: r => r.respondent.identifier === '1a33f4bb-8a7a-4447-9808-9f1199ff2dc4'
             }
         ]);
@@ -29,7 +31,9 @@ import util from 'util';
         t.is(scores.length, 1);
 
         const score = scores[0];
-        t.is(score.key, 'the key');
+        t.truthy(score.key);
+        t.truthy(score.key.filter);
+        t.is(score.key.filter.type, 'respondent');
     });
 
     test('single respondent', t => {
@@ -71,7 +75,7 @@ import util from 'util';
 
     const getToResponentsResults = () => {
         const score = scoreAggregator.byCategory({
-            key: 'the key',
+            key: { type: 'respondent' },
             filter: r => r.respondent.identifier === '1a33f4bb-8a7a-4447-9808-9f1199ff2dc4' || r.respondent.identifier === '48c292a1-c8f6-4df0-9576-68bacee119bc'
         });
 
@@ -168,7 +172,7 @@ import util from 'util';
         t.is(unsimplified.sum, score.sum);
         
         t.truthy(unsimplified.key);
-        t.is(unsimplified.key, score.key);
+        t.is(unsimplified.key.toString(), score.key.toString());
 
         t.truthy(unsimplified.categoryScores);
         t.is(unsimplified.categoryScores.length, score.categoryScores.length);

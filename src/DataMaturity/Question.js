@@ -53,20 +53,11 @@ export default class Question {
     get prev() {
         const questions = this.category.questions;
         const index = questions.indexOf(this);
-
-        if (index < 0)
-            return null;
         
         if (index > 0)
             return questions[index - 1];
 
-        // index === 0
-        const prevCategory = this.category.prev;
-
-        if (!prevCategory)
-            return null;
-
-        return prevCategory.lastQuestion;
+        return this.category;
     }
 
     get prevKey() {
@@ -77,20 +68,13 @@ export default class Question {
     get next() {
         const questions = this.category.questions;
         const index = questions.indexOf(this);
-
-        if (index < 0)
-            return null;
             
         if (index < questions.length - 1)
             return questions[index + 1];
 
         // index === 0
-        const nextCategory = this.category.next;
-
-        if (!nextCategory)
-            return null;
-
-        return nextCategory.firstQuestion;
+        const nextCategory = this.category.nextCategory;
+        return nextCategory || null;
     }
 
     get nextKey() {
