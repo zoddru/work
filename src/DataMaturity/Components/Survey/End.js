@@ -30,7 +30,7 @@ export default class End extends React.Component {
                 <main>
                     <RespondentDetails authStatus={authStatus} respondent={respondent} options={options} onRespondentChanged={this.props.onRespondentChanged} />
 
-                    <section class="buttons">
+                    <section class="buttons big">
                         <Link className="button active result" to={{ pathname: '/result', hash: '#' }}>Take me to my results</Link>
                         {hasOrganisation && <Link className="link organisation" to={{ pathname: '/organisation', hash: '#' }}>or take me to the results of my organisation</Link>}
                     </section>

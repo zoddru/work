@@ -556,16 +556,16 @@ a.expand {
     font-size: 2rem;
 }
 
-/* .category.end */
+/* .buttons.big */
 
-.category.end .buttons {
+.buttons.big {
     margin-top: 4rem;
     margin-bottom: 4rem;
     text-align: center;
     font-size: large;
 }
 
-.category.end .button.result {
+.buttons.big .button.result {
     display: block;
     text-align: center;
     padding: 2rem;
@@ -573,7 +573,7 @@ a.expand {
     font-weight: bold;
 }
 
-.category.end .buttons a.link {
+.buttons.big .buttons a.link {
     color: #92278F;
     font-weight: bold;
 }

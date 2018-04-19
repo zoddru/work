@@ -36,11 +36,14 @@ export default class Category extends React.Component {
                             This section is comprised of {questions.length} questions.
                         </p>
                     </div>
+
+                    <section class="buttons big">
+                        <a href={`#${nextKey}`} className="button active result" onClick={e => this.props.onNext(nextKey, e)}>Start this section</a>
+                    </section>
                 </main>
                 <footer>
                     <div className="navigation">
                         {<a href={`#${prevKey}`} className="prev button active" onClick={e => this.props.onPrev(prevKey, e)}>Previous</a>}
-                        {<a href={`#${nextKey}`} className="next button active" onClick={e => this.props.onNext(nextKey, e)}>Next</a>}
                     </div>
                 </footer>
             </section>
