@@ -7,7 +7,6 @@ class FilterKey {
             get: function () { return this.fullLabel; }
         });
         Object.freeze(this);
-        console.log(this);
     }
 
     get key() {

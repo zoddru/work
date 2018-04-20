@@ -95,7 +95,6 @@ class Dropdown extends React.Component {
     }
 
     menuClick(e) {
-        console.log('mouse click');
         this.open();
     }
 

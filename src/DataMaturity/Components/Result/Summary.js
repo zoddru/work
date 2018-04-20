@@ -31,7 +31,7 @@ export default class Summary extends React.Component {
             {questionAnchors}
 
             <header>
-                <h2>{score.category ? score.category.label : (() => { console.log(score); return 'XXX'; })() }</h2>
+                <h2>{score.category ? score.category.label : null }</h2>
             </header>
 
             <GenericSection heading="Warning" className="warning" content={warningContent} />
