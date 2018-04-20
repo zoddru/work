@@ -25,13 +25,13 @@ export default class Start extends React.Component {
                 <main>
                     <section>
                         <p>
-                            This tool is designed to let you make an honest assessment of how mature your organisation is at dealing with data. You can compare your assessment with averages for different types of people in the organisation and averages for other organisations.
+                            This tool is designed to help you make an honest assessment of how advanced your organisation is at dealing with data. You can compare your assessment with others from your own organisation, and from around the country.
                         </p>
                         <p>
                             It is intended to stimulate discussion, give ideas as to how you might improve and provide pointers to case studies and resources that will help. It will not be used to rank people or organisations.
                         </p>
                         <p>
-                            The tool was launched in April 2018 as a prototype.  We offer the opportunity to say if you don’t know the answer to any question or if you don’t understand a question.  Such responses, along with general feedback will be used to improve the tool in future years.
+                            The tool was launched in April 2018 as a prototype and your responses, along with general feedback, will be used to improve the tool in future years.
                         </p>
                     </section>
 
@@ -43,7 +43,7 @@ export default class Start extends React.Component {
                             You need to register and sign in to agree to the data usage policy, to save your responses and to see resultant improvement advice.
                         </p>
                         <p>
-                            Your results contribute towards aggregate scores for your role, business function and organisation. Individual results are not shown to other users and results for your organisation are not shown to other organisations, except as part of an aggregate score across a number of organisations. At first when there is a small number of respondents, it might be possible to tie down individual scores by cross-tabulation.
+                            Your results contribute towards aggregate scores for your role, business function and organisation. Individual results are not shown to other users and results for your organisation are not shown to other organisations, except as part of an aggregate score across a number of organisations. At first when there is a small number of respondents, it might be possible to tie down individual scores.
                         </p>
                         <p>
                             The LGA has access to detailed data which it might use for different aggregations and to offer advice to specific councils. If your organisation ranks highly in one area, the LGA might approach you to ask if you can share your learning with others.

@@ -561,7 +561,8 @@ a.expand {
 
 .category.start>section>header {
     border-bottom: solid 1px #E2E3E7;
-    padding-bottom: 4rem;
+    padding-top: 12.4rem;
+    padding-bottom: 3.4rem;
     margin-bottom: 2rem;
 }
 
