@@ -482,6 +482,20 @@ a.expand {
     right: 0;
 }
 
+.question .next.large {
+    display: none;
+}
+
+@media screen and (min-width: 500px) {
+    .question .next.small {
+        display: none;
+    }
+
+    .question .next.large {
+        display: block;
+    }
+}
+
 /* .category .sub-section */
 
 .category .sub-section {

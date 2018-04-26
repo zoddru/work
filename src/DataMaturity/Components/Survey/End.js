@@ -40,6 +40,13 @@ export default class End extends React.Component {
                         <a href={`#${lastKey}`}
                             className="prev button active"
                             onClick={e => this.props.onPrev(`${lastKey}`, e)}>Previous</a>
+
+                        <section className="next small">
+                            <a class="link" href="http://e-sd.org/Ydjtc/">Feedback</a>
+                        </section>
+                        <section className="next large">
+                            Please give us your <a class="link" href="http://e-sd.org/Ydjtc/">feedback</a> on this tool.
+                        </section>
                     </div>
                 </footer>
             </section>
