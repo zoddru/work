@@ -49,6 +49,15 @@ export default class Start extends React.Component {
                             The LGA has access to detailed data which it might use for different aggregations and to offer advice to specific councils. If your organisation ranks highly in one area, the LGA might approach you to ask if you can share your learning with others.
                         </p>
                     </section>
+
+                    <section>
+                        <header>
+                            <h2>Feedback</h2>
+                        </header>
+                        <p>
+                            Once you have had a chance to look at the tool, we would appreciate your <a class="link" href="http://e-sd.org/Ydjtc/">feedback</a>.
+                        </p>
+                    </section>
                 </main>
                 <footer>
                     <div className="navigation">
