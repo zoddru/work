@@ -653,6 +653,12 @@ figure.score-dial:not(:first-child) {
     }
 }
 
+@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+    figure.score-dial > svg {
+        height: 16.5rem;
+    }
+}
+
 figure.score-dial figcaption {
     margin-top: 0.5rem;
     font-size: 1.74rem;
