@@ -1,3 +1,5 @@
+const tolerance = 10;
+
 export default Object.freeze({
     findTopElement: (querySelector, items, startKey, itemSelector) => {
         if (typeof(window) === 'undefined')
@@ -5,7 +7,7 @@ export default Object.freeze({
             
         const elements = Array.from(window.document.querySelectorAll(querySelector)).reverse();
         const height = window.innerHeight;
-        const topEl = elements.find(el => el.getBoundingClientRect().top < window.innerHeight);
+        const topEl = elements.find(el => el.getBoundingClientRect().top < (window.innerHeight - tolerance));
 
         if (!topEl)
             return { isStart: true };
@@ -34,7 +36,7 @@ export default Object.freeze({
             return null;
         const questionEls = Array.from(window.document.querySelectorAll('.question')).reverse();
         const height = window.innerHeight;
-        const topQuestionEl = questionEls.find(s => s.getBoundingClientRect().top < window.innerHeight);
+        const topQuestionEl = questionEls.find(s => s.getBoundingClientRect().top < (window.innerHeight - tolerance));
 
         if (!topQuestionEl)
             return null;
