@@ -18,10 +18,19 @@ class DummyLocalStorage {
     }
 }
 
+const getStorage = () => {
+    try {
+        return (typeof window === 'undefined' || !window.localStorage) ? new DummyLocalStorage() : window.localStorage;
+    }
+    catch(e) {
+        return new DummyLocalStorage();
+    }
+};
+
 export default class LocalStore {
     constructor(key) {
         this.key = key;
-        this._storage = (typeof window === 'undefined' || !window.localStorage) ? new DummyLocalStorage() : window.localStorage;
+        this._storage = getStorage();
         Object.freeze(this);
     }
 
