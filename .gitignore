@@ -45,3 +45,11 @@ dist/
 app/
 
 docs/js/*.min.js
+
+*.suo
+*.user
+Esd.DataMaturity/packages
+Esd.DataMaturity/Esd.DataMaturity.Web/bin
+Esd.DataMaturity/Esd.DataMaturity.Web/obj
+Esd.DataMaturity/Esd.DataMaturity.Web/logs
+Web*.config
