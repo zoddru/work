@@ -3,16 +3,21 @@ const axios = require('axios');
 const timeout = 10000;
 
 const host = config.dataMaturity && config.dataMaturity.apiHost || 'api.dataMaturity.esd.org.uk';
-const defaultScheme = config.dataMaturity && config.dataMaturity.scheme || 'https';
+const scheme = config.dataMaturity && config.dataMaturity.apiScheme || 'https';
 
 export default class DmApi {
     constructor({ scheme = defaultScheme } = {}) {
+        console.log(defaultScheme);
         this.scheme = scheme;
         Object.freeze(this);
     }
 
     static get host() {
         return host;
+    }
+
+    static get scheme() {
+        return scheme;
     }
 
     getUrl(path) {
