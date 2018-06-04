@@ -9,7 +9,7 @@
     "postinstall": "babel src -d dist && webpack",
     "build": "babel src -d dist",
     "serve": "node dist/server.js",
-    "test_dataMaturity": "ava \"src/DataMaturity/**/*.test.js\"",
+    "test_dataMaturity": "ava \"src/**/*.test.js\"",
     "test": "ava \"**/*.test.js\"",
     "createContent": "babel-node src/DataMaturity/OneOffJobs/createContent.js"
   },
