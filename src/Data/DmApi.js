@@ -6,8 +6,7 @@ const host = config.dataMaturity && config.dataMaturity.apiHost || 'api.dataMatu
 const scheme = config.dataMaturity && config.dataMaturity.apiScheme || 'https';
 
 export default class DmApi {
-    constructor({ scheme = defaultScheme } = {}) {
-        console.log(defaultScheme);
+    constructor() {
         this.scheme = scheme;
         Object.freeze(this);
     }
