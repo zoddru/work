@@ -637,7 +637,7 @@ figure.score-dial:not(:first-child) {
     }
 }
 
-@media screen and (min-width: 700px) {
+@media screen and (min-width: 700px), print {
     figure.score-dial {
         width: 25%;
     }

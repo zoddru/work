@@ -41,7 +41,7 @@ export default class TipsForProgression extends React.Component {
         if (!sections.length)
             return null;
 
-        return <section className={`sub-section tips ${!!currentRank ? 'print-only' : ''}`}>
+        return <section className={`sub-section tips`}>
 
             <header>
                 <h3>Tips for progression</h3>
