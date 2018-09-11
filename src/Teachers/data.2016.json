@@ -1,0 +1,78 @@
+{
+    "2016": {
+        "England & Wales": [
+            { "name": "M1", "money": 22467, "staff": 50 },
+            { "name": "M2", "money": 72729, "staff": 1 },
+            { "name": "M3", "money": 183344, "staff": 1 },
+            { "name": "M4", "money": 28207, "staff": 1 },
+            { "name": "M5", "money": 30430, "staff": 1 },
+            { "name": "M6a", "money": 32835, "staff": 1 },
+            { "name": "M6b", "money": 33160, "staff": 1 }
+        ],
+        "Inner London": [
+            { "name": "M1", "money": 28098 },
+            { "name": "M2", "money": 29563 },
+            { "name": "M3", "money": 31103 },
+            { "name": "M4", "money": 32724 },
+            { "name": "M5", "money": 35242 },
+            { "name": "M6a", "money": 37866 },
+            { "name": "M6b", "money": 38241 }
+        ],
+        "Outer London": [
+            { "name": "M1", "money": 26139 },
+            { "name": "M2", "money": 27759 },
+            { "name": "M3", "money": 29477 },
+            { "name": "M4", "money": 31302 },
+            { "name": "M5", "money": 33957 },
+            { "name": "M6a", "money": 36544 },
+            { "name": "M6b", "money": 36906 }
+        ],
+        "Fringe Area": [
+            { "name": "M1", "money": 23547 },
+            { "name": "M2", "money": 25321 },
+            { "name": "M3", "money": 27269 },
+            { "name": "M4", "money": 29292 },
+            { "name": "M5", "money": 31508 },
+            { "name": "M6a", "money": 33913 },
+            { "name": "M6b", "money": 34249 }
+        ]
+    },
+    "2017": {
+        "England & Wales": [
+            { "name": "M1", "money": 22917 },
+            { "name": "M2", "money": 24486 },
+            { "name": "M3", "money": 26454 },
+            { "name": "M4", "money": 28490 },
+            { "name": "M5", "money": 30735 },
+            { "name": "M6a", "money": 33164 },
+            { "name": "M6b", "money": 33824 }
+        ],
+        "Inner London": [
+            { "name": "M1", "money": 28660 },
+            { "name": "M2", "money": 29859 },
+            { "name": "M3", "money": 31415 },
+            { "name": "M4", "money": 33052 },
+            { "name": "M5", "money": 35595 },
+            { "name": "M6a", "money": 38245 },
+            { "name": "M6b", "money": 39006 }
+        ],
+        "Outer London": [
+            { "name": "M1", "money": 26662 },
+            { "name": "M2", "money": 28037 },
+            { "name": "M3", "money": 29772 },
+            { "name": "M4", "money": 31616 },
+            { "name": "M5", "money": 34297 },
+            { "name": "M6a", "money": 36910 },
+            { "name": "M6b", "money": 37645 }
+        ],
+        "Fringe Area": [
+            { "name": "M1", "money": 24018 },
+            { "name": "M2", "money": 25575 },
+            { "name": "M3", "money": 27542 },
+            { "name": "M4", "money": 29585 },
+            { "name": "M5", "money": 31824 },
+            { "name": "M6a", "money": 34253 },
+            { "name": "M6b", "money": 34934 }
+        ]
+    }
+}
